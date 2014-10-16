@@ -706,4 +706,10 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
 
 		return gains;
 	}
+
+	@Override
+	public boolean doToeOffWhenHittingAnkleLimit() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

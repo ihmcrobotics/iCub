@@ -53,4 +53,34 @@ public class IcubCapturePointPlannerParameters implements CapturePointPlannerPar
 		return -1e-4;
 	}
 
+	@Override
+	public double getDoubleSupportSplitFraction() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double getFreezeTimeFactor() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double getMaxInstantaneousCapturePointErrorForStartingSwing() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean getDoTimeFreezing() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean getDoFootSlipCompensation() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
