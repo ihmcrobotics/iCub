@@ -20,7 +20,7 @@ public class IcubCapturePointPlannerParameters implements CapturePointPlannerPar
 	@Override
 	public double getDoubleSupportDuration()
 	{
-		return runningOnRealRobot ? 1.5 : 0.5;
+		return runningOnRealRobot ? 1.5 : 0.25;
 	}
 
 	@Override
@@ -53,34 +53,40 @@ public class IcubCapturePointPlannerParameters implements CapturePointPlannerPar
 		return -1e-4;
 	}
 
-	@Override
-	public double getDoubleSupportSplitFraction() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+   @Override
+   public double getDoubleSupportSplitFraction()
+   {
+      return 0.5;
+   }
+   
+   @Override
+   public double getFreezeTimeFactor()
+   {
+      return 0.9;
+   }
 
-	@Override
-	public double getFreezeTimeFactor() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+   @Override
+   public double getMaxInstantaneousCapturePointErrorForStartingSwing()
+   {
+      return 0.02;
+   }
+   
+   @Override
+   public boolean getDoTimeFreezing()
+   {
+      return true;
+   }
 
-	@Override
-	public double getMaxInstantaneousCapturePointErrorForStartingSwing() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+   @Override
+   public boolean getDoFootSlipCompensation()
+   {
+      return true;
+   }
 
-	@Override
-	public boolean getDoTimeFreezing() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean getDoFootSlipCompensation() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+   @Override
+   public double getAlphaDeltaFootPositionForFootslipCompensation()
+   {
+      return 0.65;
+   }
 
 }
