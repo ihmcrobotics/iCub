@@ -10,12 +10,12 @@ import com.yobotics.simulationconstructionset.GroundContactPoint;
 import us.ihmc.SdfLoader.SDFRobot;
 import us.ihmc.darpaRoboticsChallenge.drcRobot.DRCRobotJointMap;
 import us.ihmc.darpaRoboticsChallenge.initialSetup.DRCRobotInitialSetup;
-import us.ihmc.robotSide.RobotSide;
 import us.ihmc.utilities.humanoidRobot.partNames.ArmJointName;
 import us.ihmc.utilities.humanoidRobot.partNames.LegJointName;
 import us.ihmc.utilities.math.geometry.FrameOrientation;
 import us.ihmc.utilities.math.geometry.ReferenceFrame;
 import us.ihmc.utilities.math.geometry.RigidBodyTransform;
+import us.ihmc.utilities.robotSide.RobotSide;
 
 public class IcubInitialSetup implements DRCRobotInitialSetup<SDFRobot>
 {
@@ -46,7 +46,7 @@ public class IcubInitialSetup implements DRCRobotInitialSetup<SDFRobot>
    
    private void setActuatorPositions(SDFRobot robot, DRCRobotJointMap jointMap)
    {
-      for (RobotSide robotSide : RobotSide.values)
+      for (us.ihmc.utilities.robotSide.RobotSide robotSide : RobotSide.values)
       {
          String hipPitch = jointMap.getLegJointName(robotSide, LegJointName.HIP_PITCH);
          String knee = jointMap.getLegJointName(robotSide, LegJointName.KNEE);

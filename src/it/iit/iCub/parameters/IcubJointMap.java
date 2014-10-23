@@ -24,7 +24,6 @@ import static us.ihmc.utilities.humanoidRobot.partNames.SpineJointName.SPINE_YAW
 import static us.ihmc.utilities.humanoidRobot.partNames.NeckJointName.LOWER_NECK_PITCH;
 import static us.ihmc.utilities.humanoidRobot.partNames.NeckJointName.NECK_ROLL;
 import static us.ihmc.utilities.humanoidRobot.partNames.NeckJointName.NECK_YAW;
-
 import static it.iit.iCub.parameters.IcubOrderedJointMap.l_hip_pitch;
 import static it.iit.iCub.parameters.IcubOrderedJointMap.l_hip_roll;
 import static it.iit.iCub.parameters.IcubOrderedJointMap.l_hip_yaw;
@@ -42,7 +41,6 @@ import static it.iit.iCub.parameters.IcubOrderedJointMap.neck_pitch;
 import static it.iit.iCub.parameters.IcubOrderedJointMap.neck_roll;
 import static it.iit.iCub.parameters.IcubOrderedJointMap.neck_yaw;
 
-
 import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -52,8 +50,6 @@ import java.util.Set;
 import javax.vecmath.Vector3d;
 
 import us.ihmc.darpaRoboticsChallenge.drcRobot.DRCRobotJointMap;
-import us.ihmc.robotSide.RobotSide;
-import us.ihmc.robotSide.SideDependentList;
 import us.ihmc.utilities.Pair;
 import us.ihmc.utilities.humanoidRobot.partNames.ArmJointName;
 import us.ihmc.utilities.humanoidRobot.partNames.LegJointName;
@@ -61,6 +57,8 @@ import us.ihmc.utilities.humanoidRobot.partNames.LimbName;
 import us.ihmc.utilities.humanoidRobot.partNames.NeckJointName;
 import us.ihmc.utilities.humanoidRobot.partNames.SpineJointName;
 import us.ihmc.utilities.math.geometry.RigidBodyTransform;
+import us.ihmc.utilities.robotSide.RobotSide;
+import us.ihmc.utilities.robotSide.SideDependentList;
 
 public class IcubJointMap implements DRCRobotJointMap 
 {

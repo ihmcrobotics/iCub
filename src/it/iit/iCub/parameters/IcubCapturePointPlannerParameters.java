@@ -100,5 +100,11 @@ public class IcubCapturePointPlannerParameters implements CapturePointPlannerPar
 	{
 		return 0.0;
 	}
+	
+	@Override
+	public double getMaxAllowedErrorWithoutPartialTimeFreeze()
+	{
+		return 0.03;
+	}
 
 }
