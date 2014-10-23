@@ -132,7 +132,7 @@ public class IcubRobotModel implements DRCRobotModel
    @Override
    public DRCRobotPhysicalProperties getPhysicalProperties()
    {
-      return new IcubPhysicalProperties();
+      return physicalProperties;
    }
 
    @Override
@@ -278,12 +278,6 @@ public class IcubRobotModel implements DRCRobotModel
    public PPSTimestampOffsetProvider getPPSTimestampOffsetProvider()
    {
       return new AlwaysZeroOffsetPPSTimestampOffsetProvider();
-   }
-
-   @Override
-   public boolean isRunningOnRealRobot()
-   {
-      return runningOnRealRobot;
    }
 
    @Override

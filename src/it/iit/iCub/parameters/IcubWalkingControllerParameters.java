@@ -33,7 +33,8 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
    private final double pelvis_pitch_upper_limit = 1.46608;
    private final double pelvis_pitch_lower_limit = -0.383972; 
 
-   private final double  min_leg_length_before_collapsing_single_support = 0.2; //TODO tune
+   private final double  min_leg_length_before_collapsing_single_support = 0.25; //TODO tune
+   private final double  min_mechanical_leg_length = 0.20; // TODO tune
    
    private final DRCRobotJointMap jointMap;
 
@@ -507,12 +508,6 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
    }
 
    @Override
-   public boolean isRunningOnRealRobot()
-   {
-      return runningOnRealRobot;
-   }
-
-   @Override
    public double getDefaultTransferTime()
    {
       return runningOnRealRobot ? 1.5 : 0.35;
@@ -708,8 +703,20 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
 	}
 
 	@Override
-	public boolean doToeOffWhenHittingAnkleLimit() {
-		// TODO Auto-generated method stub
+	public boolean doToeOffWhenHittingAnkleLimit() 
+	{
+		return false;
+	}
+
+	@Override
+	public double getMinMechanicalLegLength() 
+	{
+		return min_mechanical_leg_length;
+	}
+
+	@Override
+	public boolean doFancyOnToesControl() 
+	{
 		return false;
 	}
 }

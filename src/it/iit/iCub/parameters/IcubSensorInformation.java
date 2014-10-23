@@ -164,4 +164,21 @@ public class IcubSensorInformation implements DRCRobotSensorInformation
 	      }
 	   }
 
+	@Override
+	public boolean setupROSLocationService() 
+	{
+		return false;
+	}
+
+	@Override
+	public boolean setupROSParameterSetters()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isMultisenseHead() 
+	{
+		return false;
+	}
 }
