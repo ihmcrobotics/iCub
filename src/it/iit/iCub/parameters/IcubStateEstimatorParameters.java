@@ -252,4 +252,10 @@ public class IcubStateEstimatorParameters implements StateEstimatorParameters
    {
       return 10.0;
    }
+
+   @Override
+   public double getFootSwitchCoPThresholdFraction()
+   {
+      return 0.02;
+   }
 }

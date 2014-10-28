@@ -163,25 +163,19 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
    }
 
    @Override
-   public double getGroundReactionWrenchBreakFrequencyHertz()
-   {
-      return 7.0;
-   }
-
-   @Override
    public boolean resetDesiredICPToCurrentAtStartOfSwing()
    {
       return false;
    }
 
    @Override
-   public double getUpperNeckPitchLimit()
+   public double getNeckPitchUpperLimit()
    {
       return neck_pitch_upper_limit;
    }
 
    @Override
-   public double getLowerNeckPitchLimit()
+   public double getNeckPitchLowerLimit()
    {
       return neck_pitch_lower_limit;
    }
@@ -199,12 +193,6 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
    }
 
    @Override
-   public String getJointNameForExtendedPitchRange()
-   {
-      return null; //jointMap.getSpineJointName(SpineJointName.SPINE_PITCH);
-   }
-
-   @Override
    public boolean finishSwingWhenTrajectoryDone()
    {
       return false;
@@ -216,12 +204,6 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
       return IcubPhysicalProperties.footForward;
    }
    
-   @Override
-   public double getFootSwitchCoPThresholdFraction()
-   {
-      return 0.02;
-   }
-
    @Override
    public double getFootBackwardOffset()
    {
@@ -244,12 +226,6 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
    public double getMinLegLengthBeforeCollapsingSingleSupport()
    {
       return min_leg_length_before_collapsing_single_support;
-   }
-
-   @Override
-   public double getFinalToeOffPitchAngularVelocity()
-   {
-      return 1.5; // 3.5
    }
 
    @Override
@@ -491,20 +467,32 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
       return runningOnRealRobot ? 1.5 : 1.0;
    }
 
+
    @Override
-   public double getPelvisPitchUpperLimit()
+   public double getSpineYawLimit()
+   {
+      return 0;
+   }
+
+   @Override
+   public double getSpineRollLimit()
+   {
+      return 0;
+   }
+   @Override
+   public double getSpinePitchUpperLimit()
    {
       return pelvis_pitch_upper_limit;
    }
    
    @Override
-   public double getPelvisPitchLowerLimit()
+   public double getSpinePitchLowerLimit()
    {
       return pelvis_pitch_lower_limit;
    }
 
    @Override
-   public boolean isPelvisPitchReversed()
+   public boolean isSpinePitchReversed()
    {
       return false;
    }
