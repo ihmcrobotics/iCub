@@ -26,28 +26,28 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
    private final SideDependentList<RigidBodyTransform> handPosesWithRespectToChestFrame = new SideDependentList<RigidBodyTransform>();
 
    // Limits
-   private final double neck_pitch_upper_limit = 0.523599; 
-   private final double neck_pitch_lower_limit = -0.698132; 
+   private final double neck_pitch_upper_limit = 0.523599;
+   private final double neck_pitch_lower_limit = -0.698132;
    private final double head_yaw_limit = 0.959931;
    private final double head_roll_limit = 1.0472; // take the smaller
    private final double pelvis_pitch_upper_limit = 1.46608;
-   private final double pelvis_pitch_lower_limit = -0.383972; 
+   private final double pelvis_pitch_lower_limit = -0.383972;
 
-   private final double  min_leg_length_before_collapsing_single_support = 0.25; //TODO tune
-   private final double  min_mechanical_leg_length = 0.20; // TODO tune
-   
+   private final double min_leg_length_before_collapsing_single_support = 0.25; //TODO tune
+   private final double min_mechanical_leg_length = 0.20; // TODO tune
+
    private final DRCRobotJointMap jointMap;
 
    public IcubWalkingControllerParameters(DRCRobotJointMap jointMap)
    {
       this(jointMap, false);
    }
-   
+
    public IcubWalkingControllerParameters(DRCRobotJointMap jointMap, boolean runningOnRealRobot) // TODO: are wrong
    {
       this.runningOnRealRobot = runningOnRealRobot;
       this.jointMap = jointMap;
-      
+
       for (RobotSide robotSide : RobotSide.values)
       {
          RigidBodyTransform transform = new RigidBodyTransform();
@@ -67,17 +67,17 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
          handPosesWithRespectToChestFrame.put(robotSide, transform);
       }
    }
-   
+
    @Override
    public boolean stayOnToes()
    {
       return false; // Not working for now
    }
-   
+
    @Override
    public boolean doToeOffIfPossible()
    {
-      return true; 
+      return true;
    }
 
    @Override
@@ -113,8 +113,8 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
    @Override
    public String[] getDefaultHeadOrientationControlJointNames()
    {
-      return new String[] {jointMap.getNeckJointName(NeckJointName.LOWER_NECK_PITCH), jointMap.getNeckJointName(NeckJointName.NECK_ROLL), 
-                           jointMap.getNeckJointName(NeckJointName.NECK_YAW)}; 
+      return new String[] { jointMap.getNeckJointName(NeckJointName.LOWER_NECK_PITCH), jointMap.getNeckJointName(NeckJointName.NECK_ROLL),
+            jointMap.getNeckJointName(NeckJointName.NECK_YAW) };
    }
 
    @Override
@@ -134,23 +134,22 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
 
    //TODO need to better tune this
    // USE THESE FOR Real Robot and sims when controlling pelvis height instead of CoM.
-   private final double minimumHeightAboveGround = 0.4 + 0.03;                                       
-   private double nominalHeightAboveGround = 0.49 + 0.03; 
+   private final double minimumHeightAboveGround = 0.4 + 0.03;
+   private double nominalHeightAboveGround = 0.49 + 0.03;
    private final double maximumHeightAboveGround = 0.65 + 0.03;
-      
-   
+
    @Override
    public double minimumHeightAboveAnkle()
    {
       return minimumHeightAboveGround;
    }
-   
+
    @Override
    public double nominalHeightAboveAnkle()
    {
       return nominalHeightAboveGround;
    }
-   
+
    @Override
    public double maximumHeightAboveAnkle()
    {
@@ -203,13 +202,13 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
    {
       return IcubPhysicalProperties.footForward;
    }
-   
+
    @Override
    public double getFootBackwardOffset()
    {
       return IcubPhysicalProperties.footBack;
    }
-   
+
    @Override
    public double getAnkleHeight()
    {
@@ -221,7 +220,7 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
    {
       return IcubPhysicalProperties.shinLength + IcubPhysicalProperties.thighLength;
    }
-   
+
    @Override
    public double getMinLegLengthBeforeCollapsingSingleSupport()
    {
@@ -239,11 +238,11 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
    {
       return 0.15; //0.35;
    }
-  
+
    @Override
    public double getMaxStepLength()
    {
-       return 0.2; //0.5; //0.35;
+      return 0.2; //0.5; //0.35;
    }
 
    @Override
@@ -267,48 +266,54 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
    @Override
    public double getCaptureKpParallelToMotion()
    {
-      if (!runningOnRealRobot) return 1.0;
-      return 1.0; 
+      if (!runningOnRealRobot)
+         return 1.0;
+      return 1.0;
    }
 
    @Override
    public double getCaptureKpOrthogonalToMotion()
-   {      
-      if (!runningOnRealRobot) return 1.0; 
-      return 1.0; 
+   {
+      if (!runningOnRealRobot)
+         return 1.0;
+      return 1.0;
    }
-   
+
    @Override
    public double getCaptureKi()
-   {      
-      if (!runningOnRealRobot) return 4.0;
-      return 4.0; 
+   {
+      if (!runningOnRealRobot)
+         return 4.0;
+      return 4.0;
    }
-   
+
    @Override
    public double getCaptureKiBleedoff()
-   {      
-      return 0.9; 
+   {
+      return 0.9;
    }
-   
+
    @Override
    public double getCaptureFilterBreakFrequencyInHz()
    {
-      if (!runningOnRealRobot) return 16.0; //Double.POSITIVE_INFINITY;
+      if (!runningOnRealRobot)
+         return 16.0; //Double.POSITIVE_INFINITY;
       return 16.0;
    }
-   
+
    @Override
    public double getCMPRateLimit()
    {
-      if (!runningOnRealRobot) return 60.0; 
+      if (!runningOnRealRobot)
+         return 60.0;
       return 6.0; //3.0; //4.0; //3.0;
    }
 
    @Override
    public double getCMPAccelerationLimit()
    {
-      if (!runningOnRealRobot) return 2000.0;
+      if (!runningOnRealRobot)
+         return 2000.0;
       return 200.0; //80.0; //40.0;
    }
 
@@ -373,7 +378,7 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
    @Override
    public double[] getInitialHeadYawPitchRoll()
    {
-      return new double[]{0.0, 0.0, 0.0};
+      return new double[] { 0.0, 0.0, 0.0 };
    }
 
    @Override
@@ -414,7 +419,7 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
       double maxPositionJerk = runningOnRealRobot ? 150.0 : Double.POSITIVE_INFINITY;
       double maxOrientationAcceleration = runningOnRealRobot ? 100.0 : Double.POSITIVE_INFINITY;
       double maxOrientationJerk = runningOnRealRobot ? 1500.0 : Double.POSITIVE_INFINITY;
-      
+
       gains.setPositionProportionalGains(kpXY, kpZ);
       gains.setPositionDampingRatio(zetaXYZ);
       gains.setPositionMaxAccelerationAndJerk(maxPositionAcceleration, maxPositionJerk);
@@ -436,7 +441,7 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
    {
       return 0.05;
    }
-   
+
    @Override
    public double getSupportSingularityEscapeMultiplier()
    {
@@ -446,7 +451,7 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
    @Override
    public double getSwingSingularityEscapeMultiplier()
    {
-      return runningOnRealRobot ? -20 : -100.0;  //50.0 : 200.0 //negative if knee axis are -y direction 
+      return runningOnRealRobot ? -20 : -100.0; //50.0 : 200.0 //negative if knee axis are -y direction 
    }
 
    @Override
@@ -467,7 +472,6 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
       return runningOnRealRobot ? 1.5 : 1.0;
    }
 
-
    @Override
    public double getSpineYawLimit()
    {
@@ -479,12 +483,13 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
    {
       return 0;
    }
+
    @Override
    public double getSpinePitchUpperLimit()
    {
       return pelvis_pitch_upper_limit;
    }
-   
+
    @Override
    public double getSpinePitchLowerLimit()
    {
@@ -516,6 +521,18 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
    }
 
    @Override
+   public double getActualFootWidth()
+   {
+      return getFootWidth();
+   }
+
+   @Override
+   public double getActualFootLength()
+   {
+      return getFootLength();
+   }
+
+   @Override
    public double getFoot_start_toetaper_from_back()
    {
       return 0.0;
@@ -524,10 +541,9 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
    @Override
    public double getSideLengthOfBoundingBoxForFootstepHeight()
    {
-      return (1 + 0.3) * 2 * Math.sqrt(getFootForwardOffset() * getFootForwardOffset()
-            + 0.25 * getFootWidth() * getFootWidth());
+      return (1 + 0.3) * 2 * Math.sqrt(getFootForwardOffset() * getFootForwardOffset() + 0.25 * getFootWidth() * getFootWidth());
    }
-   
+
    @Override
    public SideDependentList<RigidBodyTransform> getDesiredHandPosesWithRespectToChestFrame()
    {
@@ -545,7 +561,7 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
    {
       return runningOnRealRobot ? 30.0 : 5.0;
    }
-   
+
    @Override
    public double getCoPThresholdFraction()
    {
@@ -558,127 +574,127 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
       return null;
    }
 
-	@Override
-	public void setupMomentumOptimizationSettings(MomentumOptimizationSettings momentumOptimizationSettings) 
-	{
-		momentumOptimizationSettings.setDampedLeastSquaresFactor(0.05);
-		momentumOptimizationSettings.setRhoPlaneContactRegularization(0.001);
-		momentumOptimizationSettings.setMomentumWeight(1.0, 1.0, 10.0, 10.0);
-		momentumOptimizationSettings.setRhoMin(4.0);
-		momentumOptimizationSettings.setRateOfChangeOfRhoPlaneContactRegularization(0.01);
-		momentumOptimizationSettings.setRhoPenalizerPlaneContactRegularization(0.01);
-	}
+   @Override
+   public void setupMomentumOptimizationSettings(MomentumOptimizationSettings momentumOptimizationSettings)
+   {
+      momentumOptimizationSettings.setDampedLeastSquaresFactor(0.05);
+      momentumOptimizationSettings.setRhoPlaneContactRegularization(0.001);
+      momentumOptimizationSettings.setMomentumWeight(1.0, 1.0, 10.0, 10.0);
+      momentumOptimizationSettings.setRhoMin(4.0);
+      momentumOptimizationSettings.setRateOfChangeOfRhoPlaneContactRegularization(0.01);
+      momentumOptimizationSettings.setRhoPenalizerPlaneContactRegularization(0.01);
+   }
 
-	@Override
-	public YoPDGains createCoMHeightControlGains(YoVariableRegistry registry) 
-	{
-		YoPDGains gains = new YoPDGains("CoMHeight", registry);
+   @Override
+   public YoPDGains createCoMHeightControlGains(YoVariableRegistry registry)
+   {
+      YoPDGains gains = new YoPDGains("CoMHeight", registry);
 
-		double kp = runningOnRealRobot ? 40.0 : 50.0;
-		double zeta = runningOnRealRobot ? 0.4 : 1.0;
-		double maxAcceleration = 0.5 * 9.81;
-		double maxJerk = maxAcceleration / 0.05;
+      double kp = runningOnRealRobot ? 40.0 : 50.0;
+      double zeta = runningOnRealRobot ? 0.4 : 1.0;
+      double maxAcceleration = 0.5 * 9.81;
+      double maxJerk = maxAcceleration / 0.05;
 
-		gains.setKp(kp);
-		gains.setZeta(zeta);
-		gains.setMaximumAcceleration(maxAcceleration);
-		gains.setMaximumJerk(maxJerk);
-		gains.createDerivativeGainUpdater(true);
+      gains.setKp(kp);
+      gains.setZeta(zeta);
+      gains.setMaximumAcceleration(maxAcceleration);
+      gains.setMaximumJerk(maxJerk);
+      gains.createDerivativeGainUpdater(true);
 
-		return gains;
-	}
+      return gains;
+   }
 
-	@Override
-	public boolean getCoMHeightDriftCompensation() 
-	{
-		return false;
-	}
+   @Override
+   public boolean getCoMHeightDriftCompensation()
+   {
+      return false;
+   }
 
-	@Override
-	public YoSE3PIDGains createHoldPositionFootControlGains(YoVariableRegistry registry) 
-	{
-		YoFootSE3Gains gains = new YoFootSE3Gains("HoldFoot", registry);
+   @Override
+   public YoSE3PIDGains createHoldPositionFootControlGains(YoVariableRegistry registry)
+   {
+      YoFootSE3Gains gains = new YoFootSE3Gains("HoldFoot", registry);
 
-		double kpXY = 100.0;
-		double kpZ = 0.0;
-		double zetaXYZ = runningOnRealRobot ? 0.2 : 1.0;
-		double kpXYOrientation = runningOnRealRobot ? 40.0 : 100.0;
-		double kpZOrientation = runningOnRealRobot ? 40.0 : 100.0;
-		double zetaOrientation = runningOnRealRobot ? 0.2 : 1.0;
-		double maxLinearAcceleration = runningOnRealRobot ? 10.0 : Double.POSITIVE_INFINITY;
-		double maxLinearJerk = runningOnRealRobot ? 150.0 : Double.POSITIVE_INFINITY;
-		double maxAngularAcceleration = runningOnRealRobot ? 100.0 : Double.POSITIVE_INFINITY;
-		double maxAngularJerk = runningOnRealRobot ? 1500.0 : Double.POSITIVE_INFINITY;
+      double kpXY = 100.0;
+      double kpZ = 0.0;
+      double zetaXYZ = runningOnRealRobot ? 0.2 : 1.0;
+      double kpXYOrientation = runningOnRealRobot ? 40.0 : 100.0;
+      double kpZOrientation = runningOnRealRobot ? 40.0 : 100.0;
+      double zetaOrientation = runningOnRealRobot ? 0.2 : 1.0;
+      double maxLinearAcceleration = runningOnRealRobot ? 10.0 : Double.POSITIVE_INFINITY;
+      double maxLinearJerk = runningOnRealRobot ? 150.0 : Double.POSITIVE_INFINITY;
+      double maxAngularAcceleration = runningOnRealRobot ? 100.0 : Double.POSITIVE_INFINITY;
+      double maxAngularJerk = runningOnRealRobot ? 1500.0 : Double.POSITIVE_INFINITY;
 
-		gains.setPositionProportionalGains(kpXY, kpZ);
-		gains.setPositionDampingRatio(zetaXYZ);
-		gains.setPositionMaxAccelerationAndJerk(maxLinearAcceleration, maxLinearJerk);
-		gains.setOrientationProportionalGains(kpXYOrientation, kpZOrientation);
-		gains.setOrientationDampingRatio(zetaOrientation);
-		gains.setOrientationMaxAccelerationAndJerk(maxAngularAcceleration, maxAngularJerk);
-		gains.createDerivativeGainUpdater(true);
+      gains.setPositionProportionalGains(kpXY, kpZ);
+      gains.setPositionDampingRatio(zetaXYZ);
+      gains.setPositionMaxAccelerationAndJerk(maxLinearAcceleration, maxLinearJerk);
+      gains.setOrientationProportionalGains(kpXYOrientation, kpZOrientation);
+      gains.setOrientationDampingRatio(zetaOrientation);
+      gains.setOrientationMaxAccelerationAndJerk(maxAngularAcceleration, maxAngularJerk);
+      gains.createDerivativeGainUpdater(true);
 
-		return gains;
-	}
+      return gains;
+   }
 
-	@Override
-	public YoSE3PIDGains createToeOffFootControlGains(YoVariableRegistry registry) 
-	{
-		YoFootSE3Gains gains = new YoFootSE3Gains("ToeOffFoot", registry);
+   @Override
+   public YoSE3PIDGains createToeOffFootControlGains(YoVariableRegistry registry)
+   {
+      YoFootSE3Gains gains = new YoFootSE3Gains("ToeOffFoot", registry);
 
-		double kpXY = 100.0;
-		double kpZ = 0.0;
-		double zetaXYZ = runningOnRealRobot ? 0.4 : 0.4;
-		double kpXYOrientation = runningOnRealRobot ? 200.0 : 200.0;
-		double kpZOrientation = runningOnRealRobot ? 200.0 : 200.0;
-		double zetaOrientation = runningOnRealRobot ? 0.4 : 0.4;
-		double maxLinearAcceleration = runningOnRealRobot ? 10.0 : Double.POSITIVE_INFINITY;
-		double maxLinearJerk = runningOnRealRobot ? 150.0 : Double.POSITIVE_INFINITY;
-		double maxAngularAcceleration = runningOnRealRobot ? 100.0 : Double.POSITIVE_INFINITY;
-		double maxAngularJerk = runningOnRealRobot ? 1500.0 : Double.POSITIVE_INFINITY;
+      double kpXY = 100.0;
+      double kpZ = 0.0;
+      double zetaXYZ = runningOnRealRobot ? 0.4 : 0.4;
+      double kpXYOrientation = runningOnRealRobot ? 200.0 : 200.0;
+      double kpZOrientation = runningOnRealRobot ? 200.0 : 200.0;
+      double zetaOrientation = runningOnRealRobot ? 0.4 : 0.4;
+      double maxLinearAcceleration = runningOnRealRobot ? 10.0 : Double.POSITIVE_INFINITY;
+      double maxLinearJerk = runningOnRealRobot ? 150.0 : Double.POSITIVE_INFINITY;
+      double maxAngularAcceleration = runningOnRealRobot ? 100.0 : Double.POSITIVE_INFINITY;
+      double maxAngularJerk = runningOnRealRobot ? 1500.0 : Double.POSITIVE_INFINITY;
 
-		gains.setPositionProportionalGains(kpXY, kpZ);
-		gains.setPositionDampingRatio(zetaXYZ);
-		gains.setPositionMaxAccelerationAndJerk(maxLinearAcceleration, maxLinearJerk);
-		gains.setOrientationProportionalGains(kpXYOrientation, kpZOrientation);
-		gains.setOrientationDampingRatio(zetaOrientation);
-		gains.setOrientationMaxAccelerationAndJerk(maxAngularAcceleration, maxAngularJerk);
-		gains.createDerivativeGainUpdater(true);
+      gains.setPositionProportionalGains(kpXY, kpZ);
+      gains.setPositionDampingRatio(zetaXYZ);
+      gains.setPositionMaxAccelerationAndJerk(maxLinearAcceleration, maxLinearJerk);
+      gains.setOrientationProportionalGains(kpXYOrientation, kpZOrientation);
+      gains.setOrientationDampingRatio(zetaOrientation);
+      gains.setOrientationMaxAccelerationAndJerk(maxAngularAcceleration, maxAngularJerk);
+      gains.createDerivativeGainUpdater(true);
 
-		return gains;
-	}
+      return gains;
+   }
 
-	@Override
-	public YoSE3PIDGains createSupportFootControlGains(YoVariableRegistry registry) 
-	{
-		YoIndependentSE3PIDGains gains = new YoIndependentSE3PIDGains("SupportFoot", registry);
+   @Override
+   public YoSE3PIDGains createSupportFootControlGains(YoVariableRegistry registry)
+   {
+      YoIndependentSE3PIDGains gains = new YoIndependentSE3PIDGains("SupportFoot", registry);
 
-		double maxAngularAcceleration = runningOnRealRobot ? 100.0 : Double.POSITIVE_INFINITY;
-		double maxAngularJerk = runningOnRealRobot ? 1500.0 : Double.POSITIVE_INFINITY;
+      double maxAngularAcceleration = runningOnRealRobot ? 100.0 : Double.POSITIVE_INFINITY;
+      double maxAngularJerk = runningOnRealRobot ? 1500.0 : Double.POSITIVE_INFINITY;
 
-		gains.setOrientationDerivativeGains(20.0, 0.0, 0.0);
-		gains.setOrientationMaxAccelerationAndJerk(maxAngularAcceleration, maxAngularJerk);
+      gains.setOrientationDerivativeGains(20.0, 0.0, 0.0);
+      gains.setOrientationMaxAccelerationAndJerk(maxAngularAcceleration, maxAngularJerk);
 
-		return gains;
-	}
+      return gains;
+   }
 
-	@Override
-	public boolean doToeOffWhenHittingAnkleLimit() 
-	{
-		return false;
-	}
+   @Override
+   public boolean doToeOffWhenHittingAnkleLimit()
+   {
+      return false;
+   }
 
-	@Override
-	public double getMinMechanicalLegLength() 
-	{
-		return min_mechanical_leg_length;
-	}
+   @Override
+   public double getMinMechanicalLegLength()
+   {
+      return min_mechanical_leg_length;
+   }
 
-	@Override
-	public boolean doFancyOnToesControl() 
-	{
-		return false;
-	}
+   @Override
+   public boolean doFancyOnToesControl()
+   {
+      return false;
+   }
 
    @Override
    public YoPDGains createUnconstrainedJointsControlGains(YoVariableRegistry registry)
@@ -695,7 +711,7 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
       gains.setMaximumAcceleration(maxAcceleration);
       gains.setMaximumJerk(maxJerk);
       gains.createDerivativeGainUpdater(true);
-      
+
       return gains;
    }
 }
