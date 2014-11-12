@@ -76,12 +76,6 @@ public class IcubSensorInformation implements DRCRobotSensorInformation
    }
 
    @Override
-   public String[] getIMUSensorsToProcess()
-   {
-      return imuSensorsToUse;
-   }
-
-   @Override
 	public String[] getForceSensorNames() 
 	{
 		return forceSensorNames;
