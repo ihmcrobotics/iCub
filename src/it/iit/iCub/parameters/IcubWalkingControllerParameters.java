@@ -120,12 +120,6 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
       return defaultChestOrientationControlJointNames;
    }
 
-   @Override
-   public boolean checkOrbitalEnergyCondition()
-   {
-      return false;
-   }
-
    //TODO need to better tune this
    // USE THESE FOR Real Robot and sims when controlling pelvis height instead of CoM.
    private final double minimumHeightAboveGround = 0.4 + 0.03;
@@ -156,12 +150,6 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
    }
 
    @Override
-   public boolean resetDesiredICPToCurrentAtStartOfSwing()
-   {
-      return false;
-   }
-
-   @Override
    public double getNeckPitchUpperLimit()
    {
       return neck_pitch_upper_limit;
@@ -183,12 +171,6 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
    public double getHeadRollLimit()
    {
       return head_roll_limit;
-   }
-
-   @Override
-   public boolean finishSwingWhenTrajectoryDone()
-   {
-      return false;
    }
 
    @Override
@@ -309,12 +291,6 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
       if (!runningOnRealRobot)
          return 2000.0;
       return 200.0; //80.0; //40.0;
-   }
-
-   @Override
-   public double getDefaultDesiredPelvisPitch()
-   {
-      return 0.0;
    }
 
    @Override
