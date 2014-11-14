@@ -186,11 +186,4 @@ public class IcubSensorInformation implements DRCRobotSensorInformation
 	{
 		return false;
 	}
-
-   @Override
-   public ReferenceFrame getHeadIMUFrameWhenLevel()
-   {
-      // TODO Auto-generated method stub
-      return null;
-   }
 }
