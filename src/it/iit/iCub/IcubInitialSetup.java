@@ -5,7 +5,7 @@ import java.util.List;
 import javax.vecmath.Quat4d;
 import javax.vecmath.Vector3d;
 
-import com.yobotics.simulationconstructionset.GroundContactPoint;
+import us.ihmc.simulationconstructionset.GroundContactPoint;
 
 import us.ihmc.SdfLoader.SDFRobot;
 import us.ihmc.darpaRoboticsChallenge.drcRobot.DRCRobotJointMap;
