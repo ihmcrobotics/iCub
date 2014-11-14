@@ -141,7 +141,12 @@ public class IcubSensorInformation implements DRCRobotSensorInformation
 		return null;
 	}
 
-	@Override
+   @Override
+   public ReferenceFrame getHeadIMUFrameWhenLevel() {
+      return null;
+   }
+
+   @Override
 	public String[] getSensorFramesToTrack() 
 	{
 		ArrayList<String> sensorFramesToTrack = new ArrayList<String>();
