@@ -1,11 +1,10 @@
 package it.iit.iCub.parameters;
 
-import java.util.HashMap;
-
-import us.ihmc.sensorProcessing.simulatedSensors.SensorFilterParameters;
+import us.ihmc.sensorProcessing.sensorProcessors.SensorProcessing;
 import us.ihmc.sensorProcessing.simulatedSensors.SensorNoiseParameters;
-import us.ihmc.sensorProcessing.stateEstimation.PointMeasurementNoiseParameters;
 import us.ihmc.sensorProcessing.stateEstimation.StateEstimatorParameters;
+import us.ihmc.yoUtilities.dataStructure.registry.YoVariableRegistry;
+import us.ihmc.yoUtilities.dataStructure.variable.DoubleYoVariable;
 
 public class IcubStateEstimatorParameters implements StateEstimatorParameters
 {
@@ -13,38 +12,13 @@ public class IcubStateEstimatorParameters implements StateEstimatorParameters
 
    private final double estimatorDT;
 
-   private final boolean useKinematicsBasedStateEstimator = true;
-   private final boolean assumePerfectIMU = true;
-
    private final double jointVelocitySlopTimeForBacklashCompensation;
 
-   private final double jointPositionFilterFrequencyHz;
-   private final double jointVelocityFilterFrequencyHz;
-   private final double orientationFilterFrequencyHz;
-   private final double angularVelocityFilterFrequencyHz;
-   private final double linearAccelerationFilterFrequencyHz;
-
-   // State Estimator Filter Parameters
-   private final double pointVelocityXYMeasurementStandardDeviation;
-   private final double pointVelocityZMeasurementStandardDeviation;
-
-   private final double pointPositionXYMeasurementStandardDeviation;
-   private final double pointPositionZMeasurementStandardDeviation;
-
-   private final boolean useTwoPolesForIMUFiltering;
-   private final boolean doFiniteDifferenceForJointVelocities;
-
-   private final SensorFilterParameters sensorFilterParameters;
-
-   private final PointMeasurementNoiseParameters pointMeasurementNoiseParameters;
+   private final double defaultFilterBreakFrequency;
 
    // private final SensorNoiseParameters sensorNoiseParameters = DRCSimulatedSensorNoiseParameters.createNoiseParametersForEstimatorJerryTuning();
    // private SensorNoiseParameters sensorNoiseParameters = DRCSimulatedSensorNoiseParameters.createNoiseParametersForEstimatorJerryTuningSeptember2013();
    private SensorNoiseParameters sensorNoiseParameters = null;
-
-   private final boolean doElasticityCompensation;
-   private final double defaultJointStiffness;
-   private final HashMap<String, Double> jointSpecificStiffness = new HashMap<>();
 
    public IcubStateEstimatorParameters(boolean runningOnRealRobot, double estimatorDT)
    {
@@ -52,73 +26,37 @@ public class IcubStateEstimatorParameters implements StateEstimatorParameters
 
       this.estimatorDT = estimatorDT;
 
-      final double defaultFilterBreakFrequency;
-
-      if (!runningOnRealRobot)
-      {
-         defaultFilterBreakFrequency = Double.POSITIVE_INFINITY;
-      }
-      else
-      {
-         defaultFilterBreakFrequency = 16.0;
-      }
-
-      jointPositionFilterFrequencyHz = defaultFilterBreakFrequency;
-      jointVelocityFilterFrequencyHz = defaultFilterBreakFrequency;
-      orientationFilterFrequencyHz = defaultFilterBreakFrequency;
-      angularVelocityFilterFrequencyHz = defaultFilterBreakFrequency;
-      linearAccelerationFilterFrequencyHz = defaultFilterBreakFrequency;
+      defaultFilterBreakFrequency = runningOnRealRobot ? 16.0 : Double.POSITIVE_INFINITY;
 
       jointVelocitySlopTimeForBacklashCompensation = 0.03;
-
-      pointVelocityXYMeasurementStandardDeviation = 2.0;
-      pointVelocityZMeasurementStandardDeviation = 2.0;
-
-      pointPositionXYMeasurementStandardDeviation = 0.1;
-      pointPositionZMeasurementStandardDeviation = 0.1;
-
-      useTwoPolesForIMUFiltering = false;
-      doFiniteDifferenceForJointVelocities = false;
-
-      doElasticityCompensation = false; //runningOnRealRobot;
-      defaultJointStiffness = Double.POSITIVE_INFINITY;
-
-      sensorFilterParameters = new SensorFilterParameters(jointPositionFilterFrequencyHz, jointVelocityFilterFrequencyHz, orientationFilterFrequencyHz,
-            angularVelocityFilterFrequencyHz, linearAccelerationFilterFrequencyHz, jointVelocitySlopTimeForBacklashCompensation, estimatorDT,
-            useTwoPolesForIMUFiltering, doFiniteDifferenceForJointVelocities, doElasticityCompensation, defaultJointStiffness, jointSpecificStiffness);
-
-      pointMeasurementNoiseParameters = new PointMeasurementNoiseParameters(pointVelocityXYMeasurementStandardDeviation,
-            pointVelocityZMeasurementStandardDeviation, pointPositionXYMeasurementStandardDeviation, pointPositionZMeasurementStandardDeviation);
    }
 
-   @Override
-   public boolean getAssumePerfectIMU()
+   public void configureSensorProcessing(SensorProcessing sensorProcessing)
    {
-      return assumePerfectIMU;
-   }
+      YoVariableRegistry registry = sensorProcessing.getYoVariableRegistry();
 
-   @Override
-   public boolean useKinematicsBasedStateEstimator()
-   {
-      return useKinematicsBasedStateEstimator;
-   }
+      DoubleYoVariable jointPositionAlphaFilter = sensorProcessing.createAlphaFilter("jointPositionAlphaFilter", defaultFilterBreakFrequency);
+      DoubleYoVariable jointVelocityAlphaFilter = sensorProcessing.createAlphaFilter("jointVelocityAlphaFilter", defaultFilterBreakFrequency);
+      DoubleYoVariable jointVelocitySlopTime = new DoubleYoVariable("jointBacklashSlopTime", registry);
+      jointVelocitySlopTime.set(jointVelocitySlopTimeForBacklashCompensation);
+      
+      DoubleYoVariable orientationAlphaFilter = sensorProcessing.createAlphaFilter("orientationAlphaFilter", defaultFilterBreakFrequency);
+      DoubleYoVariable angularVelocityAlphaFilter = sensorProcessing.createAlphaFilter("angularVelocityAlphaFilter", defaultFilterBreakFrequency);
+      DoubleYoVariable linearAccelerationAlphaFilter = sensorProcessing.createAlphaFilter("linearAccelerationAlphaFilter", defaultFilterBreakFrequency);
 
-   @Override
-   public PointMeasurementNoiseParameters getPointMeasurementNoiseParameters()
-   {
-      return pointMeasurementNoiseParameters;
+      sensorProcessing.addJointPositionAlphaFilter(jointPositionAlphaFilter, false);
+
+      sensorProcessing.addJointVelocityAlphaFilter(jointVelocityAlphaFilter, false);
+
+      sensorProcessing.addOrientationAlphaFilter(orientationAlphaFilter, false);
+      sensorProcessing.addAngularVelocityAlphaFilter(angularVelocityAlphaFilter, false);
+      sensorProcessing.addLinearAccelerationAlphaFilter(linearAccelerationAlphaFilter, false);
    }
 
    @Override
    public SensorNoiseParameters getSensorNoiseParameters()
    {
       return sensorNoiseParameters;
-   }
-
-   @Override
-   public SensorFilterParameters getSensorFilterParameters()
-   {
-      return sensorFilterParameters;
    }
 
    @Override
@@ -179,6 +117,12 @@ public class IcubStateEstimatorParameters implements StateEstimatorParameters
    public double getPelvisLinearVelocityFusingFrequency()
    {
       return 0.4261; // alpha = 0.992 with dt = 0.003
+   }
+
+   @Override
+   public double getPelvisVelocityBacklashSlopTime()
+   {
+      return jointVelocitySlopTimeForBacklashCompensation;
    }
 
    @Override
