@@ -48,9 +48,9 @@ public class IcubStateEstimatorParameters implements StateEstimatorParameters
 
       sensorProcessing.addJointVelocityAlphaFilter(jointVelocityAlphaFilter, false);
 
-      sensorProcessing.addOrientationAlphaFilter(orientationAlphaFilter, false);
-      sensorProcessing.addAngularVelocityAlphaFilter(angularVelocityAlphaFilter, false);
-      sensorProcessing.addLinearAccelerationAlphaFilter(linearAccelerationAlphaFilter, false);
+      sensorProcessing.addIMUOrientationAlphaFilter(orientationAlphaFilter, false);
+      sensorProcessing.addIMUAngularVelocityAlphaFilter(angularVelocityAlphaFilter, false);
+      sensorProcessing.addIMULinearAccelerationAlphaFilter(linearAccelerationAlphaFilter, false);
    }
 
    @Override
