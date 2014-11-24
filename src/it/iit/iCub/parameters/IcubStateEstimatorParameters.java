@@ -210,4 +210,18 @@ public class IcubStateEstimatorParameters implements StateEstimatorParameters
       // TODO For Valkyrie. Probably have to make more generic.
       return null;
    }
+
+   @Override
+   public boolean useIMUsForSpineJointVelocityEstimation()
+   {
+      // TODO For Valkyrie. Probably have to make more generic.
+      return false;
+   }
+
+   @Override
+   public double getAlphaIMUsForSpineJointVelocityEstimation()
+   {
+      // TODO For Valkyrie. Probably have to make more generic.
+      return 0;
+   }
 }
