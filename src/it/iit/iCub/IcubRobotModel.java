@@ -26,7 +26,6 @@ import us.ihmc.darpaRoboticsChallenge.DRCRobotSDFLoader;
 import us.ihmc.darpaRoboticsChallenge.drcRobot.DRCRobotJointMap;
 import us.ihmc.darpaRoboticsChallenge.drcRobot.DRCRobotModel;
 import us.ihmc.darpaRoboticsChallenge.drcRobot.DRCRobotPhysicalProperties;
-import us.ihmc.darpaRoboticsChallenge.drcRobot.DRCRobotSensorInformation;
 import us.ihmc.darpaRoboticsChallenge.handControl.DRCHandType;
 import us.ihmc.darpaRoboticsChallenge.handControl.HandCommandManager;
 import us.ihmc.darpaRoboticsChallenge.handControl.packetsAndConsumers.HandModel;
@@ -35,6 +34,7 @@ import us.ihmc.darpaRoboticsChallenge.networkProcessor.time.AlwaysZeroOffsetPPST
 import us.ihmc.darpaRoboticsChallenge.networkProcessor.time.PPSTimestampOffsetProvider;
 import us.ihmc.darpaRoboticsChallenge.sensors.DRCSensorSuiteManager;
 import us.ihmc.ihmcPerception.footstepPlanner.FootstepParameters;
+import us.ihmc.sensorProcessing.parameters.DRCRobotSensorInformation;
 import us.ihmc.sensorProcessing.stateEstimation.StateEstimatorParameters;
 import us.ihmc.utilities.io.streamingData.GlobalDataProducer;
 import us.ihmc.utilities.math.TimeTools;

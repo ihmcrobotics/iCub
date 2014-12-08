@@ -5,16 +5,15 @@ import java.net.URI;
 import us.ihmc.SdfLoader.SDFFullRobotModel;
 import us.ihmc.communication.AbstractNetworkProcessorNetworkingManager;
 import us.ihmc.communication.producers.RobotPoseBuffer;
-import us.ihmc.darpaRoboticsChallenge.drcRobot.DRCRobotPhysicalProperties;
-import us.ihmc.darpaRoboticsChallenge.drcRobot.DRCRobotSensorInformation;
+import us.ihmc.darpaRoboticsChallenge.drcRobot.DRCRobotModel;
 import us.ihmc.darpaRoboticsChallenge.networkProcessor.camera.SCSCameraDataReceiver;
 import us.ihmc.darpaRoboticsChallenge.networkProcessor.depthData.DepthDataFilter;
 import us.ihmc.darpaRoboticsChallenge.networkProcessor.depthData.SCSPointCloudDataReceiver;
 import us.ihmc.darpaRoboticsChallenge.networkProcessor.time.PPSTimestampOffsetProvider;
 import us.ihmc.darpaRoboticsChallenge.sensors.DRCSensorSuiteManager;
+import us.ihmc.sensorProcessing.parameters.DRCRobotSensorInformation;
 import us.ihmc.utilities.net.LocalObjectCommunicator;
 import us.ihmc.utilities.net.ObjectCommunicator;
-import us.ihmc.darpaRoboticsChallenge.drcRobot.DRCRobotModel;
 
 public class IcubSensorSuiteManager implements DRCSensorSuiteManager
 {
@@ -40,7 +39,7 @@ public class IcubSensorSuiteManager implements DRCSensorSuiteManager
    }
 
    public void initializePhysicalSensors(RobotPoseBuffer robotPoseBuffer, AbstractNetworkProcessorNetworkingManager networkingManager,
-                                         SDFFullRobotModel sdfFullRobotModel, ObjectCommunicator objectCommunicator, DepthDataFilter lidarDataFilter, URI sensorURI, DRCRobotModel robotModel)
+                                         SDFFullRobotModel sdfFullRobotModel, ObjectCommunicator objectCommunicator, DepthDataFilter lidarDataFilter, URI sensorURI)
    {
    }
 
