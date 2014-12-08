@@ -35,6 +35,8 @@ import us.ihmc.darpaRoboticsChallenge.sensors.DRCSensorSuiteManager;
 import us.ihmc.ihmcPerception.footstepPlanner.FootstepParameters;
 import us.ihmc.sensorProcessing.parameters.DRCRobotSensorInformation;
 import us.ihmc.sensorProcessing.stateEstimation.StateEstimatorParameters;
+import us.ihmc.simulationconstructionset.physics.ScsCollisionConfigure;
+import us.ihmc.simulationconstructionset.robotController.MultiThreadedRobotControlElement;
 import us.ihmc.utilities.io.streamingData.GlobalDataProducer;
 import us.ihmc.utilities.math.TimeTools;
 import us.ihmc.utilities.math.geometry.RigidBodyTransform;
@@ -47,9 +49,6 @@ import us.ihmc.wholeBodyController.concurrent.ThreadDataSynchronizer;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
-
-import us.ihmc.simulationconstructionset.physics.ScsCollisionConfigure;
-import us.ihmc.simulationconstructionset.robotController.MultiThreadedRobotControlElement;
 
 public class IcubRobotModel implements DRCRobotModel 
 {	
@@ -75,12 +74,9 @@ public class IcubRobotModel implements DRCRobotModel
    private final String[] resourceDirectories = { "", "models/", "models/conf/", "models/meshes/", "models/meshes/visual/", "models/meshes/collision/" };
 
 	private final JaxbSDFLoader loader;
-	private final boolean runningOnRealRobot;
 
 	public IcubRobotModel(boolean runningOnRealRobot, boolean headless) 
 	{
-		this.runningOnRealRobot = runningOnRealRobot;
-
 		jointMap = new IcubJointMap();
 		physicalProperties = new IcubPhysicalProperties();
 		sensorInformation = new IcubSensorInformation();
@@ -293,7 +289,7 @@ public class IcubRobotModel implements DRCRobotModel
    @Override
    public DRCSensorSuiteManager getSensorSuiteManager(URI rosCoreURI)
    {
-      return new IcubSensorSuiteManager(rosCoreURI, getPPSTimestampOffsetProvider(), sensorInformation);
+      return new IcubSensorSuiteManager(getPPSTimestampOffsetProvider(), sensorInformation);
    }
 
    @Override
