@@ -7,12 +7,12 @@ import us.ihmc.communication.AbstractNetworkProcessorNetworkingManager;
 import us.ihmc.communication.producers.RobotPoseBuffer;
 import us.ihmc.darpaRoboticsChallenge.networkProcessor.camera.SCSCameraDataReceiver;
 import us.ihmc.darpaRoboticsChallenge.networkProcessor.depthData.SCSPointCloudDataReceiver;
-import us.ihmc.darpaRoboticsChallenge.networkProcessor.time.PPSTimestampOffsetProvider;
 import us.ihmc.darpaRoboticsChallenge.sensors.DRCSensorSuiteManager;
 import us.ihmc.ihmcPerception.depthData.DepthDataFilter;
 import us.ihmc.sensorProcessing.parameters.DRCRobotSensorInformation;
 import us.ihmc.utilities.net.LocalObjectCommunicator;
 import us.ihmc.utilities.net.ObjectCommunicator;
+import us.ihmc.utilities.ros.PPSTimestampOffsetProvider;
 
 public class IcubSensorSuiteManager implements DRCSensorSuiteManager
 {
