@@ -354,7 +354,6 @@ public class IcubJointMap implements DRCRobotJointMap
    @Override
    public String getJointBeforeHandName(RobotSide robotSide)
    {
-      // TODO Auto-generated method stub
-      return null;
+      return nameOfJointsBeforeHands.get(robotSide);
    }
 }
