@@ -350,4 +350,11 @@ public class IcubJointMap implements DRCRobotJointMap
 	{
 		return spineJointStrings.get(spineJointName);
 	}
+
+   @Override
+   public String getJointBeforeHandName(RobotSide robotSide)
+   {
+      // TODO Auto-generated method stub
+      return null;
+   }
 }
