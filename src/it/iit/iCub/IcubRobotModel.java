@@ -38,6 +38,8 @@ import us.ihmc.sensorProcessing.parameters.DRCRobotSensorInformation;
 import us.ihmc.sensorProcessing.stateEstimation.StateEstimatorParameters;
 import us.ihmc.simulationconstructionset.physics.ScsCollisionConfigure;
 import us.ihmc.simulationconstructionset.robotController.MultiThreadedRobotControlElement;
+import us.ihmc.simulationconstructionset.robotController.OutputProcessor;
+import us.ihmc.utilities.humanoidRobot.model.FullRobotModel;
 import us.ihmc.utilities.math.TimeTools;
 import us.ihmc.utilities.math.geometry.RigidBodyTransform;
 import us.ihmc.utilities.robotSide.RobotSide;
@@ -52,45 +54,46 @@ import com.jme3.math.Quaternion;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 
-public class IcubRobotModel implements DRCRobotModel 
-{	
-	private static final long ESTIMATOR_DT_IN_NS = 1000000;
+public class IcubRobotModel implements DRCRobotModel
+{
+   private static final long ESTIMATOR_DT_IN_NS = 1000000;
    private static final double ESTIMATOR_DT = TimeTools.nanoSecondstoSeconds(ESTIMATOR_DT_IN_NS);
    private static final double CONTROL_DT = 0.006;
    private static final double SIMULATE_DT = 0.0001;
 
-	private static final String ICUB_NETWORK_CONFIG = "Configurations/iCub_network_config.ini"; // not implemented
-	private static final String DEFAULT_NETWORK_CONFIG = "Configurations/localhost_network_config.ini";
+   private static final String ICUB_NETWORK_CONFIG = "Configurations/iCub_network_config.ini"; // not
+   // implemented
+   private static final String DEFAULT_NETWORK_CONFIG = "Configurations/localhost_network_config.ini";
 
-	private final ArmControllerParameters armControllerParameters;
-	private final WalkingControllerParameters walkingControllerParameters;
-	private final StateEstimatorParameters stateEstimatorParamaters;
-	private final DRCRobotPhysicalProperties physicalProperties;
-	private final DRCRobotSensorInformation sensorInformation;
-	private final DRCRobotJointMap jointMap;
-	private final String robotName = "ICUB";
-	private final SideDependentList<Transform> offsetHandFromWrist = new SideDependentList<Transform>();
-	private final RobotNetworkParameters networkParameters;
-	private final CapturePointPlannerParameters capturePointPlannerParameters;
+   private final ArmControllerParameters armControllerParameters;
+   private final WalkingControllerParameters walkingControllerParameters;
+   private final StateEstimatorParameters stateEstimatorParamaters;
+   private final DRCRobotPhysicalProperties physicalProperties;
+   private final DRCRobotSensorInformation sensorInformation;
+   private final DRCRobotJointMap jointMap;
+   private final String robotName = "ICUB";
+   private final SideDependentList<Transform> offsetHandFromWrist = new SideDependentList<Transform>();
+   private final RobotNetworkParameters networkParameters;
+   private final CapturePointPlannerParameters capturePointPlannerParameters;
 
    private final String[] resourceDirectories = { "", "models/", "models/conf/", "models/meshes/", "models/meshes/visual/", "models/meshes/collision/" };
 
-	private final JaxbSDFLoader loader;
+   private final JaxbSDFLoader loader;
 
-	public IcubRobotModel(boolean runningOnRealRobot, boolean headless) 
-	{
-		jointMap = new IcubJointMap();
-		physicalProperties = new IcubPhysicalProperties();
-		sensorInformation = new IcubSensorInformation();
+   public IcubRobotModel(boolean runningOnRealRobot, boolean headless)
+   {
+      jointMap = new IcubJointMap();
+      physicalProperties = new IcubPhysicalProperties();
+      sensorInformation = new IcubSensorInformation();
 
-		if (headless) 
-		{
-			this.loader = DRCRobotSDFLoader.loadDRCRobot(new String[] {}, getSdfFileAsStream(), true);
-		} 
-		else 
-		{
-			this.loader = DRCRobotSDFLoader.loadDRCRobot(getResourceDirectories(), getSdfFileAsStream(), false);
-		}
+      if (headless)
+      {
+         this.loader = DRCRobotSDFLoader.loadDRCRobot(new String[] {}, getSdfFileAsStream(), true);
+      }
+      else
+      {
+         this.loader = DRCRobotSDFLoader.loadDRCRobot(getResourceDirectories(), getSdfFileAsStream(), false);
+      }
 
       for (String forceSensorNames : IcubSensorInformation.forceSensorNames)
       {
@@ -106,7 +109,7 @@ public class IcubRobotModel implements DRCRobotModel
 
          loader.addForceSensor(jointMap, forceSensorNames, forceSensorNames, transform);
       }
-      
+
       armControllerParameters = new IcubArmControllerParameters(runningOnRealRobot);
       walkingControllerParameters = new IcubWalkingControllerParameters(jointMap, runningOnRealRobot);
       stateEstimatorParamaters = new IcubStateEstimatorParameters(runningOnRealRobot, getEstimatorDT());
@@ -114,7 +117,7 @@ public class IcubRobotModel implements DRCRobotModel
       capturePointPlannerParameters = new IcubCapturePointPlannerParameters(runningOnRealRobot);
    }
 
-	@Override
+   @Override
    public ArmControllerParameters getArmControllerParameters()
    {
       return armControllerParameters;
@@ -127,7 +130,8 @@ public class IcubRobotModel implements DRCRobotModel
    }
 
    @Override
-   public FootstepParameters getFootstepParameters() {
+   public FootstepParameters getFootstepParameters()
+   {
       return null;
    }
 
@@ -160,7 +164,7 @@ public class IcubRobotModel implements DRCRobotModel
       createTransforms();
       return offsetHandFromWrist.get(side);
    }
-   
+
    private String getSdfFile()
    {
       return IcubConfigurationRoot.SDF_FILE;
@@ -175,7 +179,7 @@ public class IcubRobotModel implements DRCRobotModel
    {
       return getClass().getClassLoader().getResourceAsStream(getSdfFile());
    }
-   
+
    private void createTransforms() // need to check this
    {
       for (RobotSide robotSide : RobotSide.values())
@@ -186,7 +190,7 @@ public class IcubRobotModel implements DRCRobotModel
          angles[0] = 0.0f;
          angles[1] = 0.0f;
          angles[2] = robotSide == RobotSide.LEFT ? 0.0f : (float) Math.PI;
-     
+
          Quaternion centerOfHandToWristRotation = new Quaternion(angles);
          offsetHandFromWrist.set(robotSide, new Transform(centerOfHandToWristTranslation, centerOfHandToWristRotation));
       }
@@ -230,7 +234,7 @@ public class IcubRobotModel implements DRCRobotModel
 
    @Override
    public HandModel getHandModel()
-   { 
+   {
       return null;
    }
 
@@ -306,11 +310,11 @@ public class IcubRobotModel implements DRCRobotModel
       return null;
    }
 
-	@Override
-	public CapturePointPlannerParameters getCapturePointPlannerParameters() 
-	{
-		return capturePointPlannerParameters;
-	}
+   @Override
+   public CapturePointPlannerParameters getCapturePointPlannerParameters()
+   {
+      return capturePointPlannerParameters;
+   }
 
    @Override
    public MultiThreadedRobotControlElement createSimulatedHandController(SDFRobot simulatedRobot, ThreadDataSynchronizer threadDataSynchronizer,
@@ -324,10 +328,17 @@ public class IcubRobotModel implements DRCRobotModel
    {
       return null;
    }
-   
+
    @Override
    public LogModelProvider getLogModelProvider()
    {
       return new SDFLogModelProvider(jointMap.getModelName(), getSdfFileAsStream(), getResourceDirectories());
    }
+
+   @Override
+   public OutputProcessor getOutputProcessor(FullRobotModel controllerFullRobotModel)
+   {
+      return null;
+   }
+
 }
