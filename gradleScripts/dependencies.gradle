@@ -19,7 +19,6 @@ dependencies {
 	compile group: 'org.apache.sshd', name: 'sshd-core', version: '0.12.0'
 	
 	
-	compile project(':BambooTools')
 	compile project(':CommonWalkingControlModules')
 	compile project(':DarpaRoboticsChallenge')
 	compile project(':Graphics3DAdapter')
