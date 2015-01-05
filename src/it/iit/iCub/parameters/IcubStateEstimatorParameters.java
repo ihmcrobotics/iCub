@@ -2,6 +2,7 @@ package it.iit.iCub.parameters;
 
 import us.ihmc.sensorProcessing.sensorProcessors.SensorProcessing;
 import us.ihmc.sensorProcessing.simulatedSensors.SensorNoiseParameters;
+import us.ihmc.sensorProcessing.stateEstimation.FootSwitchType;
 import us.ihmc.sensorProcessing.stateEstimation.StateEstimatorParameters;
 import us.ihmc.utilities.Pair;
 import us.ihmc.yoUtilities.dataStructure.registry.YoVariableRegistry;
@@ -224,4 +225,16 @@ public class IcubStateEstimatorParameters implements StateEstimatorParameters
       // TODO For Valkyrie. Probably have to make more generic.
       return 0;
    }
+
+@Override
+public double getContactThresholdHeight() {
+	// TODO Auto-generated method stub
+	return 0;
+}
+
+@Override
+public FootSwitchType getFootSwitchType() {
+	// TODO Auto-generated method stub
+	return null;
+}
 }

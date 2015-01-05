@@ -6,6 +6,7 @@ import javax.vecmath.Vector3d;
 import us.ihmc.commonWalkingControlModules.configurations.WalkingControllerParameters;
 import us.ihmc.commonWalkingControlModules.controlModules.foot.YoFootSE3Gains;
 import us.ihmc.commonWalkingControlModules.momentumBasedController.optimization.MomentumOptimizationSettings;
+import us.ihmc.sensorProcessing.stateEstimation.FootSwitchType;
 import us.ihmc.utilities.humanoidRobot.partNames.NeckJointName;
 import us.ihmc.utilities.humanoidRobot.partNames.SpineJointName;
 import us.ihmc.utilities.math.geometry.RigidBodyTransform;
@@ -684,4 +685,16 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
 
       return gains;
    }
+
+@Override
+public FootSwitchType getFootSwitchType() {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public double getContactThresholdHeight() {
+	// TODO Auto-generated method stub
+	return 0;
+}
 }
