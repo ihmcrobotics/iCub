@@ -31,6 +31,8 @@ import us.ihmc.darpaRoboticsChallenge.handControl.packetsAndConsumers.HandModel;
 import us.ihmc.darpaRoboticsChallenge.initialSetup.DRCRobotInitialSetup;
 import us.ihmc.darpaRoboticsChallenge.networkProcessor.time.AlwaysZeroOffsetPPSTimestampOffsetProvider;
 import us.ihmc.darpaRoboticsChallenge.sensors.DRCSensorSuiteManager;
+import us.ihmc.graphics3DAdapter.jme.util.JMEDataTypeUtils;
+import us.ihmc.graphics3DAdapter.jme.util.JMEGeometryUtils;
 import us.ihmc.ihmcPerception.footstepPlanner.FootstepParameters;
 import us.ihmc.multicastLogDataProtocol.modelLoaders.LogModelProvider;
 import us.ihmc.multicastLogDataProtocol.modelLoaders.SDFLogModelProvider;
@@ -159,11 +161,18 @@ public class IcubRobotModel implements DRCRobotModel
    }
 
    @Override
-   public Transform getOffsetHandFromWrist(RobotSide side)
+   public Transform getJmeTransformWristToHand(RobotSide side)
    {
       createTransforms();
       return offsetHandFromWrist.get(side);
    }
+   
+   @Override
+   public RigidBodyTransform getTransform3dWristToHand(RobotSide side)
+   {
+      return JMEGeometryUtils.transformFromJMECoordinatesToZup( getJmeTransformWristToHand(side));
+   }
+
 
    private String getSdfFile()
    {
