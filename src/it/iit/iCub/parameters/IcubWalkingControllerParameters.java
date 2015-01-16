@@ -686,15 +686,24 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
       return gains;
    }
 
-@Override
-public FootSwitchType getFootSwitchType() {
-	// TODO Auto-generated method stub
-	return null;
-}
+   @Override
+   public FootSwitchType getFootSwitchType()
+   {
+      // TODO Auto-generated method stub
+      return null;
+   }
 
-@Override
-public double getContactThresholdHeight() {
-	// TODO Auto-generated method stub
-	return 0;
-}
+   @Override
+   public double getContactThresholdHeight()
+   {
+      // TODO Auto-generated method stub
+      return 0;
+   }
+
+   @Override
+   public double getMaxICPErrorBeforeSingleSupport()
+   {
+      return 0.035;
+   }
+
 }
