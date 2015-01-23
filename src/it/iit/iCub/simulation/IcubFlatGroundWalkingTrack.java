@@ -8,7 +8,6 @@ import us.ihmc.darpaRoboticsChallenge.DRCSCSInitialSetup;
 import us.ihmc.darpaRoboticsChallenge.drcRobot.DRCRobotModel;
 import us.ihmc.darpaRoboticsChallenge.initialSetup.DRCRobotInitialSetup;
 import us.ihmc.graphics3DAdapter.GroundProfile3D;
-
 import us.ihmc.simulationconstructionset.util.ground.FlatGroundProfile;
 
 public class IcubFlatGroundWalkingTrack
