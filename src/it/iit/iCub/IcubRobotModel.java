@@ -49,6 +49,7 @@ import us.ihmc.utilities.ros.PPSTimestampOffsetProvider;
 import us.ihmc.wholeBodyController.DRCHandType;
 import us.ihmc.wholeBodyController.DRCRobotContactPointParameters;
 import us.ihmc.wholeBodyController.DRCRobotJointMap;
+import us.ihmc.wholeBodyController.WholeBodyIkSolver;
 import us.ihmc.wholeBodyController.concurrent.ThreadDataSynchronizer;
 
 import com.jme3.math.Quaternion;
@@ -80,6 +81,11 @@ public class IcubRobotModel implements DRCRobotModel
    private final String[] resourceDirectories = { "", "models/", "models/conf/", "models/meshes/", "models/meshes/visual/", "models/meshes/collision/" };
 
    private final JaxbSDFLoader loader;
+   
+   @Override
+   public WholeBodyIkSolver createWholeBodyIkSolver()  {
+      return null;
+   }
 
    public IcubRobotModel(boolean runningOnRealRobot, boolean headless)
    {
