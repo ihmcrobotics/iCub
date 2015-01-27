@@ -712,4 +712,9 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
       return 0.035;
    }
 
+   @Override
+   public boolean finishSingleSupportWhenICPPlannerIsDone()
+   {
+      return false;
+   }
 }
