@@ -76,6 +76,12 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
    }
 
    @Override
+   public double getMinStepLengthForToeOff()
+   {
+      return getFootLength();
+   }
+
+   @Override
    public double getMaximumToeOffAngle()
    {
       return Math.toRadians(45.0);
