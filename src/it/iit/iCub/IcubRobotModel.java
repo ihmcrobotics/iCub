@@ -35,6 +35,7 @@ import us.ihmc.graphics3DAdapter.jme.util.JMEGeometryUtils;
 import us.ihmc.ihmcPerception.footstepPlanner.FootstepParameters;
 import us.ihmc.multicastLogDataProtocol.modelLoaders.LogModelProvider;
 import us.ihmc.multicastLogDataProtocol.modelLoaders.SDFLogModelProvider;
+import us.ihmc.robotDataCommunication.logger.LogSettings;
 import us.ihmc.sensorProcessing.parameters.DRCRobotSensorInformation;
 import us.ihmc.sensorProcessing.stateEstimation.StateEstimatorParameters;
 import us.ihmc.simulationconstructionset.physics.ScsCollisionConfigure;
@@ -353,6 +354,12 @@ public class IcubRobotModel implements DRCRobotModel
    public OutputProcessor getOutputProcessor(FullRobotModel controllerFullRobotModel)
    {
       return null;
+   }
+   
+   @Override
+   public LogSettings getLogSettings()
+   {
+      return LogSettings.SIMULATION;
    }
 
 }
