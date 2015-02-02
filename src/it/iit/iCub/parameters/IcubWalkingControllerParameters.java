@@ -76,6 +76,12 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
    }
 
    @Override
+   public boolean checkECMPLocationToTriggerToeOff()
+   {
+      return true;
+   }
+
+   @Override
    public double getMinStepLengthForToeOff()
    {
       return getFootLength();
