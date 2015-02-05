@@ -52,6 +52,7 @@ import us.ihmc.wholeBodyController.DRCRobotContactPointParameters;
 import us.ihmc.wholeBodyController.DRCRobotJointMap;
 import us.ihmc.wholeBodyController.WholeBodyIkSolver;
 import us.ihmc.wholeBodyController.concurrent.ThreadDataSynchronizer;
+import us.ihmc.wholeBodyController.defaultConfigurations.ArmDefaultConfigurations;
 
 import com.jme3.math.Quaternion;
 import com.jme3.math.Transform;
@@ -360,6 +361,13 @@ public class IcubRobotModel implements DRCRobotModel
    public LogSettings getLogSettings()
    {
       return LogSettings.SIMULATION;
+   }
+
+   @Override
+   public double[] getArmDefaultConfigurationJointAngles(ArmDefaultConfigurations armDefaultConfiguration, RobotSide robotSide)
+   {
+      // TODO Auto-generated method stub
+      return null;
    }
 
 }
