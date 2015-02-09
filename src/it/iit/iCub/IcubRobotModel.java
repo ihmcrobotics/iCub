@@ -41,6 +41,7 @@ import us.ihmc.sensorProcessing.stateEstimation.StateEstimatorParameters;
 import us.ihmc.simulationconstructionset.physics.ScsCollisionConfigure;
 import us.ihmc.simulationconstructionset.robotController.MultiThreadedRobotControlElement;
 import us.ihmc.simulationconstructionset.robotController.OutputProcessor;
+import us.ihmc.utilities.Pair;
 import us.ihmc.utilities.humanoidRobot.model.FullRobotModel;
 import us.ihmc.utilities.math.TimeTools;
 import us.ihmc.utilities.math.geometry.RigidBodyTransform;
@@ -367,6 +368,12 @@ public class IcubRobotModel implements DRCRobotModel
    public DefaultArmConfigurations getDefaultArmConfigurations()
    {
       // TODO Auto-generated method stub
+      return null;
+   }
+
+   @Override
+   public Pair<Class<?>, String[]> getOperatorInterfaceStarter()
+   {
       return null;
    }
 }
