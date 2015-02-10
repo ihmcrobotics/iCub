@@ -534,9 +534,21 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
    }
 
    @Override
+   public double getDesiredTouchdownHeightOffset()
+   {
+      return 0;
+   }
+
+   @Override
    public double getDesiredTouchdownVelocity()
    {
       return -0.3;
+   }
+
+   @Override
+   public double getDesiredTouchdownAcceleration()
+   {
+      return 0;
    }
 
    @Override
