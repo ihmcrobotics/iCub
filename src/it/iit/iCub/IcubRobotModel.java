@@ -22,7 +22,6 @@ import us.ihmc.commonWalkingControlModules.configurations.CapturePointPlannerPar
 import us.ihmc.commonWalkingControlModules.configurations.WalkingControllerParameters;
 import us.ihmc.communication.AbstractNetworkProcessorNetworkingManager;
 import us.ihmc.communication.streamingData.GlobalDataProducer;
-import us.ihmc.communication.util.RobotNetworkParameters;
 import us.ihmc.darpaRoboticsChallenge.DRCRobotSDFLoader;
 import us.ihmc.darpaRoboticsChallenge.drcRobot.DRCRobotModel;
 import us.ihmc.darpaRoboticsChallenge.drcRobot.DRCRobotPhysicalProperties;
@@ -66,10 +65,6 @@ public class IcubRobotModel implements DRCRobotModel
    private static final double CONTROL_DT = 0.006;
    private static final double SIMULATE_DT = 0.0001;
 
-   private static final String ICUB_NETWORK_CONFIG = "Configurations/iCub_network_config.ini"; // not
-   // implemented
-   private static final String DEFAULT_NETWORK_CONFIG = "Configurations/localhost_network_config.ini";
-
    private final ArmControllerParameters armControllerParameters;
    private final WalkingControllerParameters walkingControllerParameters;
    private final StateEstimatorParameters stateEstimatorParamaters;
@@ -78,7 +73,6 @@ public class IcubRobotModel implements DRCRobotModel
    private final DRCRobotJointMap jointMap;
    private final String robotName = "ICUB";
    private final SideDependentList<Transform> offsetHandFromWrist = new SideDependentList<Transform>();
-   private final RobotNetworkParameters networkParameters;
    private final CapturePointPlannerParameters capturePointPlannerParameters;
 
    private final String[] resourceDirectories = { "", "models/", "models/conf/", "models/meshes/", "models/meshes/visual/", "models/meshes/collision/" };
@@ -123,7 +117,6 @@ public class IcubRobotModel implements DRCRobotModel
       armControllerParameters = new IcubArmControllerParameters(runningOnRealRobot);
       walkingControllerParameters = new IcubWalkingControllerParameters(jointMap, runningOnRealRobot);
       stateEstimatorParamaters = new IcubStateEstimatorParameters(runningOnRealRobot, getEstimatorDT());
-      networkParameters = new RobotNetworkParameters(runningOnRealRobot ? ICUB_NETWORK_CONFIG : DEFAULT_NETWORK_CONFIG, runningOnRealRobot);
       capturePointPlannerParameters = new IcubCapturePointPlannerParameters(runningOnRealRobot);
    }
 
@@ -313,12 +306,6 @@ public class IcubRobotModel implements DRCRobotModel
    public DRCSensorSuiteManager getSensorSuiteManager(URI rosCoreURI)
    {
       return new IcubSensorSuiteManager(getPPSTimestampOffsetProvider(), sensorInformation);
-   }
-
-   @Override
-   public RobotNetworkParameters getNetworkParameters()
-   {
-      return networkParameters;
    }
 
    @Override
