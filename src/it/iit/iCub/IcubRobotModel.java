@@ -11,7 +11,6 @@ import it.iit.iCub.parameters.IcubWalkingControllerParameters;
 import it.iit.iCub.sensors.IcubSensorSuiteManager;
 
 import java.io.InputStream;
-import java.net.URI;
 
 import us.ihmc.SdfLoader.GeneralizedSDFRobotModel;
 import us.ihmc.SdfLoader.JaxbSDFLoader;
@@ -20,7 +19,6 @@ import us.ihmc.SdfLoader.SDFRobot;
 import us.ihmc.commonWalkingControlModules.configurations.ArmControllerParameters;
 import us.ihmc.commonWalkingControlModules.configurations.CapturePointPlannerParameters;
 import us.ihmc.commonWalkingControlModules.configurations.WalkingControllerParameters;
-import us.ihmc.communication.AbstractNetworkProcessorNetworkingManager;
 import us.ihmc.communication.streamingData.GlobalDataProducer;
 import us.ihmc.darpaRoboticsChallenge.DRCRobotSDFLoader;
 import us.ihmc.darpaRoboticsChallenge.drcRobot.DRCRobotModel;
@@ -79,6 +77,8 @@ public class IcubRobotModel implements DRCRobotModel
 
    private final JaxbSDFLoader loader;
    
+   private final boolean runningOnRealRobot;
+   
    @Override
    public WholeBodyIkSolver createWholeBodyIkSolver()  {
       return null;
@@ -86,6 +86,7 @@ public class IcubRobotModel implements DRCRobotModel
 
    public IcubRobotModel(boolean runningOnRealRobot, boolean headless)
    {
+      this.runningOnRealRobot = runningOnRealRobot;
       jointMap = new IcubJointMap();
       physicalProperties = new IcubPhysicalProperties();
       sensorInformation = new IcubSensorInformation();
@@ -303,13 +304,13 @@ public class IcubRobotModel implements DRCRobotModel
    }
 
    @Override
-   public DRCSensorSuiteManager getSensorSuiteManager(URI rosCoreURI)
+   public DRCSensorSuiteManager getSensorSuiteManager()
    {
-      return new IcubSensorSuiteManager(getPPSTimestampOffsetProvider(), sensorInformation);
+      return new IcubSensorSuiteManager(getPPSTimestampOffsetProvider(), sensorInformation, createFullRobotModel(), runningOnRealRobot);
    }
 
    @Override
-   public HandCommandManager createHandCommandManager(AbstractNetworkProcessorNetworkingManager networkManager)
+   public HandCommandManager createHandCommandManager()
    {
       return null;
    }
