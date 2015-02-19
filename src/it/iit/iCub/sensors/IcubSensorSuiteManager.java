@@ -16,6 +16,7 @@ import us.ihmc.darpaRoboticsChallenge.networkProcessor.depthData.SCSPointCloudDa
 import us.ihmc.darpaRoboticsChallenge.sensors.DRCSensorSuiteManager;
 import us.ihmc.ihmcPerception.depthData.DepthDataFilter;
 import us.ihmc.ihmcPerception.depthData.RobotBoundingBoxes;
+import us.ihmc.ihmcPerception.depthData.RobotDepthDataFilter;
 import us.ihmc.sensorProcessing.parameters.DRCRobotSensorInformation;
 import us.ihmc.utilities.ros.PPSTimestampOffsetProvider;
 import us.ihmc.wholeBodyController.DRCHandType;
@@ -41,7 +42,7 @@ public class IcubSensorSuiteManager implements DRCSensorSuiteManager
       this.sdfFullRobotModel = sdfFullRobotModel;
       this.drcRobotDataReceiver = new RobotDataReceiver(sdfFullRobotModel, null, true);
       this.robotBoundingBoxes = new RobotBoundingBoxes(drcRobotDataReceiver, DRCHandType.NONE, sdfFullRobotModel);
-      this.lidarDataFilter = new DepthDataFilter(robotBoundingBoxes, sdfFullRobotModel);
+      this.lidarDataFilter = new RobotDepthDataFilter(robotBoundingBoxes, sdfFullRobotModel);
       this.useSimulatedSensors = useSimulatedSensors;
    }
    
