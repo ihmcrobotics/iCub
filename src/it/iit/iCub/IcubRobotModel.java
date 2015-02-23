@@ -310,7 +310,7 @@ public class IcubRobotModel implements DRCRobotModel
    }
 
    @Override
-   public HandCommandManager createHandCommandManager()
+   public SideDependentList<HandCommandManager> createHandCommandManager()
    {
       return null;
    }
