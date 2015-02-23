@@ -306,7 +306,7 @@ public class IcubRobotModel implements DRCRobotModel
    @Override
    public DRCSensorSuiteManager getSensorSuiteManager()
    {
-      return new IcubSensorSuiteManager(getPPSTimestampOffsetProvider(), sensorInformation, createFullRobotModel(), runningOnRealRobot);
+      return new IcubSensorSuiteManager(getPPSTimestampOffsetProvider(), sensorInformation, createFullRobotModel(), jointMap, runningOnRealRobot);
    }
 
    @Override

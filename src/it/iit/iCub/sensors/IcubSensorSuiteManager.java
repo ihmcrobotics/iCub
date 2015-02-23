@@ -20,6 +20,7 @@ import us.ihmc.ihmcPerception.depthData.RobotDepthDataFilter;
 import us.ihmc.sensorProcessing.parameters.DRCRobotSensorInformation;
 import us.ihmc.utilities.ros.PPSTimestampOffsetProvider;
 import us.ihmc.wholeBodyController.DRCHandType;
+import us.ihmc.wholeBodyController.DRCRobotJointMap;
 
 public class IcubSensorSuiteManager implements DRCSensorSuiteManager
 {
@@ -35,14 +36,14 @@ public class IcubSensorSuiteManager implements DRCSensorSuiteManager
    private final PPSTimestampOffsetProvider ppsTimestampOffsetProvider;
    private final DRCRobotSensorInformation sensorInformation;
 
-   public IcubSensorSuiteManager(PPSTimestampOffsetProvider ppsTimestampOffsetProvider, DRCRobotSensorInformation sensorInformation, SDFFullRobotModel sdfFullRobotModel, boolean useSimulatedSensors)
+   public IcubSensorSuiteManager(PPSTimestampOffsetProvider ppsTimestampOffsetProvider, DRCRobotSensorInformation sensorInformation, SDFFullRobotModel sdfFullRobotModel, DRCRobotJointMap jointMap, boolean useSimulatedSensors)
    {
       this.ppsTimestampOffsetProvider = ppsTimestampOffsetProvider;
       this.sensorInformation = sensorInformation;
       this.sdfFullRobotModel = sdfFullRobotModel;
       this.drcRobotDataReceiver = new RobotDataReceiver(sdfFullRobotModel, null, true);
       this.robotBoundingBoxes = new RobotBoundingBoxes(drcRobotDataReceiver, DRCHandType.NONE, sdfFullRobotModel);
-      this.lidarDataFilter = new RobotDepthDataFilter(robotBoundingBoxes, sdfFullRobotModel);
+      this.lidarDataFilter = new RobotDepthDataFilter(robotBoundingBoxes, sdfFullRobotModel, jointMap.getContactPointParameters().getFootContactPoints());
       this.useSimulatedSensors = useSimulatedSensors;
    }
    
