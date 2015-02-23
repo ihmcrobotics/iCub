@@ -235,6 +235,12 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
    }
 
    @Override
+   public double getDefaultStepLength()
+   {
+      return .18;
+   }
+
+   @Override
    public double getMinStepWidth()
    {
       return 0.2;
@@ -248,6 +254,30 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
 
    @Override
    public double getStepPitch()
+   {
+      return 0.0;
+   }
+
+   @Override
+   public double getMaxStepUp()
+   {
+      return 0.05;
+   }
+
+   @Override
+   public double getMaxStepDown()
+   {
+      return 0.05;
+   }
+
+   @Override
+   public double getMaxAngleTurnOutwards()
+   {
+      return 0.0;
+   }
+
+   @Override
+   public double getMaxAngleTurnInwards()
    {
       return 0.0;
    }
