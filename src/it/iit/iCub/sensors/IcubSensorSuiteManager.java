@@ -12,11 +12,10 @@ import us.ihmc.communication.packets.dataobjects.RobotConfigurationData;
 import us.ihmc.communication.producers.RobotPoseBuffer;
 import us.ihmc.communication.subscribers.RobotDataReceiver;
 import us.ihmc.darpaRoboticsChallenge.networkProcessor.camera.SCSCameraDataReceiver;
-import us.ihmc.darpaRoboticsChallenge.networkProcessor.depthData.SCSPointCloudDataReceiver;
+import us.ihmc.darpaRoboticsChallenge.networkProcessor.depthData.PointCloudDataReceiver;
+import us.ihmc.darpaRoboticsChallenge.networkProcessor.depthData.SCSCheatingPointCloudLidarReceiver;
 import us.ihmc.darpaRoboticsChallenge.sensors.DRCSensorSuiteManager;
-import us.ihmc.ihmcPerception.depthData.DepthDataFilter;
 import us.ihmc.ihmcPerception.depthData.RobotBoundingBoxes;
-import us.ihmc.ihmcPerception.depthData.RobotDepthDataFilter;
 import us.ihmc.sensorProcessing.parameters.DRCRobotSensorInformation;
 import us.ihmc.utilities.ros.PPSTimestampOffsetProvider;
 import us.ihmc.wholeBodyController.DRCHandType;
@@ -27,33 +26,27 @@ public class IcubSensorSuiteManager implements DRCSensorSuiteManager
    private final KryoLocalPacketCommunicator sensorSuitePacketCommunicator = new KryoLocalPacketCommunicator(new IHMCCommunicationKryoNetClassList(),PacketDestination.SENSOR_MANAGER.ordinal(), "ICub_SENSOR_MANAGER");
    private final AtomicSettableTimestampProvider timestampProvider = new AtomicSettableTimestampProvider();
    
-   private RobotPoseBuffer robotPoseBuffer;
-   private final SDFFullRobotModel sdfFullRobotModel;
-   private final DepthDataFilter lidarDataFilter;
+   private final RobotPoseBuffer robotPoseBuffer;
    private final RobotDataReceiver drcRobotDataReceiver;
-   private final RobotBoundingBoxes robotBoundingBoxes;
-   private final boolean useSimulatedSensors;
    private final PPSTimestampOffsetProvider ppsTimestampOffsetProvider;
-   private final DRCRobotSensorInformation sensorInformation;
+   private final PointCloudDataReceiver pointCloudDataReceiver;
 
    public IcubSensorSuiteManager(PPSTimestampOffsetProvider ppsTimestampOffsetProvider, DRCRobotSensorInformation sensorInformation, SDFFullRobotModel sdfFullRobotModel, DRCRobotJointMap jointMap, boolean useSimulatedSensors)
    {
       this.ppsTimestampOffsetProvider = ppsTimestampOffsetProvider;
-      this.sensorInformation = sensorInformation;
-      this.sdfFullRobotModel = sdfFullRobotModel;
       this.drcRobotDataReceiver = new RobotDataReceiver(sdfFullRobotModel, null, true);
-      this.robotBoundingBoxes = new RobotBoundingBoxes(drcRobotDataReceiver, DRCHandType.NONE, sdfFullRobotModel);
-      this.lidarDataFilter = new RobotDepthDataFilter(robotBoundingBoxes, sdfFullRobotModel, jointMap.getContactPointParameters().getFootContactPoints());
-      this.useSimulatedSensors = useSimulatedSensors;
+      RobotBoundingBoxes robotBoundingBoxes = new RobotBoundingBoxes(drcRobotDataReceiver, DRCHandType.NONE, sdfFullRobotModel);
+      this.robotPoseBuffer = new RobotPoseBuffer(sensorSuitePacketCommunicator, 10000, timestampProvider);
+      this.pointCloudDataReceiver = new PointCloudDataReceiver(robotBoundingBoxes, sdfFullRobotModel, jointMap, robotPoseBuffer, sensorSuitePacketCommunicator);
    }
    
    @Override
    public void initializeSimulatedSensors(PacketCommunicator scsSensorsPacketCommunicator)
    {
-      robotPoseBuffer = new RobotPoseBuffer(sensorSuitePacketCommunicator, 10000, timestampProvider);
       sensorSuitePacketCommunicator.attachListener(RobotConfigurationData.class, drcRobotDataReceiver);
       new SCSCameraDataReceiver(robotPoseBuffer, scsSensorsPacketCommunicator, sensorSuitePacketCommunicator, ppsTimestampOffsetProvider);
-      new SCSPointCloudDataReceiver(robotPoseBuffer, scsSensorsPacketCommunicator, sdfFullRobotModel, sensorInformation, ppsTimestampOffsetProvider, lidarDataFilter);
+      new SCSCheatingPointCloudLidarReceiver(scsSensorsPacketCommunicator, pointCloudDataReceiver);
+      pointCloudDataReceiver.start();
    }
 
    @Override
