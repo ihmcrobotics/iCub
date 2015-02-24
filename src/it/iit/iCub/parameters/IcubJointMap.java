@@ -70,7 +70,7 @@ public class IcubJointMap implements DRCRobotJointMap
 	{
 		if (!ENABLE_JOINT_VELOCITY_TORQUE_LIMITS) 
 		{
-         PrintTools.warn(IcubJointMap.class, "Running with torque and velocity limits disabled.");
+         PrintTools.info(IcubJointMap.class, "Running with torque and velocity limits disabled.");
 		}
 	}
 
