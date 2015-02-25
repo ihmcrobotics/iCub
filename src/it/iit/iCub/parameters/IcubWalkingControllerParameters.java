@@ -271,6 +271,12 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
    }
 
    @Override
+   public double getMaxSwingHeightFromStanceFoot()
+   {
+      return 0.2;
+   }
+
+   @Override
    public double getMaxAngleTurnOutwards()
    {
       return 0.0;
