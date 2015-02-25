@@ -45,8 +45,8 @@ public class IcubSensorSuiteManager implements DRCSensorSuiteManager
    public void initializeSimulatedSensors(PacketCommunicator scsSensorsPacketCommunicator)
    {
       sensorSuitePacketCommunicator.attachListener(RobotConfigurationData.class, drcRobotDataReceiver);
-      new SCSCameraDataReceiver(robotPoseBuffer, scsSensorsPacketCommunicator, sensorSuitePacketCommunicator, ppsTimestampOffsetProvider);
-      new SCSCheatingPointCloudLidarReceiver(robotBoundingBoxes, scsSensorsPacketCommunicator, pointCloudDataReceiver);
+      new SCSCameraDataReceiver(robotPoseBuffer, scsSensorsPacketCommunicator, sensorSuitePacketCommunicator, ppsTimestampOffsetProvider, null);
+      new SCSCheatingPointCloudLidarReceiver(robotBoundingBoxes, scsSensorsPacketCommunicator, pointCloudDataReceiver, null);
       pointCloudDataReceiver.start();
    }
 
