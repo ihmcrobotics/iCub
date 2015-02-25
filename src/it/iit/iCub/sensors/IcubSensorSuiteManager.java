@@ -30,14 +30,15 @@ public class IcubSensorSuiteManager implements DRCSensorSuiteManager
    private final RobotDataReceiver drcRobotDataReceiver;
    private final PPSTimestampOffsetProvider ppsTimestampOffsetProvider;
    private final PointCloudDataReceiver pointCloudDataReceiver;
+   private final RobotBoundingBoxes robotBoundingBoxes;
 
    public IcubSensorSuiteManager(PPSTimestampOffsetProvider ppsTimestampOffsetProvider, DRCRobotSensorInformation sensorInformation, SDFFullRobotModel sdfFullRobotModel, DRCRobotJointMap jointMap, boolean useSimulatedSensors)
    {
       this.ppsTimestampOffsetProvider = ppsTimestampOffsetProvider;
       this.drcRobotDataReceiver = new RobotDataReceiver(sdfFullRobotModel, null, true);
-      RobotBoundingBoxes robotBoundingBoxes = new RobotBoundingBoxes(drcRobotDataReceiver, DRCHandType.NONE, sdfFullRobotModel);
+      robotBoundingBoxes = new RobotBoundingBoxes(drcRobotDataReceiver, DRCHandType.NONE, sdfFullRobotModel);
       this.robotPoseBuffer = new RobotPoseBuffer(sensorSuitePacketCommunicator, 10000, timestampProvider);
-      this.pointCloudDataReceiver = new PointCloudDataReceiver(robotBoundingBoxes, sdfFullRobotModel, jointMap, robotPoseBuffer, sensorSuitePacketCommunicator);
+      this.pointCloudDataReceiver = new PointCloudDataReceiver(sdfFullRobotModel, jointMap, robotPoseBuffer, sensorSuitePacketCommunicator);
    }
    
    @Override
@@ -45,7 +46,7 @@ public class IcubSensorSuiteManager implements DRCSensorSuiteManager
    {
       sensorSuitePacketCommunicator.attachListener(RobotConfigurationData.class, drcRobotDataReceiver);
       new SCSCameraDataReceiver(robotPoseBuffer, scsSensorsPacketCommunicator, sensorSuitePacketCommunicator, ppsTimestampOffsetProvider);
-      new SCSCheatingPointCloudLidarReceiver(scsSensorsPacketCommunicator, pointCloudDataReceiver);
+      new SCSCheatingPointCloudLidarReceiver(robotBoundingBoxes, scsSensorsPacketCommunicator, pointCloudDataReceiver);
       pointCloudDataReceiver.start();
    }
 
