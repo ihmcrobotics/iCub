@@ -9,12 +9,14 @@ import us.ihmc.communication.packetCommunicator.interfaces.PacketCommunicator;
 import us.ihmc.communication.packets.PacketDestination;
 import us.ihmc.communication.packets.dataobjects.RobotConfigurationData;
 import us.ihmc.communication.producers.RobotConfigurationDataBuffer;
+import us.ihmc.darpaRoboticsChallenge.networkProcessor.camera.CameraDataReceiver;
 import us.ihmc.darpaRoboticsChallenge.networkProcessor.camera.SCSCameraDataReceiver;
 import us.ihmc.darpaRoboticsChallenge.networkProcessor.depthData.PointCloudDataReceiver;
 import us.ihmc.darpaRoboticsChallenge.networkProcessor.depthData.SCSCheatingPointCloudLidarReceiver;
 import us.ihmc.darpaRoboticsChallenge.sensors.DRCSensorSuiteManager;
 import us.ihmc.sensorProcessing.parameters.DRCRobotSensorInformation;
 import us.ihmc.utilities.ros.PPSTimestampOffsetProvider;
+import us.ihmc.wholeBodyController.DRCHandType;
 import us.ihmc.wholeBodyController.DRCRobotJointMap;
 
 public class IcubSensorSuiteManager implements DRCSensorSuiteManager
@@ -34,7 +36,7 @@ public class IcubSensorSuiteManager implements DRCSensorSuiteManager
       this.modelFactory = modelFactory;
       this.sensorInformation = sensorInformation;
       this.ppsTimestampOffsetProvider = ppsTimestampOffsetProvider;
-      this.pointCloudDataReceiver = new PointCloudDataReceiver(modelFactory, ppsTimestampOffsetProvider, jointMap, robotConfigurationDataBuffer,
+      this.pointCloudDataReceiver = new PointCloudDataReceiver(modelFactory, DRCHandType.NONE, ppsTimestampOffsetProvider, jointMap, robotConfigurationDataBuffer,
             sensorSuitePacketCommunicator);
    }
 
@@ -42,8 +44,9 @@ public class IcubSensorSuiteManager implements DRCSensorSuiteManager
    public void initializeSimulatedSensors(PacketCommunicator scsSensorsPacketCommunicator)
    {
       sensorSuitePacketCommunicator.attachListener(RobotConfigurationData.class, robotConfigurationDataBuffer);
-      new SCSCameraDataReceiver(modelFactory, sensorInformation.getCameraParameters(0).getSensorNameInSdf(), robotConfigurationDataBuffer, scsSensorsPacketCommunicator, sensorSuitePacketCommunicator, ppsTimestampOffsetProvider);
+      CameraDataReceiver cameraDataReceiver = new SCSCameraDataReceiver(modelFactory, sensorInformation.getCameraParameters(0).getSensorNameInSdf(), robotConfigurationDataBuffer, scsSensorsPacketCommunicator, sensorSuitePacketCommunicator, ppsTimestampOffsetProvider);
       new SCSCheatingPointCloudLidarReceiver(sensorInformation.getLidarParameters(0).getSensorNameInSdf(), scsSensorsPacketCommunicator, pointCloudDataReceiver);
+      cameraDataReceiver.start();
       pointCloudDataReceiver.start();
    }
 
