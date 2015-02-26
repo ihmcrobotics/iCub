@@ -118,6 +118,12 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
    }
 
    @Override
+   public boolean isNeckPositionControlled()
+   {
+      return false;
+   }
+
+   @Override
    public String[] getDefaultHeadOrientationControlJointNames()
    {
       return new String[] { jointMap.getNeckJointName(NeckJointName.LOWER_NECK_PITCH), jointMap.getNeckJointName(NeckJointName.NECK_ROLL),
