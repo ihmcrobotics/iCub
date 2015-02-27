@@ -364,4 +364,12 @@ public class IcubRobotModel implements DRCRobotModel
    {
       return null;
    }
+
+   @Override
+   public Class<?> getSpectatorInterfaceClass()
+   {
+      
+      
+      return null;
+   }
 }
