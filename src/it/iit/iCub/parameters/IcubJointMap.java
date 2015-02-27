@@ -357,4 +357,10 @@ public class IcubJointMap implements DRCRobotJointMap
    {
       return nameOfJointsBeforeHands.get(robotSide);
    }
+
+   @Override
+   public String[] getPositionControlledJointsForSimulation()
+   {
+      return null;
+   }
 }
