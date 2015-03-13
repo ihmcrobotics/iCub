@@ -379,4 +379,9 @@ public class IcubRobotModel implements DRCRobotModel
    {
       return null;
    }
+
+   @Override public String getSimpleRobotName()
+   {
+      return "iCub";
+   }
 }
