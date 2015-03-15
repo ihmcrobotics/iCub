@@ -15,6 +15,7 @@ import java.io.InputStream;
 import us.ihmc.SdfLoader.GeneralizedSDFRobotModel;
 import us.ihmc.SdfLoader.JaxbSDFLoader;
 import us.ihmc.SdfLoader.SDFFullRobotModel;
+import us.ihmc.SdfLoader.SDFJointNameMap;
 import us.ihmc.SdfLoader.SDFRobot;
 import us.ihmc.commonWalkingControlModules.configurations.ArmControllerParameters;
 import us.ihmc.commonWalkingControlModules.configurations.CapturePointPlannerParameters;
@@ -80,8 +81,11 @@ public class IcubRobotModel implements DRCRobotModel
    
    private final boolean runningOnRealRobot;
    
+   private boolean enableJointDamping = true;
+
    @Override
-   public WholeBodyIkSolver createWholeBodyIkSolver()  {
+   public WholeBodyIkSolver createWholeBodyIkSolver()  
+   {
       return null;
    }
 
@@ -243,6 +247,18 @@ public class IcubRobotModel implements DRCRobotModel
    {
       System.err.println("Joint Damping not setup for iCub. IcubRobotModel setJointDamping!");
    }
+   
+   @Override
+   public void setEnableJointDamping(boolean enableJointDamping)
+   {
+      this.enableJointDamping  = enableJointDamping;
+   }
+
+   @Override
+   public boolean getEnableJointDamping()
+   {
+      return enableJointDamping;
+   }
 
    @Override
    public HandModel getHandModel()
@@ -270,8 +286,12 @@ public class IcubRobotModel implements DRCRobotModel
 
    @Override
    public SDFRobot createSdfRobot(boolean createCollisionMeshes)
-   {
-      return loader.createRobot(getJointMap(), createCollisionMeshes);
+   { 
+      boolean useCollisionMeshes = false;
+      boolean enableTorqueVelocityLimits = false;
+      SDFJointNameMap jointMap = getJointMap();
+      boolean enableJointDamping = getEnableJointDamping();
+      return loader.createRobot(jointMap.getModelName(), jointMap, useCollisionMeshes, enableTorqueVelocityLimits, enableJointDamping);
    }
 
    @Override
