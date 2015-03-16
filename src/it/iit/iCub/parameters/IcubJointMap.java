@@ -26,7 +26,7 @@ import static us.ihmc.utilities.humanoidRobot.partNames.ArmJointName.ELBOW_YAW;
 import static us.ihmc.utilities.humanoidRobot.partNames.ArmJointName.SHOULDER_PITCH;
 import static us.ihmc.utilities.humanoidRobot.partNames.ArmJointName.SHOULDER_ROLL;
 import static us.ihmc.utilities.humanoidRobot.partNames.ArmJointName.SHOULDER_YAW;
-import static us.ihmc.utilities.humanoidRobot.partNames.ArmJointName.WRIST_PITCH;
+import static us.ihmc.utilities.humanoidRobot.partNames.ArmJointName.FIRST_WRIST_PITCH;
 import static us.ihmc.utilities.humanoidRobot.partNames.ArmJointName.WRIST_ROLL;
 import static us.ihmc.utilities.humanoidRobot.partNames.LegJointName.ANKLE_PITCH;
 import static us.ihmc.utilities.humanoidRobot.partNames.LegJointName.ANKLE_ROLL;
@@ -79,7 +79,7 @@ public class IcubJointMap implements DRCRobotJointMap
 	public static final String headName = "head";
 
 	private final LegJointName[] legJoints = { HIP_PITCH, HIP_ROLL, HIP_YAW, KNEE, ANKLE_PITCH, ANKLE_ROLL };
-	private final ArmJointName[] armJoints = { SHOULDER_PITCH, SHOULDER_ROLL, SHOULDER_YAW, ELBOW_PITCH, ELBOW_YAW, WRIST_PITCH, WRIST_ROLL };
+	private final ArmJointName[] armJoints = { SHOULDER_PITCH, SHOULDER_ROLL, SHOULDER_YAW, ELBOW_PITCH, ELBOW_YAW, FIRST_WRIST_PITCH, WRIST_ROLL };
 	private final SpineJointName[] spineJoints = { SPINE_YAW, SPINE_ROLL, SPINE_PITCH };
 	private final NeckJointName[] neckJoints = { LOWER_NECK_PITCH, NECK_ROLL, NECK_YAW };
 
@@ -117,7 +117,7 @@ public class IcubJointMap implements DRCRobotJointMap
 			armJointNames.put(forcedSideJointNames[l_shoulder_yaw], new Pair<RobotSide, ArmJointName>(robotSide, SHOULDER_YAW));
 			armJointNames.put(forcedSideJointNames[l_elbow], new Pair<RobotSide, ArmJointName>(robotSide, ELBOW_PITCH));
 			armJointNames.put(forcedSideJointNames[l_wrist_prosup], new Pair<RobotSide, ArmJointName>(robotSide, ELBOW_YAW));
-			armJointNames.put(forcedSideJointNames[l_wrist_pitch], new Pair<RobotSide, ArmJointName>(robotSide, WRIST_PITCH));
+			armJointNames.put(forcedSideJointNames[l_wrist_pitch], new Pair<RobotSide, ArmJointName>(robotSide, FIRST_WRIST_PITCH));
 			armJointNames.put(forcedSideJointNames[l_wrist_yaw], new Pair<RobotSide, ArmJointName>(robotSide, WRIST_ROLL));
 
 			String prefix = getRobotSidePrefix(robotSide);
