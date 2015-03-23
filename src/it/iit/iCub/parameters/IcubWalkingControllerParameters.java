@@ -70,6 +70,12 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
    }
 
    @Override
+   public double getTimeToGetPreparedForLocomotion()
+   {
+      return 0.0;
+   }
+
+   @Override
    public boolean doToeOffIfPossible()
    {
       return true;
@@ -115,6 +121,12 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
    public double getHeelTouchdownAngle()
    {
       return Math.toRadians(-20.0);
+   }
+
+   @Override
+   public boolean allowShrinkingSingleSupportFootPolygon()
+   {
+      return false;
    }
 
    @Override
