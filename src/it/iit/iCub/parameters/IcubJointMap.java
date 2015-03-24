@@ -60,6 +60,8 @@ import us.ihmc.utilities.math.geometry.RigidBodyTransform;
 import us.ihmc.utilities.robotSide.RobotSide;
 import us.ihmc.utilities.robotSide.SideDependentList;
 import us.ihmc.wholeBodyController.DRCRobotJointMap;
+import us.ihmc.yoUtilities.controllers.YoPDGains;
+import us.ihmc.yoUtilities.dataStructure.registry.YoVariableRegistry;
 
 public class IcubJointMap implements DRCRobotJointMap 
 {
@@ -360,6 +362,12 @@ public class IcubJointMap implements DRCRobotJointMap
 
    @Override
    public String[] getPositionControlledJointsForSimulation()
+   {
+      return null;
+   }
+
+   @Override
+   public List<Pair<String, YoPDGains>> getPassiveJointNameWithGains(YoVariableRegistry registry)
    {
       return null;
    }
