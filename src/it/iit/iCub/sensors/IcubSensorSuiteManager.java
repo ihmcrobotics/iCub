@@ -12,7 +12,7 @@ import us.ihmc.communication.producers.RobotConfigurationDataBuffer;
 import us.ihmc.darpaRoboticsChallenge.networkProcessor.camera.CameraDataReceiver;
 import us.ihmc.darpaRoboticsChallenge.networkProcessor.camera.SCSCameraDataReceiver;
 import us.ihmc.darpaRoboticsChallenge.networkProcessor.depthData.PointCloudDataReceiver;
-import us.ihmc.darpaRoboticsChallenge.networkProcessor.depthData.SCSCheatingPointCloudLidarReceiver;
+import us.ihmc.darpaRoboticsChallenge.networkProcessor.depthData.SCSPointCloudLidarReceiver;
 import us.ihmc.darpaRoboticsChallenge.sensors.DRCSensorSuiteManager;
 import us.ihmc.sensorProcessing.parameters.DRCRobotSensorInformation;
 import us.ihmc.utilities.ros.PPSTimestampOffsetProvider;
@@ -45,7 +45,7 @@ public class IcubSensorSuiteManager implements DRCSensorSuiteManager
    {
       sensorSuitePacketCommunicator.attachListener(RobotConfigurationData.class, robotConfigurationDataBuffer);
       CameraDataReceiver cameraDataReceiver = new SCSCameraDataReceiver(modelFactory, sensorInformation.getCameraParameters(0).getSensorNameInSdf(), robotConfigurationDataBuffer, scsSensorsPacketCommunicator, sensorSuitePacketCommunicator, ppsTimestampOffsetProvider);
-      new SCSCheatingPointCloudLidarReceiver(sensorInformation.getLidarParameters(0).getSensorNameInSdf(), scsSensorsPacketCommunicator, pointCloudDataReceiver);
+      new SCSPointCloudLidarReceiver(sensorInformation.getLidarParameters(0).getSensorNameInSdf(), scsSensorsPacketCommunicator, pointCloudDataReceiver);
       cameraDataReceiver.start();
       pointCloudDataReceiver.start();
    }
