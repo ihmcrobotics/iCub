@@ -113,4 +113,10 @@ public class IcubCapturePointPlannerParameters implements CapturePointPlannerPar
 		return 0.03;
 	}
 
+   @Override
+   public boolean useTerribleHackToReduceICPVelocityAtTheEndOfTransfer()
+   {
+      return true;
+   }
+
 }
