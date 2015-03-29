@@ -71,6 +71,13 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
    }
 
    @Override
+   public double getOmega0()
+   {
+      // TODO probably need to be tuned.
+      return 3.4;
+   }
+
+   @Override
    public double getTimeToGetPreparedForLocomotion()
    {
       return 0.0;
