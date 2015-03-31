@@ -1,14 +1,15 @@
 package it.iit.iCub.sensors;
 
+import java.io.IOException;
 import java.net.URI;
 
 import us.ihmc.SdfLoader.SDFFullRobotModelFactory;
 import us.ihmc.communication.kryo.IHMCCommunicationKryoNetClassList;
-import us.ihmc.communication.packetCommunicator.KryoLocalPacketCommunicator;
+import us.ihmc.communication.packetCommunicator.PacketCommunicatorMock;
 import us.ihmc.communication.packetCommunicator.interfaces.PacketCommunicator;
-import us.ihmc.communication.packets.PacketDestination;
 import us.ihmc.communication.packets.dataobjects.RobotConfigurationData;
 import us.ihmc.communication.producers.RobotConfigurationDataBuffer;
+import us.ihmc.communication.util.NetworkPorts;
 import us.ihmc.darpaRoboticsChallenge.networkProcessor.camera.CameraDataReceiver;
 import us.ihmc.darpaRoboticsChallenge.networkProcessor.camera.SCSCameraDataReceiver;
 import us.ihmc.darpaRoboticsChallenge.networkProcessor.depthData.PointCloudDataReceiver;
@@ -21,8 +22,8 @@ import us.ihmc.wholeBodyController.DRCRobotJointMap;
 
 public class IcubSensorSuiteManager implements DRCSensorSuiteManager
 {
-   private final KryoLocalPacketCommunicator sensorSuitePacketCommunicator = new KryoLocalPacketCommunicator(new IHMCCommunicationKryoNetClassList(),
-         PacketDestination.SENSOR_MANAGER.ordinal(), "ICub_SENSOR_MANAGER");
+   private final PacketCommunicatorMock sensorSuitePacketCommunicator = PacketCommunicatorMock.createIntraprocessPacketCommunicator(NetworkPorts.SENSOR_MANAGER,
+         new IHMCCommunicationKryoNetClassList());
 
    private final RobotConfigurationDataBuffer robotConfigurationDataBuffer = new RobotConfigurationDataBuffer();
    private final PPSTimestampOffsetProvider ppsTimestampOffsetProvider;
@@ -57,10 +58,11 @@ public class IcubSensorSuiteManager implements DRCSensorSuiteManager
    }
 
    @Override
-   public PacketCommunicator getProcessedSensorsCommunicator()
+   public void connect() throws IOException
    {
-      return sensorSuitePacketCommunicator;
+      sensorSuitePacketCommunicator.connect();
    }
+
 
    //   @Override
    //   public PacketCommunicator createSensorModule(URI sensorURI)
