@@ -5,8 +5,8 @@ import java.net.URI;
 
 import us.ihmc.SdfLoader.SDFFullRobotModelFactory;
 import us.ihmc.communication.kryo.IHMCCommunicationKryoNetClassList;
+import us.ihmc.communication.net.ObjectCommunicator;
 import us.ihmc.communication.packetCommunicator.PacketCommunicatorMock;
-import us.ihmc.communication.packetCommunicator.interfaces.PacketCommunicator;
 import us.ihmc.communication.packets.dataobjects.RobotConfigurationData;
 import us.ihmc.communication.producers.RobotConfigurationDataBuffer;
 import us.ihmc.communication.util.NetworkPorts;
@@ -42,7 +42,7 @@ public class IcubSensorSuiteManager implements DRCSensorSuiteManager
    }
 
    @Override
-   public void initializeSimulatedSensors(PacketCommunicator scsSensorsPacketCommunicator)
+   public void initializeSimulatedSensors(ObjectCommunicator scsSensorsPacketCommunicator)
    {
       sensorSuitePacketCommunicator.attachListener(RobotConfigurationData.class, robotConfigurationDataBuffer);
       CameraDataReceiver cameraDataReceiver = new SCSCameraDataReceiver(modelFactory, sensorInformation.getCameraParameters(0).getSensorNameInSdf(), robotConfigurationDataBuffer, scsSensorsPacketCommunicator, sensorSuitePacketCommunicator, ppsTimestampOffsetProvider);
