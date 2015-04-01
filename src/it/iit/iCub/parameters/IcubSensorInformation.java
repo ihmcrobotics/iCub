@@ -16,6 +16,7 @@ import us.ihmc.utilities.robotSide.SideDependentList;
 
 public class IcubSensorInformation implements DRCRobotSensorInformation
 {
+   
    /**
     * Force Sensor Parameters
     */
@@ -186,4 +187,10 @@ public class IcubSensorInformation implements DRCRobotSensorInformation
 	{
 		return false;
 	}
+
+   @Override
+   public SideDependentList<String> getFeetContactSensorNames()
+   {
+      return null;
+   }
 }
