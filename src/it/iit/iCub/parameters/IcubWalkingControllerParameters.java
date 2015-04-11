@@ -831,7 +831,13 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
    }
 
    @Override
-   public double getMaxICPErrorBeforeSingleSupport()
+   public double getMaxICPErrorBeforeSingleSupportX()
+   {
+      return 0.035;
+   }
+   
+   @Override
+   public double getMaxICPErrorBeforeSingleSupportY()
    {
       return 0.035;
    }
