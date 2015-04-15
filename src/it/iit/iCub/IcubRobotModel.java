@@ -11,6 +11,7 @@ import it.iit.iCub.parameters.IcubWalkingControllerParameters;
 import it.iit.iCub.sensors.IcubSensorSuiteManager;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import us.ihmc.SdfLoader.GeneralizedSDFRobotModel;
 import us.ihmc.SdfLoader.JaxbSDFLoader;
@@ -404,6 +405,12 @@ public class IcubRobotModel implements DRCRobotModel
    @Override public String getSimpleRobotName()
    {
       return "iCub";
+   }
+   
+   @Override
+   public SideDependentList<ArrayList<String>> getActuatableFingerJointNames()
+   {
+      return new SideDependentList<ArrayList<String>>();
    }
 
    @Override
