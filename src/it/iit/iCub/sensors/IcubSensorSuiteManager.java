@@ -37,7 +37,7 @@ public class IcubSensorSuiteManager implements DRCSensorSuiteManager
       this.modelFactory = modelFactory;
       this.sensorInformation = sensorInformation;
       this.ppsTimestampOffsetProvider = ppsTimestampOffsetProvider;
-      this.pointCloudDataReceiver = new PointCloudDataReceiver(modelFactory, DRCHandType.NONE, ppsTimestampOffsetProvider, jointMap, robotConfigurationDataBuffer,
+      this.pointCloudDataReceiver = new PointCloudDataReceiver(modelFactory, null, DRCHandType.NONE, ppsTimestampOffsetProvider, jointMap, robotConfigurationDataBuffer,
             sensorSuitePacketCommunicator);
    }
 
