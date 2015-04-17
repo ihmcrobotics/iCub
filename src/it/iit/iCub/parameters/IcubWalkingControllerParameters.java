@@ -753,7 +753,7 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
       double maxLinearJerk = runningOnRealRobot ? 150.0 : Double.POSITIVE_INFINITY;
       double maxAngularAcceleration = runningOnRealRobot ? 100.0 : Double.POSITIVE_INFINITY;
       double maxAngularJerk = runningOnRealRobot ? 1500.0 : Double.POSITIVE_INFINITY;
-      
+
       gains.setPositionProportionalGains(kp, kp);
       gains.setPositionDampingRatio(zetaXYZ);
       gains.setPositionMaxAccelerationAndJerk(maxLinearAcceleration, maxLinearJerk);
@@ -835,7 +835,7 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
    {
       return 0.035;
    }
-   
+
    @Override
    public double getMaxICPErrorBeforeSingleSupportY()
    {
@@ -858,32 +858,31 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
    @Override
    public double minimumHeightBetweenAnkleAndPelvisForHeightAdjustment()
    {
-      
-      
       return 0;
    }
 
    @Override
    public double nominalHeightBetweenAnkleAndPelvisForHeightAdjustment()
    {
-      
-      
       return 0;
    }
 
    @Override
    public double maximumHeightBetweenAnkleAndPelvisForHeightAdjustment()
    {
-      
-      
       return 0;
    }
 
    @Override
    public double pelvisToAnkleThresholdForWalking()
    {
-      
-      
       return 0;
+   }
+
+   /** {@inheritDoc} */
+   @Override
+   public boolean useICPPlannerHackN13()
+   {
+      return true;
    }
 }
