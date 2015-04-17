@@ -842,6 +842,13 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
       return 0.035;
    }
 
+   /** {@inheritDoc} */
+   @Override
+   public double getDurationToCancelOutDesiredICPVelocityWhenStuckInTransfer()
+   {
+      return Double.POSITIVE_INFINITY;
+   }
+
    @Override
    public boolean finishSingleSupportWhenICPPlannerIsDone()
    {
