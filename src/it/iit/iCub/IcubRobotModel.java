@@ -37,6 +37,7 @@ import us.ihmc.ihmcPerception.depthData.CollisionBoxProvider;
 import us.ihmc.multicastLogDataProtocol.modelLoaders.LogModelProvider;
 import us.ihmc.multicastLogDataProtocol.modelLoaders.SDFLogModelProvider;
 import us.ihmc.pathGeneration.footstepPlanner.FootstepPlanningParameterization;
+import us.ihmc.pathGeneration.footstepSnapper.FootstepSnappingParameters;
 import us.ihmc.robotDataCommunication.logger.LogSettings;
 import us.ihmc.sensorProcessing.parameters.DRCRobotSensorInformation;
 import us.ihmc.sensorProcessing.stateEstimation.StateEstimatorParameters;
@@ -414,7 +415,13 @@ public class IcubRobotModel implements DRCRobotModel
    {
       return null;
    }
-   
+
+   @Override
+   public FootstepSnappingParameters getSnappingParameters()
+   {
+      return null;
+   }
+
    @Override
    public LinkedHashMap<NeckJointName, Pair<Double, Double>> getSliderBoardControlledNeckJointsWithLimits()
    {
