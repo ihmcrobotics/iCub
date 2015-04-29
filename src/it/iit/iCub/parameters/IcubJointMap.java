@@ -371,4 +371,10 @@ public class IcubJointMap implements DRCRobotJointMap
    {
       return null;
    }
+
+   @Override
+   public String getFullSdfPelvisName()
+   {
+      return pelvisName;
+   }
 }
