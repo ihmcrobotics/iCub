@@ -373,7 +373,7 @@ public class IcubJointMap implements DRCRobotJointMap
    }
 
    @Override
-   public String getFullSdfPelvisName()
+   public String getUnsanitizedRootJointInSdf()
    {
       return pelvisName;
    }
