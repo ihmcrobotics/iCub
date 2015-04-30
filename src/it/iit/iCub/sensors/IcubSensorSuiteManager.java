@@ -17,7 +17,6 @@ import us.ihmc.darpaRoboticsChallenge.networkProcessor.depthData.SCSPointCloudLi
 import us.ihmc.darpaRoboticsChallenge.sensors.DRCSensorSuiteManager;
 import us.ihmc.sensorProcessing.parameters.DRCRobotSensorInformation;
 import us.ihmc.utilities.ros.PPSTimestampOffsetProvider;
-import us.ihmc.wholeBodyController.DRCHandType;
 import us.ihmc.wholeBodyController.DRCRobotJointMap;
 
 public class IcubSensorSuiteManager implements DRCSensorSuiteManager
@@ -37,7 +36,7 @@ public class IcubSensorSuiteManager implements DRCSensorSuiteManager
       this.modelFactory = modelFactory;
       this.sensorInformation = sensorInformation;
       this.ppsTimestampOffsetProvider = ppsTimestampOffsetProvider;
-      this.pointCloudDataReceiver = new PointCloudDataReceiver(modelFactory, null, DRCHandType.NONE, ppsTimestampOffsetProvider, jointMap, robotConfigurationDataBuffer,
+      this.pointCloudDataReceiver = new PointCloudDataReceiver(modelFactory, null, ppsTimestampOffsetProvider, jointMap, robotConfigurationDataBuffer,
             sensorSuitePacketCommunicator);
    }
 
