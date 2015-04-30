@@ -9,6 +9,7 @@ import us.ihmc.sensorProcessing.parameters.DRCRobotLidarParameters;
 import us.ihmc.sensorProcessing.parameters.DRCRobotPointCloudParameters;
 import us.ihmc.sensorProcessing.parameters.DRCRobotSensorInformation;
 import us.ihmc.sensorProcessing.parameters.DRCRobotSensorParameters;
+import us.ihmc.utilities.Triplet;
 import us.ihmc.utilities.math.geometry.ReferenceFrame;
 import us.ihmc.utilities.math.geometry.RigidBodyTransform;
 import us.ihmc.utilities.robotSide.RobotSide;
@@ -192,5 +193,11 @@ public class IcubSensorInformation implements DRCRobotSensorInformation
    public SideDependentList<String> getFeetContactSensorNames()
    {
       return new SideDependentList<String>();
+   }
+
+   @Override
+   public ArrayList<Triplet<String, String, RigidBodyTransform>> getStaticTransformsForRos()
+   {
+      return null;
    }
 }
