@@ -93,6 +93,12 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
    }
 
    @Override
+   public boolean checkTrailingLegJacobianDeterminantToTriggerToeOff()
+   {
+      return true;
+   }
+
+   @Override
    public boolean checkECMPLocationToTriggerToeOff()
    {
       return true;
