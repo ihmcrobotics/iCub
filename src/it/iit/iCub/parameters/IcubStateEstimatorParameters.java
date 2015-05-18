@@ -5,6 +5,7 @@ import us.ihmc.sensorProcessing.simulatedSensors.SensorNoiseParameters;
 import us.ihmc.sensorProcessing.stateEstimation.FootSwitchType;
 import us.ihmc.sensorProcessing.stateEstimation.StateEstimatorParameters;
 import us.ihmc.utilities.Pair;
+import us.ihmc.utilities.robotSide.SideDependentList;
 import us.ihmc.yoUtilities.dataStructure.registry.YoVariableRegistry;
 import us.ihmc.yoUtilities.dataStructure.variable.DoubleYoVariable;
 
@@ -41,7 +42,7 @@ public class IcubStateEstimatorParameters implements StateEstimatorParameters
       DoubleYoVariable jointVelocityAlphaFilter = sensorProcessing.createAlphaFilter("jointVelocityAlphaFilter", defaultFilterBreakFrequency);
       DoubleYoVariable jointVelocitySlopTime = new DoubleYoVariable("jointBacklashSlopTime", registry);
       jointVelocitySlopTime.set(jointVelocitySlopTimeForBacklashCompensation);
-      
+
       DoubleYoVariable orientationAlphaFilter = sensorProcessing.createAlphaFilter("orientationAlphaFilter", defaultFilterBreakFrequency);
       DoubleYoVariable angularVelocityAlphaFilter = sensorProcessing.createAlphaFilter("angularVelocityAlphaFilter", defaultFilterBreakFrequency);
       DoubleYoVariable linearAccelerationAlphaFilter = sensorProcessing.createAlphaFilter("linearAccelerationAlphaFilter", defaultFilterBreakFrequency);
@@ -233,15 +234,23 @@ public class IcubStateEstimatorParameters implements StateEstimatorParameters
       return 0;
    }
 
-@Override
-public double getContactThresholdHeight() {
-	// TODO Auto-generated method stub
-	return 0;
-}
+   @Override
+   public double getContactThresholdHeight()
+   {
+      // TODO Auto-generated method stub
+      return 0;
+   }
 
-@Override
-public FootSwitchType getFootSwitchType() {
-	// TODO Auto-generated method stub
-	return null;
-}
+   @Override
+   public FootSwitchType getFootSwitchType()
+   {
+      // TODO Auto-generated method stub
+      return null;
+   }
+
+   @Override
+   public SideDependentList<String> getWristForceSensorNames()
+   {
+      return null;
+   }
 }
