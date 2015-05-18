@@ -249,6 +249,12 @@ public class IcubStateEstimatorParameters implements StateEstimatorParameters
    }
 
    @Override
+   public boolean requestWristForceSensorCalibrationAtStart()
+   {
+      return false;
+   }
+
+   @Override
    public SideDependentList<String> getWristForceSensorNames()
    {
       return null;
