@@ -210,6 +210,12 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
       return maximumHeightAboveGround;
    }
 
+   @Override
+   public double defaultOffsetHeightAboveAnkle()
+   {
+      return 0.0;
+   }
+
    public void setNominalHeightAboveAnkle(double nominalHeightAboveAnkle)
    {
       this.nominalHeightAboveGround = nominalHeightAboveAnkle;
