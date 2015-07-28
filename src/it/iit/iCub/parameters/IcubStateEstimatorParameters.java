@@ -4,7 +4,7 @@ import us.ihmc.sensorProcessing.sensorProcessors.SensorProcessing;
 import us.ihmc.sensorProcessing.simulatedSensors.SensorNoiseParameters;
 import us.ihmc.sensorProcessing.stateEstimation.FootSwitchType;
 import us.ihmc.sensorProcessing.stateEstimation.StateEstimatorParameters;
-import us.ihmc.utilities.Pair;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import us.ihmc.utilities.robotSide.SideDependentList;
 import us.ihmc.yoUtilities.dataStructure.registry.YoVariableRegistry;
 import us.ihmc.yoUtilities.dataStructure.variable.DoubleYoVariable;
@@ -214,7 +214,7 @@ public class IcubStateEstimatorParameters implements StateEstimatorParameters
    }
 
    @Override
-   public Pair<String, String> getIMUsForSpineJointVelocityEstimation()
+   public ImmutablePair<String, String> getIMUsForSpineJointVelocityEstimation()
    {
       // TODO For Valkyrie. Probably have to make more generic.
       return null;

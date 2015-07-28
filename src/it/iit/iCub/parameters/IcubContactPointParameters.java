@@ -12,7 +12,7 @@ import javax.vecmath.Vector3d;
 
 import us.ihmc.commonWalkingControlModules.highLevelHumanoidControl.factories.ContactableBodiesFactory;
 import us.ihmc.simulationconstructionset.util.LinearGroundContactModel;
-import us.ihmc.utilities.Pair;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import us.ihmc.utilities.math.geometry.RigidBodyTransform;
 import us.ihmc.utilities.robotSide.RobotSide;
 import us.ihmc.utilities.robotSide.SideDependentList;
@@ -23,7 +23,7 @@ public class IcubContactPointParameters extends DRCRobotContactPointParameters
 {
    private final ContactableBodiesFactory contactableBodiesFactory = new ContactableBodiesFactory();
 
-   private final List<Pair<String, Vector3d>> jointNameGroundContactPointMap = new ArrayList<Pair<String, Vector3d>>();
+   private final List<ImmutablePair<String, Vector3d>> jointNameGroundContactPointMap = new ArrayList<ImmutablePair<String, Vector3d>>();
    private final SideDependentList<ArrayList<Point2d>> footGroundContactPoints = new SideDependentList<>();
 
    public IcubContactPointParameters(DRCRobotJointMap jointMap)
@@ -33,20 +33,20 @@ public class IcubContactPointParameters extends DRCRobotContactPointParameters
          footGroundContactPoints.put(robotSide, new ArrayList<Point2d>());
          RigidBodyTransform ankleToSoleFrame = IcubPhysicalProperties.getAnkleToSoleFrameTransform(robotSide);
 
-         ArrayList<Pair<String, Point2d>> footGCs = new ArrayList<>();
+         ArrayList<ImmutablePair<String, Point2d>> footGCs = new ArrayList<>();
          String jointBeforeFootName = jointMap.getJointBeforeFootName(robotSide);
-         footGCs.add(new Pair<String, Point2d>(jointBeforeFootName, new Point2d(footLength / 2.0, -footWidth / 2.0)));
-         footGCs.add(new Pair<String, Point2d>(jointBeforeFootName, new Point2d(footLength / 2.0, footWidth / 2.0)));
-         footGCs.add(new Pair<String, Point2d>(jointBeforeFootName, new Point2d(-footLength / 2.0, -footWidth / 2.0)));
-         footGCs.add(new Pair<String, Point2d>(jointBeforeFootName, new Point2d(-footLength / 2.0, footWidth / 2.0)));
+         footGCs.add(new ImmutablePair<String, Point2d>(jointBeforeFootName, new Point2d(footLength / 2.0, -footWidth / 2.0)));
+         footGCs.add(new ImmutablePair<String, Point2d>(jointBeforeFootName, new Point2d(footLength / 2.0, footWidth / 2.0)));
+         footGCs.add(new ImmutablePair<String, Point2d>(jointBeforeFootName, new Point2d(-footLength / 2.0, -footWidth / 2.0)));
+         footGCs.add(new ImmutablePair<String, Point2d>(jointBeforeFootName, new Point2d(-footLength / 2.0, footWidth / 2.0)));
 
-         for (Pair<String, Point2d> footGC : footGCs)
+         for (ImmutablePair<String, Point2d> footGC : footGCs)
          {
-            footGroundContactPoints.get(robotSide).add(footGC.second());
+            footGroundContactPoints.get(robotSide).add(footGC.getRight());
 
-            Point3d gcOffset = new Point3d(footGC.second().getX(), footGC.second().getY(), 0.0);
+            Point3d gcOffset = new Point3d(footGC.getRight().getX(), footGC.getRight().getY(), 0.0);
             ankleToSoleFrame.transform(gcOffset);
-            jointNameGroundContactPointMap.add(new Pair<String, Vector3d>(footGC.first(), new Vector3d(gcOffset)));
+            jointNameGroundContactPointMap.add(new ImmutablePair<String, Vector3d>(footGC.getLeft(), new Vector3d(gcOffset)));
          }
       }
 
@@ -115,7 +115,7 @@ public class IcubContactPointParameters extends DRCRobotContactPointParameters
    }
 
    @Override
-   public List<Pair<String, Vector3d>> getJointNameGroundContactPointMap()
+   public List<ImmutablePair<String, Vector3d>> getJointNameGroundContactPointMap()
    {
       return jointNameGroundContactPointMap;
    }

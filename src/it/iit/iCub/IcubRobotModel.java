@@ -44,7 +44,7 @@ import us.ihmc.sensorProcessing.stateEstimation.StateEstimatorParameters;
 import us.ihmc.simulationconstructionset.physics.ScsCollisionConfigure;
 import us.ihmc.simulationconstructionset.robotController.MultiThreadedRobotControlElement;
 import us.ihmc.simulationconstructionset.robotController.OutputProcessor;
-import us.ihmc.utilities.Pair;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import us.ihmc.utilities.humanoidRobot.model.FullRobotModel;
 import us.ihmc.utilities.humanoidRobot.partNames.NeckJointName;
 import us.ihmc.utilities.math.TimeTools;
@@ -386,7 +386,7 @@ public class IcubRobotModel implements DRCRobotModel
    }
 
    @Override
-   public Pair<Class<?>, String[]> getOperatorInterfaceStarter()
+   public ImmutablePair<Class<?>, String[]> getOperatorInterfaceStarter()
    {
       return null;
    }
@@ -423,13 +423,13 @@ public class IcubRobotModel implements DRCRobotModel
    }
 
    @Override
-   public LinkedHashMap<NeckJointName, Pair<Double, Double>> getSliderBoardControlledNeckJointsWithLimits()
+   public LinkedHashMap<NeckJointName, ImmutablePair<Double, Double>> getSliderBoardControlledNeckJointsWithLimits()
    {
       return walkingControllerParameters.getSliderBoardControlledNeckJointsWithLimits();
    }
    
    @Override
-   public SideDependentList<LinkedHashMap<String,Pair<Double,Double>>> getSliderBoardControlledFingerJointsWithLimits()
+   public SideDependentList<LinkedHashMap<String,ImmutablePair<Double,Double>>> getSliderBoardControlledFingerJointsWithLimits()
    {
       return walkingControllerParameters.getSliderBoardControlledFingerJointsWithLimits();
    }
