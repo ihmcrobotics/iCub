@@ -55,7 +55,7 @@ import us.ihmc.robotics.robotSide.SideDependentList;
 import us.ihmc.utilities.ros.PPSTimestampOffsetProvider;
 import us.ihmc.tools.time.TimeTools;
 import us.ihmc.wholeBodyController.DRCHandType;
-import us.ihmc.wholeBodyController.DRCRobotContactPointParameters;
+import us.ihmc.wholeBodyController.RobotContactPointParameters;
 import us.ihmc.wholeBodyController.DRCRobotJointMap;
 import us.ihmc.wholeBodyController.WholeBodyIkSolver;
 import us.ihmc.wholeBodyController.concurrent.ThreadDataSynchronizerInterface;
@@ -244,7 +244,7 @@ public class IcubRobotModel implements DRCRobotModel
    }
 
    @Override
-   public DRCRobotContactPointParameters getContactPointParameters()
+   public RobotContactPointParameters getContactPointParameters()
    {
       return jointMap.getContactPointParameters();
    }

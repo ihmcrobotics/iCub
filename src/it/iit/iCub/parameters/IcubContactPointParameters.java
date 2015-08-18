@@ -16,10 +16,10 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import us.ihmc.robotics.geometry.RigidBodyTransform;
 import us.ihmc.robotics.robotSide.RobotSide;
 import us.ihmc.robotics.robotSide.SideDependentList;
-import us.ihmc.wholeBodyController.DRCRobotContactPointParameters;
+import us.ihmc.wholeBodyController.RobotContactPointParameters;
 import us.ihmc.wholeBodyController.DRCRobotJointMap;
 
-public class IcubContactPointParameters extends DRCRobotContactPointParameters
+public class IcubContactPointParameters extends RobotContactPointParameters
 {
    private final ContactableBodiesFactory contactableBodiesFactory = new ContactableBodiesFactory();
 
