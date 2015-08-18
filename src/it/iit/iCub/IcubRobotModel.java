@@ -16,7 +16,7 @@ import java.util.LinkedHashMap;
 import us.ihmc.SdfLoader.GeneralizedSDFRobotModel;
 import us.ihmc.SdfLoader.JaxbSDFLoader;
 import us.ihmc.SdfLoader.SDFRobot;
-import us.ihmc.SdfLoader.SDFFullRobotModel;
+import us.ihmc.SdfLoader.SDFFullHumanoidRobotModel;
 import us.ihmc.SdfLoader.SDFJointNameMap;
 import us.ihmc.SdfLoader.SDFHumanoidRobot;
 import us.ihmc.commonWalkingControlModules.configurations.ArmControllerParameters;
@@ -286,7 +286,7 @@ public class IcubRobotModel implements DRCRobotModel
    }
 
    @Override
-   public SDFFullRobotModel createFullRobotModel()
+   public SDFFullHumanoidRobotModel createFullRobotModel()
    {
       return loader.createFullRobotModel(getJointMap(), sensorInformation.getSensorFramesToTrack());
    }
