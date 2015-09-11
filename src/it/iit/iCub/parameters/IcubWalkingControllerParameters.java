@@ -13,17 +13,17 @@ import us.ihmc.sensorProcessing.stateEstimation.FootSwitchType;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import us.ihmc.SdfLoader.partNames.NeckJointName;
 import us.ihmc.SdfLoader.partNames.SpineJointName;
+import us.ihmc.robotics.controllers.YoIndependentSE3PIDGains;
+import us.ihmc.robotics.controllers.YoOrientationPIDGains;
+import us.ihmc.robotics.controllers.YoPDGains;
+import us.ihmc.robotics.controllers.YoSE3PIDGains;
+import us.ihmc.robotics.controllers.YoSymmetricSE3PIDGains;
 import us.ihmc.robotics.dataStructures.registry.YoVariableRegistry;
 import us.ihmc.robotics.geometry.RigidBodyTransform;
 import us.ihmc.robotics.geometry.RotationFunctions;
 import us.ihmc.robotics.robotSide.RobotSide;
 import us.ihmc.robotics.robotSide.SideDependentList;
 import us.ihmc.wholeBodyController.DRCRobotJointMap;
-import us.ihmc.yoUtilities.controllers.YoIndependentSE3PIDGains;
-import us.ihmc.yoUtilities.controllers.YoOrientationPIDGains;
-import us.ihmc.yoUtilities.controllers.YoPDGains;
-import us.ihmc.yoUtilities.controllers.YoSE3PIDGains;
-import us.ihmc.yoUtilities.controllers.YoSymmetricSE3PIDGains;
 
 public class IcubWalkingControllerParameters implements WalkingControllerParameters
 {
