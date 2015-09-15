@@ -104,11 +104,11 @@ public class IcubRobotModel implements DRCRobotModel
 
       if (headless)
       {
-         this.loader = DRCRobotSDFLoader.loadDRCRobot(new String[] {}, getSdfFileAsStream(), true);
+         this.loader = DRCRobotSDFLoader.loadDRCRobot(new String[] {}, getSdfFileAsStream(), true, null);
       }
       else
       {
-         this.loader = DRCRobotSDFLoader.loadDRCRobot(getResourceDirectories(), getSdfFileAsStream(), false);
+         this.loader = DRCRobotSDFLoader.loadDRCRobot(getResourceDirectories(), getSdfFileAsStream(), false, null);
       }
 
       for (String forceSensorNames : IcubSensorInformation.forceSensorNames)
