@@ -387,20 +387,6 @@ public class IcubRobotModel implements DRCRobotModel
    }
 
    @Override
-   public ImmutablePair<Class<?>, String[]> getOperatorInterfaceStarter()
-   {
-      return null;
-   }
-
-   @Override
-   public Class<?> getSpectatorInterfaceClass()
-   {
-      
-      
-      return null;
-   }
-
-   @Override
    public HeightCalculatorParameters getHeightCalculatorParameters()
    {
       return null;
