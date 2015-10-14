@@ -93,6 +93,12 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
    }
 
    @Override
+   public boolean doToeOffIfPossibleInSingleSupport()
+   {
+      return false;
+   }
+
+   @Override
    public boolean checkTrailingLegJacobianDeterminantToTriggerToeOff()
    {
       return true;
