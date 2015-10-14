@@ -249,4 +249,11 @@ public class IcubCapturePointPlannerParameters implements CapturePointPlannerPar
    {
       return 0.0;
    }
+
+   /** {@inheritDoc} */
+   @Override
+   public double getMinTimeToSpendOnExitCMPInSingleSupport()
+   {
+      return 0.0;
+   }
 }
