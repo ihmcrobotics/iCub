@@ -19,7 +19,7 @@ import us.ihmc.robotics.controllers.YoSE3PIDGains;
 import us.ihmc.robotics.controllers.YoSymmetricSE3PIDGains;
 import us.ihmc.robotics.dataStructures.registry.YoVariableRegistry;
 import us.ihmc.robotics.geometry.RigidBodyTransform;
-import us.ihmc.robotics.geometry.RotationFunctions;
+import us.ihmc.robotics.geometry.RotationTools;
 import us.ihmc.robotics.robotSide.RobotSide;
 import us.ihmc.robotics.robotSide.SideDependentList;
 import us.ihmc.sensorProcessing.stateEstimation.FootSwitchType;
@@ -66,7 +66,7 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
          double yaw = 0.0;//robotSide.negateIfRightSide(-1.7);
          double pitch = 0.7;
          double roll = 0.0;//robotSide.negateIfRightSide(-0.8);
-         RotationFunctions.setYawPitchRoll(rotation, yaw, pitch, roll);
+         RotationTools.setYawPitchRoll(rotation, yaw, pitch, roll);
          transform.setRotation(rotation);
 
          handPosesWithRespectToChestFrame.put(robotSide, transform);
