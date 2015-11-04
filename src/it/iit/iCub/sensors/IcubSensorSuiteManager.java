@@ -3,7 +3,7 @@ package it.iit.iCub.sensors;
 import java.io.IOException;
 import java.net.URI;
 
-import us.ihmc.SdfLoader.SDFFullRobotModelFactory;
+import us.ihmc.SdfLoader.SDFFullHumanoidRobotModelFactory;
 import us.ihmc.communication.net.ObjectCommunicator;
 import us.ihmc.communication.packetCommunicator.PacketCommunicator;
 import us.ihmc.communication.util.NetworkPorts;
@@ -27,10 +27,10 @@ public class IcubSensorSuiteManager implements DRCSensorSuiteManager
    private final RobotConfigurationDataBuffer robotConfigurationDataBuffer = new RobotConfigurationDataBuffer();
    private final PPSTimestampOffsetProvider ppsTimestampOffsetProvider;
    private final PointCloudDataReceiver pointCloudDataReceiver;
-   private final SDFFullRobotModelFactory modelFactory;
+   private final SDFFullHumanoidRobotModelFactory modelFactory;
    private final DRCRobotSensorInformation sensorInformation;
    
-   public IcubSensorSuiteManager(SDFFullRobotModelFactory modelFactory, PPSTimestampOffsetProvider ppsTimestampOffsetProvider, DRCRobotSensorInformation sensorInformation,
+   public IcubSensorSuiteManager(SDFFullHumanoidRobotModelFactory modelFactory, PPSTimestampOffsetProvider ppsTimestampOffsetProvider, DRCRobotSensorInformation sensorInformation,
          DRCRobotJointMap jointMap, boolean useSimulatedSensors)
    {
       this.modelFactory = modelFactory;
