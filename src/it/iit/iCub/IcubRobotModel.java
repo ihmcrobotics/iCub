@@ -36,7 +36,7 @@ import us.ihmc.darpaRoboticsChallenge.drcRobot.DRCRobotPhysicalProperties;
 import us.ihmc.darpaRoboticsChallenge.handControl.HandCommandManager;
 import us.ihmc.darpaRoboticsChallenge.handControl.packetsAndConsumers.HandModel;
 import us.ihmc.darpaRoboticsChallenge.initialSetup.DRCRobotInitialSetup;
-import us.ihmc.darpaRoboticsChallenge.networkProcessor.time.AlwaysZeroOffsetPPSTimestampOffsetProvider;
+import us.ihmc.darpaRoboticsChallenge.networkProcessor.time.DRCROSAlwaysZeroOffsetPPSTimestampOffsetProvider;
 import us.ihmc.darpaRoboticsChallenge.ros.DRCROSPPSTimestampOffsetProvider;
 import us.ihmc.darpaRoboticsChallenge.sensors.DRCSensorSuiteManager;
 import us.ihmc.graphics3DAdapter.jme.util.JMEGeometryUtils;
@@ -327,7 +327,7 @@ public class IcubRobotModel implements DRCRobotModel
    @Override
    public DRCROSPPSTimestampOffsetProvider getPPSTimestampOffsetProvider()
    {
-      return new AlwaysZeroOffsetPPSTimestampOffsetProvider();
+      return new DRCROSAlwaysZeroOffsetPPSTimestampOffsetProvider();
    }
 
    @Override
