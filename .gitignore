@@ -37,7 +37,7 @@
 # File types to ignore
 **/*.jar
 **/cookies.txt
-**/gradle.properties
+
 **/*.iml
 **/*.hprof
 **/hs_err_pid*
