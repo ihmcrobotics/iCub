@@ -66,7 +66,7 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
          double yaw = 0.0;//robotSide.negateIfRightSide(-1.7);
          double pitch = 0.7;
          double roll = 0.0;//robotSide.negateIfRightSide(-0.8);
-         RotationTools.setYawPitchRoll(rotation, yaw, pitch, roll);
+         RotationTools.convertYawPitchRollToMatrix(yaw, pitch, roll, rotation);
          transform.setRotation(rotation);
 
          handPosesWithRespectToChestFrame.put(robotSide, transform);
