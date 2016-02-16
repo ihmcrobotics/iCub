@@ -915,11 +915,4 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
    {
       return new LinkedHashMap<NeckJointName, ImmutablePair<Double,Double>>();
    }
-
-   /** {@inheritDoc} */
-   @Override
-   public boolean useICPPlannerHackN13()
-   {
-      return true;
-   }
 }
