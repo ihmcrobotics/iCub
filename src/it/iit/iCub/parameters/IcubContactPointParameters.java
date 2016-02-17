@@ -59,62 +59,6 @@ public class IcubContactPointParameters extends RobotContactPointParameters
    }
 
    @Override
-   public RigidBodyTransform getPelvisContactPointTransform()
-   {
-      // TODO Auto-generated method stub
-      return null;
-   }
-
-   @Override
-   public List<Point2d> getPelvisContactPoints()
-   {
-      // TODO Auto-generated method stub
-      return null;
-   }
-
-   @Override
-   public RigidBodyTransform getPelvisBackContactPointTransform()
-   {
-      // TODO Auto-generated method stub
-      return null;
-   }
-
-   @Override
-   public List<Point2d> getPelvisBackContactPoints()
-   {
-      // TODO Auto-generated method stub
-      return null;
-   }
-
-   @Override
-   public RigidBodyTransform getChestBackContactPointTransform()
-   {
-      // TODO Auto-generated method stub
-      return null;
-   }
-
-   @Override
-   public List<Point2d> getChestBackContactPoints()
-   {
-      // TODO Auto-generated method stub
-      return null;
-   }
-
-   @Override
-   public SideDependentList<RigidBodyTransform> getThighContactPointTransforms()
-   {
-      // TODO Auto-generated method stub
-      return null;
-   }
-
-   @Override
-   public SideDependentList<List<Point2d>> getThighContactPoints()
-   {
-      // TODO Auto-generated method stub
-      return null;
-   }
-
-   @Override
    public List<ImmutablePair<String, Vector3d>> getJointNameGroundContactPointMap()
    {
       return jointNameGroundContactPointMap;
@@ -135,14 +79,12 @@ public class IcubContactPointParameters extends RobotContactPointParameters
    @Override
    public SideDependentList<RigidBodyTransform> getHandContactPointTransforms()
    {
-      // TODO Auto-generated method stub
       return null;
    }
 
    @Override
    public SideDependentList<List<Point2d>> getHandContactPoints()
    {
-      // TODO Auto-generated method stub
       return null;
    }
 
