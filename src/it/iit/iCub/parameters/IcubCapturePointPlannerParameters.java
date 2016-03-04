@@ -3,7 +3,7 @@ package it.iit.iCub.parameters;
 import us.ihmc.commonWalkingControlModules.configurations.CapturePointPlannerParameters;
 
 /** {@inheritDoc} */
-public class IcubCapturePointPlannerParameters implements CapturePointPlannerParameters
+public class IcubCapturePointPlannerParameters extends CapturePointPlannerParameters
 {
    private final boolean runningOnRealRobot;
 
