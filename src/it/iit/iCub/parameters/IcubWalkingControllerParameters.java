@@ -379,19 +379,11 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
       double kp = runningOnRealRobot ? 1.0 : 1.0;
       double ki = runningOnRealRobot ? 4.0 : 4.0;
       double kiBleedOff = 0.9;
-      boolean useRawCMP = false;
-      double cmpFilterBreakFrequencyInHertz = runningOnRealRobot ? 16.0 : 16.0;
-      double cmpRateLimit = runningOnRealRobot ? 6.0 : 60.0;
-      double cmpAccelerationLimit = runningOnRealRobot ? 200.0 : 2000.0;
 
       gains.setKpParallelToMotion(kp);
       gains.setKpOrthogonalToMotion(kp);
       gains.setKi(ki);
       gains.setKiBleedOff(kiBleedOff);
-      gains.setUseRawCMP(useRawCMP);
-      gains.setCMPFilterBreakFrequencyInHertz(cmpFilterBreakFrequencyInHertz);
-      gains.setCMPRateLimit(cmpRateLimit);
-      gains.setCMPAccelerationLimit(cmpAccelerationLimit);
 
       return gains;
    }
