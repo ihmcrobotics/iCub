@@ -90,6 +90,7 @@ public class IcubJointMap implements DRCRobotJointMap
 
 	private final SideDependentList<String> nameOfJointsBeforeThighs = new SideDependentList<>();
 	private final SideDependentList<String> nameOfJointsBeforeHands = new SideDependentList<>();
+	private final String[] jointNamesBeforeFeet = new String[2];
 	
 	public IcubJointMap() 
 	{
@@ -159,6 +160,9 @@ public class IcubJointMap implements DRCRobotJointMap
 			nameOfJointsBeforeThighs.put(robtSide, legJointStrings.get(robtSide).get(HIP_PITCH));
 			nameOfJointsBeforeHands.put(robtSide, armJointStrings.get(robtSide).get(WRIST_ROLL));
 		}
+		
+      jointNamesBeforeFeet[0] = getJointBeforeFootName(RobotSide.LEFT);
+      jointNamesBeforeFeet[1] = getJointBeforeFootName(RobotSide.RIGHT);
 	}
 
    private String getRobotSidePrefix(RobotSide robotSide)
@@ -364,5 +368,11 @@ public class IcubJointMap implements DRCRobotJointMap
    public String getUnsanitizedRootJointInSdf()
    {
       return pelvisName;
+   }
+   
+   @Override
+   public String[] getJointNamesBeforeFeet()
+   {
+      return jointNamesBeforeFeet;
    }
 }
