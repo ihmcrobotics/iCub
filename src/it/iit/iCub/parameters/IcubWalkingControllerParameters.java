@@ -99,12 +99,6 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
    }
 
    @Override
-   public boolean checkTrailingLegJacobianDeterminantToTriggerToeOff()
-   {
-      return true;
-   }
-
-   @Override
    public boolean checkECMPLocationToTriggerToeOff()
    {
       return true;
@@ -516,18 +510,6 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
    public double getSwingMaxHeightForPushRecoveryTrajectory()
    {
       return 0.05;
-   }
-
-   @Override
-   public double getSupportSingularityEscapeMultiplier()
-   {
-      return -20; //30 //negative if knee axis are -y direction 
-   }
-
-   @Override
-   public double getSwingSingularityEscapeMultiplier()
-   {
-      return runningOnRealRobot ? -20 : -100.0; //50.0 : 200.0 //negative if knee axis are -y direction 
    }
 
    @Override
