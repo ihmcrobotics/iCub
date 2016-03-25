@@ -15,6 +15,7 @@ import us.ihmc.commonWalkingControlModules.instantaneousCapturePoint.ICPControlG
 import us.ihmc.commonWalkingControlModules.momentumBasedController.optimization.MomentumOptimizationSettings;
 import us.ihmc.robotics.controllers.YoOrientationPIDGainsInterface;
 import us.ihmc.robotics.controllers.YoPDGains;
+import us.ihmc.robotics.controllers.YoPIDGains;
 import us.ihmc.robotics.controllers.YoSE3PIDGainsInterface;
 import us.ihmc.robotics.controllers.YoSymmetricSE3PIDGains;
 import us.ihmc.robotics.dataStructures.registry.YoVariableRegistry;
@@ -436,6 +437,29 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
       gains.setMaximumJerk(maxJerk);
       gains.createDerivativeGainUpdater(true);
 
+      return gains;
+   }
+
+   @Override
+   public YoPIDGains createHeadJointspaceControlGains(YoVariableRegistry registry)
+   {
+      YoPIDGains gains = new YoPIDGains("HeadJointspace", registry);
+
+      double kp = 40.0;
+      double zeta = runningOnRealRobot ? 0.4 : 0.8;
+      double ki = 0.0;
+      double maxIntegralError = 0.0;
+      double maxAccel = runningOnRealRobot ? 6.0 : 36.0;
+      double maxJerk = runningOnRealRobot ? 60.0 : 540.0;
+
+      gains.setKp(kp);
+      gains.setZeta(zeta);
+      gains.setKi(ki);
+      gains.setMaximumIntegralError(maxIntegralError);
+      gains.setMaximumAcceleration(maxAccel);
+      gains.setMaximumJerk(maxJerk);
+      gains.createDerivativeGainUpdater(true);
+      
       return gains;
    }
 
