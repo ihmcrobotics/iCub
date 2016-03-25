@@ -78,15 +78,9 @@ public class IcubArmControllerParameters implements ArmControllerParameters
    }
 
    @Override
-   public boolean useInverseKinematicsTaskspaceControl()
+   public String[] getPositionControlledJointNames(RobotSide robotSide)
    {
-      return false;
-   }
-
-   @Override
-   public boolean doLowLevelPositionControl()
-   {
-      return false; // Set to false for torque control
+      return null; // Set to null for torque control
    }
 
    @Override
@@ -103,12 +97,5 @@ public class IcubArmControllerParameters implements ArmControllerParameters
       jointPositions.put(fullRobotModel.getArmJoint(robotSide, ArmJointName.WRIST_ROLL), 0.0);
 
       return jointPositions;
-   }
-
-   @Override
-   public double getWristHandCenterOffset()
-   {
-      // TODO Auto-generated method stub
-      return 0.0;
    }
 }
