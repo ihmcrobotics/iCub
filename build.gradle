@@ -34,7 +34,7 @@ repositories {
 }
 
 
-evaluationDependsOn(ihmc.getProjectDependencyGradlePath("DarpaRoboticsChallenge"))
+
 
 dependencies {
 	testCompile group: 'junit', name: 'junit', version: '4.11'
@@ -64,9 +64,9 @@ dependencies {
 	compile ihmc.getProjectDependency(":IHMCJavaToolkit")
 	compile ihmc.getProjectDependency(":IHMCRoboticsToolkit")
 	
-	testCompile ihmc.getProjectDependency(":IHMCJavaToolkit").sourceSets.test.output
-	testCompile ihmc.getProjectDependency(":DarpaRoboticsChallenge").sourceSets.test.output
-	testCompile ihmc.getProjectDependency(":IHMCRoboticsToolkit").sourceSets.test.output
+	testCompile ihmc.getProjectTestDependency(":IHMCJavaToolkit")
+	testCompile ihmc.getProjectTestDependency(":DarpaRoboticsChallenge")
+	testCompile ihmc.getProjectTestDependency(":IHMCRoboticsToolkit")
 }
 
 jar {
