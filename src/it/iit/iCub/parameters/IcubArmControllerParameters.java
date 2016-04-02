@@ -8,7 +8,7 @@ import us.ihmc.SdfLoader.partNames.ArmJointName;
 import us.ihmc.commonWalkingControlModules.configurations.ArmControllerParameters;
 import us.ihmc.robotics.controllers.YoIndependentSE3PIDGains;
 import us.ihmc.robotics.controllers.YoPIDGains;
-import us.ihmc.robotics.controllers.YoSE3PIDGains;
+import us.ihmc.robotics.controllers.YoSE3PIDGainsInterface;
 import us.ihmc.robotics.controllers.YoSymmetricSE3PIDGains;
 import us.ihmc.robotics.dataStructures.registry.YoVariableRegistry;
 import us.ihmc.robotics.robotSide.RobotSide;
@@ -47,7 +47,7 @@ public class IcubArmControllerParameters implements ArmControllerParameters
    }
 
    @Override
-   public YoSE3PIDGains createTaskspaceControlGains(YoVariableRegistry registry)
+   public YoSE3PIDGainsInterface createTaskspaceControlGains(YoVariableRegistry registry)
    {
       YoSymmetricSE3PIDGains taskspaceControlGains = new YoSymmetricSE3PIDGains("ArmTaskspace", registry);
 
@@ -70,7 +70,7 @@ public class IcubArmControllerParameters implements ArmControllerParameters
    }
 
    @Override
-   public YoSE3PIDGains createTaskspaceControlGainsForLoadBearing(YoVariableRegistry registry)
+   public YoSE3PIDGainsInterface createTaskspaceControlGainsForLoadBearing(YoVariableRegistry registry)
    {
       YoIndependentSE3PIDGains taskspaceControlGains = new YoIndependentSE3PIDGains("ArmLoadBearing", registry);
       taskspaceControlGains.reset();
@@ -78,15 +78,9 @@ public class IcubArmControllerParameters implements ArmControllerParameters
    }
 
    @Override
-   public boolean useInverseKinematicsTaskspaceControl()
+   public String[] getPositionControlledJointNames(RobotSide robotSide)
    {
-      return false;
-   }
-
-   @Override
-   public boolean doLowLevelPositionControl()
-   {
-      return false; // Set to false for torque control
+      return null; // Set to null for torque control
    }
 
    @Override
@@ -103,12 +97,5 @@ public class IcubArmControllerParameters implements ArmControllerParameters
       jointPositions.put(fullRobotModel.getArmJoint(robotSide, ArmJointName.WRIST_ROLL), 0.0);
 
       return jointPositions;
-   }
-
-   @Override
-   public double getWristHandCenterOffset()
-   {
-      // TODO Auto-generated method stub
-      return 0.0;
    }
 }
