@@ -60,7 +60,6 @@ import us.ihmc.tools.thread.CloseableAndDisposableRegistry;
 import us.ihmc.wholeBodyController.DRCHandType;
 import us.ihmc.wholeBodyController.DRCRobotJointMap;
 import us.ihmc.wholeBodyController.RobotContactPointParameters;
-import us.ihmc.wholeBodyController.WholeBodyIkSolver;
 import us.ihmc.wholeBodyController.concurrent.ThreadDataSynchronizerInterface;
 import us.ihmc.wholeBodyController.parameters.DefaultArmConfigurations;
 
@@ -88,12 +87,6 @@ public class IcubRobotModel implements DRCRobotModel
    private final boolean runningOnRealRobot;
    
    private boolean enableJointDamping = true;
-
-   @Override
-   public WholeBodyIkSolver createWholeBodyIkSolver()  
-   {
-      return null;
-   }
 
    public IcubRobotModel(boolean runningOnRealRobot, boolean headless)
    {
