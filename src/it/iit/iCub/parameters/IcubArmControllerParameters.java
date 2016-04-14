@@ -14,7 +14,7 @@ import us.ihmc.robotics.dataStructures.registry.YoVariableRegistry;
 import us.ihmc.robotics.robotSide.RobotSide;
 import us.ihmc.robotics.screwTheory.OneDoFJoint;
 
-public class IcubArmControllerParameters implements ArmControllerParameters
+public class IcubArmControllerParameters extends ArmControllerParameters
 {
    private final boolean runningOnRealRobot;
 
@@ -75,12 +75,6 @@ public class IcubArmControllerParameters implements ArmControllerParameters
       YoIndependentSE3PIDGains taskspaceControlGains = new YoIndependentSE3PIDGains("ArmLoadBearing", registry);
       taskspaceControlGains.reset();
       return taskspaceControlGains;
-   }
-
-   @Override
-   public String[] getPositionControlledJointNames(RobotSide robotSide)
-   {
-      return null; // Set to null for torque control
    }
 
    @Override
