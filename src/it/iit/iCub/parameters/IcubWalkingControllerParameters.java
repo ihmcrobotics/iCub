@@ -26,7 +26,7 @@ import us.ihmc.robotics.robotSide.SideDependentList;
 import us.ihmc.sensorProcessing.stateEstimation.FootSwitchType;
 import us.ihmc.wholeBodyController.DRCRobotJointMap;
 
-public class IcubWalkingControllerParameters implements WalkingControllerParameters
+public class IcubWalkingControllerParameters extends WalkingControllerParameters
 {
    private final boolean runningOnRealRobot;
    private final SideDependentList<RigidBodyTransform> handPosesWithRespectToChestFrame = new SideDependentList<RigidBodyTransform>();
@@ -459,7 +459,7 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
       gains.setMaximumAcceleration(maxAccel);
       gains.setMaximumJerk(maxJerk);
       gains.createDerivativeGainUpdater(true);
-      
+
       return gains;
    }
 
@@ -866,7 +866,7 @@ public class IcubWalkingControllerParameters implements WalkingControllerParamet
    {
       return 0;
    }
-   
+
    @Override
    public boolean controlHeadAndHandsWithSliders()
    {
