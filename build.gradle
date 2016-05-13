@@ -5,7 +5,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath "gradle.plugin.us.ihmc.gradle:ihmc-build:0.0.16"
+    classpath "gradle.plugin.us.ihmc.gradle:ihmc-build:0.0.17"
   }
 }
 
@@ -17,19 +17,13 @@ version = '1.0'
 repositories ihmc.ihmcDefaultArtifactProxies()
 
 repositories {
+    mavenLocal()
+    jcenter()
+    mavenCentral()
     maven {
         url "https://bengal.ihmc.us/nexus/content/repositories/thirdparty/"
     }
 }
-
-repositories {
-    mavenLocal()
-    jcenter()
-    mavenCentral()
-}
-
-
-
 
 dependencies {
     compile group: 'javax.vecmath', name: 'vecmath', version: '1.5.2'
