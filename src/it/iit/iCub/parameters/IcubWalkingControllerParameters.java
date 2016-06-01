@@ -367,9 +367,9 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    }
 
    @Override
-   public ICPControlGains getICPControlGains()
+   public ICPControlGains createICPControlGains(YoVariableRegistry registry)
    {
-      ICPControlGains gains = new ICPControlGains();
+      ICPControlGains gains = new ICPControlGains("", registry);
 
       double kp = runningOnRealRobot ? 1.0 : 1.0;
       double ki = runningOnRealRobot ? 4.0 : 4.0;
