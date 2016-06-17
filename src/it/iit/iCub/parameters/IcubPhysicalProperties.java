@@ -29,7 +29,7 @@ public class IcubPhysicalProperties extends DRCRobotPhysicalProperties
        for (RobotSide side : RobotSide.values)
        {
           RigidBodyTransform soleToAnkleFrame = new RigidBodyTransform();
-          soleToAnkleFrame.setEuler(new Vector3d(0.0, 0.0, 0.0)); // need to check this
+          soleToAnkleFrame.setRotationEulerAndZeroTranslation(new Vector3d(0.0, 0.0, 0.0)); // need to check this
           soleToAnkleFrame.setTranslation(new Vector3d(footLength / 2.0 - footBack, 0.0, -IcubPhysicalProperties.ankleHeight));
           soleToAnkleFrameTransforms.put(side, soleToAnkleFrame);
        }
