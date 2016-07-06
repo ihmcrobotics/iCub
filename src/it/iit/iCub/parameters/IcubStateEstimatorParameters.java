@@ -279,4 +279,10 @@ public class IcubStateEstimatorParameters implements StateEstimatorParameters
    {
       return null;
    }
+
+   @Override
+   public boolean getPelvisLinearStateUpdaterTrustImuWhenNoFeetAreInContact()
+   {
+      return false;
+   }
 }
