@@ -150,6 +150,13 @@ public class IcubStateEstimatorParameters implements StateEstimatorParameters
    }
 
    @Override
+   public double getCenterOfMassVelocityFusingFrequency()
+   {
+      // TODO
+      return 0;
+   }
+
+   @Override
    public double getPelvisVelocityBacklashSlopTime()
    {
       return jointVelocitySlopTimeForBacklashCompensation;
@@ -271,6 +278,13 @@ public class IcubStateEstimatorParameters implements StateEstimatorParameters
    @Override
    public boolean getPelvisLinearStateUpdaterTrustImuWhenNoFeetAreInContact()
    {
+      return false;
+   }
+
+   @Override
+   public boolean useGroundReactionForcesToComputeCenterOfMassVelocity()
+   {
+      // TODO
       return false;
    }
 }
