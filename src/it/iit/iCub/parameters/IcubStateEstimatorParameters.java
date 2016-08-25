@@ -199,12 +199,6 @@ public class IcubStateEstimatorParameters extends StateEstimatorParameters
    }
 
    @Override
-   public boolean createFusedIMUSensor()
-   {
-      return false;
-   }
-
-   @Override
    public double getContactThresholdForce()
    {
       return 10.0;
