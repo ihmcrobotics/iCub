@@ -832,8 +832,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    @Override
    public FootSwitchType getFootSwitchType()
    {
-      // TODO Auto-generated method stub
-      return null;
+      return FootSwitchType.WrenchBased;
    }
 
    @Override

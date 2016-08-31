@@ -381,4 +381,24 @@ public class IcubJointMap implements DRCRobotJointMap
    {
       return RobotSide.values;
    }
+   
+   @Override
+   public Enum<?> getEndEffectorsRobotSegment(String joineNameBeforeEndEffector)
+   {
+      for(RobotSide robotSide : RobotSide.values)
+      {
+         String jointBeforeFootName = getJointBeforeFootName(robotSide);
+         if(jointBeforeFootName != null && jointBeforeFootName.equals(joineNameBeforeEndEffector))
+         {
+            return robotSide;
+         }
+         
+         String endOfArm = armJointStrings.get(robotSide).get(WRIST_ROLL);
+         if(endOfArm != null && endOfArm.equals(joineNameBeforeEndEffector))
+         {
+            return robotSide;
+         }
+      }
+      throw new IllegalArgumentException(joineNameBeforeEndEffector + " was not listed as an end effector in " + this.getClass().getSimpleName());
+   }
 }
