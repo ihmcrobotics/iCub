@@ -23,7 +23,7 @@ import us.ihmc.SdfLoader.JaxbSDFLoader;
 import us.ihmc.SdfLoader.SDFFullHumanoidRobotModel;
 import us.ihmc.SdfLoader.SDFHumanoidRobot;
 import us.ihmc.SdfLoader.SDFHumanoidJointNameMap;
-import us.ihmc.SdfLoader.SDFRobot;
+import us.ihmc.SdfLoader.FloatingRootJointRobot;
 import us.ihmc.SdfLoader.models.FullRobotModel;
 import us.ihmc.SdfLoader.partNames.NeckJointName;
 import us.ihmc.commonWalkingControlModules.configurations.ArmControllerParameters;
@@ -230,7 +230,7 @@ public class IcubRobotModel implements DRCRobotModel
    }
 
    @Override
-   public ScsCollisionConfigure getPhysicsConfigure(SDFRobot sdfRobot)
+   public ScsCollisionConfigure getPhysicsConfigure(FloatingRootJointRobot sdfRobot)
    {
       return null;
    }
@@ -242,7 +242,7 @@ public class IcubRobotModel implements DRCRobotModel
    }
 
    @Override
-   public void setJointDamping(SDFRobot simulatedRobot)
+   public void setJointDamping(FloatingRootJointRobot simulatedRobot)
    {
       System.err.println("Joint Damping not setup for iCub. IcubRobotModel setJointDamping!");
    }
@@ -342,7 +342,7 @@ public class IcubRobotModel implements DRCRobotModel
    }
 
    @Override
-   public MultiThreadedRobotControlElement createSimulatedHandController(SDFRobot simulatedRobot, ThreadDataSynchronizerInterface threadDataSynchronizer,
+   public MultiThreadedRobotControlElement createSimulatedHandController(FloatingRootJointRobot simulatedRobot, ThreadDataSynchronizerInterface threadDataSynchronizer,
          HumanoidGlobalDataProducer globalDataProducer, CloseableAndDisposableRegistry closeableAndDisposableRegistry)
    {
       return null;
