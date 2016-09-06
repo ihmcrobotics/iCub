@@ -5,7 +5,7 @@ import java.util.List;
 import javax.vecmath.Quat4d;
 import javax.vecmath.Vector3d;
 
-import us.ihmc.SdfLoader.SDFHumanoidRobot;
+import us.ihmc.SdfLoader.HumanoidFloatingRootJointRobot;
 import us.ihmc.SdfLoader.FloatingRootJointRobot;
 import us.ihmc.SdfLoader.partNames.ArmJointName;
 import us.ihmc.SdfLoader.partNames.LegJointName;
@@ -17,7 +17,7 @@ import us.ihmc.robotics.robotSide.RobotSide;
 import us.ihmc.simulationconstructionset.GroundContactPoint;
 import us.ihmc.wholeBodyController.DRCRobotJointMap;
 
-public class IcubInitialSetup implements DRCRobotInitialSetup<SDFHumanoidRobot>
+public class IcubInitialSetup implements DRCRobotInitialSetup<HumanoidFloatingRootJointRobot>
 {
    private double groundZ;
    private double initialYaw;
@@ -34,7 +34,7 @@ public class IcubInitialSetup implements DRCRobotInitialSetup<SDFHumanoidRobot>
    }
 
    @Override
-   public void initializeRobot(SDFHumanoidRobot robot, DRCRobotJointMap jointMap)
+   public void initializeRobot(HumanoidFloatingRootJointRobot robot, DRCRobotJointMap jointMap)
    {
       if(!robotInitialized)
       {
@@ -75,7 +75,7 @@ public class IcubInitialSetup implements DRCRobotInitialSetup<SDFHumanoidRobot>
       robot.update();
    }
    
-   private void positionRobotInWorld(SDFHumanoidRobot robot)
+   private void positionRobotInWorld(HumanoidFloatingRootJointRobot robot)
    {
       robot.getRootJointToWorldTransform(rootToWorld);
       rootToWorld.get(rotation, positionInWorld);
@@ -92,7 +92,7 @@ public class IcubInitialSetup implements DRCRobotInitialSetup<SDFHumanoidRobot>
       robot.update();
    }
    
-   private double getPelvisToFoot(SDFHumanoidRobot robot)
+   private double getPelvisToFoot(HumanoidFloatingRootJointRobot robot)
    {
       List<GroundContactPoint> contactPoints = robot.getFootGroundContactPoints(RobotSide.LEFT);
       double height = Double.POSITIVE_INFINITY;
