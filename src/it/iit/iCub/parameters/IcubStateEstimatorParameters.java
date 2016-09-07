@@ -1,15 +1,13 @@
 package it.iit.iCub.parameters;
 
+import us.ihmc.robotics.dataStructures.registry.YoVariableRegistry;
+import us.ihmc.robotics.dataStructures.variable.DoubleYoVariable;
+import us.ihmc.robotics.robotSide.SideDependentList;
 import us.ihmc.sensorProcessing.sensorProcessors.SensorProcessing;
 import us.ihmc.sensorProcessing.sensorProcessors.SensorProcessing.SensorType;
 import us.ihmc.sensorProcessing.simulatedSensors.SensorNoiseParameters;
 import us.ihmc.sensorProcessing.stateEstimation.FootSwitchType;
 import us.ihmc.sensorProcessing.stateEstimation.StateEstimatorParameters;
-import org.apache.commons.lang3.tuple.ImmutablePair;
-
-import us.ihmc.robotics.dataStructures.registry.YoVariableRegistry;
-import us.ihmc.robotics.dataStructures.variable.DoubleYoVariable;
-import us.ihmc.robotics.robotSide.SideDependentList;
 
 public class IcubStateEstimatorParameters extends StateEstimatorParameters
 {
@@ -181,18 +179,6 @@ public class IcubStateEstimatorParameters extends StateEstimatorParameters
    }
 
    @Override
-   public boolean useControllerDesiredCenterOfPressure()
-   {
-      return false;
-   }
-
-   @Override
-   public boolean useTwistForPelvisLinearStateEstimation()
-   {
-      return true;
-   }
-
-   @Override
    public double getPelvisLinearVelocityAlphaNewTwist()
    {
       return 0.15;
@@ -211,27 +197,6 @@ public class IcubStateEstimatorParameters extends StateEstimatorParameters
    }
 
    @Override
-   public ImmutablePair<String, String> getIMUsForSpineJointVelocityEstimation()
-   {
-      // TODO For Valkyrie. Probably have to make more generic.
-      return null;
-   }
-
-   @Override
-   public boolean useIMUsForSpineJointVelocityEstimation()
-   {
-      // TODO For Valkyrie. Probably have to make more generic.
-      return false;
-   }
-
-   @Override
-   public double getAlphaIMUsForSpineJointVelocityEstimation()
-   {
-      // TODO For Valkyrie. Probably have to make more generic.
-      return 0;
-   }
-
-   @Override
    public double getContactThresholdHeight()
    {
       // TODO Auto-generated method stub
@@ -242,18 +207,6 @@ public class IcubStateEstimatorParameters extends StateEstimatorParameters
    public FootSwitchType getFootSwitchType()
    {
       return FootSwitchType.WrenchBased;
-   }
-
-   @Override
-   public boolean requestWristForceSensorCalibrationAtStart()
-   {
-      return false;
-   }
-
-   @Override
-   public SideDependentList<String> getWristForceSensorNames()
-   {
-      return null;
    }
 
    @Override
