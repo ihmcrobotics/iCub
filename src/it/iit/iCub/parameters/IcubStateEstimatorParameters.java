@@ -82,12 +82,6 @@ public class IcubStateEstimatorParameters extends StateEstimatorParameters
    }
 
    @Override
-   public double getKinematicsPelvisLinearVelocityFilterFreqInHertz()
-   {
-      return 16.0;
-   }
-
-   @Override
    public double getCoPFilterFreqInHertz()
    {
       return 4.0;
@@ -152,12 +146,6 @@ public class IcubStateEstimatorParameters extends StateEstimatorParameters
    {
       // TODO
       return 0;
-   }
-
-   @Override
-   public double getPelvisVelocityBacklashSlopTime()
-   {
-      return jointVelocitySlopTimeForBacklashCompensation;
    }
 
    @Override
