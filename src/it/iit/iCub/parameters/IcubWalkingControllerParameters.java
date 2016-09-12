@@ -180,8 +180,8 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    @Override
    public String[] getDefaultHeadOrientationControlJointNames()
    {
-      return new String[] { jointMap.getNeckJointName(NeckJointName.LOWER_NECK_PITCH), jointMap.getNeckJointName(NeckJointName.NECK_ROLL),
-            jointMap.getNeckJointName(NeckJointName.NECK_YAW) };
+      return new String[] { jointMap.getNeckJointName(NeckJointName.PROXIMAL_NECK_PITCH), jointMap.getNeckJointName(NeckJointName.DISTAL_NECK_ROLL),
+            jointMap.getNeckJointName(NeckJointName.DISTAL_NECK_YAW) };
    }
 
    @Override

@@ -71,7 +71,7 @@ public class IcubJointMap implements DRCRobotJointMap
 	private final LegJointName[] legJoints = { HIP_PITCH, HIP_ROLL, HIP_YAW, KNEE_PITCH, ANKLE_PITCH, ANKLE_ROLL };
 	private final ArmJointName[] armJoints = { SHOULDER_PITCH, SHOULDER_ROLL, SHOULDER_YAW, ELBOW_PITCH, ELBOW_YAW, FIRST_WRIST_PITCH, WRIST_ROLL };
 	private final SpineJointName[] spineJoints = { SPINE_YAW, SPINE_ROLL, SPINE_PITCH };
-	private final NeckJointName[] neckJoints = { LOWER_NECK_PITCH, NECK_ROLL, NECK_YAW };
+	private final NeckJointName[] neckJoints = { PROXIMAL_NECK_PITCH, DISTAL_NECK_ROLL, DISTAL_NECK_YAW };
 
 	private final LinkedHashMap<String, JointRole> jointRoles = new LinkedHashMap<String, JointRole>();
 	private final LinkedHashMap<String, ImmutablePair<RobotSide, LimbName>> limbNames = new LinkedHashMap<String, ImmutablePair<RobotSide, LimbName>>();
@@ -121,9 +121,9 @@ public class IcubJointMap implements DRCRobotJointMap
 		spineJointNames.put(jointNames[torso_roll], SPINE_ROLL);
 		spineJointNames.put(jointNames[torso_yaw], SPINE_YAW);
 		
-		neckJointNames.put(jointNames[neck_pitch], LOWER_NECK_PITCH);
-		neckJointNames.put(jointNames[neck_roll], NECK_ROLL);
-		neckJointNames.put(jointNames[neck_yaw], NECK_YAW);
+		neckJointNames.put(jointNames[neck_pitch], PROXIMAL_NECK_PITCH);
+		neckJointNames.put(jointNames[neck_roll], DISTAL_NECK_ROLL);
+		neckJointNames.put(jointNames[neck_yaw], DISTAL_NECK_YAW);
 
 		for (String legJointString : legJointNames.keySet()) 
 		{
