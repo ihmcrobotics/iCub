@@ -68,7 +68,7 @@ public class IcubJointMap implements DRCRobotJointMap
 	public static final String pelvisName = "root_link";
 	public static final String headName = "head";
 
-	private final LegJointName[] legJoints = { HIP_PITCH, HIP_ROLL, HIP_YAW, KNEE, ANKLE_PITCH, ANKLE_ROLL };
+	private final LegJointName[] legJoints = { HIP_PITCH, HIP_ROLL, HIP_YAW, KNEE_PITCH, ANKLE_PITCH, ANKLE_ROLL };
 	private final ArmJointName[] armJoints = { SHOULDER_PITCH, SHOULDER_ROLL, SHOULDER_YAW, ELBOW_PITCH, ELBOW_YAW, FIRST_WRIST_PITCH, WRIST_ROLL };
 	private final SpineJointName[] spineJoints = { SPINE_YAW, SPINE_ROLL, SPINE_PITCH };
 	private final NeckJointName[] neckJoints = { LOWER_NECK_PITCH, NECK_ROLL, NECK_YAW };
@@ -99,7 +99,7 @@ public class IcubJointMap implements DRCRobotJointMap
 			legJointNames.put(forcedSideJointNames[l_hip_pitch], new ImmutablePair<RobotSide, LegJointName>(robotSide, HIP_PITCH));
 			legJointNames.put(forcedSideJointNames[l_hip_roll], new ImmutablePair<RobotSide, LegJointName>(robotSide, HIP_ROLL));
 			legJointNames.put(forcedSideJointNames[l_hip_yaw], new ImmutablePair<RobotSide, LegJointName>(robotSide, HIP_YAW));
-			legJointNames.put(forcedSideJointNames[l_knee], new ImmutablePair<RobotSide, LegJointName>(robotSide, KNEE));
+			legJointNames.put(forcedSideJointNames[l_knee], new ImmutablePair<RobotSide, LegJointName>(robotSide, KNEE_PITCH));
 			legJointNames.put(forcedSideJointNames[l_ankle_pitch], new ImmutablePair<RobotSide, LegJointName>(robotSide, ANKLE_PITCH));
 			legJointNames.put(forcedSideJointNames[l_ankle_roll], new ImmutablePair<RobotSide, LegJointName>(robotSide, ANKLE_ROLL));
 
