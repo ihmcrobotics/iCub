@@ -194,7 +194,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    }
 
    //TODO need to better tune this
-   // USE THESE FOR Real Robot and sims when controlling pelvis height instead of CoM.
+   // USE THESE FOR Real Robot and sims when controlling playback height instead of CoM.
    private final double minimumHeightAboveGround = 0.4 + 0.03;
    private double nominalHeightAboveGround = 0.49 + 0.03;
    private final double maximumHeightAboveGround = 0.65 + 0.03;
@@ -896,6 +896,12 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    public double getCoPErrorThresholdForHighCoPDamping()
    {
       return Double.POSITIVE_INFINITY;
+   }
+
+   @Override
+   public boolean useOptimizationBasedICPController()
+   {
+      return false;
    }
 
    @Override
