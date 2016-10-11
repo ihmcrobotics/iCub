@@ -23,6 +23,7 @@ import us.ihmc.SdfLoader.JaxbSDFLoader;
 import us.ihmc.SdfLoader.RobotDescriptionFromSDFLoader;
 import us.ihmc.robotModels.FullHumanoidRobotModel;
 import us.ihmc.humanoidRobotics.HumanoidFloatingRootJointRobot;
+import us.ihmc.robotModels.FullHumanoidRobotModelFromDescription;
 import us.ihmc.robotics.partNames.HumanoidJointNameMap;
 import us.ihmc.simulationconstructionset.FloatingRootJointRobot;
 import us.ihmc.robotModels.FullRobotModel;
@@ -304,7 +305,7 @@ public class IcubRobotModel implements DRCRobotModel
    @Override
    public FullHumanoidRobotModel createFullRobotModel()
    {
-      return loader.createFullRobotModel(getJointMap(), sensorInformation.getSensorFramesToTrack());
+      return new FullHumanoidRobotModelFromDescription(robotDescription, jointMap, sensorInformation.getSensorFramesToTrack());
    }
 
    @Override
@@ -314,7 +315,8 @@ public class IcubRobotModel implements DRCRobotModel
       boolean enableTorqueVelocityLimits = false;
       HumanoidJointNameMap jointMap = getJointMap();
       boolean enableJointDamping = getEnableJointDamping();
-      return loader.createRobot(jointMap.getModelName(), jointMap, useCollisionMeshes, enableTorqueVelocityLimits, enableJointDamping);
+      RobotDescription robotDescription = loader.createRobotDescription(jointMap, useCollisionMeshes, enableTorqueVelocityLimits, enableJointDamping);
+      return new HumanoidFloatingRootJointRobot(robotDescription, jointMap);
    }
 
    @Override
