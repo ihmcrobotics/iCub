@@ -34,7 +34,7 @@ dependencies {
     compile ihmc.getProjectDependency(":IHMCHumanoidRobotics")
     compile ihmc.getProjectDependency(":IHMCWholeBodyController")
     compile ihmc.getProjectDependency(":CommonWalkingControlModules")
-    compile ihmc.getProjectDependency(":DarpaRoboticsChallenge")
+    compile ihmc.getProjectDependency(":IHMCAvatarInterfaces")
     compile ihmc.getProjectDependency(":Graphics3DAdapter")
     compile ihmc.getProjectDependency(":IHMCRobotDataLogger")
     compile ihmc.getProjectDependency(":SDFLoader")
