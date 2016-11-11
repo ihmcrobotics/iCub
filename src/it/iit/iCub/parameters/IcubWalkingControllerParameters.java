@@ -2,13 +2,8 @@ package it.iit.iCub.parameters;
 
 import java.util.LinkedHashMap;
 
-import javax.vecmath.Matrix3d;
-import javax.vecmath.Vector3d;
-
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
-import us.ihmc.robotics.partNames.NeckJointName;
-import us.ihmc.robotics.partNames.SpineJointName;
 import us.ihmc.commonWalkingControlModules.configurations.WalkingControllerParameters;
 import us.ihmc.commonWalkingControlModules.controlModules.foot.YoFootSE3Gains;
 import us.ihmc.commonWalkingControlModules.instantaneousCapturePoint.ICPControlGains;
@@ -20,8 +15,8 @@ import us.ihmc.robotics.controllers.YoSE3PIDGainsInterface;
 import us.ihmc.robotics.controllers.YoSymmetricSE3PIDGains;
 import us.ihmc.robotics.dataStructures.registry.YoVariableRegistry;
 import us.ihmc.robotics.geometry.RigidBodyTransform;
-import us.ihmc.robotics.geometry.RotationTools;
-import us.ihmc.robotics.robotSide.RobotSide;
+import us.ihmc.robotics.partNames.NeckJointName;
+import us.ihmc.robotics.partNames.SpineJointName;
 import us.ihmc.robotics.robotSide.SideDependentList;
 import us.ihmc.sensorProcessing.stateEstimation.FootSwitchType;
 import us.ihmc.wholeBodyController.DRCRobotJointMap;
@@ -29,7 +24,6 @@ import us.ihmc.wholeBodyController.DRCRobotJointMap;
 public class IcubWalkingControllerParameters extends WalkingControllerParameters
 {
    private final boolean runningOnRealRobot;
-   private final SideDependentList<RigidBodyTransform> handPosesWithRespectToChestFrame = new SideDependentList<RigidBodyTransform>();
 
    // Limits
    private final double neck_pitch_upper_limit = 0.523599;
@@ -53,32 +47,12 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    {
       this.runningOnRealRobot = runningOnRealRobot;
       this.jointMap = jointMap;
-
-      for (RobotSide robotSide : RobotSide.values)
-      {
-         RigidBodyTransform transform = new RigidBodyTransform();
-
-         double x = 0.10;
-         double y = robotSide.negateIfRightSide(0.15); //0.30);
-         double z = -0.20;
-         transform.setTranslation(new Vector3d(x, y, z));
-
-         Matrix3d rotation = new Matrix3d();
-         double yaw = 0.0;//robotSide.negateIfRightSide(-1.7);
-         double pitch = 0.7;
-         double roll = 0.0;//robotSide.negateIfRightSide(-0.8);
-         RotationTools.convertYawPitchRollToMatrix(yaw, pitch, roll, rotation);
-         transform.setRotation(rotation);
-
-         handPosesWithRespectToChestFrame.put(robotSide, transform);
-      }
    }
 
    @Override
    public double getOmega0()
    {
-      // TODO probably need to be tuned.
-      return 3.4;
+      return 4.7;
    }
 
    @Override
@@ -371,15 +345,18 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    {
       ICPControlGains gains = new ICPControlGains("", registry);
 
-      double kp = runningOnRealRobot ? 1.0 : 1.0;
-      double ki = runningOnRealRobot ? 4.0 : 4.0;
-      double kiBleedOff = 0.9;
+      double kpParallel = 2.5;
+      double kpOrthogonal = 1.5;
+      double ki = 0.0;
+      double kiBleedOff = 0.0;
 
-      gains.setKpParallelToMotion(kp);
-      gains.setKpOrthogonalToMotion(kp);
+      gains.setKpParallelToMotion(kpParallel);
+      gains.setKpOrthogonalToMotion(kpOrthogonal);
       gains.setKi(ki);
       gains.setKiBleedOff(kiBleedOff);
 
+//      boolean runningOnRealRobot = target == DRCRobotModel.RobotTarget.REAL_ROBOT;
+//      if (runningOnRealRobot) gains.setFeedbackPartMaxRate(1.0);
       return gains;
    }
 
@@ -635,7 +612,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    @Override
    public SideDependentList<RigidBodyTransform> getDesiredHandPosesWithRespectToChestFrame()
    {
-      return handPosesWithRespectToChestFrame;
+      return null;
    }
 
    @Override
@@ -684,6 +661,9 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    public MomentumOptimizationSettings getMomentumOptimizationSettings()
    {
       MomentumOptimizationSettings momentumOptimizationSettings = new MomentumOptimizationSettings();
+      momentumOptimizationSettings.setRhoMin(0.5);
+      momentumOptimizationSettings.setRhoPlaneContactRegularization(0.000002);
+      momentumOptimizationSettings.setRhoRateWeight(0.0004, 0.01);
       return momentumOptimizationSettings;
    }
 
