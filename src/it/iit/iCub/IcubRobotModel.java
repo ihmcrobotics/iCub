@@ -70,7 +70,7 @@ public class IcubRobotModel implements DRCRobotModel
 {
    private static final long ESTIMATOR_DT_IN_NS = 1000000;
    private static final double ESTIMATOR_DT = TimeTools.nanoSecondstoSeconds(ESTIMATOR_DT_IN_NS);
-   private static final double CONTROL_DT = 0.006;
+   private static final double CONTROL_DT = 0.004;
    private static final double SIMULATE_DT = 0.0001;
 
    private final ArmControllerParameters armControllerParameters;
