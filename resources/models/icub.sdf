@@ -43,12 +43,12 @@
         <pose>0 -0.0782 0 0 -0 0</pose>
         <mass>0.754</mass>
         <inertia>
-          <ixx>0.01</ixx>
+          <ixx>0.001</ixx>
           <ixy>2.059e-06</ixy>
           <ixz>1.451e-06</ixz>
-          <iyy>0.01</iyy>
+          <iyy>0.001</iyy>
           <iyz>1.545e-06</iyz>
-          <izz>0.01</izz>
+          <izz>0.001</izz>
         </inertia>
       </inertial>
       <collision name='l_hip_1_collision'>
@@ -99,12 +99,12 @@
         <pose>0 0 0.0255858 0 -0 0</pose>
         <mass>0.626</mass>
         <inertia>
-          <ixx>0.0200779</ixx>
+          <ixx>0.00200779</ixx>
           <ixy>-7.4e-08</ixy>
           <ixz>1.0835e-05</ixz>
-          <iyy>0.0200779</iyy>
+          <iyy>0.00200779</iyy>
           <iyz>-6.2e-08</iyz>
-          <izz>0.02</izz>
+          <izz>0.002</izz>
         </inertia>
       </inertial>
       <collision name='l_hip_2_collision'>
@@ -155,12 +155,12 @@
         <pose>0.00144 -0.15943 -0.00039 0 -0 0</pose>
         <mass>2.175</mass>
         <inertia>
-          <ixx>0.01</ixx>
+          <ixx>0.008</ixx>
           <ixy>-6.726e-05</ixy>
           <ixz>2.267e-06</ixz>
-          <iyy>0.01</iyy>
+          <iyy>0.008</iyy>
           <iyz>3.63726e-05</iyz>
-          <izz>0.01</izz>
+          <izz>0.008</izz>
         </inertia>
       </inertial>
       <collision name='l_thigh_collision'>
@@ -211,12 +211,12 @@
         <pose>-0.1071 0.00182 0.00211 0 -0 0</pose>
         <mass>1.264</mass>
         <inertia>
-          <ixx>0.01</ixx>
-          <ixy>-0.000185699</ixy>
-          <ixz>-6.3147e-05</ixz>
-          <iyy>0.01</iyy>
-          <iyz>7.86e-07</iyz>
-          <izz>0.01</izz>
+          <ixx>0.003</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.0035</iyy>
+          <iyz>0</iyz>
+          <izz>0.005</izz>
         </inertia>
       </inertial>
       <collision name='l_shank_collision'>
@@ -267,12 +267,12 @@
         <pose>-0.0054 0.00163 0.0172 0 -0 0</pose>
         <mass>0.746</mass>
         <inertia>
-          <ixx>0.01</ixx>
+          <ixx>0.001</ixx>
           <ixy>-7.081e-06</ixy>
           <ixz>4.1421e-05</ixz>
-          <iyy>0.01</iyy>
+          <iyy>0.001</iyy>
           <iyz>2.0817e-05</iyz>
-          <izz>0.01</izz>
+          <izz>0.001</izz>
         </inertia>
       </inertial>
       <collision name='l_ankle_1_collision'>
@@ -319,16 +319,16 @@
     </joint>
     <link name='l_upper_foot'>
       <pose>5.3291e-06 0.0681004 -0.5565 -3.14159 -9.99999e-06 -1.1634e-05</pose>
-      <inertial>
-        <pose>0.0177737 -0.000542627 0.0974278 0 -0 0</pose>
+          <inertial>
+        <pose>0.0377737 0.000542627 0.022 0 -0 0</pose>
         <mass>0.861</mass>
         <inertia>
-          <ixx>0.0212221</ixx>
-          <ixy>-3.21288e-06</ixy>
-          <ixz>0.000400533</ixz>
-          <iyy>0.0212732</iyy>
-          <iyz>3.60372e-06</iyz>
-          <izz>0.0200512</izz>
+          <ixx>0.001</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.0013</iyy>
+          <iyz>0</iyz>
+          <izz>0.0018</izz>
         </inertia>
       </inertial>
       <collision name='l_upper_foot_collision_l_foot'>
@@ -379,12 +379,12 @@
         <pose>0 -0.0782 0 0 -0 0</pose>
         <mass>0.754</mass>
         <inertia>
-          <ixx>0.01</ixx>
+          <ixx>0.001</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.01</iyy>
+          <iyy>0.001</iyy>
           <iyz>0</iyz>
-          <izz>0.01</izz>
+          <izz>0.001</izz>
         </inertia>
       </inertial>
       <collision name='r_hip_1_collision'>
@@ -435,12 +435,12 @@
         <pose>0 0 0.0255858 0 -0 0</pose>
         <mass>0.626</mass>
         <inertia>
-          <ixx>0.0200779</ixx>
+          <ixx>0.00200779</ixx>
           <ixy>6.61744e-24</ixy>
           <ixz>0</ixz>
-          <iyy>0.0200779</iyy>
+          <iyy>0.00200779</iyy>
           <iyz>0</iyz>
-          <izz>0.02</izz>
+          <izz>0.002</izz>
         </inertia>
       </inertial>
       <collision name='r_hip_2_collision'>
@@ -491,12 +491,12 @@
         <pose>0.00144 -0.15943 0.00039 0 -0 0</pose>
         <mass>2.175</mass>
         <inertia>
-          <ixx>0.01</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.01</iyy>
-          <iyz>-2.71051e-20</iyz>
-          <izz>0.01</izz>
+          <ixx>0.008</ixx>
+          <ixy>-6.726e-05</ixy>
+          <ixz>2.267e-06</ixz>
+          <iyy>0.008</iyy>
+          <iyz>3.63726e-05</iyz>
+          <izz>0.008</izz>
         </inertia>
       </inertial>
       <collision name='r_thigh_collision'>
@@ -547,12 +547,12 @@
         <pose>-0.1071 0.00182 -0.00211 0 -0 0</pose>
         <mass>1.264</mass>
         <inertia>
-          <ixx>0.01</ixx>
-          <ixy>5.42101e-20</ixy>
-          <ixz>-5.42101e-20</ixz>
-          <iyy>0.01</iyy>
-          <iyz>8.47033e-22</iyz>
-          <izz>0.01</izz>
+          <ixx>0.003</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.0035</iyy>
+          <iyz>0</iyz>
+          <izz>0.005</izz>
         </inertia>
       </inertial>
       <collision name='r_shank_collision'>
@@ -603,12 +603,12 @@
         <pose>-0.0054 0.00163 -0.0172 0 -0 0</pose>
         <mass>0.746</mass>
         <inertia>
-          <ixx>0.01</ixx>
+          <ixx>0.001</ixx>
           <ixy>-1.69407e-21</ixy>
           <ixz>1.35525e-20</ixz>
-          <iyy>0.01</iyy>
+          <iyy>0.001</iyy>
           <iyz>3.38813e-21</iyz>
-          <izz>0.01</izz>
+          <izz>0.001</izz>
         </inertia>
       </inertial>
       <collision name='r_ankle_1_collision'>
@@ -656,15 +656,15 @@
     <link name='r_upper_foot'>
       <pose>3.80912e-06 -0.0681016 -0.5565 3.14159 -1.4236e-05 1.40032e-07</pose>
       <inertial>
-        <pose>0.0177737 0.000542627 0.0974278 0 -0 0</pose>
+        <pose>0.0377737 0.000542627 0.022 0 -0 0</pose>
         <mass>0.861</mass>
         <inertia>
-          <ixx>0.0212221</ixx>
-          <ixy>3.21288e-06</ixy>
-          <ixz>0.000400533</ixz>
-          <iyy>0.0212732</iyy>
-          <iyz>-3.60355e-06</iyz>
-          <izz>0.0200512</izz>
+          <ixx>0.001</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.0013</iyy>
+          <iyz>0</iyz>
+          <izz>0.0018</izz>
         </inertia>
       </inertial>
       <collision name='r_upper_foot_collision_r_foot'>
@@ -715,12 +715,12 @@
         <pose>0 0 0 0 -0 0</pose>
         <mass>0.1</mass>
         <inertia>
-          <ixx>0.01</ixx>
+          <ixx>0.0004</ixx>
           <ixy>-4.263e-05</ixy>
           <ixz>-3.889e-08</ixz>
-          <iyy>0.01</iyy>
+          <iyy>0.0004</iyy>
           <iyz>0</iyz>
-          <izz>0.01</izz>
+          <izz>0.0004</izz>
         </inertia>
       </inertial>
       <collision name='lap_belt_1_collision'>
@@ -771,12 +771,12 @@
         <pose>0 0 0 0 -0 0</pose>
         <mass>0.1</mass>
         <inertia>
-          <ixx>0.01</ixx>
+          <ixx>0.0003</ixx>
           <ixy>-1.923e-06</ixy>
           <ixz>5.095e-05</ixz>
-          <iyy>0.01</iyy>
+          <iyy>0.0003</iyy>
           <iyz>-3.849e-07</iyz>
-          <izz>0.01</izz>
+          <izz>0.0003</izz>
         </inertia>
       </inertial>
       <velocity_decay>
@@ -809,12 +809,12 @@
         <pose>0.00222898 0.075 -1.18362e-17 0 -0 0</pose>
         <mass>4.81</mass>
         <inertia>
-          <ixx>0.07472</ixx>
-          <ixy>-3.6e-06</ixy>
-          <ixz>-4.705e-05</ixz>
-          <iyy>0.08145</iyy>
-          <iyz>0.004567</iyz>
-          <izz>0.01306</izz>
+          <ixx>0.018</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.018</iyy>
+          <iyz>0</iyz>
+          <izz>0.018</izz>
         </inertia>
       </inertial>
       <collision name='chest_collision'>
@@ -865,12 +865,12 @@
         <pose>-5e-06 0.0187 -0.00119 0 -0 0</pose>
         <mass>0.189</mass>
         <inertia>
-          <ixx>0.01</ixx>
+          <ixx>0.0004</ixx>
           <ixy>9e-09</ixy>
           <ixz>0</ixz>
-          <iyy>0.01</iyy>
+          <iyy>0.0004</iyy>
           <iyz>-1.7e-08</iyz>
-          <izz>0.01</izz>
+          <izz>0.0004</izz>
         </inertia>
       </inertial>
       <collision name='l_shoulder_1_collision'>
@@ -921,12 +921,12 @@
         <pose>9.4e-05 -0.00627 0.0166 0 -0 0</pose>
         <mass>0.179</mass>
         <inertia>
-          <ixx>0.01</ixx>
+          <ixx>0.0004</ixx>
           <ixy>4.66e-07</ixy>
           <ixz>3.65e-07</ixz>
-          <iyy>0.01</iyy>
+          <iyy>0.0004</iyy>
           <iyz>-2.0524e-05</iyz>
-          <izz>0.01</izz>
+          <izz>0.0004</izz>
         </inertia>
       </inertial>
       <collision name='l_shoulder_2_collision'>
@@ -977,12 +977,12 @@
         <pose>0.01321 -6.41648e-05 0.08938 0 -0 0</pose>
         <mass>0.884</mass>
         <inertia>
-          <ixx>0.0202921</ixx>
+          <ixx>0.00102921</ixx>
           <ixy>-9.0277e-07</ixy>
           <ixz>-6.334e-05</ixz>
-          <iyy>0.0203031</iyy>
+          <iyy>0.00103031</iyy>
           <iyz>4.03223e-06</iyz>
-          <izz>0.020011</izz>
+          <izz>0.0010011</izz>
         </inertia>
       </inertial>
       <collision name='l_upper_arm_collision_l_arm'>
@@ -1033,12 +1033,12 @@
         <pose>-0.0013 0.00371 -0.00105 0 -0 0</pose>
         <mass>0.1</mass>
         <inertia>
-          <ixx>0.01</ixx>
+          <ixx>0.0002</ixx>
           <ixy>-5.15e-07</ixy>
           <ixz>-4.08e-07</ixz>
-          <iyy>0.01</iyy>
+          <iyy>0.0002</iyy>
           <iyz>-3.71e-07</iyz>
-          <izz>0.01</izz>
+          <izz>0.0002</izz>
         </inertia>
       </inertial>
       <velocity_decay>
@@ -1071,12 +1071,12 @@
         <pose>0.000347 0.066 0.00476 0 -0 0</pose>
         <mass>0.525</mass>
         <inertia>
-          <ixx>0.01</ixx>
+          <ixx>0.0002</ixx>
           <ixy>4.337e-06</ixy>
           <ixz>2.39e-07</ixz>
-          <iyy>0.01</iyy>
+          <iyy>0.0002</iyy>
           <iyz>1.9381e-05</iyz>
-          <izz>0.01</izz>
+          <izz>0.0002</izz>
         </inertia>
       </inertial>
       <collision name='l_forearm_collision'>
@@ -1127,12 +1127,12 @@
         <pose>0 0 0 0 -0 0</pose>
         <mass>0.1</mass>
         <inertia>
-          <ixx>0.01</ixx>
+          <ixx>0.0002</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.01</iyy>
+          <iyy>0.0002</iyy>
           <iyz>0</iyz>
-          <izz>0.01</izz>
+          <izz>0.0002</izz>
         </inertia>
       </inertial>
       <velocity_decay>
@@ -1165,12 +1165,12 @@
         <pose>0.07023 -0.00805 -0.007 0 -0 0</pose>
         <mass>0.213</mass>
         <inertia>
-          <ixx>0.01</ixx>
+          <ixx>0.0001</ixx>
           <ixy>1.278e-05</ixy>
           <ixz>4.823e-06</ixz>
-          <iyy>0.01</iyy>
+          <iyy>0.0001</iyy>
           <iyz>-1.8188e-05</iyz>
-          <izz>0.01</izz>
+          <izz>0.0001</izz>
         </inertia>
       </inertial>
       <collision name='l_hand_collision'>
@@ -1221,12 +1221,12 @@
         <pose>0 0 0 0 -0 0</pose>
         <mass>0.1</mass>
         <inertia>
-          <ixx>0.01</ixx>
+          <ixx>0.0002</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.01</iyy>
+          <iyy>0.0002</iyy>
           <iyz>0</iyz>
-          <izz>0.01</izz>
+          <izz>0.0002</izz>
         </inertia>
       </inertial>
       <collision name='neck_1_collision'>
@@ -1277,12 +1277,12 @@
         <pose>0 0 0 0 -0 0</pose>
         <mass>0.1</mass>
         <inertia>
-          <ixx>0.01</ixx>
+          <ixx>0.0002</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.01</iyy>
+          <iyy>0.0002</iyy>
           <iyz>0</iyz>
-          <izz>0.01</izz>
+          <izz>0.0002</izz>
         </inertia>
       </inertial>
       <collision name='neck_2_collision'>
@@ -1333,12 +1333,12 @@
         <pose>0.0185 -0.1108 6.78454e-18 0 -0 0</pose>
         <mass>1.33687</mass>
         <inertia>
-          <ixx>0.01</ixx>
+          <ixx>0.006</ixx>
           <ixy>0</ixy>
-          <ixz>4.81482e-35</ixz>
-          <iyy>0.01</iyy>
+          <ixz>0</ixz>
+          <iyy>0.006</iyy>
           <iyz>0</iyz>
-          <izz>0.01</izz>
+          <izz>0.006</izz>
         </inertia>
       </inertial>
       <collision name='head_collision'>
@@ -1399,12 +1399,12 @@
         <pose>5e-06 0.0187 0.00119 0 -0 0</pose>
         <mass>0.189</mass>
         <inertia>
-          <ixx>0.01</ixx>
+          <ixx>0.0004</ixx>
           <ixy>2.1e-08</ixy>
           <ixz>-1e-09</ixz>
-          <iyy>0.01</iyy>
+          <iyy>0.0004</iyy>
           <iyz>4.22e-06</iyz>
-          <izz>0.01</izz>
+          <izz>0.0004</izz>
         </inertia>
       </inertial>
       <collision name='r_shoulder_1_collision'>
@@ -1455,12 +1455,12 @@
         <pose>-9.4e-05 -0.00627 -0.0166 0 -0 0</pose>
         <mass>0.179</mass>
         <inertia>
-          <ixx>0.01</ixx>
+          <ixx>0.0004</ixx>
           <ixy>-4.53e-07</ixy>
           <ixz>2.03e-07</ixz>
-          <iyy>0.01</iyy>
+          <iyy>0.0004</iyy>
           <iyz>2.07e-05</iyz>
-          <izz>0.01</izz>
+          <izz>0.0004</izz>
         </inertia>
       </inertial>
       <collision name='r_shoulder_2_collision'>
@@ -1511,12 +1511,12 @@
         <pose>0.01321 6.38356e-05 0.08938 0 -0 0</pose>
         <mass>0.884</mass>
         <inertia>
-          <ixx>0.0203006</ixx>
+          <ixx>0.00103006</ixx>
           <ixy>-8.50772e-07</ixy>
           <ixz>-6.39001e-05</ixz>
-          <iyy>0.0203116</iyy>
+          <iyy>0.00103116</iyy>
           <iyz>-3.60876e-06</iyz>
-          <izz>0.0200111</izz>
+          <izz>0.00100111</izz>
         </inertia>
       </inertial>
       <collision name='r_upper_arm_collision_r_arm'>
@@ -1567,12 +1567,12 @@
         <pose>0.0013 -0.00371 0.00105 0 -0 0</pose>
         <mass>0.1</mass>
         <inertia>
-          <ixx>0.01</ixx>
+          <ixx>0.0002</ixx>
           <ixy>-5.02e-07</ixy>
           <ixz>-3.99e-07</ixz>
-          <iyy>0.01</iyy>
+          <iyy>0.0002</iyy>
           <iyz>-3.71e-07</iyz>
-          <izz>0.01</izz>
+          <izz>0.0002</izz>
         </inertia>
       </inertial>
       <velocity_decay>
@@ -1605,12 +1605,12 @@
         <pose>-0.000347 -0.066 -0.00476 0 -0 0</pose>
         <mass>0.525</mass>
         <inertia>
-          <ixx>0.01</ixx>
+          <ixx>0.0004</ixx>
           <ixy>5.66e-06</ixy>
           <ixz>1.4e-06</ixz>
-          <iyy>0.01</iyy>
+          <iyy>0.0004</iyy>
           <iyz>1.82e-05</iyz>
-          <izz>0.01</izz>
+          <izz>0.0004</izz>
         </inertia>
       </inertial>
       <collision name='r_forearm_collision'>
@@ -1661,12 +1661,12 @@
         <pose>0 0 0 0 -0 0</pose>
         <mass>0.1</mass>
         <inertia>
-          <ixx>0.01</ixx>
+          <ixx>0.0002</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.01</iyy>
+          <iyy>0.0002</iyy>
           <iyz>0</iyz>
-          <izz>0.01</izz>
+          <izz>0.0002</izz>
         </inertia>
       </inertial>
       <velocity_decay>
@@ -1699,12 +1699,12 @@
         <pose>0.07023 -0.00805 0.007 0 -0 0</pose>
         <mass>0.213</mass>
         <inertia>
-          <ixx>0.01</ixx>
+          <ixx>0.0002</ixx>
           <ixy>1.26e-05</ixy>
           <ixz>-6.08e-06</ixz>
-          <iyy>0.01</iyy>
+          <iyy>0.0002</iyy>
           <iyz>1.76e-05</iyz>
-          <izz>0.01</izz>
+          <izz>0.0002</izz>
         </inertia>
       </inertial>
       <collision name='r_hand_collision'>
