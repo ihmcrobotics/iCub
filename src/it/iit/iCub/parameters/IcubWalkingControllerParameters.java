@@ -169,9 +169,9 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
 
    //TODO need to better tune this
    // USE THESE FOR Real Robot and sims when controlling playback height instead of CoM.
-   private final double minimumHeightAboveGround = 0.4 + 0.03;
-   private double nominalHeightAboveGround = 0.49 + 0.03;
-   private final double maximumHeightAboveGround = 0.65 + 0.03;
+   private final double minimumHeightAboveGround = 0.4 - 0.02;// + 0.03;
+   private double nominalHeightAboveGround = 0.45;// + 0.03;
+   private final double maximumHeightAboveGround = 0.52;// + 0.03;
 
    @Override
    public double minimumHeightAboveAnkle()
@@ -313,7 +313,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    @Override
    public double getMaxSwingHeightFromStanceFoot()
    {
-      return 0.2;
+      return 0.15;
    }
 
    @Override
@@ -672,7 +672,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    {
       YoPDGains gains = new YoPDGains("CoMHeight", registry);
 
-      double kp = runningOnRealRobot ? 40.0 : 50.0;
+      double kp = runningOnRealRobot ? 40.0 : 200.0;
       double zeta = runningOnRealRobot ? 0.4 : 1.0;
       double maxAcceleration = 0.5 * 9.81;
       double maxJerk = maxAcceleration / 0.05;
