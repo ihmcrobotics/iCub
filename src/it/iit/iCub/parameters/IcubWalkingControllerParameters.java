@@ -315,6 +315,12 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    {
       return 0.15;
    }
+   
+   @Override
+   public double getMinSwingHeightFromStanceFoot()
+   {
+      return 0.05;
+   }
 
    @Override
    public double getMaxAngleTurnOutwards()
@@ -894,5 +900,11 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    public void useVirtualModelControlCore()
    {
       // once another mode is implemented, use this to change the default gains for virtual model control
+   }
+   
+   @Override
+   public boolean useSwingTrajectoryOptimizer()
+   {
+      return true;
    }
 }
