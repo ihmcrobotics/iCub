@@ -271,13 +271,13 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    @Override
    public double getMaxStepLength()
    {
-      return 0.2; //0.5; //0.35;
+      return 0.23; //0.5; //0.35;
    }
 
    @Override
    public double getDefaultStepLength()
    {
-      return .18;
+      return .20;
    }
 
    @Override
