@@ -37,7 +37,9 @@ public class IcubSensorSuiteManager implements DRCSensorSuiteManager
       this.modelFactory = modelFactory;
       this.sensorInformation = sensorInformation;
       this.ppsTimestampOffsetProvider = ppsTimestampOffsetProvider;
-      lidarScanPublisher = new LidarScanPublisher(modelFactory, sensorSuitePacketCommunicator);
+      DRCRobotLidarParameters lidarParameters = sensorInformation.getLidarParameters(0);
+      String sensorName = lidarParameters.getSensorNameInSdf();
+      lidarScanPublisher = new LidarScanPublisher(sensorName, modelFactory, sensorSuitePacketCommunicator);
       lidarScanPublisher.setPPSTimestampOffsetProvider(ppsTimestampOffsetProvider);
       lidarScanPublisher.setCollisionBoxProvider(null);
    }
@@ -52,8 +54,6 @@ public class IcubSensorSuiteManager implements DRCSensorSuiteManager
             robotConfigurationDataBuffer, scsSensorsPacketCommunicator, sensorSuitePacketCommunicator, ppsTimestampOffsetProvider);
       cameraDataReceiver.start();
 
-      DRCRobotLidarParameters lidarParameters = sensorInformation.getLidarParameters(0);
-      lidarScanPublisher.setLidarBaseFrame(lidarParameters.getSensorNameInSdf());
       lidarScanPublisher.setScanFrameToLidarSensorFrame();
       lidarScanPublisher.receiveLidarFromSCS(scsSensorsPacketCommunicator);
       lidarScanPublisher.start();
