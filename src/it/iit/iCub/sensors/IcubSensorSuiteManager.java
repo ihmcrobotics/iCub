@@ -3,7 +3,7 @@ package it.iit.iCub.sensors;
 import java.io.IOException;
 import java.net.URI;
 
-import us.ihmc.robotModels.FullHumanoidRobotModelFactory;
+import us.ihmc.avatar.networkProcessor.lidarScanPublisher.LidarScanPublisher;
 import us.ihmc.avatar.sensors.DRCSensorSuiteManager;
 import us.ihmc.communication.net.ObjectCommunicator;
 import us.ihmc.communication.packetCommunicator.PacketCommunicator;
@@ -12,10 +12,11 @@ import us.ihmc.humanoidRobotics.kryo.IHMCCommunicationKryoNetClassList;
 import us.ihmc.humanoidRobotics.kryo.PPSTimestampOffsetProvider;
 import us.ihmc.ihmcPerception.camera.CameraDataReceiver;
 import us.ihmc.ihmcPerception.camera.SCSCameraDataReceiver;
-import us.ihmc.ihmcPerception.depthData.PointCloudDataReceiver;
-import us.ihmc.ihmcPerception.depthData.SCSPointCloudLidarReceiver;
+import us.ihmc.robotModels.FullHumanoidRobotModelFactory;
 import us.ihmc.sensorProcessing.communication.packets.dataobjects.RobotConfigurationData;
 import us.ihmc.sensorProcessing.communication.producers.RobotConfigurationDataBuffer;
+import us.ihmc.sensorProcessing.parameters.DRCRobotCameraParameters;
+import us.ihmc.sensorProcessing.parameters.DRCRobotLidarParameters;
 import us.ihmc.sensorProcessing.parameters.DRCRobotSensorInformation;
 import us.ihmc.wholeBodyController.DRCRobotJointMap;
 
@@ -26,28 +27,36 @@ public class IcubSensorSuiteManager implements DRCSensorSuiteManager
 
    private final RobotConfigurationDataBuffer robotConfigurationDataBuffer = new RobotConfigurationDataBuffer();
    private final PPSTimestampOffsetProvider ppsTimestampOffsetProvider;
-   private final PointCloudDataReceiver pointCloudDataReceiver;
    private final FullHumanoidRobotModelFactory modelFactory;
    private final DRCRobotSensorInformation sensorInformation;
-   
-   public IcubSensorSuiteManager(FullHumanoidRobotModelFactory modelFactory, PPSTimestampOffsetProvider ppsTimestampOffsetProvider, DRCRobotSensorInformation sensorInformation,
-         DRCRobotJointMap jointMap, boolean useSimulatedSensors)
+   private final LidarScanPublisher lidarScanPublisher;
+
+   public IcubSensorSuiteManager(FullHumanoidRobotModelFactory modelFactory, PPSTimestampOffsetProvider ppsTimestampOffsetProvider,
+         DRCRobotSensorInformation sensorInformation, DRCRobotJointMap jointMap, boolean useSimulatedSensors)
    {
       this.modelFactory = modelFactory;
       this.sensorInformation = sensorInformation;
       this.ppsTimestampOffsetProvider = ppsTimestampOffsetProvider;
-      this.pointCloudDataReceiver = new PointCloudDataReceiver(modelFactory, null, ppsTimestampOffsetProvider, jointMap, robotConfigurationDataBuffer,
-            sensorSuitePacketCommunicator);
+      lidarScanPublisher = new LidarScanPublisher(modelFactory, sensorSuitePacketCommunicator);
+      lidarScanPublisher.setPPSTimestampOffsetProvider(ppsTimestampOffsetProvider);
+      lidarScanPublisher.setCollisionBoxProvider(null);
    }
 
    @Override
    public void initializeSimulatedSensors(ObjectCommunicator scsSensorsPacketCommunicator)
    {
       sensorSuitePacketCommunicator.attachListener(RobotConfigurationData.class, robotConfigurationDataBuffer);
-      CameraDataReceiver cameraDataReceiver = new SCSCameraDataReceiver(sensorInformation.getCameraParameters(0).getRobotSide(), modelFactory, sensorInformation.getCameraParameters(0).getSensorNameInSdf(), robotConfigurationDataBuffer, scsSensorsPacketCommunicator, sensorSuitePacketCommunicator, ppsTimestampOffsetProvider);
-      new SCSPointCloudLidarReceiver(sensorInformation.getLidarParameters(0).getSensorNameInSdf(), scsSensorsPacketCommunicator, pointCloudDataReceiver);
+      
+      DRCRobotCameraParameters cameraParameters = sensorInformation.getCameraParameters(0);
+      CameraDataReceiver cameraDataReceiver = new SCSCameraDataReceiver(cameraParameters.getRobotSide(), modelFactory, cameraParameters.getSensorNameInSdf(),
+            robotConfigurationDataBuffer, scsSensorsPacketCommunicator, sensorSuitePacketCommunicator, ppsTimestampOffsetProvider);
       cameraDataReceiver.start();
-      pointCloudDataReceiver.start();
+
+      DRCRobotLidarParameters lidarParameters = sensorInformation.getLidarParameters(0);
+      lidarScanPublisher.setLidarBaseFrame(lidarParameters.getSensorNameInSdf());
+      lidarScanPublisher.setScanFrameToLidarSensorFrame();
+      lidarScanPublisher.receiveLidarFromSCS(scsSensorsPacketCommunicator);
+      lidarScanPublisher.start();
    }
 
    @Override
@@ -61,20 +70,4 @@ public class IcubSensorSuiteManager implements DRCSensorSuiteManager
    {
       sensorSuitePacketCommunicator.connect();
    }
-
-
-   //   @Override
-   //   public PacketCommunicator createSensorModule(URI sensorURI)
-   //   {
-   //      KryoLocalPacketCommunicator sensorSuitePacketCommunicator = new KryoLocalPacketCommunicator(new IHMCCommunicationKryoNetClassList(),PacketDestination.SENSOR_MANAGER.ordinal(), "STEPPR_SENSOR_MANAGER");
-   //      if(useSimulatedSensors)
-   //      {
-   //         initializeSimulatedSensors(sensorSuitePacketCommunicator);
-   //      } else {
-   //         initializePhysicalSensors(sensorSuitePacketCommunicator, sensorURI);
-   //      }
-   //      
-   //      return sensorSuitePacketCommunicator;
-   //   }
-
 }
