@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
+import it.iit.iCub.IcubRobotModel;
 import us.ihmc.commonWalkingControlModules.configurations.WalkingControllerParameters;
 import us.ihmc.commonWalkingControlModules.controlModules.foot.YoFootSE3Gains;
 import us.ihmc.commonWalkingControlModules.instantaneousCapturePoint.ICPControlGains;
@@ -33,17 +34,17 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    private final double pelvis_pitch_upper_limit = 1.46608;
    private final double pelvis_pitch_lower_limit = -0.383972;
 
-   private final double min_leg_length_before_collapsing_single_support = 0.25; //TODO tune
-   private final double min_mechanical_leg_length = 0.20; // TODO tune
+   private final double min_leg_length_before_collapsing_single_support = IcubRobotModel.SCALE_FACTOR * 0.25; //TODO tune
+   private final double min_mechanical_leg_length = IcubRobotModel.SCALE_FACTOR * 0.20; // TODO tune
 
-   private final DRCRobotJointMap jointMap;
+   private final IcubJointMap jointMap;
 
-   public IcubWalkingControllerParameters(DRCRobotJointMap jointMap)
+   public IcubWalkingControllerParameters(IcubJointMap jointMap)
    {
       this(jointMap, false);
    }
 
-   public IcubWalkingControllerParameters(DRCRobotJointMap jointMap, boolean runningOnRealRobot) // TODO: are wrong
+   public IcubWalkingControllerParameters(IcubJointMap jointMap, boolean runningOnRealRobot) // TODO: are wrong
    {
       this.runningOnRealRobot = runningOnRealRobot;
       this.jointMap = jointMap;
@@ -169,9 +170,9 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
 
    //TODO need to better tune this
    // USE THESE FOR Real Robot and sims when controlling playback height instead of CoM.
-   private final double minimumHeightAboveGround = 0.4 - 0.02;// + 0.03;
-   private double nominalHeightAboveGround = 0.49;// + 0.03;
-   private final double maximumHeightAboveGround = 0.52;// + 0.03;
+   private final double minimumHeightAboveGround = IcubRobotModel.SCALE_FACTOR * (0.4 - 0.02);// + 0.03;
+   private double nominalHeightAboveGround = IcubRobotModel.SCALE_FACTOR * (0.49);// + 0.03;
+   private final double maximumHeightAboveGround = IcubRobotModel.SCALE_FACTOR * (0.52);// + 0.03;
 
    @Override
    public double minimumHeightAboveAnkle()
@@ -229,25 +230,25 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    @Override
    public double getFootForwardOffset()
    {
-      return IcubPhysicalProperties.footForward;
+      return jointMap.getPhysicalProperties().getFootForward();
    }
 
    @Override
    public double getFootBackwardOffset()
    {
-      return IcubPhysicalProperties.footBack;
+      return jointMap.getPhysicalProperties().getFootBack();
    }
 
    @Override
    public double getAnkleHeight()
    {
-      return IcubPhysicalProperties.ankleHeight;
+      return jointMap.getPhysicalProperties().getAnkleHeight();
    }
 
    @Override
    public double getLegLength()
    {
-      return IcubPhysicalProperties.shinLength + IcubPhysicalProperties.thighLength;
+      return jointMap.getPhysicalProperties().getShinLength() + jointMap.getPhysicalProperties().getThighLength();
    }
 
    @Override
@@ -570,19 +571,19 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    @Override
    public double getFootWidth()
    {
-      return IcubPhysicalProperties.footWidth;
+      return jointMap.getPhysicalProperties().getFootWidth();
    }
 
    @Override
    public double getToeWidth()
    {
-      return IcubPhysicalProperties.toeWidth;
+      return jointMap.getPhysicalProperties().getToeWidth();
    }
 
    @Override
    public double getFootLength()
    {
-      return IcubPhysicalProperties.footLength;
+      return jointMap.getPhysicalProperties().getFootLength();
    }
 
    @Override

@@ -9,40 +9,116 @@ import us.ihmc.robotics.robotSide.SideDependentList;
 
 public class IcubPhysicalProperties extends DRCRobotPhysicalProperties
 {
-	public static final double footsizeReduction = 0.0;
-	   
-	public static final double ankleHeight = 0.042;
-	public static final double footLength = 0.18 - footsizeReduction; // new foot, is bigger than 3D model
-	public static final double footBack = 0.045;
-	public static final double footForward = footLength - footBack;
-	public static final double footWidth = 0.08 - footsizeReduction; // new foot, is bigger than 3D model
-	public static final double toeWidth = 0.08;
-	public static final double thighLength = 0.213;
-	public static final double shinLength = 0.226;
-	public static final double pelvisToFoot = 0.481;
+   public static final double footsizeReduction = 0.0;
+   
+   private final double scale;
+   private final double massScalePower;
+   
+   private final double ankleHeight;
+   private final double footLength;
+   private final double footBack;
+   private final double footForward;
+   private final double footWidth;
+   private final double toeWidth;
+   private final double thighLength;
+   private final double shinLength;
+   private final double pelvisToFoot;
 
-    public static final SideDependentList<RigidBodyTransform> soleToAnkleFrameTransforms = new SideDependentList<>();
-    public static final SideDependentList<RigidBodyTransform> handControlFrameToWristTransforms = new SideDependentList<RigidBodyTransform>(new RigidBodyTransform(), new RigidBodyTransform());
+   private final SideDependentList<RigidBodyTransform> soleToAnkleFrameTransforms = new SideDependentList<>();
+   private final SideDependentList<RigidBodyTransform> handControlFrameToWristTransforms = new SideDependentList<RigidBodyTransform>(new RigidBodyTransform(), new RigidBodyTransform());
 
-    static
-    {
-       for (RobotSide side : RobotSide.values)
-       {
-          RigidBodyTransform soleToAnkleFrame = new RigidBodyTransform();
-          soleToAnkleFrame.setRotationEulerAndZeroTranslation(new Vector3d(0.0, 0.0, 0.0)); // need to check this
-          soleToAnkleFrame.setTranslation(new Vector3d(footLength / 2.0 - footBack, 0.0, -IcubPhysicalProperties.ankleHeight));
-          soleToAnkleFrameTransforms.put(side, soleToAnkleFrame);
-       }
-    }
-    
-	@Override
-	public double getAnkleHeight() 
-	{
-		return ankleHeight;
-	}
+   public IcubPhysicalProperties(double scale, double massScalePower)
+   {
+      this.scale = scale;
+      this.massScalePower = massScalePower;
+      ankleHeight = scale * 0.042;
+      footLength = scale * (0.18 - footsizeReduction); // new foot, is bigger than 3D model         
+      footBack = scale * 0.045;
+      footForward = footLength - footBack;
+      footWidth = scale * (0.08 - footsizeReduction); // new foot, is bigger than 3D model          
+      toeWidth = scale * 0.08;
+      thighLength = scale * 0.213;
+      shinLength = scale * 0.226;
+      pelvisToFoot = scale * 0.481;
 
-	public static RigidBodyTransform getSoleToAnkleFrameTransform(RobotSide side) 
-	{
-		return soleToAnkleFrameTransforms.get(side);
-	}
+      for (RobotSide side : RobotSide.values)
+      {
+         RigidBodyTransform soleToAnkleFrame = new RigidBodyTransform();
+         soleToAnkleFrame.setRotationEulerAndZeroTranslation(new Vector3d(0.0, 0.0, 0.0)); // need to check this
+         soleToAnkleFrame.setTranslation(new Vector3d(footLength / 2.0 - footBack, 0.0, -ankleHeight));
+         soleToAnkleFrameTransforms.put(side, soleToAnkleFrame);
+      }
+   }
+
+   @Override
+   public double getAnkleHeight()
+   {
+      return ankleHeight;
+   }
+
+   public RigidBodyTransform getSoleToAnkleFrameTransform(RobotSide side)
+   {
+      return soleToAnkleFrameTransforms.get(side);
+   }
+
+   public double getFootLength()
+   {
+      return footLength;
+   }
+
+   public double getFootBack()
+   {
+      return footBack;
+   }
+
+   public double getFootForward()
+   {
+      return footForward;
+   }
+
+   public double getFootWidth()
+   {
+      return footWidth;
+   }
+
+   public double getToeWidth()
+   {
+      return toeWidth;
+   }
+
+   public double getThighLength()
+   {
+      return thighLength;
+   }
+
+   public double getShinLength()
+   {
+      return shinLength;
+   }
+
+   public double getPelvisToFoot()
+   {
+      return pelvisToFoot;
+   }
+
+   public RigidBodyTransform getHandControlFrameToWristTransform(RobotSide robotSide)
+   {
+      return handControlFrameToWristTransforms.get(robotSide);
+   }
+
+   public SideDependentList<RigidBodyTransform> getSoleToAnkleFrameTransforms()
+   {
+      return soleToAnkleFrameTransforms;
+   }
+
+   public double getModelScale()
+   {
+      return scale;
+   }
+   
+   public double getMassScalePower()
+   {
+      return massScalePower;
+   }
+
 }

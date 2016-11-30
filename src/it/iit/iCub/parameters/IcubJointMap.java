@@ -21,6 +21,25 @@ import static it.iit.iCub.parameters.IcubOrderedJointMap.neck_yaw;
 import static it.iit.iCub.parameters.IcubOrderedJointMap.torso_pitch;
 import static it.iit.iCub.parameters.IcubOrderedJointMap.torso_roll;
 import static it.iit.iCub.parameters.IcubOrderedJointMap.torso_yaw;
+import static us.ihmc.robotics.partNames.ArmJointName.ELBOW_PITCH;
+import static us.ihmc.robotics.partNames.ArmJointName.ELBOW_YAW;
+import static us.ihmc.robotics.partNames.ArmJointName.FIRST_WRIST_PITCH;
+import static us.ihmc.robotics.partNames.ArmJointName.SHOULDER_PITCH;
+import static us.ihmc.robotics.partNames.ArmJointName.SHOULDER_ROLL;
+import static us.ihmc.robotics.partNames.ArmJointName.SHOULDER_YAW;
+import static us.ihmc.robotics.partNames.ArmJointName.WRIST_ROLL;
+import static us.ihmc.robotics.partNames.LegJointName.ANKLE_PITCH;
+import static us.ihmc.robotics.partNames.LegJointName.ANKLE_ROLL;
+import static us.ihmc.robotics.partNames.LegJointName.HIP_PITCH;
+import static us.ihmc.robotics.partNames.LegJointName.HIP_ROLL;
+import static us.ihmc.robotics.partNames.LegJointName.HIP_YAW;
+import static us.ihmc.robotics.partNames.LegJointName.KNEE_PITCH;
+import static us.ihmc.robotics.partNames.NeckJointName.DISTAL_NECK_ROLL;
+import static us.ihmc.robotics.partNames.NeckJointName.DISTAL_NECK_YAW;
+import static us.ihmc.robotics.partNames.NeckJointName.PROXIMAL_NECK_PITCH;
+import static us.ihmc.robotics.partNames.SpineJointName.SPINE_PITCH;
+import static us.ihmc.robotics.partNames.SpineJointName.SPINE_ROLL;
+import static us.ihmc.robotics.partNames.SpineJointName.SPINE_YAW;
 
 import java.util.EnumMap;
 import java.util.HashSet;
@@ -32,20 +51,15 @@ import javax.vecmath.Vector3d;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
-import us.ihmc.robotics.partNames.ArmJointName;
-import static us.ihmc.robotics.partNames.ArmJointName.*;
-import us.ihmc.robotics.partNames.JointRole;
-import us.ihmc.robotics.partNames.LegJointName;
-import static us.ihmc.robotics.partNames.LegJointName.*;
-import us.ihmc.robotics.partNames.LimbName;
-import us.ihmc.robotics.partNames.NeckJointName;
-import static us.ihmc.robotics.partNames.NeckJointName.*;
-import us.ihmc.robotics.partNames.SpineJointName;
-import static us.ihmc.robotics.partNames.SpineJointName.*;
-
 import us.ihmc.robotics.controllers.YoPDGains;
 import us.ihmc.robotics.dataStructures.registry.YoVariableRegistry;
 import us.ihmc.robotics.geometry.RigidBodyTransform;
+import us.ihmc.robotics.partNames.ArmJointName;
+import us.ihmc.robotics.partNames.JointRole;
+import us.ihmc.robotics.partNames.LegJointName;
+import us.ihmc.robotics.partNames.LimbName;
+import us.ihmc.robotics.partNames.NeckJointName;
+import us.ihmc.robotics.partNames.SpineJointName;
 import us.ihmc.robotics.robotSide.RobotSide;
 import us.ihmc.robotics.robotSide.SideDependentList;
 import us.ihmc.tools.io.printing.PrintTools;
@@ -64,9 +78,12 @@ public class IcubJointMap implements DRCRobotJointMap
 		}
 	}
 
+	
 	public static final String chestName = "chest";
 	public static final String pelvisName = "root_link";
 	public static final String headName = "head";
+
+	private final IcubPhysicalProperties icubPhysicalProperties;
 
 	private final LegJointName[] legJoints = { HIP_PITCH, HIP_ROLL, HIP_YAW, KNEE_PITCH, ANKLE_PITCH, ANKLE_ROLL };
 	private final ArmJointName[] armJoints = { SHOULDER_PITCH, SHOULDER_ROLL, SHOULDER_YAW, ELBOW_PITCH, ELBOW_YAW, FIRST_WRIST_PITCH, WRIST_ROLL };
@@ -92,8 +109,10 @@ public class IcubJointMap implements DRCRobotJointMap
 	private final SideDependentList<String> nameOfJointsBeforeHands = new SideDependentList<>();
 	private final String[] jointNamesBeforeFeet = new String[2];
 	
-	public IcubJointMap() 
+	public IcubJointMap(IcubPhysicalProperties physicalProperties) 
 	{
+	   this.icubPhysicalProperties = physicalProperties;
+	   
 		for (RobotSide robotSide : RobotSide.values) {
 			String[] forcedSideJointNames = forcedSideDependentJointNames.get(robotSide);
 			legJointNames.put(forcedSideJointNames[l_hip_pitch], new ImmutablePair<RobotSide, LegJointName>(robotSide, HIP_PITCH));
@@ -174,6 +193,18 @@ public class IcubJointMap implements DRCRobotJointMap
 	public String getModelName() 
 	{
 		return "iCub";
+	}
+	
+	@Override
+	public double getModelScale()
+	{
+	   return icubPhysicalProperties.getModelScale();
+	}
+	
+	@Override
+	public double getMassScalePower()
+	{
+	   return icubPhysicalProperties.getMassScalePower();
 	}
 
 	@Override
@@ -313,13 +344,13 @@ public class IcubJointMap implements DRCRobotJointMap
 	@Override
 	public RigidBodyTransform getSoleToAnkleFrameTransform(RobotSide robotSide) 
 	{
-		return IcubPhysicalProperties.soleToAnkleFrameTransforms.get(robotSide);
+		return icubPhysicalProperties.getSoleToAnkleFrameTransform(robotSide);
 	}
 
 	@Override
 	public RigidBodyTransform getHandControlFrameToWristTransform(RobotSide robotSide) 
 	{
-		return IcubPhysicalProperties.handControlFrameToWristTransforms.get(robotSide);
+		return icubPhysicalProperties.getHandControlFrameToWristTransform(robotSide);
 	}
 
 	@Override
@@ -400,5 +431,10 @@ public class IcubJointMap implements DRCRobotJointMap
          }
       }
       throw new IllegalArgumentException(joineNameBeforeEndEffector + " was not listed as an end effector in " + this.getClass().getSimpleName());
+   }
+
+   public IcubPhysicalProperties getPhysicalProperties()
+   {
+      return icubPhysicalProperties;
    }
 }
