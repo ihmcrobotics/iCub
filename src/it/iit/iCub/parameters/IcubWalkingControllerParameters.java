@@ -34,8 +34,15 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    private final double pelvis_pitch_upper_limit = 1.46608;
    private final double pelvis_pitch_lower_limit = -0.383972;
 
-   private final double min_leg_length_before_collapsing_single_support = IcubRobotModel.SCALE_FACTOR * 0.25; //TODO tune
-   private final double min_mechanical_leg_length = IcubRobotModel.SCALE_FACTOR * 0.20; // TODO tune
+   private final double min_leg_length_before_collapsing_single_support; //= IcubRobotModel.SCALE_FACTOR * 0.25; //TODO tune
+   private final double min_mechanical_leg_length;// = IcubRobotModel.SCALE_FACTOR * 0.20; // TODO tune
+   
+   
+   //TODO need to better tune this
+   // USE THESE FOR Real Robot and sims when controlling playback height instead of CoM.
+   private final double minimumHeightAboveGround; //= IcubRobotModel.SCALE_FACTOR * (0.4 - 0.02);// + 0.03;
+   private double nominalHeightAboveGround; //= IcubRobotModel.SCALE_FACTOR * (0.49);// + 0.03;
+   private final double maximumHeightAboveGround;// = IcubRobotModel.SCALE_FACTOR * (0.52);// + 0.03;
 
    private final IcubJointMap jointMap;
 
@@ -48,6 +55,16 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    {
       this.runningOnRealRobot = runningOnRealRobot;
       this.jointMap = jointMap;
+      
+      min_leg_length_before_collapsing_single_support = jointMap.getModelScale() * 0.25;
+      min_mechanical_leg_length = jointMap.getModelScale() * 0.20;
+      
+      double fuzzyScaleFactorOffset = -0.05 + 0.05 * Math.pow(jointMap.getModelScale(), jointMap.getMassScalePower());
+      
+      minimumHeightAboveGround = jointMap.getModelScale() * (0.4 - 0.02) + fuzzyScaleFactorOffset;
+      nominalHeightAboveGround = jointMap.getModelScale() * (0.49) + fuzzyScaleFactorOffset;
+      maximumHeightAboveGround = jointMap.getModelScale() * (0.52) + fuzzyScaleFactorOffset;
+
    }
 
    @Override
@@ -168,11 +185,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
       return defaultChestOrientationControlJointNames;
    }
 
-   //TODO need to better tune this
-   // USE THESE FOR Real Robot and sims when controlling playback height instead of CoM.
-   private final double minimumHeightAboveGround = IcubRobotModel.SCALE_FACTOR * (0.4 - 0.02);// + 0.03;
-   private double nominalHeightAboveGround = IcubRobotModel.SCALE_FACTOR * (0.49);// + 0.03;
-   private final double maximumHeightAboveGround = IcubRobotModel.SCALE_FACTOR * (0.52);// + 0.03;
+
 
    @Override
    public double minimumHeightAboveAnkle()

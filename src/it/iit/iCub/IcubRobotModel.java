@@ -67,7 +67,6 @@ import us.ihmc.wholeBodyController.parameters.DefaultArmConfigurations;
 
 public class IcubRobotModel implements DRCRobotModel
 {
-   public static final double SCALE_FACTOR = 1;
    private static final double MASS_SCALE_POWER = 3;
    
    private static final long ESTIMATOR_DT_IN_NS = 1000000;
@@ -95,10 +94,10 @@ public class IcubRobotModel implements DRCRobotModel
 
    private final RobotDescription robotDescription;
 
-   public IcubRobotModel(boolean runningOnRealRobot, boolean headless)
+   public IcubRobotModel(boolean runningOnRealRobot, boolean headless, double scaleFactor)
    {
       this.runningOnRealRobot = runningOnRealRobot;
-      physicalProperties = new IcubPhysicalProperties(SCALE_FACTOR, MASS_SCALE_POWER);
+      physicalProperties = new IcubPhysicalProperties(scaleFactor, MASS_SCALE_POWER);
       jointMap = new IcubJointMap(physicalProperties);
       sensorInformation = new IcubSensorInformation();
 
