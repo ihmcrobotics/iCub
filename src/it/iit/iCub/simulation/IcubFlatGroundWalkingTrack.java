@@ -12,7 +12,7 @@ import us.ihmc.simulationconstructionset.util.ground.FlatGroundProfile;
 
 public class IcubFlatGroundWalkingTrack
 {
-   public static final double MODEL_SCALE = 0.75;
+   public static final double MODEL_SCALE = 1;
    
    public static void main(String[] args)
    {
