@@ -8,9 +8,9 @@ import us.ihmc.wholeBodyController.RobotContactPointParameters;
 
 public class IcubContactPointParameters extends RobotContactPointParameters
 {
-   public IcubContactPointParameters(DRCRobotJointMap jointMap)
+   public IcubContactPointParameters(IcubJointMap jointMap)
    {
-      super(jointMap, footWidth, footLength, IcubPhysicalProperties.soleToAnkleFrameTransforms);
+      super(jointMap, jointMap.getPhysicalProperties().getFootWidth(), jointMap.getPhysicalProperties().getFootLength(), jointMap.getPhysicalProperties().getSoleToAnkleFrameTransforms());
       createDefaultControllerFootContactPoints();
       createDefaultSimulationFootContactPoints();
    }

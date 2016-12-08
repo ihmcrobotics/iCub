@@ -19,13 +19,14 @@ import us.ihmc.simulationconstructionset.SimulationConstructionSet;
 
 public class IcubSdfLoadingDemo
 {
+   public static final double MODEL_SCALE = 1;
 
    private static final boolean SHOW_ELLIPSOIDS = true;
    private static final boolean SHOW_COORDINATES_AT_JOINT_ORIGIN = false;
 
    public IcubSdfLoadingDemo()
    {
-      IcubRobotModel icubRobotModel = new IcubRobotModel(false, false);
+      IcubRobotModel icubRobotModel = new IcubRobotModel(false, false, MODEL_SCALE);
       FloatingRootJointRobot sdfRobot = icubRobotModel.createHumanoidFloatingRootJointRobot(false);
       sdfRobot.setPositionInWorld(new Vector3d(0.0, 0.0, 1.0));
       System.out.println(sdfRobot.computeCenterOfMass(new Point3d()));

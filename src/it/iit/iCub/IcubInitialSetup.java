@@ -19,6 +19,7 @@ import us.ihmc.wholeBodyController.DRCRobotJointMap;
 
 public class IcubInitialSetup implements DRCRobotInitialSetup<HumanoidFloatingRootJointRobot>
 {
+   public static final double initialKneeAngle = -0.80;
    private double groundZ;
    private double initialYaw;
    private final RigidBodyTransform rootToWorld = new RigidBodyTransform();
@@ -55,7 +56,7 @@ public class IcubInitialSetup implements DRCRobotInitialSetup<HumanoidFloatingRo
          String ankleRoll = jointMap.getLegJointName(robotSide, LegJointName.ANKLE_ROLL);
          
          robot.getOneDegreeOfFreedomJoint(hipPitch).setQ(0.305);
-         robot.getOneDegreeOfFreedomJoint(knee).setQ(-0.80);
+         robot.getOneDegreeOfFreedomJoint(knee).setQ(initialKneeAngle);
          robot.getOneDegreeOfFreedomJoint(anklePitch).setQ(-0.495);
          robot.getOneDegreeOfFreedomJoint(hipRoll).setQ(0.0);
          robot.getOneDegreeOfFreedomJoint(ankleRoll).setQ(0.0);

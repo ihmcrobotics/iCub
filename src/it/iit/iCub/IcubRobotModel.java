@@ -46,7 +46,6 @@ import us.ihmc.robotModels.FullHumanoidRobotModel;
 import us.ihmc.robotModels.FullHumanoidRobotModelFromDescription;
 import us.ihmc.robotModels.FullRobotModel;
 import us.ihmc.robotics.geometry.RigidBodyTransform;
-import us.ihmc.robotics.partNames.HumanoidJointNameMap;
 import us.ihmc.robotics.partNames.NeckJointName;
 import us.ihmc.robotics.robotController.OutputProcessor;
 import us.ihmc.robotics.robotDescription.RobotDescription;
@@ -68,6 +67,8 @@ import us.ihmc.wholeBodyController.parameters.DefaultArmConfigurations;
 
 public class IcubRobotModel implements DRCRobotModel
 {
+   private static final double MASS_SCALE_POWER = 3;
+   
    private static final long ESTIMATOR_DT_IN_NS = 1000000;
    private static final double ESTIMATOR_DT = TimeTools.nanoSecondstoSeconds(ESTIMATOR_DT_IN_NS);
    private static final double CONTROL_DT = 0.004;
@@ -76,9 +77,9 @@ public class IcubRobotModel implements DRCRobotModel
    private final ArmControllerParameters armControllerParameters;
    private final WalkingControllerParameters walkingControllerParameters;
    private final StateEstimatorParameters stateEstimatorParamaters;
-   private final DRCRobotPhysicalProperties physicalProperties;
+   private final IcubPhysicalProperties physicalProperties;
    private final DRCRobotSensorInformation sensorInformation;
-   private final DRCRobotJointMap jointMap;
+   private final IcubJointMap jointMap;
    private final String robotName = "ICUB";
    private final SideDependentList<Transform> offsetHandFromWrist = new SideDependentList<Transform>();
    private final CapturePointPlannerParameters capturePointPlannerParameters;
@@ -93,11 +94,11 @@ public class IcubRobotModel implements DRCRobotModel
 
    private final RobotDescription robotDescription;
 
-   public IcubRobotModel(boolean runningOnRealRobot, boolean headless)
+   public IcubRobotModel(boolean runningOnRealRobot, boolean headless, double scaleFactor)
    {
       this.runningOnRealRobot = runningOnRealRobot;
-      jointMap = new IcubJointMap();
-      physicalProperties = new IcubPhysicalProperties();
+      physicalProperties = new IcubPhysicalProperties(scaleFactor, MASS_SCALE_POWER);
+      jointMap = new IcubJointMap(physicalProperties);
       sensorInformation = new IcubSensorInformation();
 
       if (headless)
@@ -133,13 +134,15 @@ public class IcubRobotModel implements DRCRobotModel
 
    private RobotDescription createRobotDescription()
    {
+      
       boolean useCollisionMeshes = false;
-      boolean enableTorqueVelocityLimits = true;
-      boolean enableJointDamping = true;
+      boolean enableTorqueVelocityLimits = false;
+      boolean enableJointDamping = getEnableJointDamping();
 
       GeneralizedSDFRobotModel generalizedSDFRobotModel = getGeneralizedRobotModel();
       RobotDescriptionFromSDFLoader descriptionLoader = new RobotDescriptionFromSDFLoader();
       RobotDescription robotDescription = descriptionLoader.loadRobotDescriptionFromSDF(generalizedSDFRobotModel, jointMap, useCollisionMeshes, enableTorqueVelocityLimits, enableJointDamping);
+      
       return robotDescription;
    }
 
@@ -310,11 +313,6 @@ public class IcubRobotModel implements DRCRobotModel
    @Override
    public HumanoidFloatingRootJointRobot createHumanoidFloatingRootJointRobot(boolean createCollisionMeshes)
    {
-      boolean useCollisionMeshes = false;
-      boolean enableTorqueVelocityLimits = false;
-      HumanoidJointNameMap jointMap = getJointMap();
-      boolean enableJointDamping = getEnableJointDamping();
-      RobotDescription robotDescription = loader.createRobotDescription(jointMap, useCollisionMeshes, enableTorqueVelocityLimits, enableJointDamping);
       return new HumanoidFloatingRootJointRobot(robotDescription, jointMap);
    }
 
