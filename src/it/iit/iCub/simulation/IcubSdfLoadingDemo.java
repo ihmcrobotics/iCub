@@ -19,7 +19,7 @@ import us.ihmc.simulationconstructionset.SimulationConstructionSet;
 
 public class IcubSdfLoadingDemo
 {
-   public static final double MODEL_SCALE = 0.5;
+   public static final double MODEL_SCALE = 1;
 
    private static final boolean SHOW_ELLIPSOIDS = true;
    private static final boolean SHOW_COORDINATES_AT_JOINT_ORIGIN = false;
