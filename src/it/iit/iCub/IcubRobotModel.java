@@ -250,23 +250,10 @@ public class IcubRobotModel implements DRCRobotModel
       return new IcubInitialSetup(groundHeight, initialYaw);
    }
 
-
-   @Override
-   public ScsCollisionConfigure getPhysicsConfigure(FloatingRootJointRobot sdfRobot)
-   {
-      return null;
-   }
-
    @Override
    public RobotContactPointParameters getContactPointParameters()
    {
       return jointMap.getContactPointParameters();
-   }
-
-   @Override
-   public void setJointDamping(FloatingRootJointRobot simulatedRobot)
-   {
-      System.err.println("Joint Damping not setup for iCub. IcubRobotModel setJointDamping!");
    }
 
    @Override
