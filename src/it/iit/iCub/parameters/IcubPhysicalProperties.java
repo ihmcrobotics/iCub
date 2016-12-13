@@ -7,7 +7,7 @@ import us.ihmc.robotics.geometry.RigidBodyTransform;
 import us.ihmc.robotics.robotSide.RobotSide;
 import us.ihmc.robotics.robotSide.SideDependentList;
 
-public class IcubPhysicalProperties extends DRCRobotPhysicalProperties
+public class IcubPhysicalProperties implements DRCRobotPhysicalProperties
 {
    public static final double footsizeReduction = 0.0;
    
