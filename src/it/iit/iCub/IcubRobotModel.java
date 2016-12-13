@@ -250,11 +250,6 @@ public class IcubRobotModel implements DRCRobotModel
       return new IcubInitialSetup(groundHeight, initialYaw);
    }
 
-   @Override
-   public WalkingControllerParameters getMultiContactControllerParameters()
-   {
-      return walkingControllerParameters;
-   }
 
    @Override
    public ScsCollisionConfigure getPhysicsConfigure(FloatingRootJointRobot sdfRobot)
