@@ -293,12 +293,6 @@ public class IcubRobotModel implements DRCRobotModel
    }
 
    @Override
-   public WalkingControllerParameters getDrivingControllerParameters()
-   {
-      return getWalkingControllerParameters();
-   }
-
-   @Override
    public DRCRobotSensorInformation getSensorInformation()
    {
       return sensorInformation;
