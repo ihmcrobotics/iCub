@@ -30,7 +30,7 @@ public class IcubFlatGroundWalkingTrack
       double initialYaw = 0.0;
       DRCRobotInitialSetup<HumanoidFloatingRootJointRobot> robotInitialSetup = robotModel.getDefaultRobotInitialSetup(groundHeight, initialYaw);
 
-      boolean useVelocityAndHeadingScript = true;
+      boolean useVelocityAndHeadingScript = false;
       boolean cheatWithGroundHeightAtForFootstep = false;
 
       new DRCFlatGroundWalkingTrack(robotInitialSetup, guiInitialSetup, scsInitialSetup, useVelocityAndHeadingScript,
