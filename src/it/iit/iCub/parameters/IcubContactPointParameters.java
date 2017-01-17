@@ -1,9 +1,6 @@
 package it.iit.iCub.parameters;
 
-import static it.iit.iCub.parameters.IcubPhysicalProperties.*;
-
 import us.ihmc.simulationconstructionset.util.LinearGroundContactModel;
-import us.ihmc.wholeBodyController.DRCRobotJointMap;
 import us.ihmc.wholeBodyController.RobotContactPointParameters;
 
 public class IcubContactPointParameters extends RobotContactPointParameters
@@ -11,8 +8,7 @@ public class IcubContactPointParameters extends RobotContactPointParameters
    public IcubContactPointParameters(IcubJointMap jointMap)
    {
       super(jointMap, jointMap.getPhysicalProperties().getFootWidth(), jointMap.getPhysicalProperties().getFootLength(), jointMap.getPhysicalProperties().getSoleToAnkleFrameTransforms());
-      createDefaultControllerFootContactPoints();
-      createDefaultSimulationFootContactPoints();
+      createDefaultFootContactPoints();
    }
 
    @Override
