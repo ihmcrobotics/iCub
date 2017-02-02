@@ -4,7 +4,6 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
-import it.iit.iCub.IcubRobotModel;
 import us.ihmc.commonWalkingControlModules.configurations.WalkingControllerParameters;
 import us.ihmc.commonWalkingControlModules.controlModules.foot.YoFootSE3Gains;
 import us.ihmc.commonWalkingControlModules.instantaneousCapturePoint.ICPControlGains;
@@ -20,7 +19,6 @@ import us.ihmc.robotics.partNames.NeckJointName;
 import us.ihmc.robotics.partNames.SpineJointName;
 import us.ihmc.robotics.robotSide.SideDependentList;
 import us.ihmc.sensorProcessing.stateEstimation.FootSwitchType;
-import us.ihmc.wholeBodyController.DRCRobotJointMap;
 
 public class IcubWalkingControllerParameters extends WalkingControllerParameters
 {
@@ -36,8 +34,8 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
 
    private final double min_leg_length_before_collapsing_single_support; //= IcubRobotModel.SCALE_FACTOR * 0.25; //TODO tune
    private final double min_mechanical_leg_length;// = IcubRobotModel.SCALE_FACTOR * 0.20; // TODO tune
-   
-   
+
+
    //TODO need to better tune this
    // USE THESE FOR Real Robot and sims when controlling playback height instead of CoM.
    private final double minimumHeightAboveGround; //= IcubRobotModel.SCALE_FACTOR * (0.4 - 0.02);// + 0.03;
@@ -55,12 +53,12 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    {
       this.runningOnRealRobot = runningOnRealRobot;
       this.jointMap = jointMap;
-      
+
       min_leg_length_before_collapsing_single_support = jointMap.getModelScale() * 0.25;
       min_mechanical_leg_length = jointMap.getModelScale() * 0.20;
-      
+
       double fuzzyScaleFactorOffset = -0.05 + 0.05 * Math.pow(jointMap.getModelScale(), jointMap.getMassScalePower());
-      
+
       minimumHeightAboveGround = jointMap.getModelScale() * (0.4 - 0.02) + fuzzyScaleFactorOffset;
       nominalHeightAboveGround = jointMap.getModelScale() * (0.49) + fuzzyScaleFactorOffset;
       maximumHeightAboveGround = jointMap.getModelScale() * (0.52) + fuzzyScaleFactorOffset;
@@ -329,7 +327,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    {
       return 0.15;
    }
-   
+
    @Override
    public double getMinSwingHeightFromStanceFoot()
    {
@@ -680,11 +678,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    @Override
    public MomentumOptimizationSettings getMomentumOptimizationSettings()
    {
-      MomentumOptimizationSettings momentumOptimizationSettings = new MomentumOptimizationSettings();
-      momentumOptimizationSettings.setRhoMin(0.5);
-      momentumOptimizationSettings.setRhoPlaneContactRegularization(0.000002);
-      momentumOptimizationSettings.setRhoRateWeight(0.0004, 0.01);
-      return momentumOptimizationSettings;
+      return new IcubMomentumOptimizationSettings();
    }
 
    @Override
@@ -915,7 +909,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    {
       // once another mode is implemented, use this to change the default gains for virtual model control
    }
-   
+
    @Override
    public boolean useSwingTrajectoryOptimizer()
    {
