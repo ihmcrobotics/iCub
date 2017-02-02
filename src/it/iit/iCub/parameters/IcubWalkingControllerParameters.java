@@ -678,11 +678,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    @Override
    public MomentumOptimizationSettings getMomentumOptimizationSettings()
    {
-      MomentumOptimizationSettings momentumOptimizationSettings = new IcubMomentumOptimizationSettings();
-      momentumOptimizationSettings.setRhoMin(0.5);
-      momentumOptimizationSettings.setRhoPlaneContactRegularization(0.000002);
-      momentumOptimizationSettings.setRhoRateWeight(0.0004, 0.01);
-      return momentumOptimizationSettings;
+      return new IcubMomentumOptimizationSettings();
    }
 
    @Override
