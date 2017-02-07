@@ -549,6 +549,13 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
       return runningOnRealRobot ? 1.5 : 1.0;
    }
 
+   /** @inheritDoc */
+   @Override
+   public double getDefaultInitialTransferTime()
+   {
+      return runningOnRealRobot ? 2.0 : 1.0;
+   }
+
    @Override
    public double getSpineYawLimit()
    {
