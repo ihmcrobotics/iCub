@@ -14,13 +14,6 @@ public class IcubCapturePointPlannerParameters extends CapturePointPlannerParame
 
    /** {@inheritDoc} */
    @Override
-   public double getDoubleSupportInitialTransferDuration()
-   {
-      return runningOnRealRobot ? 2.0 : 1.0;
-   }
-
-   /** {@inheritDoc} */
-   @Override
    public double getEntryCMPInsideOffset()
    {
       return 0.006;
