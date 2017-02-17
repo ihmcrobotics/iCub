@@ -2,11 +2,10 @@ package it.iit.iCub.parameters;
 
 import java.util.ArrayList;
 
-import javax.vecmath.Vector3d;
-
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 
-import us.ihmc.robotics.geometry.RigidBodyTransform;
+import us.ihmc.euclid.transform.RigidBodyTransform;
+import us.ihmc.euclid.tuple3D.Vector3D;
 import us.ihmc.robotics.referenceFrames.ReferenceFrame;
 import us.ihmc.robotics.robotSide.RobotSide;
 import us.ihmc.robotics.robotSide.SideDependentList;
@@ -33,7 +32,7 @@ public class IcubSensorInformation implements DRCRobotSensorInformation
    {
       RigidBodyTransform leftTransform = new RigidBodyTransform();
 //      leftTransform.setEuler(0.0, 1.5708, 0.0); //from URDF,  but our 'UP axis' in 'l/r_ankle_roll' is 'X' and the 'Mes CoP' goes crazy (but robot can walk)
-      leftTransform.setTranslation(new Vector3d(-0.0035, 0.0, 0.0685));
+      leftTransform.setTranslation(new Vector3D(-0.0035, 0.0, 0.0685));
 
       transformFromMeasurementToAnkleZUpFrames.put(RobotSide.LEFT, leftTransform);
       transformFromMeasurementToAnkleZUpFrames.put(RobotSide.RIGHT, new RigidBodyTransform(leftTransform));

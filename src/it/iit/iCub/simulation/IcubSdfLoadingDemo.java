@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import javax.vecmath.Point3d;
-import javax.vecmath.Vector3d;
-
 import it.iit.iCub.IcubRobotModel;
+import us.ihmc.euclid.tuple3D.Point3D;
+import us.ihmc.euclid.tuple3D.Vector3D;
 import us.ihmc.graphicsDescription.Graphics3DObject;
 import us.ihmc.graphicsDescription.appearance.AppearanceDefinition;
 import us.ihmc.graphicsDescription.appearance.YoAppearance;
@@ -28,8 +27,8 @@ public class IcubSdfLoadingDemo
    {
       IcubRobotModel icubRobotModel = new IcubRobotModel(false, false, MODEL_SCALE);
       FloatingRootJointRobot sdfRobot = icubRobotModel.createHumanoidFloatingRootJointRobot(false);
-      sdfRobot.setPositionInWorld(new Vector3d(0.0, 0.0, 1.0));
-      System.out.println(sdfRobot.computeCenterOfMass(new Point3d()));
+      sdfRobot.setPositionInWorld(new Vector3D(0.0, 0.0, 1.0));
+      System.out.println(sdfRobot.computeCenterOfMass(new Point3D()));
 
       if (SHOW_ELLIPSOIDS)
       {

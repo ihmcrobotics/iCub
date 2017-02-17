@@ -1,9 +1,8 @@
 package it.iit.iCub.parameters;
 
-import javax.vecmath.Vector3d;
-
 import us.ihmc.avatar.drcRobot.DRCRobotPhysicalProperties;
-import us.ihmc.robotics.geometry.RigidBodyTransform;
+import us.ihmc.euclid.transform.RigidBodyTransform;
+import us.ihmc.euclid.tuple3D.Vector3D;
 import us.ihmc.robotics.robotSide.RobotSide;
 import us.ihmc.robotics.robotSide.SideDependentList;
 
@@ -44,8 +43,8 @@ public class IcubPhysicalProperties implements DRCRobotPhysicalProperties
       for (RobotSide side : RobotSide.values)
       {
          RigidBodyTransform soleToAnkleFrame = new RigidBodyTransform();
-         soleToAnkleFrame.setRotationEulerAndZeroTranslation(new Vector3d(0.0, 0.0, 0.0)); // need to check this
-         soleToAnkleFrame.setTranslation(new Vector3d(footLength / 2.0 - footBack, 0.0, -ankleHeight));
+         soleToAnkleFrame.setRotationEulerAndZeroTranslation(new Vector3D(0.0, 0.0, 0.0)); // need to check this
+         soleToAnkleFrame.setTranslation(new Vector3D(footLength / 2.0 - footBack, 0.0, -ankleHeight));
          soleToAnkleFrameTransforms.put(side, soleToAnkleFrame);
       }
    }
