@@ -685,7 +685,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    @Override
    public MomentumOptimizationSettings getMomentumOptimizationSettings()
    {
-      return new IcubMomentumOptimizationSettings();
+      return new IcubMomentumOptimizationSettings(jointMap);
    }
 
    @Override
