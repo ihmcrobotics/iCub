@@ -37,9 +37,6 @@ public class IcubMomentumOptimizationSettings extends MomentumOptimizationSettin
    private final Vector2D copRateDefaultWeight = new Vector2D(20000.0, 20000.0);
    private final Vector2D copRateHighWeight = new Vector2D(2500000.0, 10000000.0);
    private final double headTaskspaceWeight = 1.0;
-   private final double headUserModeWeight = 1.0;
-   private final double chestUserModeWeight = 50.0;
-   private final double handUserModeWeight = 50.0;
    private final Vector3D handAngularTaskspaceWeight = new Vector3D(1.0, 1.0, 1.0);
    private final Vector3D handLinearTaskspaceWeight = new Vector3D(1.0, 1.0, 1.0);
 
@@ -48,17 +45,33 @@ public class IcubMomentumOptimizationSettings extends MomentumOptimizationSettin
    private final double armJointspaceWeight = 1.0;
    private final TObjectDoubleHashMap<String> jointspaceWeights = new TObjectDoubleHashMap<>();
 
+   private final double neckUserModeWeight = 1.0;
+   private final double spineUserModeWeight = 50.0;
+   private final double armUserModeWeight = 50.0;
+   private final TObjectDoubleHashMap<String> userModeWeights = new TObjectDoubleHashMap<>();
+
    public IcubMomentumOptimizationSettings(IcubJointMap jointMap)
    {
       for (SpineJointName jointName : jointMap.getSpineJointNames())
+      {
          jointspaceWeights.put(jointMap.getSpineJointName(jointName), spineJointspaceWeight);
+         userModeWeights.put(jointMap.getSpineJointName(jointName), spineUserModeWeight);
+      }
 
       for (ArmJointName jointName : jointMap.getArmJointNames())
+      {
          for (RobotSide robotSide : RobotSide.values)
+         {
             jointspaceWeights.put(jointMap.getArmJointName(robotSide, jointName), armJointspaceWeight);
+            userModeWeights.put(jointMap.getArmJointName(robotSide, jointName), armUserModeWeight);
+         }
+      }
 
       for (NeckJointName jointName : jointMap.getNeckJointNames())
+      {
          jointspaceWeights.put(jointMap.getNeckJointName(jointName), neckJointspaceWeight);
+         userModeWeights.put(jointMap.getNeckJointName(jointName), neckUserModeWeight);
+      }
    }
 
    /** @inheritDoc */
@@ -149,7 +162,7 @@ public class IcubMomentumOptimizationSettings extends MomentumOptimizationSettin
    @Override
    public double getHeadUserModeWeight()
    {
-      return headUserModeWeight;
+      return neckUserModeWeight;
    }
 
    /** @inheritDoc */
@@ -212,7 +225,7 @@ public class IcubMomentumOptimizationSettings extends MomentumOptimizationSettin
    @Override
    public double getHandUserModeWeight()
    {
-      return handUserModeWeight;
+      return armUserModeWeight;
    }
 
    /** @inheritDoc */
@@ -270,11 +283,18 @@ public class IcubMomentumOptimizationSettings extends MomentumOptimizationSettin
    {
       return jointspaceWeights;
    }
-   
+
    /** @inheritDoc */
    @Override
    public double getChestUserModeWeight()
    {
-      return chestUserModeWeight;
+      return spineUserModeWeight;
+   }
+
+   /** @inheritDoc */
+   @Override
+   public TObjectDoubleHashMap<String> getUserModeWeights()
+   {
+      return userModeWeights;
    }
 }
