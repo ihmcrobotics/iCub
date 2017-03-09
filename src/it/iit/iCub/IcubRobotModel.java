@@ -69,7 +69,7 @@ public class IcubRobotModel implements DRCRobotModel
    private static final double MASS_SCALE_POWER = 3;
    
    private static final long ESTIMATOR_DT_IN_NS = 1000000;
-   private static final double ESTIMATOR_DT = Conversions.nanoSecondstoSeconds(ESTIMATOR_DT_IN_NS);
+   private static final double ESTIMATOR_DT = Conversions.nanosecondsToSeconds(ESTIMATOR_DT_IN_NS);
    private static final double CONTROL_DT = 0.004;
    private static final double SIMULATE_DT = 0.0001;
 
