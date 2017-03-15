@@ -64,23 +64,24 @@ import us.ihmc.robotics.robotSide.RobotSide;
 import us.ihmc.robotics.robotSide.SideDependentList;
 import us.ihmc.wholeBodyController.DRCRobotJointMap;
 
-public class IcubJointMap implements DRCRobotJointMap 
+public class IcubJointMap implements DRCRobotJointMap
 {
 	// Enable joint limits
 	public static boolean ENABLE_JOINT_VELOCITY_TORQUE_LIMITS = false;
 
-	static 
+	static
 	{
-		if (!ENABLE_JOINT_VELOCITY_TORQUE_LIMITS) 
+		if (!ENABLE_JOINT_VELOCITY_TORQUE_LIMITS)
 		{
          PrintTools.info(IcubJointMap.class, "Running with torque and velocity limits disabled.");
 		}
 	}
 
-	
+
 	public static final String chestName = "chest";
 	public static final String pelvisName = "root_link";
 	public static final String headName = "head";
+	public static final SideDependentList<String> handNames = new SideDependentList<>(getRobotSidePrefix(RobotSide.LEFT) + "hand", getRobotSidePrefix(RobotSide.RIGHT) + "hand");
 
 	private final IcubPhysicalProperties icubPhysicalProperties;
 
@@ -107,11 +108,11 @@ public class IcubJointMap implements DRCRobotJointMap
 	private final SideDependentList<String> nameOfJointsBeforeThighs = new SideDependentList<>();
 	private final SideDependentList<String> nameOfJointsBeforeHands = new SideDependentList<>();
 	private final String[] jointNamesBeforeFeet = new String[2];
-	
-	public IcubJointMap(IcubPhysicalProperties physicalProperties) 
+
+	public IcubJointMap(IcubPhysicalProperties physicalProperties)
 	{
 	   this.icubPhysicalProperties = physicalProperties;
-	   
+
 		for (RobotSide robotSide : RobotSide.values) {
 			String[] forcedSideJointNames = forcedSideDependentJointNames.get(robotSide);
 			legJointNames.put(forcedSideJointNames[l_hip_pitch], new ImmutablePair<RobotSide, LegJointName>(robotSide, HIP_PITCH));
@@ -134,16 +135,16 @@ public class IcubJointMap implements DRCRobotJointMap
 			limbNames.put(prefix + "hand", new ImmutablePair<RobotSide, LimbName>(robotSide, LimbName.ARM));
 			limbNames.put(prefix + "upper_foot", new ImmutablePair<RobotSide, LimbName>(robotSide, LimbName.LEG));
 		}
-	
+
 		spineJointNames.put(jointNames[torso_pitch], SPINE_PITCH);
 		spineJointNames.put(jointNames[torso_roll], SPINE_ROLL);
 		spineJointNames.put(jointNames[torso_yaw], SPINE_YAW);
-		
+
 		neckJointNames.put(jointNames[neck_pitch], PROXIMAL_NECK_PITCH);
 		neckJointNames.put(jointNames[neck_roll], DISTAL_NECK_ROLL);
 		neckJointNames.put(jointNames[neck_yaw], DISTAL_NECK_YAW);
 
-		for (String legJointString : legJointNames.keySet()) 
+		for (String legJointString : legJointNames.keySet())
 		{
 			RobotSide robotSide = legJointNames.get(legJointString).getLeft();
 			LegJointName legJointName = legJointNames.get(legJointString).getRight();
@@ -151,7 +152,7 @@ public class IcubJointMap implements DRCRobotJointMap
 			jointRoles.put(legJointString, JointRole.LEG);
 		}
 
-		for (String armJointString : armJointNames.keySet()) 
+		for (String armJointString : armJointNames.keySet())
 		{
 			RobotSide robotSide = armJointNames.get(armJointString).getLeft();
 			ArmJointName armJointName = armJointNames.get(armJointString).getRight();
@@ -159,13 +160,13 @@ public class IcubJointMap implements DRCRobotJointMap
 			jointRoles.put(armJointString, JointRole.ARM);
 		}
 
-		for (String spineJointString : spineJointNames.keySet()) 
+		for (String spineJointString : spineJointNames.keySet())
 		{
 			spineJointStrings.put(spineJointNames.get(spineJointString), spineJointString);
 			jointRoles.put(spineJointString, JointRole.SPINE);
 		}
 
-		for (String neckJointString : neckJointNames.keySet()) 
+		for (String neckJointString : neckJointNames.keySet())
 		{
 			neckJointStrings.put(neckJointNames.get(neckJointString), neckJointString);
 			jointRoles.put(neckJointString, JointRole.NECK);
@@ -173,33 +174,33 @@ public class IcubJointMap implements DRCRobotJointMap
 
 		contactPointParameters = new IcubContactPointParameters(this);
 
-		for (RobotSide robtSide : RobotSide.values) 
+		for (RobotSide robtSide : RobotSide.values)
 		{
 			nameOfJointsBeforeThighs.put(robtSide, legJointStrings.get(robtSide).get(HIP_PITCH));
 			nameOfJointsBeforeHands.put(robtSide, armJointStrings.get(robtSide).get(WRIST_ROLL));
 		}
-		
+
       jointNamesBeforeFeet[0] = getJointBeforeFootName(RobotSide.LEFT);
       jointNamesBeforeFeet[1] = getJointBeforeFootName(RobotSide.RIGHT);
 	}
 
-   private String getRobotSidePrefix(RobotSide robotSide)
+   private static String getRobotSidePrefix(RobotSide robotSide)
    {
       return (robotSide == RobotSide.LEFT) ? "l_" : "r_";
    }
 
 	@Override
-	public String getModelName() 
+	public String getModelName()
 	{
 		return "iCub";
 	}
-	
+
 	@Override
 	public double getModelScale()
 	{
 	   return icubPhysicalProperties.getModelScale();
 	}
-	
+
 	@Override
 	public double getMassScalePower()
 	{
@@ -207,67 +208,67 @@ public class IcubJointMap implements DRCRobotJointMap
 	}
 
 	@Override
-	public SideDependentList<String> getNameOfJointBeforeHands() 
+	public SideDependentList<String> getNameOfJointBeforeHands()
 	{
 		return nameOfJointsBeforeHands;
 	}
 
 	@Override
-	public SideDependentList<String> getNameOfJointBeforeThighs() 
+	public SideDependentList<String> getNameOfJointBeforeThighs()
 	{
 		return nameOfJointsBeforeThighs;
 	}
 
 	@Override
-	public String getNameOfJointBeforeChest() 
+	public String getNameOfJointBeforeChest()
 	{
 		return spineJointStrings.get(SPINE_YAW);
 	}
 
 	@Override
-	public ImmutablePair<RobotSide, LegJointName> getLegJointName(String jointName) 
+	public ImmutablePair<RobotSide, LegJointName> getLegJointName(String jointName)
 	{
 		return legJointNames.get(jointName);
 	}
 
 	@Override
-	public ImmutablePair<RobotSide, ArmJointName> getArmJointName(String jointName) 
+	public ImmutablePair<RobotSide, ArmJointName> getArmJointName(String jointName)
 	{
 		return armJointNames.get(jointName);
 	}
 
 	@Override
-	public ImmutablePair<RobotSide, LimbName> getLimbName(String limbName) 
+	public ImmutablePair<RobotSide, LimbName> getLimbName(String limbName)
 	{
 		return limbNames.get(limbName);
 	}
 
 	@Override
-	public JointRole getJointRole(String jointName) 
+	public JointRole getJointRole(String jointName)
 	{
 		return jointRoles.get(jointName);
 	}
 
 	@Override
-	public NeckJointName getNeckJointName(String jointName) 
+	public NeckJointName getNeckJointName(String jointName)
 	{
 		return neckJointNames.get(jointName);
 	}
 
 	@Override
-	public SpineJointName getSpineJointName(String jointName) 
+	public SpineJointName getSpineJointName(String jointName)
 	{
 		return spineJointNames.get(jointName);
 	}
 
 	@Override
-	public String getPelvisName() 
+	public String getPelvisName()
 	{
 		return pelvisName;
 	}
 
 	@Override
-	public String getChestName() 
+	public String getChestName()
 	{
 		return chestName;
 	}
@@ -279,54 +280,54 @@ public class IcubJointMap implements DRCRobotJointMap
 	}
 
 	@Override
-	public LegJointName[] getLegJointNames() 
+	public LegJointName[] getLegJointNames()
 	{
 		return legJoints;
 	}
 
 	@Override
-	public ArmJointName[] getArmJointNames() 
+	public ArmJointName[] getArmJointNames()
 	{
 		return armJoints;
 	}
 
-	public SpineJointName[] getSpineJointNames() 
+	public SpineJointName[] getSpineJointNames()
 	{
 		return spineJoints;
 	}
 
 	@Override
-	public NeckJointName[] getNeckJointNames() 
+	public NeckJointName[] getNeckJointNames()
 	{
 		return neckJoints;
 	}
 
 	@Override
-	public String getJointBeforeFootName(RobotSide robotSide) 
+	public String getJointBeforeFootName(RobotSide robotSide)
 	{
 		return legJointStrings.get(robotSide).get(ANKLE_ROLL);
 	}
 
 	@Override
-	public IcubContactPointParameters getContactPointParameters() 
+	public IcubContactPointParameters getContactPointParameters()
 	{
 		return contactPointParameters;
 	}
 
 	@Override
-	public List<ImmutablePair<String, Vector3D>> getJointNameGroundContactPointMap() 
+	public List<ImmutablePair<String, Vector3D>> getJointNameGroundContactPointMap()
 	{
 		return contactPointParameters.getJointNameGroundContactPointMap();
 	}
-	
+
 	@Override
-	public boolean isTorqueVelocityLimitsEnabled() 
+	public boolean isTorqueVelocityLimitsEnabled()
 	{
 		return ENABLE_JOINT_VELOCITY_TORQUE_LIMITS;
 	}
 
 	@Override
-	public Set<String> getLastSimulatedJoints() 
+	public Set<String> getLastSimulatedJoints()
 	{
 		HashSet<String> lastSimulatedJoints = new HashSet<>();
 		for (RobotSide robotSide : RobotSide.values)
@@ -335,43 +336,43 @@ public class IcubJointMap implements DRCRobotJointMap
 	}
 
 	@Override
-	public String[] getOrderedJointNames() 
+	public String[] getOrderedJointNames()
 	{
 		return jointNames;
 	}
 
 	@Override
-	public RigidBodyTransform getSoleToAnkleFrameTransform(RobotSide robotSide) 
+	public RigidBodyTransform getSoleToAnkleFrameTransform(RobotSide robotSide)
 	{
 		return icubPhysicalProperties.getSoleToAnkleFrameTransform(robotSide);
 	}
 
 	@Override
-	public RigidBodyTransform getHandControlFrameToWristTransform(RobotSide robotSide) 
+	public RigidBodyTransform getHandControlFrameToWristTransform(RobotSide robotSide)
 	{
 		return icubPhysicalProperties.getHandControlFrameToWristTransform(robotSide);
 	}
 
 	@Override
-	public String getLegJointName(RobotSide robotSide, LegJointName legJointName) 
+	public String getLegJointName(RobotSide robotSide, LegJointName legJointName)
 	{
 		return legJointStrings.get(robotSide).get(legJointName);
 	}
 
 	@Override
-	public String getArmJointName(RobotSide robotSide, ArmJointName armJointName) 
+	public String getArmJointName(RobotSide robotSide, ArmJointName armJointName)
 	{
 		return armJointStrings.get(robotSide).get(armJointName);
 	}
 
 	@Override
-	public String getNeckJointName(NeckJointName neckJointName) 
+	public String getNeckJointName(NeckJointName neckJointName)
 	{
 		return neckJointStrings.get(neckJointName);
 	}
 
 	@Override
-	public String getSpineJointName(SpineJointName spineJointName) 
+	public String getSpineJointName(SpineJointName spineJointName)
 	{
 		return spineJointStrings.get(spineJointName);
 	}
@@ -399,19 +400,24 @@ public class IcubJointMap implements DRCRobotJointMap
    {
       return pelvisName;
    }
-   
+
+   public String getHandName(RobotSide robotSide)
+   {
+      return handNames.get(robotSide);
+   }
+
    @Override
    public String[] getJointNamesBeforeFeet()
    {
       return jointNamesBeforeFeet;
    }
-   
+
    @Override
    public Enum<?>[] getRobotSegments()
    {
       return RobotSide.values;
    }
-   
+
    @Override
    public Enum<?> getEndEffectorsRobotSegment(String joineNameBeforeEndEffector)
    {
@@ -422,7 +428,7 @@ public class IcubJointMap implements DRCRobotJointMap
          {
             return robotSide;
          }
-         
+
          String endOfArm = armJointStrings.get(robotSide).get(WRIST_ROLL);
          if(endOfArm != null && endOfArm.equals(joineNameBeforeEndEffector))
          {

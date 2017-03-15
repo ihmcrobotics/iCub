@@ -10,7 +10,6 @@ import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 
 import it.iit.iCub.configuration.IcubConfigurationRoot;
-import it.iit.iCub.parameters.IcubArmControllerParameters;
 import it.iit.iCub.parameters.IcubCapturePointPlannerParameters;
 import it.iit.iCub.parameters.IcubJointMap;
 import it.iit.iCub.parameters.IcubPhysicalProperties;
@@ -26,7 +25,6 @@ import us.ihmc.avatar.initialSetup.DRCRobotInitialSetup;
 import us.ihmc.avatar.networkProcessor.time.DRCROSAlwaysZeroOffsetPPSTimestampOffsetProvider;
 import us.ihmc.avatar.ros.DRCROSPPSTimestampOffsetProvider;
 import us.ihmc.avatar.sensors.DRCSensorSuiteManager;
-import us.ihmc.commonWalkingControlModules.configurations.ArmControllerParameters;
 import us.ihmc.commonWalkingControlModules.configurations.CapturePointPlannerParameters;
 import us.ihmc.commonWalkingControlModules.configurations.WalkingControllerParameters;
 import us.ihmc.commonWalkingControlModules.instantaneousCapturePoint.icpOptimization.ICPOptimizationParameters;
@@ -67,13 +65,12 @@ import us.ihmc.wholeBodyController.parameters.DefaultArmConfigurations;
 public class IcubRobotModel implements DRCRobotModel
 {
    private static final double MASS_SCALE_POWER = 3;
-   
+
    private static final long ESTIMATOR_DT_IN_NS = 1000000;
    private static final double ESTIMATOR_DT = Conversions.nanosecondsToSeconds(ESTIMATOR_DT_IN_NS);
    private static final double CONTROL_DT = 0.004;
    private static final double SIMULATE_DT = 0.0001;
 
-   private final ArmControllerParameters armControllerParameters;
    private final WalkingControllerParameters walkingControllerParameters;
    private final StateEstimatorParameters stateEstimatorParamaters;
    private final IcubPhysicalProperties physicalProperties;
@@ -124,7 +121,6 @@ public class IcubRobotModel implements DRCRobotModel
          loader.addForceSensor(jointMap, forceSensorNames, forceSensorNames, transform);
       }
 
-      armControllerParameters = new IcubArmControllerParameters(runningOnRealRobot);
       walkingControllerParameters = new IcubWalkingControllerParameters(jointMap, runningOnRealRobot);
       stateEstimatorParamaters = new IcubStateEstimatorParameters(runningOnRealRobot, getEstimatorDT());
       capturePointPlannerParameters = new IcubCapturePointPlannerParameters(runningOnRealRobot);
@@ -133,12 +129,12 @@ public class IcubRobotModel implements DRCRobotModel
 
    private RobotDescription createRobotDescription()
    {
-      
+
       boolean useCollisionMeshes = false;
       GeneralizedSDFRobotModel generalizedSDFRobotModel = getGeneralizedRobotModel();
       RobotDescriptionFromSDFLoader descriptionLoader = new RobotDescriptionFromSDFLoader();
       RobotDescription robotDescription = descriptionLoader.loadRobotDescriptionFromSDF(generalizedSDFRobotModel, jointMap, useCollisionMeshes);
-      
+
       return robotDescription;
    }
 
@@ -146,12 +142,6 @@ public class IcubRobotModel implements DRCRobotModel
    public RobotDescription getRobotDescription()
    {
       return robotDescription;
-   }
-
-   @Override
-   public ArmControllerParameters getArmControllerParameters()
-   {
-      return armControllerParameters;
    }
 
    @Override
