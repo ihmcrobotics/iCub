@@ -11,6 +11,7 @@ import com.jme3.math.Vector3f;
 
 import it.iit.iCub.configuration.IcubConfigurationRoot;
 import it.iit.iCub.parameters.IcubCapturePointPlannerParameters;
+import it.iit.iCub.parameters.IcubContactPointParameters;
 import it.iit.iCub.parameters.IcubJointMap;
 import it.iit.iCub.parameters.IcubPhysicalProperties;
 import it.iit.iCub.parameters.IcubSensorInformation;
@@ -76,6 +77,7 @@ public class IcubRobotModel implements DRCRobotModel
    private final IcubPhysicalProperties physicalProperties;
    private final DRCRobotSensorInformation sensorInformation;
    private final IcubJointMap jointMap;
+   private final IcubContactPointParameters contactPointParameters;
    private final String robotName = "ICUB";
    private final SideDependentList<Transform> offsetHandFromWrist = new SideDependentList<Transform>();
    private final CapturePointPlannerParameters capturePointPlannerParameters;
@@ -95,6 +97,7 @@ public class IcubRobotModel implements DRCRobotModel
       this.runningOnRealRobot = runningOnRealRobot;
       physicalProperties = new IcubPhysicalProperties(scaleFactor, MASS_SCALE_POWER);
       jointMap = new IcubJointMap(physicalProperties);
+      contactPointParameters = new IcubContactPointParameters(jointMap);
       sensorInformation = new IcubSensorInformation();
 
       if (headless)
@@ -133,7 +136,8 @@ public class IcubRobotModel implements DRCRobotModel
       boolean useCollisionMeshes = false;
       GeneralizedSDFRobotModel generalizedSDFRobotModel = getGeneralizedRobotModel();
       RobotDescriptionFromSDFLoader descriptionLoader = new RobotDescriptionFromSDFLoader();
-      RobotDescription robotDescription = descriptionLoader.loadRobotDescriptionFromSDF(generalizedSDFRobotModel, jointMap, useCollisionMeshes);
+      RobotDescription robotDescription = descriptionLoader.loadRobotDescriptionFromSDF(generalizedSDFRobotModel, jointMap, contactPointParameters,
+            useCollisionMeshes);
 
       return robotDescription;
    }
@@ -239,7 +243,7 @@ public class IcubRobotModel implements DRCRobotModel
    @Override
    public RobotContactPointParameters getContactPointParameters()
    {
-      return jointMap.getContactPointParameters();
+      return contactPointParameters;
    }
 
    @Override
