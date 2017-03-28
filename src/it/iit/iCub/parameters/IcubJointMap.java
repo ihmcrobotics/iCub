@@ -51,7 +51,6 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 
 import us.ihmc.commons.PrintTools;
 import us.ihmc.euclid.transform.RigidBodyTransform;
-import us.ihmc.euclid.tuple3D.Vector3D;
 import us.ihmc.robotics.controllers.YoPDGains;
 import us.ihmc.robotics.dataStructures.registry.YoVariableRegistry;
 import us.ihmc.robotics.partNames.ArmJointName;
@@ -102,8 +101,6 @@ public class IcubJointMap implements DRCRobotJointMap
 	private final SideDependentList<EnumMap<ArmJointName, String>> armJointStrings = SideDependentList.createListOfEnumMaps(ArmJointName.class);
 	private final EnumMap<SpineJointName, String> spineJointStrings = new EnumMap<>(SpineJointName.class);
 	private final EnumMap<NeckJointName, String> neckJointStrings = new EnumMap<>(NeckJointName.class);
-
-	private final IcubContactPointParameters contactPointParameters;
 
 	private final SideDependentList<String> nameOfJointsBeforeThighs = new SideDependentList<>();
 	private final SideDependentList<String> nameOfJointsBeforeHands = new SideDependentList<>();
@@ -171,8 +168,6 @@ public class IcubJointMap implements DRCRobotJointMap
 			neckJointStrings.put(neckJointNames.get(neckJointString), neckJointString);
 			jointRoles.put(neckJointString, JointRole.NECK);
 		}
-
-		contactPointParameters = new IcubContactPointParameters(this);
 
 		for (RobotSide robtSide : RobotSide.values)
 		{
@@ -306,18 +301,6 @@ public class IcubJointMap implements DRCRobotJointMap
 	public String getJointBeforeFootName(RobotSide robotSide)
 	{
 		return legJointStrings.get(robotSide).get(ANKLE_ROLL);
-	}
-
-	@Override
-	public IcubContactPointParameters getContactPointParameters()
-	{
-		return contactPointParameters;
-	}
-
-	@Override
-	public List<ImmutablePair<String, Vector3D>> getJointNameGroundContactPointMap()
-	{
-		return contactPointParameters.getJointNameGroundContactPointMap();
 	}
 
 	@Override
