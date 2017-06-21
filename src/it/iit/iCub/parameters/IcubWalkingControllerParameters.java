@@ -18,13 +18,13 @@ import us.ihmc.robotics.controllers.YoPIDGains;
 import us.ihmc.robotics.controllers.YoPositionPIDGainsInterface;
 import us.ihmc.robotics.controllers.YoSE3PIDGainsInterface;
 import us.ihmc.robotics.controllers.YoSymmetricSE3PIDGains;
-import us.ihmc.yoVariables.registry.YoVariableRegistry;
 import us.ihmc.robotics.partNames.ArmJointName;
 import us.ihmc.robotics.partNames.NeckJointName;
 import us.ihmc.robotics.partNames.SpineJointName;
 import us.ihmc.robotics.robotSide.RobotSide;
 import us.ihmc.robotics.robotSide.SideDependentList;
 import us.ihmc.sensorProcessing.stateEstimation.FootSwitchType;
+import us.ihmc.yoVariables.registry.YoVariableRegistry;
 
 public class IcubWalkingControllerParameters extends WalkingControllerParameters
 {
@@ -63,11 +63,9 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
       min_leg_length_before_collapsing_single_support = jointMap.getModelScale() * 0.25;
       min_mechanical_leg_length = jointMap.getModelScale() * 0.20;
 
-      double fuzzyScaleFactorOffset = -0.05 + 0.05 * Math.pow(jointMap.getModelScale(), jointMap.getMassScalePower());
-
-      minimumHeightAboveGround = jointMap.getModelScale() * (0.4 - 0.02) + fuzzyScaleFactorOffset;
-      nominalHeightAboveGround = jointMap.getModelScale() * (0.49) + fuzzyScaleFactorOffset;
-      maximumHeightAboveGround = jointMap.getModelScale() * (0.52) + fuzzyScaleFactorOffset;
+      minimumHeightAboveGround = jointMap.getModelScale() * (0.4 - 0.02);
+      nominalHeightAboveGround = jointMap.getModelScale() * (0.49);
+      maximumHeightAboveGround = jointMap.getModelScale() * (0.52);
 
    }
 
@@ -673,13 +671,13 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
 
       for (RobotSide robotSide : RobotSide.values)
       {
-         jointHomeConfiguration.put(jointMap.getArmJointName(robotSide, ArmJointName.SHOULDER_ROLL), 0.18);
          jointHomeConfiguration.put(jointMap.getArmJointName(robotSide, ArmJointName.SHOULDER_PITCH), 0.3);
+         jointHomeConfiguration.put(jointMap.getArmJointName(robotSide, ArmJointName.SHOULDER_ROLL), 0.18);
          jointHomeConfiguration.put(jointMap.getArmJointName(robotSide, ArmJointName.SHOULDER_YAW), 0.0);
          jointHomeConfiguration.put(jointMap.getArmJointName(robotSide, ArmJointName.ELBOW_PITCH), 1.0);
          jointHomeConfiguration.put(jointMap.getArmJointName(robotSide, ArmJointName.ELBOW_YAW), 0.0);
          jointHomeConfiguration.put(jointMap.getArmJointName(robotSide, ArmJointName.FIRST_WRIST_PITCH), 0.0);
-         jointHomeConfiguration.put(jointMap.getArmJointName(robotSide, ArmJointName.WRIST_ROLL), 0.0);
+         jointHomeConfiguration.put(jointMap.getArmJointName(robotSide, ArmJointName.WRIST_YAW), 0.0);
       }
 
       return jointHomeConfiguration;

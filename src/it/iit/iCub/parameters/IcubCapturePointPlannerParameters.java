@@ -5,13 +5,6 @@ import us.ihmc.commonWalkingControlModules.configurations.CapturePointPlannerPar
 /** {@inheritDoc} */
 public class IcubCapturePointPlannerParameters extends CapturePointPlannerParameters
 {
-   private final boolean runningOnRealRobot;
-
-   public IcubCapturePointPlannerParameters(boolean runningOnRealRobot)
-   {
-      this.runningOnRealRobot = runningOnRealRobot;
-   }
-
    /** {@inheritDoc} */
    @Override
    public double getEntryCMPInsideOffset()

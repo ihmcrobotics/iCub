@@ -28,6 +28,7 @@ import static us.ihmc.robotics.partNames.ArmJointName.SHOULDER_PITCH;
 import static us.ihmc.robotics.partNames.ArmJointName.SHOULDER_ROLL;
 import static us.ihmc.robotics.partNames.ArmJointName.SHOULDER_YAW;
 import static us.ihmc.robotics.partNames.ArmJointName.WRIST_ROLL;
+import static us.ihmc.robotics.partNames.ArmJointName.WRIST_YAW;
 import static us.ihmc.robotics.partNames.LegJointName.ANKLE_PITCH;
 import static us.ihmc.robotics.partNames.LegJointName.ANKLE_ROLL;
 import static us.ihmc.robotics.partNames.LegJointName.HIP_PITCH;
@@ -52,7 +53,6 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import us.ihmc.commons.PrintTools;
 import us.ihmc.euclid.transform.RigidBodyTransform;
 import us.ihmc.robotics.controllers.YoPDGains;
-import us.ihmc.yoVariables.registry.YoVariableRegistry;
 import us.ihmc.robotics.partNames.ArmJointName;
 import us.ihmc.robotics.partNames.JointRole;
 import us.ihmc.robotics.partNames.LegJointName;
@@ -62,6 +62,7 @@ import us.ihmc.robotics.partNames.SpineJointName;
 import us.ihmc.robotics.robotSide.RobotSide;
 import us.ihmc.robotics.robotSide.SideDependentList;
 import us.ihmc.wholeBodyController.DRCRobotJointMap;
+import us.ihmc.yoVariables.registry.YoVariableRegistry;
 
 public class IcubJointMap implements DRCRobotJointMap
 {
@@ -78,15 +79,16 @@ public class IcubJointMap implements DRCRobotJointMap
 
 
 	public static final String chestName = "chest";
-	public static final String pelvisName = "root_link";
+	public static final String pelvisName = "base_link";
 	public static final String headName = "head";
 	public static final SideDependentList<String> handNames = new SideDependentList<>(getRobotSidePrefix(RobotSide.LEFT) + "hand", getRobotSidePrefix(RobotSide.RIGHT) + "hand");
+	public static final SideDependentList<String> footNames = new SideDependentList<>(getRobotSidePrefix(RobotSide.LEFT) + "ankle_2", getRobotSidePrefix(RobotSide.RIGHT) + "ankle_2");
 
 	private final IcubPhysicalProperties icubPhysicalProperties;
 
 	private final LegJointName[] legJoints = { HIP_PITCH, HIP_ROLL, HIP_YAW, KNEE_PITCH, ANKLE_PITCH, ANKLE_ROLL };
-	private final ArmJointName[] armJoints = { SHOULDER_PITCH, SHOULDER_ROLL, SHOULDER_YAW, ELBOW_PITCH, ELBOW_YAW, FIRST_WRIST_PITCH, WRIST_ROLL };
-	private final SpineJointName[] spineJoints = { SPINE_YAW, SPINE_ROLL, SPINE_PITCH };
+	private final ArmJointName[] armJoints = { SHOULDER_PITCH, SHOULDER_ROLL, SHOULDER_YAW, ELBOW_PITCH, ELBOW_YAW, FIRST_WRIST_PITCH, WRIST_YAW};
+	private final SpineJointName[] spineJoints = { SPINE_PITCH, SPINE_ROLL, SPINE_YAW };
 	private final NeckJointName[] neckJoints = { PROXIMAL_NECK_PITCH, DISTAL_NECK_ROLL, DISTAL_NECK_YAW };
 
 	private final LinkedHashMap<String, JointRole> jointRoles = new LinkedHashMap<String, JointRole>();
@@ -102,7 +104,6 @@ public class IcubJointMap implements DRCRobotJointMap
 	private final EnumMap<SpineJointName, String> spineJointStrings = new EnumMap<>(SpineJointName.class);
 	private final EnumMap<NeckJointName, String> neckJointStrings = new EnumMap<>(NeckJointName.class);
 
-	private final SideDependentList<String> nameOfJointsBeforeThighs = new SideDependentList<>();
 	private final SideDependentList<String> nameOfJointsBeforeHands = new SideDependentList<>();
 	private final String[] jointNamesBeforeFeet = new String[2];
 
@@ -125,12 +126,10 @@ public class IcubJointMap implements DRCRobotJointMap
 			armJointNames.put(forcedSideJointNames[l_elbow], new ImmutablePair<RobotSide, ArmJointName>(robotSide, ELBOW_PITCH));
 			armJointNames.put(forcedSideJointNames[l_wrist_prosup], new ImmutablePair<RobotSide, ArmJointName>(robotSide, ELBOW_YAW));
 			armJointNames.put(forcedSideJointNames[l_wrist_pitch], new ImmutablePair<RobotSide, ArmJointName>(robotSide, FIRST_WRIST_PITCH));
-			armJointNames.put(forcedSideJointNames[l_wrist_yaw], new ImmutablePair<RobotSide, ArmJointName>(robotSide, WRIST_ROLL));
+			armJointNames.put(forcedSideJointNames[l_wrist_yaw], new ImmutablePair<RobotSide, ArmJointName>(robotSide, WRIST_YAW));
 
-			String prefix = getRobotSidePrefix(robotSide);
-
-			limbNames.put(prefix + "hand", new ImmutablePair<RobotSide, LimbName>(robotSide, LimbName.ARM));
-			limbNames.put(prefix + "upper_foot", new ImmutablePair<RobotSide, LimbName>(robotSide, LimbName.LEG));
+			limbNames.put(handNames.get(robotSide), new ImmutablePair<RobotSide, LimbName>(robotSide, LimbName.ARM));
+			limbNames.put(footNames.get(robotSide), new ImmutablePair<RobotSide, LimbName>(robotSide, LimbName.LEG));
 		}
 
 		spineJointNames.put(jointNames[torso_pitch], SPINE_PITCH);
@@ -171,7 +170,6 @@ public class IcubJointMap implements DRCRobotJointMap
 
 		for (RobotSide robtSide : RobotSide.values)
 		{
-			nameOfJointsBeforeThighs.put(robtSide, legJointStrings.get(robtSide).get(HIP_PITCH));
 			nameOfJointsBeforeHands.put(robtSide, armJointStrings.get(robtSide).get(WRIST_ROLL));
 		}
 
@@ -193,31 +191,31 @@ public class IcubJointMap implements DRCRobotJointMap
 	@Override
 	public double getModelScale()
 	{
-	   return icubPhysicalProperties.getModelScale();
+	   return 1.0;
 	}
 
 	@Override
 	public double getMassScalePower()
 	{
-	   return icubPhysicalProperties.getMassScalePower();
+	   return 1.0;
 	}
 
 	@Override
 	public SideDependentList<String> getNameOfJointBeforeHands()
 	{
-		return nameOfJointsBeforeHands;
+		return null;
 	}
 
 	@Override
 	public SideDependentList<String> getNameOfJointBeforeThighs()
 	{
-		return nameOfJointsBeforeThighs;
+		return null;
 	}
 
 	@Override
 	public String getNameOfJointBeforeChest()
 	{
-		return spineJointStrings.get(SPINE_YAW);
+		return null;
 	}
 
 	@Override
@@ -286,7 +284,8 @@ public class IcubJointMap implements DRCRobotJointMap
 		return armJoints;
 	}
 
-	public SpineJointName[] getSpineJointNames()
+	@Override
+   public SpineJointName[] getSpineJointNames()
 	{
 		return spineJoints;
 	}
@@ -314,7 +313,7 @@ public class IcubJointMap implements DRCRobotJointMap
 	{
 		HashSet<String> lastSimulatedJoints = new HashSet<>();
 		for (RobotSide robotSide : RobotSide.values)
-			lastSimulatedJoints.add(armJointStrings.get(robotSide).get(WRIST_ROLL));
+			lastSimulatedJoints.add(armJointStrings.get(robotSide).get(WRIST_YAW));
 		return lastSimulatedJoints;
 	}
 

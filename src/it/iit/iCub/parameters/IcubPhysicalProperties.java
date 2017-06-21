@@ -9,10 +9,7 @@ import us.ihmc.robotics.robotSide.SideDependentList;
 public class IcubPhysicalProperties implements DRCRobotPhysicalProperties
 {
    public static final double footsizeReduction = 0.0;
-   
-   private final double scale;
-   private final double massScalePower;
-   
+
    private final double ankleHeight;
    private final double footLength;
    private final double footBack;
@@ -26,25 +23,23 @@ public class IcubPhysicalProperties implements DRCRobotPhysicalProperties
    private final SideDependentList<RigidBodyTransform> soleToAnkleFrameTransforms = new SideDependentList<>();
    private final SideDependentList<RigidBodyTransform> handControlFrameToWristTransforms = new SideDependentList<RigidBodyTransform>(new RigidBodyTransform(), new RigidBodyTransform());
 
-   public IcubPhysicalProperties(double scale, double massScalePower)
+   public IcubPhysicalProperties()
    {
-      this.scale = scale;
-      this.massScalePower = massScalePower;
-      ankleHeight = scale * 0.042;
-      footLength = scale * (0.18 - footsizeReduction); // new foot, is bigger than 3D model         
-      footBack = scale * 0.045;
+      ankleHeight = 0.042;
+      footLength = 0.15;
+      footBack = 0.045;
       footForward = footLength - footBack;
-      footWidth = scale * (0.08 - footsizeReduction); // new foot, is bigger than 3D model          
-      toeWidth = scale * 0.08;
-      thighLength = scale * 0.213;
-      shinLength = scale * 0.226;
-      pelvisToFoot = scale * 0.481;
+      footWidth = 0.07;
+      toeWidth = 0.0;
+      thighLength = 0.213;
+      shinLength = 0.226;
+      pelvisToFoot = 0.481;
 
       for (RobotSide side : RobotSide.values)
       {
          RigidBodyTransform soleToAnkleFrame = new RigidBodyTransform();
-         soleToAnkleFrame.setRotationEulerAndZeroTranslation(new Vector3D(0.0, 0.0, 0.0)); // need to check this
-         soleToAnkleFrame.setTranslation(new Vector3D(footLength / 2.0 - footBack, 0.0, -ankleHeight));
+//         soleToAnkleFrame.setRotationYawAndZeroTranslation(Math.PI);
+         soleToAnkleFrame.setTranslation(new Vector3D(side.negateIfRightSide(0.0333) - 0.02, side.negateIfRightSide(-0.005), -0.07));
          soleToAnkleFrameTransforms.put(side, soleToAnkleFrame);
       }
    }
@@ -109,15 +104,4 @@ public class IcubPhysicalProperties implements DRCRobotPhysicalProperties
    {
       return soleToAnkleFrameTransforms;
    }
-
-   public double getModelScale()
-   {
-      return scale;
-   }
-   
-   public double getMassScalePower()
-   {
-      return massScalePower;
-   }
-
 }

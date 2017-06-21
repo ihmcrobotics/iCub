@@ -1,18 +1,16 @@
 package it.iit.iCub.parameters;
 
-import us.ihmc.yoVariables.registry.YoVariableRegistry;
-import us.ihmc.yoVariables.variable.YoDouble;
 import us.ihmc.robotics.robotSide.SideDependentList;
 import us.ihmc.sensorProcessing.sensorProcessors.SensorProcessing;
 import us.ihmc.sensorProcessing.sensorProcessors.SensorProcessing.SensorType;
 import us.ihmc.sensorProcessing.simulatedSensors.SensorNoiseParameters;
 import us.ihmc.sensorProcessing.stateEstimation.FootSwitchType;
 import us.ihmc.sensorProcessing.stateEstimation.StateEstimatorParameters;
+import us.ihmc.yoVariables.registry.YoVariableRegistry;
+import us.ihmc.yoVariables.variable.YoDouble;
 
 public class IcubStateEstimatorParameters extends StateEstimatorParameters
 {
-   private final boolean runningOnRealRobot;
-
    private final double estimatorDT;
 
    private final double jointVelocitySlopTimeForBacklashCompensation;
@@ -23,17 +21,14 @@ public class IcubStateEstimatorParameters extends StateEstimatorParameters
    // private SensorNoiseParameters sensorNoiseParameters = DRCSimulatedSensorNoiseParameters.createNoiseParametersForEstimatorJerryTuningSeptember2013();
    private SensorNoiseParameters sensorNoiseParameters = null;
 
-   public IcubStateEstimatorParameters(boolean runningOnRealRobot, double estimatorDT)
+   public IcubStateEstimatorParameters(double estimatorDT)
    {
-      this.runningOnRealRobot = runningOnRealRobot;
-
       this.estimatorDT = estimatorDT;
-
-      defaultFilterBreakFrequency = runningOnRealRobot ? 16.0 : Double.POSITIVE_INFINITY;
-
+      defaultFilterBreakFrequency = Double.POSITIVE_INFINITY;
       jointVelocitySlopTimeForBacklashCompensation = 0.03;
    }
 
+   @Override
    public void configureSensorProcessing(SensorProcessing sensorProcessing)
    {
       YoVariableRegistry registry = sensorProcessing.getYoVariableRegistry();
@@ -72,7 +67,7 @@ public class IcubStateEstimatorParameters extends StateEstimatorParameters
    @Override
    public boolean isRunningOnRealRobot()
    {
-      return runningOnRealRobot;
+      return false;
    }
 
    @Override

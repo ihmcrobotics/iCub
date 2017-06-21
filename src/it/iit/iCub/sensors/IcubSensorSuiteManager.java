@@ -32,7 +32,7 @@ public class IcubSensorSuiteManager implements DRCSensorSuiteManager
    private final LidarScanPublisher lidarScanPublisher;
 
    public IcubSensorSuiteManager(FullHumanoidRobotModelFactory modelFactory, PPSTimestampOffsetProvider ppsTimestampOffsetProvider,
-         DRCRobotSensorInformation sensorInformation, DRCRobotJointMap jointMap, boolean useSimulatedSensors)
+         DRCRobotSensorInformation sensorInformation, DRCRobotJointMap jointMap)
    {
       this.modelFactory = modelFactory;
       this.sensorInformation = sensorInformation;
@@ -48,7 +48,7 @@ public class IcubSensorSuiteManager implements DRCSensorSuiteManager
    public void initializeSimulatedSensors(ObjectCommunicator scsSensorsPacketCommunicator)
    {
       sensorSuitePacketCommunicator.attachListener(RobotConfigurationData.class, robotConfigurationDataBuffer);
-      
+
       DRCRobotCameraParameters cameraParameters = sensorInformation.getCameraParameters(0);
       CameraDataReceiver cameraDataReceiver = new SCSCameraDataReceiver(cameraParameters.getRobotSide(), modelFactory, cameraParameters.getSensorNameInSdf(),
             robotConfigurationDataBuffer, scsSensorsPacketCommunicator, sensorSuitePacketCommunicator, ppsTimestampOffsetProvider);

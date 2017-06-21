@@ -40,6 +40,12 @@ import us.ihmc.modelFileLoaders.SdfLoader.DRCRobotSDFLoader;
 import us.ihmc.modelFileLoaders.SdfLoader.GeneralizedSDFRobotModel;
 import us.ihmc.modelFileLoaders.SdfLoader.JaxbSDFLoader;
 import us.ihmc.modelFileLoaders.SdfLoader.RobotDescriptionFromSDFLoader;
+import us.ihmc.modelFileLoaders.SdfLoader.SDFContactSensor;
+import us.ihmc.modelFileLoaders.SdfLoader.SDFDescriptionMutator;
+import us.ihmc.modelFileLoaders.SdfLoader.SDFForceSensor;
+import us.ihmc.modelFileLoaders.SdfLoader.SDFJointHolder;
+import us.ihmc.modelFileLoaders.SdfLoader.SDFLinkHolder;
+import us.ihmc.modelFileLoaders.SdfLoader.xmlDescription.SDFSensor;
 import us.ihmc.multicastLogDataProtocol.modelLoaders.LogModelProvider;
 import us.ihmc.multicastLogDataProtocol.modelLoaders.SDFLogModelProvider;
 import us.ihmc.robotDataLogger.logger.LogSettings;
@@ -53,9 +59,9 @@ import us.ihmc.robotics.robotSide.RobotSide;
 import us.ihmc.robotics.robotSide.SideDependentList;
 import us.ihmc.sensorProcessing.parameters.DRCRobotSensorInformation;
 import us.ihmc.sensorProcessing.stateEstimation.StateEstimatorParameters;
+import us.ihmc.simulationConstructionSetTools.robotController.MultiThreadedRobotControlElement;
 import us.ihmc.simulationconstructionset.FloatingRootJointRobot;
 import us.ihmc.simulationconstructionset.HumanoidFloatingRootJointRobot;
-import us.ihmc.simulationConstructionSetTools.robotController.MultiThreadedRobotControlElement;
 import us.ihmc.tools.thread.CloseableAndDisposableRegistry;
 import us.ihmc.wholeBodyController.DRCHandType;
 import us.ihmc.wholeBodyController.DRCRobotJointMap;
@@ -63,10 +69,8 @@ import us.ihmc.wholeBodyController.RobotContactPointParameters;
 import us.ihmc.wholeBodyController.concurrent.ThreadDataSynchronizerInterface;
 import us.ihmc.wholeBodyController.parameters.DefaultArmConfigurations;
 
-public class IcubRobotModel implements DRCRobotModel
+public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
 {
-   private static final double MASS_SCALE_POWER = 3;
-
    private static final long ESTIMATOR_DT_IN_NS = 1000000;
    private static final double ESTIMATOR_DT = Conversions.nanosecondsToSeconds(ESTIMATOR_DT_IN_NS);
    private static final double CONTROL_DT = 0.004;
@@ -86,28 +90,18 @@ public class IcubRobotModel implements DRCRobotModel
 
    private final JaxbSDFLoader loader;
 
-   private final boolean runningOnRealRobot;
-
    private boolean enableJointDamping = true;
 
    private final RobotDescription robotDescription;
 
-   public IcubRobotModel(boolean runningOnRealRobot, boolean headless, double scaleFactor)
+   public IcubRobotModel()
    {
-      this.runningOnRealRobot = runningOnRealRobot;
-      physicalProperties = new IcubPhysicalProperties(scaleFactor, MASS_SCALE_POWER);
+      physicalProperties = new IcubPhysicalProperties();
       jointMap = new IcubJointMap(physicalProperties);
       contactPointParameters = new IcubContactPointParameters(jointMap);
       sensorInformation = new IcubSensorInformation();
 
-      if (headless)
-      {
-         this.loader = DRCRobotSDFLoader.loadDRCRobot(new String[] {}, getSdfFileAsStream(), null);
-      }
-      else
-      {
-         this.loader = DRCRobotSDFLoader.loadDRCRobot(getResourceDirectories(), getSdfFileAsStream(), null);
-      }
+      this.loader = DRCRobotSDFLoader.loadDRCRobot(getResourceDirectories(), getSdfFileAsStream(), this);
 
       for (String forceSensorNames : IcubSensorInformation.forceSensorNames)
       {
@@ -124,21 +118,19 @@ public class IcubRobotModel implements DRCRobotModel
          loader.addForceSensor(jointMap, forceSensorNames, forceSensorNames, transform);
       }
 
-      walkingControllerParameters = new IcubWalkingControllerParameters(jointMap, runningOnRealRobot);
-      stateEstimatorParamaters = new IcubStateEstimatorParameters(runningOnRealRobot, getEstimatorDT());
-      capturePointPlannerParameters = new IcubCapturePointPlannerParameters(runningOnRealRobot);
+      walkingControllerParameters = new IcubWalkingControllerParameters(jointMap);
+      stateEstimatorParamaters = new IcubStateEstimatorParameters(getEstimatorDT());
+      capturePointPlannerParameters = new IcubCapturePointPlannerParameters();
       robotDescription = createRobotDescription();
    }
 
    private RobotDescription createRobotDescription()
    {
-
       boolean useCollisionMeshes = false;
       GeneralizedSDFRobotModel generalizedSDFRobotModel = getGeneralizedRobotModel();
       RobotDescriptionFromSDFLoader descriptionLoader = new RobotDescriptionFromSDFLoader();
       RobotDescription robotDescription = descriptionLoader.loadRobotDescriptionFromSDF(generalizedSDFRobotModel, jointMap, contactPointParameters,
             useCollisionMeshes);
-
       return robotDescription;
    }
 
@@ -281,8 +273,6 @@ public class IcubRobotModel implements DRCRobotModel
    {
       boolean enableTorqueVelocityLimits = false;
       boolean enableJointDamping = getEnableJointDamping();
-
-
       return new HumanoidFloatingRootJointRobot(robotDescription, jointMap, enableJointDamping, enableTorqueVelocityLimits);
    }
 
@@ -318,7 +308,7 @@ public class IcubRobotModel implements DRCRobotModel
    @Override
    public DRCSensorSuiteManager getSensorSuiteManager()
    {
-      return new IcubSensorSuiteManager(this, getPPSTimestampOffsetProvider(), sensorInformation, jointMap, runningOnRealRobot);
+      return new IcubSensorSuiteManager(this, getPPSTimestampOffsetProvider(), sensorInformation, jointMap);
    }
 
    @Override
@@ -411,5 +401,47 @@ public class IcubRobotModel implements DRCRobotModel
    {
       System.err.println("Need to add access to stand prep joint angles.");
       return 0;
+   }
+
+   @Override
+   public void mutateJointForModel(GeneralizedSDFRobotModel model, SDFJointHolder jointHolder)
+   {
+      // TODO Auto-generated method stub
+
+   }
+
+   @Override
+   public void mutateLinkForModel(GeneralizedSDFRobotModel model, SDFLinkHolder linkHolder)
+   {
+      // TODO Auto-generated method stub
+
+   }
+
+   @Override
+   public void mutateSensorForModel(GeneralizedSDFRobotModel model, SDFSensor sensor)
+   {
+      // TODO Auto-generated method stub
+
+   }
+
+   @Override
+   public void mutateForceSensorForModel(GeneralizedSDFRobotModel model, SDFForceSensor forceSensor)
+   {
+      // TODO Auto-generated method stub
+
+   }
+
+   @Override
+   public void mutateContactSensorForModel(GeneralizedSDFRobotModel model, SDFContactSensor contactSensor)
+   {
+      // TODO Auto-generated method stub
+
+   }
+
+   @Override
+   public void mutateModelWithAdditions(GeneralizedSDFRobotModel model)
+   {
+      // TODO Auto-generated method stub
+
    }
 }

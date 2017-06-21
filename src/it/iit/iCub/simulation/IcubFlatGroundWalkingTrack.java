@@ -12,13 +12,11 @@ import us.ihmc.simulationconstructionset.util.ground.FlatGroundProfile;
 
 public class IcubFlatGroundWalkingTrack
 {
-   public static final double MODEL_SCALE = 1;
-   
    public static void main(String[] args)
    {
-      DRCRobotModel robotModel = new IcubRobotModel(false, false, MODEL_SCALE);
-      DRCGuiInitialSetup guiInitialSetup = new DRCGuiInitialSetup(true, false);      
-      
+      DRCRobotModel robotModel = new IcubRobotModel();
+      DRCGuiInitialSetup guiInitialSetup = new DRCGuiInitialSetup(true, false);
+
       final double groundHeight = 0.0;
       GroundProfile3D groundProfile = new FlatGroundProfile(groundHeight);
 
@@ -26,7 +24,7 @@ public class IcubFlatGroundWalkingTrack
       scsInitialSetup.setDrawGroundProfile(true);
       scsInitialSetup.setInitializeEstimatorToActual(true);
       scsInitialSetup.setUsePerfectSensors(true);
-      
+
       double initialYaw = 0.0;
       DRCRobotInitialSetup<HumanoidFloatingRootJointRobot> robotInitialSetup = robotModel.getDefaultRobotInitialSetup(groundHeight, initialYaw);
 

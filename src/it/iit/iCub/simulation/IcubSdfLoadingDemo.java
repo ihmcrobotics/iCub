@@ -18,15 +18,14 @@ import us.ihmc.simulationconstructionset.SimulationConstructionSet;
 
 public class IcubSdfLoadingDemo
 {
-   public static final double MODEL_SCALE = 1;
-
-   private static final boolean SHOW_ELLIPSOIDS = true;
-   private static final boolean SHOW_COORDINATES_AT_JOINT_ORIGIN = false;
+   private static final boolean SHOW_ELLIPSOIDS = false;
+   private static final boolean SHOW_COORDINATES_AT_JOINT_ORIGIN = true;
 
    public IcubSdfLoadingDemo()
    {
-      IcubRobotModel icubRobotModel = new IcubRobotModel(false, false, MODEL_SCALE);
+      IcubRobotModel icubRobotModel = new IcubRobotModel();
       FloatingRootJointRobot sdfRobot = icubRobotModel.createHumanoidFloatingRootJointRobot(false);
+
       sdfRobot.setPositionInWorld(new Vector3D(0.0, 0.0, 1.0));
       System.out.println(sdfRobot.computeCenterOfMass(new Point3D()));
 
@@ -56,13 +55,13 @@ public class IcubSdfLoadingDemo
       {
          AppearanceDefinition appearance = YoAppearance.Green();
          appearance.setTransparency(0.6);
-         
+
          if(link.getLinkGraphics() == null)
          {
             Graphics3DObject linkGraphics = new Graphics3DObject();
             link.setLinkGraphics(linkGraphics);
          }
-      
+
          link.addEllipsoidFromMassProperties(appearance);
          link.addCoordinateSystemToCOM(0.1);
 //         l.addBoxFromMassProperties(appearance);
