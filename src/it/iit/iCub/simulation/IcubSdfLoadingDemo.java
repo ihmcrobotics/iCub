@@ -40,6 +40,11 @@ public class IcubSdfLoadingDemo
       }
 
       SimulationConstructionSet scs = new SimulationConstructionSet(sdfRobot);
+
+      Graphics3DObject worldFrameGraphics = new Graphics3DObject();
+      worldFrameGraphics.addCoordinateSystem(0.4);
+      scs.addStaticLinkGraphics(worldFrameGraphics);
+
       scs.startOnAThread();
    }
 
