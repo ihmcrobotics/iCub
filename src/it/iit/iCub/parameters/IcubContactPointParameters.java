@@ -14,9 +14,9 @@ public class IcubContactPointParameters extends RobotContactPointParameters
    @Override
    public void setupGroundContactModelParameters(LinearGroundContactModel linearGroundContactModel)
    {
-      linearGroundContactModel.setZStiffness(500.0);
-      linearGroundContactModel.setZDamping(150.0);
-      linearGroundContactModel.setXYStiffness(5000.0);
-      linearGroundContactModel.setXYDamping(200.0);
+      linearGroundContactModel.setZStiffness(5000.0);
+      linearGroundContactModel.setZDamping(1000.0);
+      linearGroundContactModel.setXYStiffness(20000.0);
+      linearGroundContactModel.setXYDamping(500.0);
    }
 }

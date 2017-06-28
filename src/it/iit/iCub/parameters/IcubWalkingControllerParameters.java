@@ -276,7 +276,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    @Override
    public double getInPlaceWidth()
    {
-      return 0.15; //
+      return 0.2; //
    }
 
    @Override
@@ -288,13 +288,13 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    @Override
    public double getMaxStepLength()
    {
-      return 0.23; //0.5; //0.35;
+      return 0.2; //0.5; //0.35;
    }
 
    @Override
    public double getDefaultStepLength()
    {
-      return .20;
+      return 0.1;
    }
 
    @Override
@@ -735,13 +735,13 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    @Override
    public double getDefaultTransferTime()
    {
-      return runningOnRealRobot ? 1.5 : 0.35;
+      return runningOnRealRobot ? 1.5 : 0.25;
    }
 
    @Override
    public double getDefaultSwingTime()
    {
-      return runningOnRealRobot ? 1.5 : 1.0;
+      return runningOnRealRobot ? 1.5 : 0.6;
    }
 
    /** @inheritDoc */

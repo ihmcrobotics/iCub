@@ -6,6 +6,8 @@ import us.ihmc.avatar.drcRobot.DRCRobotModel;
 import us.ihmc.avatar.initialSetup.DRCGuiInitialSetup;
 import us.ihmc.avatar.initialSetup.DRCRobotInitialSetup;
 import us.ihmc.avatar.initialSetup.DRCSCSInitialSetup;
+import us.ihmc.commonWalkingControlModules.desiredHeadingAndVelocity.HeadingAndVelocityEvaluationScriptParameters;
+import us.ihmc.commonWalkingControlModules.highLevelHumanoidControl.factories.WalkingProvider;
 import us.ihmc.jMonkeyEngineToolkit.GroundProfile3D;
 import us.ihmc.simulationconstructionset.HumanoidFloatingRootJointRobot;
 import us.ihmc.simulationconstructionset.util.ground.FlatGroundProfile;
@@ -28,11 +30,19 @@ public class IcubFlatGroundWalkingTrack
       double initialYaw = 0.0;
       DRCRobotInitialSetup<HumanoidFloatingRootJointRobot> robotInitialSetup = robotModel.getDefaultRobotInitialSetup(groundHeight, initialYaw);
 
-      boolean useVelocityAndHeadingScript = false;
+      boolean useVelocityAndHeadingScript = true;
       boolean cheatWithGroundHeightAtForFootstep = false;
 
-      new DRCFlatGroundWalkingTrack(robotInitialSetup, guiInitialSetup, scsInitialSetup, useVelocityAndHeadingScript,
-                                    cheatWithGroundHeightAtForFootstep, robotModel);
+      HeadingAndVelocityEvaluationScriptParameters walkingScriptParameters = new HeadingAndVelocityEvaluationScriptParameters();
+      walkingScriptParameters.setAcceleration(0.15);
+      walkingScriptParameters.setCruiseVelocity(0.15);
+      walkingScriptParameters.setHeadingDot(0.10);
+      walkingScriptParameters.setMaxHeadingDot(0.15);
+      walkingScriptParameters.setMaxVelocity(0.15);
+      walkingScriptParameters.setSideStepVelocity(0.09);
+
+      new DRCFlatGroundWalkingTrack(robotInitialSetup, guiInitialSetup, scsInitialSetup, useVelocityAndHeadingScript, cheatWithGroundHeightAtForFootstep,
+                                    robotModel, WalkingProvider.VELOCITY_HEADING_COMPONENT, walkingScriptParameters);
    }
 
 }
