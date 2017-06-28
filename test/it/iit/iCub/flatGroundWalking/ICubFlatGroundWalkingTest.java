@@ -16,6 +16,15 @@ import us.ihmc.continuousIntegration.ContinuousIntegrationAnnotations.Continuous
 import us.ihmc.continuousIntegration.IntegrationCategory;
 import us.ihmc.euclid.transform.RigidBodyTransform;
 import us.ihmc.euclid.tuple3D.Point3D;
+import us.ihmc.humanoidRobotics.communication.packets.walking.FootstepDataListMessage;
+import us.ihmc.humanoidRobotics.communication.packets.walking.FootstepDataMessage;
+import us.ihmc.humanoidRobotics.frames.HumanoidReferenceFrames;
+import us.ihmc.robotModels.FullHumanoidRobotModel;
+import us.ihmc.robotics.geometry.FrameOrientation;
+import us.ihmc.robotics.geometry.FramePoint;
+import us.ihmc.robotics.referenceFrames.ReferenceFrame;
+import us.ihmc.robotics.robotSide.RobotSide;
+import us.ihmc.robotics.screwTheory.MovingReferenceFrame;
 import us.ihmc.simulationConstructionSetTools.util.environments.FlatGroundEnvironment;
 import us.ihmc.simulationconstructionset.util.simulationRunner.BlockingSimulationRunner.SimulationExceededMaximumTimeException;
 import us.ihmc.simulationconstructionset.util.simulationTesting.SimulationTestingParameters;
@@ -45,13 +54,41 @@ public class ICubFlatGroundWalkingTest
       assertTrue(success);
    }
 
+   @ContinuousIntegrationTest(estimatedDuration = 20.0, categoriesOverride = {IntegrationCategory.IN_DEVELOPMENT})
+   @Test
+   public void testSteppingInPlace() throws SimulationExceededMaximumTimeException
+   {
+      boolean success = drcSimulationTestHelper.simulateAndBlockAndCatchExceptions(0.5);
+      assertTrue(success);
+
+      FullHumanoidRobotModel fullRobotModel = drcSimulationTestHelper.getControllerFullRobotModel();
+      HumanoidReferenceFrames referenceFrames = new HumanoidReferenceFrames(fullRobotModel);
+      referenceFrames.updateFrames();
+
+      FootstepDataListMessage footsteps = new FootstepDataListMessage();
+      for (RobotSide robotSide : RobotSide.values)
+      {
+         MovingReferenceFrame soleFrame = referenceFrames.getSoleFrame(robotSide);
+         FrameOrientation orientation = new FrameOrientation(soleFrame);
+         FramePoint location = new FramePoint(soleFrame);
+         orientation.changeFrame(ReferenceFrame.getWorldFrame());
+         location.changeFrame(ReferenceFrame.getWorldFrame());
+         FootstepDataMessage footstep = new FootstepDataMessage(robotSide, location.getPoint(), orientation.getQuaternion());
+         footsteps.add(footstep);
+      }
+
+      drcSimulationTestHelper.send(footsteps);
+      success = drcSimulationTestHelper.simulateAndBlockAndCatchExceptions(5.0);
+      assertTrue(success);
+   }
+
    @Before
    public void showMemoryUsageBeforeTest() throws SimulationExceededMaximumTimeException
    {
       MemoryTools.printCurrentMemoryUsageAndReturnUsedMemoryInMB(getClass().getSimpleName() + " before test.");
 
       FlatGroundEnvironment environment = new FlatGroundEnvironment();
-      drcSimulationTestHelper = new DRCSimulationTestHelper(environment , "Test", startingLocation , simulationTestingParameters, robotModel);
+      drcSimulationTestHelper = new DRCSimulationTestHelper(environment, "Test", startingLocation, simulationTestingParameters, robotModel);
       OffsetAndYawRobotInitialSetup startingLocationOffset = startingLocation.getStartingLocationOffset();
       Point3D cameraFocus = new Point3D(startingLocationOffset.getAdditionalOffset());
       cameraFocus.addZ(0.4);
