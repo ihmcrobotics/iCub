@@ -38,8 +38,7 @@ public class IcubPhysicalProperties implements DRCRobotPhysicalProperties
       for (RobotSide side : RobotSide.values)
       {
          RigidBodyTransform soleToAnkleFrame = new RigidBodyTransform();
-//         soleToAnkleFrame.setRotationYawAndZeroTranslation(Math.PI);
-         soleToAnkleFrame.setTranslation(new Vector3D(side.negateIfRightSide(0.0333) - 0.02, side.negateIfRightSide(-0.005), -0.07));
+         soleToAnkleFrame.setTranslation(new Vector3D(side.negateIfLeftSide(0.0333) + 0.02, side.negateIfLeftSide(-0.005), -0.07));
          soleToAnkleFrameTransforms.put(side, soleToAnkleFrame);
       }
    }
