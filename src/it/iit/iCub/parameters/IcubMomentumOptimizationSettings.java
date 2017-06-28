@@ -14,17 +14,17 @@ import us.ihmc.robotics.robotSide.RobotSide;
 
 public class IcubMomentumOptimizationSettings extends MomentumOptimizationSettings
 {
-   private final Vector3D linearMomentumWeight = new Vector3D(0.05, 0.05, 0.01);
+   private final Vector3D linearMomentumWeight = new Vector3D(2.0, 2.0, 0.25);
    private final Vector3D highLinearMomentumWeightForRecovery = new Vector3D(0.5, 0.5, 0.05);
    private final Vector3D angularMomentumWeight = new Vector3D(0.0, 0.0, 0.0);
 
-   private final Vector3D defaultAngularFootWeight = new Vector3D(0.5, 0.5, 0.5);
-   private final Vector3D defaultLinearFootWeight = new Vector3D(30.0, 30.0, 30.0);
-   private final Vector3D highAngularFootWeight = new Vector3D(5.0, 5.0, 5.0);
+   private final Vector3D defaultAngularFootWeight = new Vector3D(1.0, 1.0, 1.0);
+   private final Vector3D defaultLinearFootWeight = new Vector3D(10.0, 10.0, 10.0);
+   private final Vector3D highAngularFootWeight = new Vector3D(1.0, 1.0, 1.0);
    private final Vector3D highLinearFootWeight = new Vector3D(50.0, 50.0, 50.0);
 
-   private final Vector3D pelvisAngularWeight = new Vector3D(5.0, 5.0, 5.0);
-   private final Vector3D pelvisLinearWeight = new Vector3D(5.0, 5.0, 30.0);
+   private final Vector3D pelvisAngularWeight = new Vector3D(10.0, 10.0, 1.0);
+   private final Vector3D pelvisLinearWeight = new Vector3D(5.0, 5.0, 50.0);
 
    private final int nBasisVectorsPerContactPoint = 4;
    private final int nContactPointsPerContactableBody = 4;
@@ -32,17 +32,19 @@ public class IcubMomentumOptimizationSettings extends MomentumOptimizationSettin
 
    private final double jointAccelerationWeight = 0.005;
    private final double jointJerkWeight = 0.1;
-   private final double rhoWeight = 0.000002;
-   private final double rhoMin = 0.5;
-   private final double rhoRateDefaultWeight = 0.0004;
-   private final double rhoRateHighWeight = 0.01;
-   private final Vector2D copWeight = new Vector2D(100.0, 200.0);
+   private final double rhoWeight = 0.0005;
+   private final double rhoMin = 0.001;
+   private final double rhoRateDefaultWeight = 0.0005;
+   private final double rhoRateHighWeight = 0.0075;
+   private final Vector2D copWeight = new Vector2D(100.0, 100.0);
    private final Vector2D copRateDefaultWeight = new Vector2D(20000.0, 20000.0);
    private final Vector2D copRateHighWeight = new Vector2D(2500000.0, 10000000.0);
 
-   private final double neckJointspaceWeight = 1.0;
-   private final double spineJointspaceWeight = 1.0;
+   private final double neckJointspaceWeight = 10.0;
    private final double armJointspaceWeight = 1.0;
+
+   private final double spineJointspaceWeight = 15.0;
+
    private final TObjectDoubleHashMap<String> jointspaceWeights = new TObjectDoubleHashMap<>();
 
    private final double neckUserModeWeight = 1.0;
@@ -55,7 +57,7 @@ public class IcubMomentumOptimizationSettings extends MomentumOptimizationSettin
    private final Vector3D handAngularWeight = new Vector3D(1.0, 1.0, 1.0);
    private final Map<String, Vector3D> taskspaceAngularWeights = new HashMap<>();
 
-   private final Vector3D handLinearWeight = new Vector3D(1.0, 1.0, 1.0);
+   private final Vector3D handLinearWeight = new Vector3D(5.0, 5.0, 5.0);
    private final Map<String, Vector3D> taskspaceLinearWeights = new HashMap<>();
 
    public IcubMomentumOptimizationSettings(IcubJointMap jointMap)

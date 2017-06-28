@@ -1,5 +1,9 @@
 package it.iit.iCub.parameters;
 
+import static us.ihmc.robotics.partNames.SpineJointName.SPINE_PITCH;
+import static us.ihmc.robotics.partNames.SpineJointName.SPINE_ROLL;
+import static us.ihmc.robotics.partNames.SpineJointName.SPINE_YAW;
+
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -41,7 +45,6 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    private final double min_leg_length_before_collapsing_single_support; //= IcubRobotModel.SCALE_FACTOR * 0.25; //TODO tune
    private final double min_mechanical_leg_length;// = IcubRobotModel.SCALE_FACTOR * 0.20; // TODO tune
 
-
    //TODO need to better tune this
    // USE THESE FOR Real Robot and sims when controlling playback height instead of CoM.
    private final double minimumHeightAboveGround; //= IcubRobotModel.SCALE_FACTOR * (0.4 - 0.02);// + 0.03;
@@ -63,9 +66,9 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
       min_leg_length_before_collapsing_single_support = jointMap.getModelScale() * 0.25;
       min_mechanical_leg_length = jointMap.getModelScale() * 0.20;
 
-      minimumHeightAboveGround = jointMap.getModelScale() * (0.4 - 0.02);
-      nominalHeightAboveGround = jointMap.getModelScale() * (0.49);
-      maximumHeightAboveGround = jointMap.getModelScale() * (0.52);
+      minimumHeightAboveGround = jointMap.getModelScale() * (0.5);
+      nominalHeightAboveGround = jointMap.getModelScale() * (0.55);
+      maximumHeightAboveGround = jointMap.getModelScale() * (0.6);
 
    }
 
@@ -174,20 +177,18 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    @Override
    public String[] getDefaultHeadOrientationControlJointNames()
    {
-      return new String[] { jointMap.getNeckJointName(NeckJointName.PROXIMAL_NECK_PITCH), jointMap.getNeckJointName(NeckJointName.DISTAL_NECK_ROLL),
-            jointMap.getNeckJointName(NeckJointName.DISTAL_NECK_YAW) };
+      return new String[] {jointMap.getNeckJointName(NeckJointName.PROXIMAL_NECK_PITCH), jointMap.getNeckJointName(NeckJointName.DISTAL_NECK_ROLL),
+            jointMap.getNeckJointName(NeckJointName.DISTAL_NECK_YAW)};
    }
 
    @Override
    public String[] getDefaultChestOrientationControlJointNames()
    {
-      String[] defaultChestOrientationControlJointNames = new String[] { jointMap.getSpineJointName(SpineJointName.SPINE_YAW),
-            jointMap.getSpineJointName(SpineJointName.SPINE_PITCH), jointMap.getSpineJointName(SpineJointName.SPINE_ROLL) };
+      String[] defaultChestOrientationControlJointNames = new String[] {jointMap.getSpineJointName(SpineJointName.SPINE_YAW),
+            jointMap.getSpineJointName(SpineJointName.SPINE_PITCH), jointMap.getSpineJointName(SpineJointName.SPINE_ROLL)};
 
       return defaultChestOrientationControlJointNames;
    }
-
-
 
    @Override
    public double minimumHeightAboveAnkle()
@@ -377,8 +378,8 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
       gains.setKi(ki);
       gains.setKiBleedOff(kiBleedOff);
 
-//      boolean runningOnRealRobot = target == DRCRobotModel.RobotTarget.REAL_ROBOT;
-//      if (runningOnRealRobot) gains.setFeedbackPartMaxRate(1.0);
+      //      boolean runningOnRealRobot = target == DRCRobotModel.RobotTarget.REAL_ROBOT;
+      //      if (runningOnRealRobot) gains.setFeedbackPartMaxRate(1.0);
       return gains;
    }
 
@@ -471,7 +472,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    @Override
    public double[] getInitialHeadYawPitchRoll()
    {
-      return new double[] { 0.0, 0.0, 0.0 };
+      return new double[] {0.0, 0.0, 0.0};
    }
 
    @Override
@@ -517,7 +518,6 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
 
       return spineGains;
    }
-
 
    private YoPIDGains createArmControlGains(YoVariableRegistry registry)
    {
@@ -586,6 +586,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    }
 
    private Map<String, YoPIDGains> jointspaceGains = null;
+
    /** {@inheritDoc} */
    @Override
    public Map<String, YoPIDGains> getOrCreateJointSpaceControlGains(YoVariableRegistry registry)
@@ -614,6 +615,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    }
 
    private Map<String, YoOrientationPIDGainsInterface> taskspaceAngularGains = null;
+
    /** {@inheritDoc} */
    @Override
    public Map<String, YoOrientationPIDGainsInterface> getOrCreateTaskspaceOrientationControlGains(YoVariableRegistry registry)
@@ -637,6 +639,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    }
 
    private Map<String, YoPositionPIDGainsInterface> taskspaceLinearGains = null;
+
    /** {@inheritDoc} */
    @Override
    public Map<String, YoPositionPIDGainsInterface> getOrCreateTaskspacePositionControlGains(YoVariableRegistry registry)
@@ -654,6 +657,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    }
 
    private TObjectDoubleHashMap<String> jointHomeConfiguration = null;
+
    /** {@inheritDoc} */
    @Override
    public TObjectDoubleHashMap<String> getOrCreateJointHomeConfiguration()
@@ -663,15 +667,16 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
 
       jointHomeConfiguration = new TObjectDoubleHashMap<String>();
 
-      for (SpineJointName name : jointMap.getSpineJointNames())
-         jointHomeConfiguration.put(jointMap.getSpineJointName(name), 0.0);
+      jointHomeConfiguration.put(jointMap.getSpineJointName(SPINE_PITCH), 0.5);
+      jointHomeConfiguration.put(jointMap.getSpineJointName(SPINE_ROLL), 0.0);
+      jointHomeConfiguration.put(jointMap.getSpineJointName(SPINE_YAW), 0.0);
 
       for (NeckJointName name : jointMap.getNeckJointNames())
          jointHomeConfiguration.put(jointMap.getNeckJointName(name), 0.0);
 
       for (RobotSide robotSide : RobotSide.values)
       {
-         jointHomeConfiguration.put(jointMap.getArmJointName(robotSide, ArmJointName.SHOULDER_PITCH), 0.3);
+         jointHomeConfiguration.put(jointMap.getArmJointName(robotSide, ArmJointName.SHOULDER_PITCH), -0.3);
          jointHomeConfiguration.put(jointMap.getArmJointName(robotSide, ArmJointName.SHOULDER_ROLL), 0.18);
          jointHomeConfiguration.put(jointMap.getArmJointName(robotSide, ArmJointName.SHOULDER_YAW), 0.0);
          jointHomeConfiguration.put(jointMap.getArmJointName(robotSide, ArmJointName.ELBOW_PITCH), 1.0);
@@ -1066,13 +1071,13 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    @Override
    public SideDependentList<LinkedHashMap<String, ImmutablePair<Double, Double>>> getSliderBoardControlledFingerJointsWithLimits()
    {
-      return new SideDependentList<LinkedHashMap<String, ImmutablePair<Double,Double>>>();
+      return new SideDependentList<LinkedHashMap<String, ImmutablePair<Double, Double>>>();
    }
 
    @Override
    public LinkedHashMap<NeckJointName, ImmutablePair<Double, Double>> getSliderBoardControlledNeckJointsWithLimits()
    {
-      return new LinkedHashMap<NeckJointName, ImmutablePair<Double,Double>>();
+      return new LinkedHashMap<NeckJointName, ImmutablePair<Double, Double>>();
    }
 
    /** {@inheritDoc} */

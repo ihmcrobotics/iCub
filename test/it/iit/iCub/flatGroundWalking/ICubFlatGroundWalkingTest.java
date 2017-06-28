@@ -54,7 +54,7 @@ public class ICubFlatGroundWalkingTest
       assertTrue(success);
    }
 
-   @ContinuousIntegrationTest(estimatedDuration = 20.0, categoriesOverride = {IntegrationCategory.IN_DEVELOPMENT})
+   @ContinuousIntegrationTest(estimatedDuration = 20.0)
    @Test
    public void testSteppingInPlace() throws SimulationExceededMaximumTimeException
    {
