@@ -862,7 +862,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    @Override
    public double getSecondContactThresholdForceIgnoringCoP()
    {
-      return Double.POSITIVE_INFINITY;
+      return 20.0;
    }
 
    @Override
