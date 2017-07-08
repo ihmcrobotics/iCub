@@ -22,7 +22,7 @@ import us.ihmc.humanoidRobotics.communication.packets.walking.FootstepDataMessag
 import us.ihmc.humanoidRobotics.frames.HumanoidReferenceFrames;
 import us.ihmc.robotModels.FullHumanoidRobotModel;
 import us.ihmc.robotics.geometry.FrameOrientation;
-import us.ihmc.robotics.geometry.FramePoint;
+import us.ihmc.robotics.geometry.FramePoint3D;
 import us.ihmc.robotics.robotSide.RobotSide;
 import us.ihmc.robotics.screwTheory.MovingReferenceFrame;
 import us.ihmc.simulationConstructionSetTools.util.environments.FlatGroundEnvironment;
@@ -70,7 +70,7 @@ public class ICubFlatGroundWalkingTest
       {
          MovingReferenceFrame soleFrame = referenceFrames.getSoleFrame(robotSide);
          FrameOrientation orientation = new FrameOrientation(soleFrame);
-         FramePoint location = new FramePoint(soleFrame);
+         FramePoint3D location = new FramePoint3D(soleFrame);
          orientation.changeFrame(ReferenceFrame.getWorldFrame());
          location.changeFrame(ReferenceFrame.getWorldFrame());
          FootstepDataMessage footstep = new FootstepDataMessage(robotSide, location.getPoint(), orientation.getQuaternion());
