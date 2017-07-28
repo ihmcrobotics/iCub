@@ -12,6 +12,8 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 
 import gnu.trove.map.hash.TObjectDoubleHashMap;
 import us.ihmc.commonWalkingControlModules.configurations.ICPAngularMomentumModifierParameters;
+import us.ihmc.commonWalkingControlModules.configurations.SwingTrajectoryParameters;
+import us.ihmc.commonWalkingControlModules.configurations.ToeOffParameters;
 import us.ihmc.commonWalkingControlModules.configurations.WalkingControllerParameters;
 import us.ihmc.commonWalkingControlModules.controlModules.foot.YoFootSE3Gains;
 import us.ihmc.commonWalkingControlModules.instantaneousCapturePoint.ICPControlGains;
@@ -43,9 +45,6 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    private final double pelvis_pitch_upper_limit = 1.46608;
    private final double pelvis_pitch_lower_limit = -0.383972;
 
-   private final double min_leg_length_before_collapsing_single_support; //= IcubRobotModel.SCALE_FACTOR * 0.25; //TODO tune
-   private final double min_mechanical_leg_length;// = IcubRobotModel.SCALE_FACTOR * 0.20; // TODO tune
-
    //TODO need to better tune this
    // USE THESE FOR Real Robot and sims when controlling playback height instead of CoM.
    private final double minimumHeightAboveGround; //= IcubRobotModel.SCALE_FACTOR * (0.4 - 0.02);// + 0.03;
@@ -53,6 +52,9 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    private final double maximumHeightAboveGround;// = IcubRobotModel.SCALE_FACTOR * (0.52);// + 0.03;
 
    private final IcubJointMap jointMap;
+
+   private final ToeOffParameters toeOffParameters;
+   private final SwingTrajectoryParameters swingTrajectoryParameters;
 
    public IcubWalkingControllerParameters(IcubJointMap jointMap)
    {
@@ -64,13 +66,12 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
       this.runningOnRealRobot = runningOnRealRobot;
       this.jointMap = jointMap;
 
-      min_leg_length_before_collapsing_single_support = jointMap.getModelScale() * 0.25;
-      min_mechanical_leg_length = jointMap.getModelScale() * 0.20;
-
       minimumHeightAboveGround = jointMap.getModelScale() * (0.5);
       nominalHeightAboveGround = jointMap.getModelScale() * (0.55);
       maximumHeightAboveGround = jointMap.getModelScale() * (0.6);
 
+      toeOffParameters = new IcubToeOffParameters(jointMap);
+      swingTrajectoryParameters = new IcubSwingTrajectoryParameters(jointMap.getModelScale());
    }
 
    @Override
@@ -83,60 +84,6 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    public double getTimeToGetPreparedForLocomotion()
    {
       return 0.0;
-   }
-
-   @Override
-   public boolean doToeOffIfPossible()
-   {
-      return true;
-   }
-
-   @Override
-   public boolean doToeOffIfPossibleInSingleSupport()
-   {
-      return false;
-   }
-
-   @Override
-   public boolean checkECMPLocationToTriggerToeOff()
-   {
-      return true;
-   }
-
-   @Override
-   public double getMinStepLengthForToeOff()
-   {
-      return getFootLength();
-   }
-
-   @Override
-   public double getMaximumToeOffAngle()
-   {
-      return Math.toRadians(45.0);
-   }
-
-   @Override
-   public boolean doToeTouchdownIfPossible()
-   {
-      return false;
-   }
-
-   @Override
-   public double getToeTouchdownAngle()
-   {
-      return Math.toRadians(20.0);
-   }
-
-   @Override
-   public boolean doHeelTouchdownIfPossible()
-   {
-      return false;
-   }
-
-   @Override
-   public double getHeelTouchdownAngle()
-   {
-      return Math.toRadians(-20.0);
    }
 
    @Override
@@ -266,12 +213,6 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    public double getLegLength()
    {
       return jointMap.getPhysicalProperties().getShinLength() + jointMap.getPhysicalProperties().getThighLength();
-   }
-
-   @Override
-   public double getMinLegLengthBeforeCollapsingSingleSupport()
-   {
-      return min_leg_length_before_collapsing_single_support;
    }
 
    @Override
@@ -722,11 +663,6 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
       return 0.05;
    }
 
-   public double getSwingMaxHeightForPushRecoveryTrajectory()
-   {
-      return 0.05;
-   }
-
    @Override
    public boolean doPrepareManipulationForLocomotion()
    {
@@ -834,24 +770,6 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    public SideDependentList<RigidBodyTransform> getDesiredHandPosesWithRespectToChestFrame()
    {
       return null;
-   }
-
-   @Override
-   public double getDesiredTouchdownHeightOffset()
-   {
-      return 0;
-   }
-
-   @Override
-   public double getDesiredTouchdownVelocity()
-   {
-      return -0.3;
-   }
-
-   @Override
-   public double getDesiredTouchdownAcceleration()
-   {
-      return 0;
    }
 
    @Override
@@ -996,18 +914,6 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    }
 
    @Override
-   public boolean doToeOffWhenHittingAnkleLimit()
-   {
-      return false;
-   }
-
-   @Override
-   public double getMinMechanicalLegLength()
-   {
-      return min_mechanical_leg_length;
-   }
-
-   @Override
    public boolean doFancyOnToesControl()
    {
       return false;
@@ -1117,5 +1023,17 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    public void useVirtualModelControlCore()
    {
       // once another mode is implemented, use this to change the default gains for virtual model control
+   }
+
+   @Override
+   public ToeOffParameters getToeOffParameters()
+   {
+      return toeOffParameters;
+   }
+
+   @Override
+   public SwingTrajectoryParameters getSwingTrajectoryParameters()
+   {
+      return swingTrajectoryParameters;
    }
 }
