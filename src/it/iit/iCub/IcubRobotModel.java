@@ -1,9 +1,6 @@
 package it.iit.iCub;
 
 import java.io.InputStream;
-import java.util.LinkedHashMap;
-
-import org.apache.commons.lang3.tuple.ImmutablePair;
 
 import com.jme3.math.Quaternion;
 import com.jme3.math.Transform;
@@ -20,7 +17,6 @@ import it.iit.iCub.parameters.IcubWalkingControllerParameters;
 import it.iit.iCub.sensors.IcubSensorSuiteManager;
 import us.ihmc.avatar.drcRobot.DRCRobotModel;
 import us.ihmc.avatar.drcRobot.DRCRobotPhysicalProperties;
-import us.ihmc.avatar.handControl.HandCommandManager;
 import us.ihmc.avatar.handControl.packetsAndConsumers.HandModel;
 import us.ihmc.avatar.initialSetup.DRCRobotInitialSetup;
 import us.ihmc.avatar.networkProcessor.time.DRCROSAlwaysZeroOffsetPPSTimestampOffsetProvider;
@@ -33,10 +29,7 @@ import us.ihmc.commons.Conversions;
 import us.ihmc.euclid.matrix.RotationMatrix;
 import us.ihmc.euclid.transform.RigidBodyTransform;
 import us.ihmc.humanoidRobotics.communication.streamingData.HumanoidGlobalDataProducer;
-import us.ihmc.humanoidRobotics.footstep.footstepGenerator.FootstepPlanningParameterization;
-import us.ihmc.humanoidRobotics.footstep.footstepSnapper.FootstepSnappingParameters;
 import us.ihmc.ihmcPerception.depthData.CollisionBoxProvider;
-import us.ihmc.jMonkeyEngineToolkit.jme.util.JMEGeometryUtils;
 import us.ihmc.modelFileLoaders.SdfLoader.DRCRobotSDFLoader;
 import us.ihmc.modelFileLoaders.SdfLoader.GeneralizedSDFRobotModel;
 import us.ihmc.modelFileLoaders.SdfLoader.JaxbSDFLoader;
@@ -52,9 +45,6 @@ import us.ihmc.multicastLogDataProtocol.modelLoaders.SDFLogModelProvider;
 import us.ihmc.robotDataLogger.logger.LogSettings;
 import us.ihmc.robotModels.FullHumanoidRobotModel;
 import us.ihmc.robotModels.FullHumanoidRobotModelFromDescription;
-import us.ihmc.robotModels.FullRobotModel;
-import us.ihmc.robotics.partNames.NeckJointName;
-import us.ihmc.robotics.robotController.OutputProcessor;
 import us.ihmc.robotics.robotDescription.RobotDescription;
 import us.ihmc.robotics.robotSide.RobotSide;
 import us.ihmc.robotics.robotSide.SideDependentList;
@@ -68,7 +58,6 @@ import us.ihmc.wholeBodyController.DRCHandType;
 import us.ihmc.wholeBodyController.DRCRobotJointMap;
 import us.ihmc.wholeBodyController.RobotContactPointParameters;
 import us.ihmc.wholeBodyController.concurrent.ThreadDataSynchronizerInterface;
-import us.ihmc.wholeBodyController.parameters.DefaultArmConfigurations;
 
 public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
 {
@@ -90,8 +79,6 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
    private final String[] resourceDirectories = { "", "models/", "models/conf/", "models/meshes/", "models/meshes/visual/", "models/meshes/collision/" };
 
    private final JaxbSDFLoader loader;
-
-   private boolean enableJointDamping = true;
 
    private final RobotDescription robotDescription;
 
@@ -148,12 +135,6 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
    }
 
    @Override
-   public FootstepPlanningParameterization getFootstepParameters()
-   {
-      return null;
-   }
-
-   @Override
    public StateEstimatorParameters getStateEstimatorParameters()
    {
       return stateEstimatorParamaters;
@@ -182,13 +163,6 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
       createTransforms();
       return offsetHandFromWrist.get(side);
    }
-
-   @Override
-   public RigidBodyTransform getTransform3dWristToHand(RobotSide side)
-   {
-      return JMEGeometryUtils.transformFromJMECoordinatesToZup( getJmeTransformWristToHand(side));
-   }
-
 
    private String getSdfFile()
    {
@@ -240,18 +214,6 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
    }
 
    @Override
-   public void setEnableJointDamping(boolean enableJointDamping)
-   {
-      this.enableJointDamping  = enableJointDamping;
-   }
-
-   @Override
-   public boolean getEnableJointDamping()
-   {
-      return enableJointDamping;
-   }
-
-   @Override
    public HandModel getHandModel()
    {
       return null;
@@ -270,10 +232,9 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
    }
 
    @Override
-   public HumanoidFloatingRootJointRobot createHumanoidFloatingRootJointRobot(boolean createCollisionMeshes)
+   public HumanoidFloatingRootJointRobot createHumanoidFloatingRootJointRobot(boolean createCollisionMeshes, boolean enableJointDamping)
    {
       boolean enableTorqueVelocityLimits = false;
-      boolean enableJointDamping = getEnableJointDamping();
       return new HumanoidFloatingRootJointRobot(robotDescription, jointMap, enableJointDamping, enableTorqueVelocityLimits);
    }
 
@@ -313,12 +274,6 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
    }
 
    @Override
-   public SideDependentList<HandCommandManager> createHandCommandManager()
-   {
-      return null;
-   }
-
-   @Override
    public ICPWithTimeFreezingPlannerParameters getCapturePointPlannerParameters()
    {
       return capturePointPlannerParameters;
@@ -338,34 +293,15 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
    }
 
    @Override
-   public DRCHandType getDRCHandType()
-   {
-      return null;
-   }
-
-   @Override
    public LogModelProvider getLogModelProvider()
    {
       return new SDFLogModelProvider(jointMap.getModelName(), getSdfFileAsStream(), getResourceDirectories());
    }
 
    @Override
-   public OutputProcessor getOutputProcessor(FullRobotModel controllerFullRobotModel)
-   {
-      return null;
-   }
-
-   @Override
    public LogSettings getLogSettings()
    {
       return LogSettings.SIMULATION;
-   }
-
-   @Override
-   public DefaultArmConfigurations getDefaultArmConfigurations()
-   {
-      // TODO Auto-generated method stub
-      return null;
    }
 
    @Override public String getSimpleRobotName()
@@ -377,24 +313,6 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
    public CollisionBoxProvider getCollisionBoxProvider()
    {
       return null;
-   }
-
-   @Override
-   public FootstepSnappingParameters getSnappingParameters()
-   {
-      return null;
-   }
-
-   @Override
-   public LinkedHashMap<NeckJointName, ImmutablePair<Double, Double>> getSliderBoardControlledNeckJointsWithLimits()
-   {
-      return walkingControllerParameters.getSliderBoardControlledNeckJointsWithLimits();
-   }
-
-   @Override
-   public SideDependentList<LinkedHashMap<String,ImmutablePair<Double,Double>>> getSliderBoardControlledFingerJointsWithLimits()
-   {
-      return walkingControllerParameters.getSliderBoardControlledFingerJointsWithLimits();
    }
 
    @Override
