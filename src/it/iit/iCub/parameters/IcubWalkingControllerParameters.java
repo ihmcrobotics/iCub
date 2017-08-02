@@ -38,10 +38,6 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    private final boolean runningOnRealRobot;
 
    // Limits
-   private final double neck_pitch_upper_limit = 0.523599;
-   private final double neck_pitch_lower_limit = -0.698132;
-   private final double head_yaw_limit = 0.959931;
-   private final double head_roll_limit = 1.0472; // take the smaller
    private final double pelvis_pitch_upper_limit = 1.46608;
    private final double pelvis_pitch_lower_limit = -0.383972;
 
@@ -117,19 +113,6 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    }
 
    @Override
-   public boolean isNeckPositionControlled()
-   {
-      return false;
-   }
-
-   @Override
-   public String[] getDefaultHeadOrientationControlJointNames()
-   {
-      return new String[] {jointMap.getNeckJointName(NeckJointName.PROXIMAL_NECK_PITCH), jointMap.getNeckJointName(NeckJointName.DISTAL_NECK_ROLL),
-            jointMap.getNeckJointName(NeckJointName.DISTAL_NECK_YAW)};
-   }
-
-   @Override
    public String[] getDefaultChestOrientationControlJointNames()
    {
       String[] defaultChestOrientationControlJointNames = new String[] {jointMap.getSpineJointName(SpineJointName.SPINE_YAW),
@@ -165,30 +148,6 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    public void setNominalHeightAboveAnkle(double nominalHeightAboveAnkle)
    {
       this.nominalHeightAboveGround = nominalHeightAboveAnkle;
-   }
-
-   @Override
-   public double getNeckPitchUpperLimit()
-   {
-      return neck_pitch_upper_limit;
-   }
-
-   @Override
-   public double getNeckPitchLowerLimit()
-   {
-      return neck_pitch_lower_limit;
-   }
-
-   @Override
-   public double getHeadYawLimit()
-   {
-      return head_yaw_limit;
-   }
-
-   @Override
-   public double getHeadRollLimit()
-   {
-      return head_roll_limit;
    }
 
    @Override
@@ -359,8 +318,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
       return gains;
    }
 
-   @Override
-   public YoOrientationPIDGainsInterface createHeadOrientationControlGains(YoVariableRegistry registry)
+   private YoOrientationPIDGainsInterface createHeadOrientationControlGains(YoVariableRegistry registry)
    {
       YoSymmetricSE3PIDGains gains = new YoSymmetricSE3PIDGains("HeadOrientation", registry);
 
@@ -382,8 +340,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
       return gains;
    }
 
-   @Override
-   public YoPIDGains createHeadJointspaceControlGains(YoVariableRegistry registry)
+   private YoPIDGains createHeadJointspaceControlGains(YoVariableRegistry registry)
    {
       YoPIDGains gains = new YoPIDGains("HeadJointspace", registry);
 
@@ -403,18 +360,6 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
       gains.createDerivativeGainUpdater(true);
 
       return gains;
-   }
-
-   @Override
-   public double getTrajectoryTimeHeadOrientation()
-   {
-      return 3.0;
-   }
-
-   @Override
-   public double[] getInitialHeadYawPitchRoll()
-   {
-      return new double[] {0.0, 0.0, 0.0};
    }
 
    @Override
@@ -691,7 +636,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    @Override
    public double getSpineYawLimit()
    {
-      return 0;
+      return 0.959931;
    }
 
    @Override
