@@ -18,7 +18,6 @@ import us.ihmc.commonWalkingControlModules.configurations.WalkingControllerParam
 import us.ihmc.commonWalkingControlModules.controlModules.foot.YoFootSE3Gains;
 import us.ihmc.commonWalkingControlModules.instantaneousCapturePoint.ICPControlGains;
 import us.ihmc.commonWalkingControlModules.momentumBasedController.optimization.MomentumOptimizationSettings;
-import us.ihmc.euclid.transform.RigidBodyTransform;
 import us.ihmc.robotics.controllers.YoOrientationPIDGainsInterface;
 import us.ihmc.robotics.controllers.YoPDGains;
 import us.ihmc.robotics.controllers.YoPIDGains;
@@ -77,18 +76,6 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    }
 
    @Override
-   public double getTimeToGetPreparedForLocomotion()
-   {
-      return 0.0;
-   }
-
-   @Override
-   public boolean allowShrinkingSingleSupportFootPolygon()
-   {
-      return false;
-   }
-
-   @Override
    public boolean allowDisturbanceRecoveryBySpeedingUpSwing()
    {
       return false;
@@ -110,15 +97,6 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    public double getMinimumSwingTimeForDisturbanceRecovery()
    {
       return getDefaultSwingTime();
-   }
-
-   @Override
-   public String[] getDefaultChestOrientationControlJointNames()
-   {
-      String[] defaultChestOrientationControlJointNames = new String[] {jointMap.getSpineJointName(SpineJointName.SPINE_YAW),
-            jointMap.getSpineJointName(SpineJointName.SPINE_PITCH), jointMap.getSpineJointName(SpineJointName.SPINE_ROLL)};
-
-      return defaultChestOrientationControlJointNames;
    }
 
    @Override
@@ -281,17 +259,6 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
 
       //      boolean runningOnRealRobot = target == DRCRobotModel.RobotTarget.REAL_ROBOT;
       //      if (runningOnRealRobot) gains.setFeedbackPartMaxRate(1.0);
-      return gains;
-   }
-
-   @Override
-   public YoPDGains createPelvisICPBasedXYControlGains(YoVariableRegistry registry)
-   {
-      YoPDGains gains = new YoPDGains("PelvisXY", registry);
-
-      gains.setKp(4.0);
-      gains.setKd(runningOnRealRobot ? 0.5 : 1.2);
-
       return gains;
    }
 
@@ -604,12 +571,6 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    }
 
    @Override
-   public double getSwingHeightMaxForPushRecoveryTrajectory()
-   {
-      return 0.05;
-   }
-
-   @Override
    public boolean doPrepareManipulationForLocomotion()
    {
       return true;
@@ -701,21 +662,9 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    }
 
    @Override
-   public double getFoot_start_toetaper_from_back()
-   {
-      return 0.0;
-   }
-
-   @Override
    public double getSideLengthOfBoundingBoxForFootstepHeight()
    {
       return (1 + 0.3) * 2 * Math.sqrt(getFootForwardOffset() * getFootForwardOffset() + 0.25 * getFootWidth() * getFootWidth());
-   }
-
-   @Override
-   public SideDependentList<RigidBodyTransform> getDesiredHandPosesWithRespectToChestFrame()
-   {
-      return null;
    }
 
    @Override
@@ -774,12 +723,6 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    }
 
    @Override
-   public boolean getCoMHeightDriftCompensation()
-   {
-      return false;
-   }
-
-   @Override
    public YoSE3PIDGainsInterface createHoldPositionFootControlGains(YoVariableRegistry registry)
    {
       YoFootSE3Gains gains = new YoFootSE3Gains("HoldFoot", registry);
@@ -828,57 +771,6 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
       gains.setOrientationProportionalGains(kpXYOrientation, kpZOrientation);
       gains.setOrientationDampingRatio(zetaOrientation);
       gains.setOrientationMaxFeedbackAndFeedbackRate(maxAngularAcceleration, maxAngularJerk);
-      gains.createDerivativeGainUpdater(true);
-
-      return gains;
-   }
-
-   @Override
-   public YoSE3PIDGainsInterface createEdgeTouchdownFootControlGains(YoVariableRegistry registry)
-   {
-      YoFootSE3Gains gains = new YoFootSE3Gains("EdgeTouchdownFoot", registry);
-
-      double kp = 0.0;
-      double zetaXYZ = runningOnRealRobot ? 0.0 : 0.0;
-      double kpXYOrientation = runningOnRealRobot ? 40.0 : 300.0;
-      double kpZOrientation = runningOnRealRobot ? 40.0 : 300.0;
-      double zetaOrientation = runningOnRealRobot ? 0.4 : 0.4;
-      double maxLinearAcceleration = runningOnRealRobot ? 10.0 : Double.POSITIVE_INFINITY;
-      double maxLinearJerk = runningOnRealRobot ? 150.0 : Double.POSITIVE_INFINITY;
-      double maxAngularAcceleration = runningOnRealRobot ? 100.0 : Double.POSITIVE_INFINITY;
-      double maxAngularJerk = runningOnRealRobot ? 1500.0 : Double.POSITIVE_INFINITY;
-
-      gains.setPositionProportionalGains(kp, kp);
-      gains.setPositionDampingRatio(zetaXYZ);
-      gains.setPositionMaxFeedbackAndFeedbackRate(maxLinearAcceleration, maxLinearJerk);
-      gains.setOrientationProportionalGains(kpXYOrientation, kpZOrientation);
-      gains.setOrientationDampingRatio(zetaOrientation);
-      gains.setOrientationMaxFeedbackAndFeedbackRate(maxAngularAcceleration, maxAngularJerk);
-      gains.createDerivativeGainUpdater(true);
-
-      return gains;
-   }
-
-   @Override
-   public boolean doFancyOnToesControl()
-   {
-      return false;
-   }
-
-   @Override
-   public YoPDGains createUnconstrainedJointsControlGains(YoVariableRegistry registry)
-   {
-      YoPDGains gains = new YoPDGains("UnconstrainedJoints", registry);
-
-      double kp = runningOnRealRobot ? 80.0 : 100.0;
-      double zeta = runningOnRealRobot ? 0.6 : 0.8;
-      double maxAcceleration = runningOnRealRobot ? 18.0 : 18.0;
-      double maxJerk = runningOnRealRobot ? 270.0 : 270.0;
-
-      gains.setKp(kp);
-      gains.setZeta(zeta);
-      gains.setMaximumFeedback(maxAcceleration);
-      gains.setMaximumFeedbackRate(maxJerk);
       gains.createDerivativeGainUpdater(true);
 
       return gains;
