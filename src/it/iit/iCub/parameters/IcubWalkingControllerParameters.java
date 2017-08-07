@@ -14,6 +14,7 @@ import us.ihmc.commonWalkingControlModules.configurations.ToeOffParameters;
 import us.ihmc.commonWalkingControlModules.configurations.WalkingControllerParameters;
 import us.ihmc.commonWalkingControlModules.controlModules.foot.YoFootSE3Gains;
 import us.ihmc.commonWalkingControlModules.instantaneousCapturePoint.ICPControlGains;
+import us.ihmc.commonWalkingControlModules.instantaneousCapturePoint.icpOptimization.ICPOptimizationParameters;
 import us.ihmc.commonWalkingControlModules.momentumBasedController.optimization.MomentumOptimizationSettings;
 import us.ihmc.robotics.controllers.YoOrientationPIDGainsInterface;
 import us.ihmc.robotics.controllers.YoPDGains;
@@ -839,5 +840,11 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    public SwingTrajectoryParameters getSwingTrajectoryParameters()
    {
       return swingTrajectoryParameters;
+   }
+
+   @Override
+   public ICPOptimizationParameters getICPOptimizationParameters()
+   {
+      return null;
    }
 }

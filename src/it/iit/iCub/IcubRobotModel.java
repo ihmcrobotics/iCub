@@ -280,12 +280,6 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
    }
 
    @Override
-   public ICPOptimizationParameters getICPOptimizationParameters()
-   {
-      return null;
-   }
-
-   @Override
    public MultiThreadedRobotControlElement createSimulatedHandController(FloatingRootJointRobot simulatedRobot, ThreadDataSynchronizerInterface threadDataSynchronizer,
          HumanoidGlobalDataProducer globalDataProducer, CloseableAndDisposableRegistry closeableAndDisposableRegistry)
    {
