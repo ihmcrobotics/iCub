@@ -9,6 +9,7 @@ import java.util.Map;
 
 import gnu.trove.map.hash.TObjectDoubleHashMap;
 import us.ihmc.commonWalkingControlModules.configurations.ICPAngularMomentumModifierParameters;
+import us.ihmc.commonWalkingControlModules.configurations.SteppingParameters;
 import us.ihmc.commonWalkingControlModules.configurations.SwingTrajectoryParameters;
 import us.ihmc.commonWalkingControlModules.configurations.ToeOffParameters;
 import us.ihmc.commonWalkingControlModules.configurations.WalkingControllerParameters;
@@ -43,6 +44,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
 
    private final ToeOffParameters toeOffParameters;
    private final SwingTrajectoryParameters swingTrajectoryParameters;
+   private final ICubSteppingParameters steppingParameters;
 
    public IcubWalkingControllerParameters(IcubJointMap jointMap)
    {
@@ -60,6 +62,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
 
       toeOffParameters = new IcubToeOffParameters(jointMap);
       swingTrajectoryParameters = new IcubSwingTrajectoryParameters(jointMap.getModelScale());
+      steppingParameters = new ICubSteppingParameters(jointMap);
    }
 
    @Override
@@ -122,111 +125,9 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    }
 
    @Override
-   public double getFootForwardOffset()
-   {
-      return jointMap.getPhysicalProperties().getFootForward();
-   }
-
-   @Override
-   public double getFootBackwardOffset()
-   {
-      return jointMap.getPhysicalProperties().getFootBack();
-   }
-
-   @Override
    public double getMaximumLegLengthForSingularityAvoidance()
    {
       return jointMap.getPhysicalProperties().getShinLength() + jointMap.getPhysicalProperties().getThighLength();
-   }
-
-   @Override
-   public double getInPlaceWidth()
-   {
-      return 0.2; //
-   }
-
-   @Override
-   public double getDesiredStepForward()
-   {
-      return 0.15; //0.35;
-   }
-
-   @Override
-   public double getMaxStepLength()
-   {
-      return 0.2; //0.5; //0.35;
-   }
-
-   @Override
-   public double getDefaultStepLength()
-   {
-      return 0.1;
-   }
-
-   @Override
-   public double getMinStepWidth()
-   {
-      return 0.2;
-   }
-
-   @Override
-   public double getMaxStepWidth()
-   {
-      return 0.3; //0.4;
-   }
-
-   @Override
-   public double getStepPitch()
-   {
-      return 0.0;
-   }
-
-   @Override
-   public double getMaxStepUp()
-   {
-      return 0.05;
-   }
-
-   @Override
-   public double getMaxStepDown()
-   {
-      return 0.05;
-   }
-
-   @Override
-   public double getMaxSwingHeightFromStanceFoot()
-   {
-      return 0.15;
-   }
-
-   @Override
-   public double getMinSwingHeightFromStanceFoot()
-   {
-      return 0.05;
-   }
-
-   @Override
-   public double getMaxAngleTurnOutwards()
-   {
-      return 0.0;
-   }
-
-   @Override
-   public double getMaxAngleTurnInwards()
-   {
-      return 0.0;
-   }
-
-   @Override
-   public double getMinAreaPercentForValidFootstep()
-   {
-      return 0.5;
-   }
-
-   @Override
-   public double getDangerAreaPercentForValidFootstep()
-   {
-      return 0.75;
    }
 
    @Override
@@ -583,42 +484,6 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    }
 
    @Override
-   public double getFootWidth()
-   {
-      return jointMap.getPhysicalProperties().getFootWidth();
-   }
-
-   @Override
-   public double getToeWidth()
-   {
-      return jointMap.getPhysicalProperties().getToeWidth();
-   }
-
-   @Override
-   public double getFootLength()
-   {
-      return jointMap.getPhysicalProperties().getFootLength();
-   }
-
-   @Override
-   public double getActualFootWidth()
-   {
-      return getFootWidth();
-   }
-
-   @Override
-   public double getActualFootLength()
-   {
-      return getFootLength();
-   }
-
-   @Override
-   public double getFootstepArea()
-   {
-      return (getToeWidth() + getFootWidth()) * getFootLength() / 2.0;
-   }
-
-   @Override
    public double getContactThresholdForce()
    {
       return runningOnRealRobot ? 30.0 : 5.0;
@@ -794,5 +659,11 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    public ICPOptimizationParameters getICPOptimizationParameters()
    {
       return null;
+   }
+
+   @Override
+   public SteppingParameters getSteppingParameters()
+   {
+      return steppingParameters;
    }
 }
