@@ -134,7 +134,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    }
 
    @Override
-   public double getLegLength()
+   public double getMaximumLegLengthForSingularityAvoidance()
    {
       return jointMap.getPhysicalProperties().getShinLength() + jointMap.getPhysicalProperties().getThighLength();
    }
