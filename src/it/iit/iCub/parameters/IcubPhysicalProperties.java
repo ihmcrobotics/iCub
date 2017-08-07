@@ -43,12 +43,6 @@ public class IcubPhysicalProperties implements DRCRobotPhysicalProperties
       }
    }
 
-   @Override
-   public double getAnkleHeight()
-   {
-      return ankleHeight;
-   }
-
    public RigidBodyTransform getSoleToAnkleFrameTransform(RobotSide side)
    {
       return soleToAnkleFrameTransforms.get(side);

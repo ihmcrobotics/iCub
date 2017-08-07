@@ -1,5 +1,6 @@
 package it.iit.iCub.parameters;
 
+import us.ihmc.robotics.robotSide.RobotSide;
 import us.ihmc.wholeBodyController.UIParameters;
 
 public class ICubUIParameters implements UIParameters
@@ -17,7 +18,7 @@ public class ICubUIParameters implements UIParameters
    @Override
    public double getAnkleHeight()
    {
-      return physicalProperties.getAnkleHeight();
+      return Math.abs(physicalProperties.getSoleToAnkleFrameTransform(RobotSide.LEFT).getTranslationZ());
    }
 
    @Override
