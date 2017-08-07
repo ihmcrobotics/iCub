@@ -33,10 +33,6 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
 {
    private final boolean runningOnRealRobot;
 
-   // Limits
-   private final double pelvis_pitch_upper_limit = 1.46608;
-   private final double pelvis_pitch_lower_limit = -0.383972;
-
    //TODO need to better tune this
    // USE THESE FOR Real Robot and sims when controlling playback height instead of CoM.
    private final double minimumHeightAboveGround; //= IcubRobotModel.SCALE_FACTOR * (0.4 - 0.02);// + 0.03;
@@ -135,12 +131,6 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    public double getFootBackwardOffset()
    {
       return jointMap.getPhysicalProperties().getFootBack();
-   }
-
-   @Override
-   public double getAnkleHeight()
-   {
-      return jointMap.getPhysicalProperties().getAnkleHeight();
    }
 
    @Override
@@ -593,36 +583,6 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    }
 
    @Override
-   public double getSpineYawLimit()
-   {
-      return 0.959931;
-   }
-
-   @Override
-   public double getSpineRollLimit()
-   {
-      return 0;
-   }
-
-   @Override
-   public double getSpinePitchUpperLimit()
-   {
-      return pelvis_pitch_upper_limit;
-   }
-
-   @Override
-   public double getSpinePitchLowerLimit()
-   {
-      return pelvis_pitch_lower_limit;
-   }
-
-   @Override
-   public boolean isSpinePitchReversed()
-   {
-      return false;
-   }
-
-   @Override
    public double getFootWidth()
    {
       return jointMap.getPhysicalProperties().getFootWidth();
@@ -656,12 +616,6 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    public double getFootstepArea()
    {
       return (getToeWidth() + getFootWidth()) * getFootLength() / 2.0;
-   }
-
-   @Override
-   public double getSideLengthOfBoundingBoxForFootstepHeight()
-   {
-      return (1 + 0.3) * 2 * Math.sqrt(getFootForwardOffset() * getFootForwardOffset() + 0.25 * getFootWidth() * getFootWidth());
    }
 
    @Override
@@ -802,12 +756,6 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    public boolean finishSingleSupportWhenICPPlannerIsDone()
    {
       return false;
-   }
-
-   @Override
-   public double pelvisToAnkleThresholdForWalking()
-   {
-      return 0;
    }
 
    /** {@inheritDoc} */
