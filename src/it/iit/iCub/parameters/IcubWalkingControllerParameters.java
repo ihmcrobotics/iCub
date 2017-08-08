@@ -14,9 +14,11 @@ import us.ihmc.commonWalkingControlModules.configurations.SwingTrajectoryParamet
 import us.ihmc.commonWalkingControlModules.configurations.ToeOffParameters;
 import us.ihmc.commonWalkingControlModules.configurations.WalkingControllerParameters;
 import us.ihmc.commonWalkingControlModules.controlModules.foot.YoFootSE3Gains;
+import us.ihmc.commonWalkingControlModules.controlModules.rigidBody.RigidBodyControlMode;
 import us.ihmc.commonWalkingControlModules.instantaneousCapturePoint.ICPControlGains;
 import us.ihmc.commonWalkingControlModules.instantaneousCapturePoint.icpOptimization.ICPOptimizationParameters;
 import us.ihmc.commonWalkingControlModules.momentumBasedController.optimization.MomentumOptimizationSettings;
+import us.ihmc.euclid.geometry.Pose3D;
 import us.ihmc.robotics.controllers.YoOrientationPIDGainsInterface;
 import us.ihmc.robotics.controllers.YoPDGains;
 import us.ihmc.robotics.controllers.YoPIDGains;
@@ -57,8 +59,8 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
       this.jointMap = jointMap;
 
       minimumHeightAboveGround = jointMap.getModelScale() * (0.5);
-      nominalHeightAboveGround = jointMap.getModelScale() * (0.55);
-      maximumHeightAboveGround = jointMap.getModelScale() * (0.6);
+      nominalHeightAboveGround = jointMap.getModelScale() * (0.525);
+      maximumHeightAboveGround = jointMap.getModelScale() * (0.55);
 
       toeOffParameters = new IcubToeOffParameters(jointMap);
       swingTrajectoryParameters = new IcubSwingTrajectoryParameters(jointMap.getModelScale());
@@ -399,6 +401,20 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
       return taskspaceLinearGains;
    }
 
+   /** {@inheritDoc} */
+   @Override
+   public RigidBodyControlMode getDefaultControlModeForRigidBody(String bodyName)
+   {
+      if (bodyName.equals(jointMap.getChestName()))
+      {
+         return RigidBodyControlMode.TASKSPACE;
+      }
+      else
+      {
+         return RigidBodyControlMode.JOINTSPACE;
+      }
+   }
+
    private TObjectDoubleHashMap<String> jointHomeConfiguration = null;
 
    /** {@inheritDoc} */
@@ -410,7 +426,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
 
       jointHomeConfiguration = new TObjectDoubleHashMap<String>();
 
-      jointHomeConfiguration.put(jointMap.getSpineJointName(SPINE_PITCH), 0.5);
+      jointHomeConfiguration.put(jointMap.getSpineJointName(SPINE_PITCH), 0.0);
       jointHomeConfiguration.put(jointMap.getSpineJointName(SPINE_ROLL), 0.0);
       jointHomeConfiguration.put(jointMap.getSpineJointName(SPINE_YAW), 0.0);
 
@@ -429,6 +445,24 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
       }
 
       return jointHomeConfiguration;
+   }
+
+   private Map<String, Pose3D> bodyHomeConfiguration = null;
+
+   /** {@inheritDoc} */
+   @Override
+   public Map<String, Pose3D> getOrCreateBodyHomeConfiguration()
+   {
+      if (bodyHomeConfiguration != null)
+         return bodyHomeConfiguration;
+
+      bodyHomeConfiguration = new HashMap<String, Pose3D>();
+
+      Pose3D homeChestPoseInPelvisZUpFrame = new Pose3D();
+      homeChestPoseInPelvisZUpFrame.appendPitchRotation(Math.PI / 8.0);
+      bodyHomeConfiguration.put(jointMap.getChestName(), homeChestPoseInPelvisZUpFrame);
+
+      return bodyHomeConfiguration;
    }
 
    @Override
@@ -467,7 +501,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    @Override
    public double getDefaultTransferTime()
    {
-      return runningOnRealRobot ? 1.5 : 0.25;
+      return runningOnRealRobot ? 1.5 : 0.15;
    }
 
    @Override

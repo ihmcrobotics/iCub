@@ -35,7 +35,7 @@ public class IcubFlatGroundWalkingTrack
 
       HeadingAndVelocityEvaluationScriptParameters walkingScriptParameters = new HeadingAndVelocityEvaluationScriptParameters();
       walkingScriptParameters.setAcceleration(0.15);
-      walkingScriptParameters.setCruiseVelocity(0.15);
+      walkingScriptParameters.setCruiseVelocity(0.3);
       walkingScriptParameters.setHeadingDot(0.10);
       walkingScriptParameters.setMaxHeadingDot(0.15);
       walkingScriptParameters.setMaxVelocity(0.15);

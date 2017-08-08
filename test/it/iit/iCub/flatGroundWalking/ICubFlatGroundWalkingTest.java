@@ -82,6 +82,35 @@ public class ICubFlatGroundWalkingTest
       assertTrue(success);
    }
 
+   @ContinuousIntegrationTest(estimatedDuration = 20.0)
+   @Test
+   public void testWalkingForward() throws SimulationExceededMaximumTimeException
+   {
+      boolean success = drcSimulationTestHelper.simulateAndBlockAndCatchExceptions(1.0);
+      assertTrue(success);
+
+      FullHumanoidRobotModel fullRobotModel = drcSimulationTestHelper.getControllerFullRobotModel();
+      HumanoidReferenceFrames referenceFrames = new HumanoidReferenceFrames(fullRobotModel);
+      referenceFrames.updateFrames();
+
+      FootstepDataListMessage footsteps = new FootstepDataListMessage();
+      for (RobotSide robotSide : RobotSide.values)
+      {
+         MovingReferenceFrame soleFrame = referenceFrames.getSoleFrame(robotSide);
+         FrameOrientation orientation = new FrameOrientation(soleFrame);
+         FramePoint location = new FramePoint(soleFrame);
+         location.setX(0.2);
+         orientation.changeFrame(ReferenceFrame.getWorldFrame());
+         location.changeFrame(ReferenceFrame.getWorldFrame());
+         FootstepDataMessage footstep = new FootstepDataMessage(robotSide, location.getPoint(), orientation.getQuaternion());
+         footsteps.add(footstep);
+      }
+
+      drcSimulationTestHelper.send(footsteps);
+      success = drcSimulationTestHelper.simulateAndBlockAndCatchExceptions(5.0);
+      assertTrue(success);
+   }
+
    @Before
    public void showMemoryUsageBeforeTest() throws SimulationExceededMaximumTimeException
    {
