@@ -7,6 +7,7 @@ import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 
 import it.iit.iCub.configuration.IcubConfigurationRoot;
+import it.iit.iCub.parameters.ICubUIParameters;
 import it.iit.iCub.parameters.IcubCapturePointPlannerParameters;
 import it.iit.iCub.parameters.IcubContactPointParameters;
 import it.iit.iCub.parameters.IcubJointMap;
@@ -16,7 +17,6 @@ import it.iit.iCub.parameters.IcubStateEstimatorParameters;
 import it.iit.iCub.parameters.IcubWalkingControllerParameters;
 import it.iit.iCub.sensors.IcubSensorSuiteManager;
 import us.ihmc.avatar.drcRobot.DRCRobotModel;
-import us.ihmc.avatar.drcRobot.DRCRobotPhysicalProperties;
 import us.ihmc.avatar.handControl.packetsAndConsumers.HandModel;
 import us.ihmc.avatar.initialSetup.DRCRobotInitialSetup;
 import us.ihmc.avatar.networkProcessor.time.DRCROSAlwaysZeroOffsetPPSTimestampOffsetProvider;
@@ -24,7 +24,6 @@ import us.ihmc.avatar.ros.DRCROSPPSTimestampOffsetProvider;
 import us.ihmc.avatar.sensors.DRCSensorSuiteManager;
 import us.ihmc.commonWalkingControlModules.configurations.ICPWithTimeFreezingPlannerParameters;
 import us.ihmc.commonWalkingControlModules.configurations.WalkingControllerParameters;
-import us.ihmc.commonWalkingControlModules.instantaneousCapturePoint.icpOptimization.ICPOptimizationParameters;
 import us.ihmc.commons.Conversions;
 import us.ihmc.euclid.matrix.RotationMatrix;
 import us.ihmc.euclid.transform.RigidBodyTransform;
@@ -57,6 +56,7 @@ import us.ihmc.tools.thread.CloseableAndDisposableRegistry;
 import us.ihmc.wholeBodyController.DRCHandType;
 import us.ihmc.wholeBodyController.DRCRobotJointMap;
 import us.ihmc.wholeBodyController.RobotContactPointParameters;
+import us.ihmc.wholeBodyController.UIParameters;
 import us.ihmc.wholeBodyController.concurrent.ThreadDataSynchronizerInterface;
 
 public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
@@ -138,12 +138,6 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
    public StateEstimatorParameters getStateEstimatorParameters()
    {
       return stateEstimatorParamaters;
-   }
-
-   @Override
-   public DRCRobotPhysicalProperties getPhysicalProperties()
-   {
-      return physicalProperties;
    }
 
    @Override
@@ -277,6 +271,12 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
    public ICPWithTimeFreezingPlannerParameters getCapturePointPlannerParameters()
    {
       return capturePointPlannerParameters;
+   }
+
+   @Override
+   public UIParameters getUIParameters()
+   {
+      return new ICubUIParameters(physicalProperties);
    }
 
    @Override
