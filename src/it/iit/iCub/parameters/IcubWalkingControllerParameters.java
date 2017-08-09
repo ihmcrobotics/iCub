@@ -501,7 +501,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    @Override
    public double getDefaultTransferTime()
    {
-      return runningOnRealRobot ? 1.5 : 0.15;
+      return runningOnRealRobot ? 1.5 : 0.1;
    }
 
    @Override
