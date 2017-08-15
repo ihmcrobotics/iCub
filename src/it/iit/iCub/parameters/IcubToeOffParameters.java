@@ -20,11 +20,23 @@ public class IcubToeOffParameters extends ToeOffParameters
    @Override
    public boolean doToeOffIfPossibleInSingleSupport()
    {
-      return false;
+      return true;
    }
 
    @Override
    public boolean checkECMPLocationToTriggerToeOff()
+   {
+      return false;
+   }
+
+   @Override
+   public double getICPPercentOfStanceForSSToeOff()
+   {
+      return 1.0;
+   }
+
+   @Override
+   public boolean useToeOffLineContactInSwing()
    {
       return true;
    }
@@ -44,7 +56,7 @@ public class IcubToeOffParameters extends ToeOffParameters
    @Override
    public boolean doToeOffWhenHittingAnkleLimit()
    {
-      return false;
+      return true;
    }
 
 

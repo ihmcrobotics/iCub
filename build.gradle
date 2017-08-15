@@ -50,6 +50,8 @@ dependencies {
     compile ihmc.getProjectDependency(":IHMCRoboticsToolkit")
     compile ihmc.getProjectDependency(":IHMCRobotDescription")
     compile ihmc.getProjectDependency(":IHMCRobotModels")
+
+    testCompile ihmc.getProjectTestDependency(":IHMCAvatarInterfaces")
 }
 
 jar {

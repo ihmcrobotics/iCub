@@ -1,10 +1,10 @@
 package it.iit.iCub.parameters;
 
-import us.ihmc.commonWalkingControlModules.configurations.ContinuousCMPICPPlannerParameters;
-import us.ihmc.euclid.tuple2D.Vector2D;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import us.ihmc.commonWalkingControlModules.configurations.ContinuousCMPICPPlannerParameters;
+import us.ihmc.euclid.tuple2D.Vector2D;
 
 /** {@inheritDoc} */
 public class IcubCapturePointPlannerParameters extends ContinuousCMPICPPlannerParameters
@@ -16,7 +16,7 @@ public class IcubCapturePointPlannerParameters extends ContinuousCMPICPPlannerPa
    @Override
    public int getNumberOfCoPWayPointsPerFoot()
    {
-         return 1;
+      return 2;
    }
 
    /** {@inheritDoc} */

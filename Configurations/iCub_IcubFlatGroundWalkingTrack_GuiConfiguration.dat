@@ -1,5 +1,5 @@
 <GraphGroup>
-	<Cols>2</Cols>
+	<Cols>1</Cols>
 	<Graph>
 		<Variables>root.iCub.t</Variables>
 		<GraphConfiguration>
@@ -13,7 +13,7 @@
 		</GraphConfig>
 	</Graph>
 	<Graph>
-		<Variables></Variables>
+		<Variables>root.iCub.DRCSimulation.DRCEstimatorThread.EstimatorController.JointLimits.limitl_ankle_pitch_Status,root.iCub.DRCSimulation.DRCEstimatorThread.EstimatorController.JointLimits.limitr_ankle_pitch_Status</Variables>
 		<GraphConfiguration>
 			<Name>config2</Name>
 			<ScalingMethod>1</ScalingMethod>
@@ -25,69 +25,9 @@
 		</GraphConfig>
 	</Graph>
 	<Graph>
-		<Variables>root.iCub.DRCSimulation.DRCControllerThread.DRCMomentumBasedController.HighLevelHumanoidControllerManager.MomentumBasedControllerFactory.l_upper_footWrenchBasedFootSwitch.l_upper_footForceX,root.iCub.DRCSimulation.DRCControllerThread.DRCMomentumBasedController.HighLevelHumanoidControllerManager.MomentumBasedControllerFactory.l_upper_footWrenchBasedFootSwitch.l_upper_footForceZ</Variables>
+		<Variables>root.iCub.DRCSimulation.DRCEstimatorThread.EstimatorController.JointLimits.limitr_hip_roll_Status,root.iCub.DRCSimulation.DRCEstimatorThread.EstimatorController.JointLimits.limitl_hip_roll_Status</Variables>
 		<GraphConfiguration>
 			<Name>config3</Name>
-			<ScalingMethod>1</ScalingMethod>
-			<PlotType>100</PlotType>
-			<ShowBaseLines>true</ShowBaseLines>
-			<BaseLines>0.0,</BaseLines>
-			<MaxScaling>1.0</MaxScaling>
-			<MinScaling>0.0</MinScaling>
-		</GraphConfig>
-	</Graph>
-	<Graph>
-		<Variables>root.iCub.DRCSimulation.DRCControllerThread.DRCMomentumBasedController.HighLevelHumanoidControllerManager.MomentumBasedControllerFactory.l_upper_footWrenchBasedFootSwitch.l_upper_footForceZ,root.iCub.DRCSimulation.DRCControllerThread.DRCMomentumBasedController.HighLevelHumanoidControllerManager.MomentumBasedControllerFactory.r_upper_footWrenchBasedFootSwitch.r_upper_footContactThresholdForce,root.iCub.DRCSimulation.DRCControllerThread.DRCMomentumBasedController.HighLevelHumanoidControllerManager.MomentumBasedControllerFactory.l_upper_footWrenchBasedFootSwitch.l_upper_footForceY</Variables>
-		<GraphConfiguration>
-			<Name>config4</Name>
-			<ScalingMethod>1</ScalingMethod>
-			<PlotType>100</PlotType>
-			<ShowBaseLines>true</ShowBaseLines>
-			<BaseLines>0.0,</BaseLines>
-			<MaxScaling>1.0</MaxScaling>
-			<MinScaling>0.0</MinScaling>
-		</GraphConfig>
-	</Graph>
-	<Graph>
-		<Variables></Variables>
-		<GraphConfiguration>
-			<Name>config5</Name>
-			<ScalingMethod>1</ScalingMethod>
-			<PlotType>100</PlotType>
-			<ShowBaseLines>true</ShowBaseLines>
-			<BaseLines>0.0,</BaseLines>
-			<MaxScaling>1.0</MaxScaling>
-			<MinScaling>0.0</MinScaling>
-		</GraphConfig>
-	</Graph>
-	<Graph>
-		<Variables></Variables>
-		<GraphConfiguration>
-			<Name>config6</Name>
-			<ScalingMethod>1</ScalingMethod>
-			<PlotType>100</PlotType>
-			<ShowBaseLines>true</ShowBaseLines>
-			<BaseLines>0.0,</BaseLines>
-			<MaxScaling>1.0</MaxScaling>
-			<MinScaling>0.0</MinScaling>
-		</GraphConfig>
-	</Graph>
-	<Graph>
-		<Variables></Variables>
-		<GraphConfiguration>
-			<Name>config7</Name>
-			<ScalingMethod>1</ScalingMethod>
-			<PlotType>100</PlotType>
-			<ShowBaseLines>true</ShowBaseLines>
-			<BaseLines>0.0,</BaseLines>
-			<MaxScaling>1.0</MaxScaling>
-			<MinScaling>0.0</MinScaling>
-		</GraphConfig>
-	</Graph>
-	<Graph>
-		<Variables></Variables>
-		<GraphConfiguration>
-			<Name>config8</Name>
 			<ScalingMethod>1</ScalingMethod>
 			<PlotType>100</PlotType>
 			<ShowBaseLines>true</ShowBaseLines>
@@ -116,14 +56,14 @@ Tab0
 
 <Extra Panels>
 <Main Viewport>
-Plotter,
+null,
 </Main Viewport></Extra Panels>
 
 <Current View>Normal View</Current View>
  <Canvas 1> 
- <Camera X>-1.6255542937227618</Camera X>
- <Camera Y>7.470794260030762</Camera Y>
- <Camera Z>2.988565044343052</Camera Z>
+ <Camera X>1.0188286746165718</Camera X>
+ <Camera Y>-2.6130808285271714</Camera Y>
+ <Camera Z>0.6814015399490442</Camera Z>
  <Dolly data> 
  <Position X>2.0</Position X>
  <Position Y>12.0</Position Y>
@@ -147,8 +87,8 @@ Plotter,
 </Track Booleans>
 </Track data>
 <Fix Position>
-<Fix X>1.2633245759163811</Fix X>
-<Fix Y>-0.10595810574869535</Fix Y>
-<Fix Z>-0.014222524183345353</Fix Z>
+<Fix X>0.6346190344464985</Fix X>
+<Fix Y>-0.17418269596740954</Fix Y>
+<Fix Z>0.3462322806525949</Fix Z>
 </Fix Position>
 </Canvas 1>

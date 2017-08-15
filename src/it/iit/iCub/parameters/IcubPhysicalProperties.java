@@ -1,12 +1,11 @@
 package it.iit.iCub.parameters;
 
-import us.ihmc.avatar.drcRobot.DRCRobotPhysicalProperties;
 import us.ihmc.euclid.transform.RigidBodyTransform;
 import us.ihmc.euclid.tuple3D.Vector3D;
 import us.ihmc.robotics.robotSide.RobotSide;
 import us.ihmc.robotics.robotSide.SideDependentList;
 
-public class IcubPhysicalProperties implements DRCRobotPhysicalProperties
+public class IcubPhysicalProperties
 {
    public static final double footsizeReduction = 0.0;
 
@@ -41,12 +40,6 @@ public class IcubPhysicalProperties implements DRCRobotPhysicalProperties
          soleToAnkleFrame.setTranslation(new Vector3D(side.negateIfLeftSide(0.0333) + 0.02, side.negateIfLeftSide(-0.005), -0.07));
          soleToAnkleFrameTransforms.put(side, soleToAnkleFrame);
       }
-   }
-
-   @Override
-   public double getAnkleHeight()
-   {
-      return ankleHeight;
    }
 
    public RigidBodyTransform getSoleToAnkleFrameTransform(RobotSide side)

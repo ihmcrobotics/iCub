@@ -5,20 +5,20 @@ import static us.ihmc.robotics.partNames.SpineJointName.SPINE_ROLL;
 import static us.ihmc.robotics.partNames.SpineJointName.SPINE_YAW;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
-
-import org.apache.commons.lang3.tuple.ImmutablePair;
 
 import gnu.trove.map.hash.TObjectDoubleHashMap;
 import us.ihmc.commonWalkingControlModules.configurations.ICPAngularMomentumModifierParameters;
+import us.ihmc.commonWalkingControlModules.configurations.SteppingParameters;
 import us.ihmc.commonWalkingControlModules.configurations.SwingTrajectoryParameters;
 import us.ihmc.commonWalkingControlModules.configurations.ToeOffParameters;
 import us.ihmc.commonWalkingControlModules.configurations.WalkingControllerParameters;
 import us.ihmc.commonWalkingControlModules.controlModules.foot.YoFootSE3Gains;
+import us.ihmc.commonWalkingControlModules.controlModules.rigidBody.RigidBodyControlMode;
 import us.ihmc.commonWalkingControlModules.instantaneousCapturePoint.ICPControlGains;
+import us.ihmc.commonWalkingControlModules.instantaneousCapturePoint.icpOptimization.ICPOptimizationParameters;
 import us.ihmc.commonWalkingControlModules.momentumBasedController.optimization.MomentumOptimizationSettings;
-import us.ihmc.euclid.transform.RigidBodyTransform;
+import us.ihmc.euclid.geometry.Pose3D;
 import us.ihmc.robotics.controllers.YoOrientationPIDGainsInterface;
 import us.ihmc.robotics.controllers.YoPDGains;
 import us.ihmc.robotics.controllers.YoPIDGains;
@@ -29,17 +29,12 @@ import us.ihmc.robotics.partNames.ArmJointName;
 import us.ihmc.robotics.partNames.NeckJointName;
 import us.ihmc.robotics.partNames.SpineJointName;
 import us.ihmc.robotics.robotSide.RobotSide;
-import us.ihmc.robotics.robotSide.SideDependentList;
 import us.ihmc.sensorProcessing.stateEstimation.FootSwitchType;
 import us.ihmc.yoVariables.registry.YoVariableRegistry;
 
 public class IcubWalkingControllerParameters extends WalkingControllerParameters
 {
    private final boolean runningOnRealRobot;
-
-   // Limits
-   private final double pelvis_pitch_upper_limit = 1.46608;
-   private final double pelvis_pitch_lower_limit = -0.383972;
 
    //TODO need to better tune this
    // USE THESE FOR Real Robot and sims when controlling playback height instead of CoM.
@@ -51,6 +46,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
 
    private final ToeOffParameters toeOffParameters;
    private final SwingTrajectoryParameters swingTrajectoryParameters;
+   private final ICubSteppingParameters steppingParameters;
 
    public IcubWalkingControllerParameters(IcubJointMap jointMap)
    {
@@ -63,29 +59,18 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
       this.jointMap = jointMap;
 
       minimumHeightAboveGround = jointMap.getModelScale() * (0.5);
-      nominalHeightAboveGround = jointMap.getModelScale() * (0.55);
-      maximumHeightAboveGround = jointMap.getModelScale() * (0.6);
+      nominalHeightAboveGround = jointMap.getModelScale() * (0.525);
+      maximumHeightAboveGround = jointMap.getModelScale() * (0.55);
 
       toeOffParameters = new IcubToeOffParameters(jointMap);
       swingTrajectoryParameters = new IcubSwingTrajectoryParameters(jointMap.getModelScale());
+      steppingParameters = new ICubSteppingParameters(jointMap);
    }
 
    @Override
    public double getOmega0()
    {
       return 4.7;
-   }
-
-   @Override
-   public double getTimeToGetPreparedForLocomotion()
-   {
-      return 0.0;
-   }
-
-   @Override
-   public boolean allowShrinkingSingleSupportFootPolygon()
-   {
-      return false;
    }
 
    @Override
@@ -110,15 +95,6 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    public double getMinimumSwingTimeForDisturbanceRecovery()
    {
       return getDefaultSwingTime();
-   }
-
-   @Override
-   public String[] getDefaultChestOrientationControlJointNames()
-   {
-      String[] defaultChestOrientationControlJointNames = new String[] {jointMap.getSpineJointName(SpineJointName.SPINE_YAW),
-            jointMap.getSpineJointName(SpineJointName.SPINE_PITCH), jointMap.getSpineJointName(SpineJointName.SPINE_ROLL)};
-
-      return defaultChestOrientationControlJointNames;
    }
 
    @Override
@@ -151,123 +127,15 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    }
 
    @Override
-   public double getFootForwardOffset()
-   {
-      return jointMap.getPhysicalProperties().getFootForward();
-   }
-
-   @Override
-   public double getFootBackwardOffset()
-   {
-      return jointMap.getPhysicalProperties().getFootBack();
-   }
-
-   @Override
-   public double getAnkleHeight()
-   {
-      return jointMap.getPhysicalProperties().getAnkleHeight();
-   }
-
-   @Override
-   public double getLegLength()
+   public double getMaximumLegLengthForSingularityAvoidance()
    {
       return jointMap.getPhysicalProperties().getShinLength() + jointMap.getPhysicalProperties().getThighLength();
    }
 
    @Override
-   public double getInPlaceWidth()
+   public ICPControlGains createICPControlGains()
    {
-      return 0.2; //
-   }
-
-   @Override
-   public double getDesiredStepForward()
-   {
-      return 0.15; //0.35;
-   }
-
-   @Override
-   public double getMaxStepLength()
-   {
-      return 0.2; //0.5; //0.35;
-   }
-
-   @Override
-   public double getDefaultStepLength()
-   {
-      return 0.1;
-   }
-
-   @Override
-   public double getMinStepWidth()
-   {
-      return 0.2;
-   }
-
-   @Override
-   public double getMaxStepWidth()
-   {
-      return 0.3; //0.4;
-   }
-
-   @Override
-   public double getStepPitch()
-   {
-      return 0.0;
-   }
-
-   @Override
-   public double getMaxStepUp()
-   {
-      return 0.05;
-   }
-
-   @Override
-   public double getMaxStepDown()
-   {
-      return 0.05;
-   }
-
-   @Override
-   public double getMaxSwingHeightFromStanceFoot()
-   {
-      return 0.15;
-   }
-
-   @Override
-   public double getMinSwingHeightFromStanceFoot()
-   {
-      return 0.05;
-   }
-
-   @Override
-   public double getMaxAngleTurnOutwards()
-   {
-      return 0.0;
-   }
-
-   @Override
-   public double getMaxAngleTurnInwards()
-   {
-      return 0.0;
-   }
-
-   @Override
-   public double getMinAreaPercentForValidFootstep()
-   {
-      return 0.5;
-   }
-
-   @Override
-   public double getDangerAreaPercentForValidFootstep()
-   {
-      return 0.75;
-   }
-
-   @Override
-   public ICPControlGains createICPControlGains(YoVariableRegistry registry)
-   {
-      ICPControlGains gains = new ICPControlGains("", registry);
+      ICPControlGains gains = new ICPControlGains();
 
       double kpParallel = 2.5;
       double kpOrthogonal = 1.5;
@@ -284,19 +152,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
       return gains;
    }
 
-   @Override
-   public YoPDGains createPelvisICPBasedXYControlGains(YoVariableRegistry registry)
-   {
-      YoPDGains gains = new YoPDGains("PelvisXY", registry);
-
-      gains.setKp(4.0);
-      gains.setKd(runningOnRealRobot ? 0.5 : 1.2);
-
-      return gains;
-   }
-
-   @Override
-   public YoOrientationPIDGainsInterface createPelvisOrientationControlGains(YoVariableRegistry registry)
+   private YoOrientationPIDGainsInterface createPelvisOrientationControlGains(YoVariableRegistry registry)
    {
       YoSymmetricSE3PIDGains gains = new YoSymmetricSE3PIDGains("PelvisOrientation", registry);
 
@@ -362,8 +218,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
       return gains;
    }
 
-   @Override
-   public YoOrientationPIDGainsInterface createChestControlGains(YoVariableRegistry registry)
+   private YoOrientationPIDGainsInterface createChestControlGains(YoVariableRegistry registry)
    {
       YoSymmetricSE3PIDGains gains = new YoSymmetricSE3PIDGains("ChestOrientation", registry);
 
@@ -522,6 +377,9 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
       for (RobotSide robotSide : RobotSide.values)
          taskspaceAngularGains.put(jointMap.getHandName(robotSide), handAngularGains);
 
+      YoOrientationPIDGainsInterface pelvisAngularGains = createPelvisOrientationControlGains(registry);
+      taskspaceAngularGains.put(jointMap.getPelvisName(), pelvisAngularGains);
+
       return taskspaceAngularGains;
    }
 
@@ -543,6 +401,20 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
       return taskspaceLinearGains;
    }
 
+   /** {@inheritDoc} */
+   @Override
+   public RigidBodyControlMode getDefaultControlModeForRigidBody(String bodyName)
+   {
+      if (bodyName.equals(jointMap.getChestName()))
+      {
+         return RigidBodyControlMode.TASKSPACE;
+      }
+      else
+      {
+         return RigidBodyControlMode.JOINTSPACE;
+      }
+   }
+
    private TObjectDoubleHashMap<String> jointHomeConfiguration = null;
 
    /** {@inheritDoc} */
@@ -554,7 +426,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
 
       jointHomeConfiguration = new TObjectDoubleHashMap<String>();
 
-      jointHomeConfiguration.put(jointMap.getSpineJointName(SPINE_PITCH), 0.5);
+      jointHomeConfiguration.put(jointMap.getSpineJointName(SPINE_PITCH), 0.0);
       jointHomeConfiguration.put(jointMap.getSpineJointName(SPINE_ROLL), 0.0);
       jointHomeConfiguration.put(jointMap.getSpineJointName(SPINE_YAW), 0.0);
 
@@ -573,6 +445,24 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
       }
 
       return jointHomeConfiguration;
+   }
+
+   private Map<String, Pose3D> bodyHomeConfiguration = null;
+
+   /** {@inheritDoc} */
+   @Override
+   public Map<String, Pose3D> getOrCreateBodyHomeConfiguration()
+   {
+      if (bodyHomeConfiguration != null)
+         return bodyHomeConfiguration;
+
+      bodyHomeConfiguration = new HashMap<String, Pose3D>();
+
+      Pose3D homeChestPoseInPelvisZUpFrame = new Pose3D();
+      homeChestPoseInPelvisZUpFrame.appendPitchRotation(Math.PI / 8.0);
+      bodyHomeConfiguration.put(jointMap.getChestName(), homeChestPoseInPelvisZUpFrame);
+
+      return bodyHomeConfiguration;
    }
 
    @Override
@@ -603,12 +493,6 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    }
 
    @Override
-   public double getSwingHeightMaxForPushRecoveryTrajectory()
-   {
-      return 0.05;
-   }
-
-   @Override
    public boolean doPrepareManipulationForLocomotion()
    {
       return true;
@@ -617,7 +501,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    @Override
    public double getDefaultTransferTime()
    {
-      return runningOnRealRobot ? 1.5 : 0.25;
+      return runningOnRealRobot ? 1.5 : 0.1;
    }
 
    @Override
@@ -631,90 +515,6 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    public double getDefaultInitialTransferTime()
    {
       return runningOnRealRobot ? 2.0 : 1.0;
-   }
-
-   @Override
-   public double getSpineYawLimit()
-   {
-      return 0.959931;
-   }
-
-   @Override
-   public double getSpineRollLimit()
-   {
-      return 0;
-   }
-
-   @Override
-   public double getSpinePitchUpperLimit()
-   {
-      return pelvis_pitch_upper_limit;
-   }
-
-   @Override
-   public double getSpinePitchLowerLimit()
-   {
-      return pelvis_pitch_lower_limit;
-   }
-
-   @Override
-   public boolean isSpinePitchReversed()
-   {
-      return false;
-   }
-
-   @Override
-   public double getFootWidth()
-   {
-      return jointMap.getPhysicalProperties().getFootWidth();
-   }
-
-   @Override
-   public double getToeWidth()
-   {
-      return jointMap.getPhysicalProperties().getToeWidth();
-   }
-
-   @Override
-   public double getFootLength()
-   {
-      return jointMap.getPhysicalProperties().getFootLength();
-   }
-
-   @Override
-   public double getActualFootWidth()
-   {
-      return getFootWidth();
-   }
-
-   @Override
-   public double getActualFootLength()
-   {
-      return getFootLength();
-   }
-
-   @Override
-   public double getFootstepArea()
-   {
-      return (getToeWidth() + getFootWidth()) * getFootLength() / 2.0;
-   }
-
-   @Override
-   public double getFoot_start_toetaper_from_back()
-   {
-      return 0.0;
-   }
-
-   @Override
-   public double getSideLengthOfBoundingBoxForFootstepHeight()
-   {
-      return (1 + 0.3) * 2 * Math.sqrt(getFootForwardOffset() * getFootForwardOffset() + 0.25 * getFootWidth() * getFootWidth());
-   }
-
-   @Override
-   public SideDependentList<RigidBodyTransform> getDesiredHandPosesWithRespectToChestFrame()
-   {
-      return null;
    }
 
    @Override
@@ -773,12 +573,6 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    }
 
    @Override
-   public boolean getCoMHeightDriftCompensation()
-   {
-      return false;
-   }
-
-   @Override
    public YoSE3PIDGainsInterface createHoldPositionFootControlGains(YoVariableRegistry registry)
    {
       YoFootSE3Gains gains = new YoFootSE3Gains("HoldFoot", registry);
@@ -833,57 +627,6 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    }
 
    @Override
-   public YoSE3PIDGainsInterface createEdgeTouchdownFootControlGains(YoVariableRegistry registry)
-   {
-      YoFootSE3Gains gains = new YoFootSE3Gains("EdgeTouchdownFoot", registry);
-
-      double kp = 0.0;
-      double zetaXYZ = runningOnRealRobot ? 0.0 : 0.0;
-      double kpXYOrientation = runningOnRealRobot ? 40.0 : 300.0;
-      double kpZOrientation = runningOnRealRobot ? 40.0 : 300.0;
-      double zetaOrientation = runningOnRealRobot ? 0.4 : 0.4;
-      double maxLinearAcceleration = runningOnRealRobot ? 10.0 : Double.POSITIVE_INFINITY;
-      double maxLinearJerk = runningOnRealRobot ? 150.0 : Double.POSITIVE_INFINITY;
-      double maxAngularAcceleration = runningOnRealRobot ? 100.0 : Double.POSITIVE_INFINITY;
-      double maxAngularJerk = runningOnRealRobot ? 1500.0 : Double.POSITIVE_INFINITY;
-
-      gains.setPositionProportionalGains(kp, kp);
-      gains.setPositionDampingRatio(zetaXYZ);
-      gains.setPositionMaxFeedbackAndFeedbackRate(maxLinearAcceleration, maxLinearJerk);
-      gains.setOrientationProportionalGains(kpXYOrientation, kpZOrientation);
-      gains.setOrientationDampingRatio(zetaOrientation);
-      gains.setOrientationMaxFeedbackAndFeedbackRate(maxAngularAcceleration, maxAngularJerk);
-      gains.createDerivativeGainUpdater(true);
-
-      return gains;
-   }
-
-   @Override
-   public boolean doFancyOnToesControl()
-   {
-      return false;
-   }
-
-   @Override
-   public YoPDGains createUnconstrainedJointsControlGains(YoVariableRegistry registry)
-   {
-      YoPDGains gains = new YoPDGains("UnconstrainedJoints", registry);
-
-      double kp = runningOnRealRobot ? 80.0 : 100.0;
-      double zeta = runningOnRealRobot ? 0.6 : 0.8;
-      double maxAcceleration = runningOnRealRobot ? 18.0 : 18.0;
-      double maxJerk = runningOnRealRobot ? 270.0 : 270.0;
-
-      gains.setKp(kp);
-      gains.setZeta(zeta);
-      gains.setMaximumFeedback(maxAcceleration);
-      gains.setMaximumFeedbackRate(maxJerk);
-      gains.createDerivativeGainUpdater(true);
-
-      return gains;
-   }
-
-   @Override
    public FootSwitchType getFootSwitchType()
    {
       return FootSwitchType.WrenchBased;
@@ -914,30 +657,6 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
       return false;
    }
 
-   @Override
-   public double pelvisToAnkleThresholdForWalking()
-   {
-      return 0;
-   }
-
-   @Override
-   public boolean controlHeadAndHandsWithSliders()
-   {
-      return false;
-   }
-
-   @Override
-   public SideDependentList<LinkedHashMap<String, ImmutablePair<Double, Double>>> getSliderBoardControlledFingerJointsWithLimits()
-   {
-      return new SideDependentList<LinkedHashMap<String, ImmutablePair<Double, Double>>>();
-   }
-
-   @Override
-   public LinkedHashMap<NeckJointName, ImmutablePair<Double, Double>> getSliderBoardControlledNeckJointsWithLimits()
-   {
-      return new LinkedHashMap<NeckJointName, ImmutablePair<Double, Double>>();
-   }
-
    /** {@inheritDoc} */
    @Override
    public double getHighCoPDampingDurationToPreventFootShakies()
@@ -959,18 +678,6 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    }
 
    @Override
-   public void useInverseDynamicsControlCore()
-   {
-      // once another mode is implemented, use this to change the default gains for inverse dynamics
-   }
-
-   @Override
-   public void useVirtualModelControlCore()
-   {
-      // once another mode is implemented, use this to change the default gains for virtual model control
-   }
-
-   @Override
    public ToeOffParameters getToeOffParameters()
    {
       return toeOffParameters;
@@ -980,5 +687,17 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    public SwingTrajectoryParameters getSwingTrajectoryParameters()
    {
       return swingTrajectoryParameters;
+   }
+
+   @Override
+   public ICPOptimizationParameters getICPOptimizationParameters()
+   {
+      return null;
+   }
+
+   @Override
+   public SteppingParameters getSteppingParameters()
+   {
+      return steppingParameters;
    }
 }

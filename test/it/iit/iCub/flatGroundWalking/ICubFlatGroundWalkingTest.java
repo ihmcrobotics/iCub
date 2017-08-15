@@ -1,6 +1,6 @@
 package it.iit.iCub.flatGroundWalking;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import org.junit.After;
 import org.junit.Before;
@@ -18,6 +18,7 @@ import us.ihmc.euclid.referenceFrame.FramePoint3D;
 import us.ihmc.euclid.referenceFrame.ReferenceFrame;
 import us.ihmc.euclid.transform.RigidBodyTransform;
 import us.ihmc.euclid.tuple3D.Point3D;
+import us.ihmc.humanoidRobotics.communication.packets.walking.FootTrajectoryMessage;
 import us.ihmc.humanoidRobotics.communication.packets.walking.FootstepDataListMessage;
 import us.ihmc.humanoidRobotics.communication.packets.walking.FootstepDataMessage;
 import us.ihmc.humanoidRobotics.frames.HumanoidReferenceFrames;
@@ -78,6 +79,60 @@ public class ICubFlatGroundWalkingTest
       }
 
       drcSimulationTestHelper.send(footsteps);
+      success = drcSimulationTestHelper.simulateAndBlockAndCatchExceptions(5.0);
+      assertTrue(success);
+   }
+
+   @ContinuousIntegrationTest(estimatedDuration = 20.0)
+   @Test
+   public void testWalkingForward() throws SimulationExceededMaximumTimeException
+   {
+      boolean success = drcSimulationTestHelper.simulateAndBlockAndCatchExceptions(1.0);
+      assertTrue(success);
+
+      FullHumanoidRobotModel fullRobotModel = drcSimulationTestHelper.getControllerFullRobotModel();
+      HumanoidReferenceFrames referenceFrames = new HumanoidReferenceFrames(fullRobotModel);
+      referenceFrames.updateFrames();
+
+      FootstepDataListMessage footsteps = new FootstepDataListMessage();
+      for (RobotSide robotSide : RobotSide.values)
+      {
+         MovingReferenceFrame soleFrame = referenceFrames.getSoleFrame(robotSide);
+         FrameOrientation orientation = new FrameOrientation(soleFrame);
+         FramePoint3D location = new FramePoint3D(soleFrame);
+         location.setX(0.2);
+         orientation.changeFrame(ReferenceFrame.getWorldFrame());
+         location.changeFrame(ReferenceFrame.getWorldFrame());
+         FootstepDataMessage footstep = new FootstepDataMessage(robotSide, location.getPoint(), orientation.getQuaternion());
+         footsteps.add(footstep);
+      }
+
+      drcSimulationTestHelper.send(footsteps);
+      success = drcSimulationTestHelper.simulateAndBlockAndCatchExceptions(5.0);
+      assertTrue(success);
+   }
+
+   @ContinuousIntegrationTest(estimatedDuration = 20.0)
+   @Test
+   public void testStandingOnOneFoot() throws SimulationExceededMaximumTimeException
+   {
+      boolean success = drcSimulationTestHelper.simulateAndBlockAndCatchExceptions(1.0);
+      assertTrue(success);
+
+      FullHumanoidRobotModel fullRobotModel = drcSimulationTestHelper.getControllerFullRobotModel();
+      HumanoidReferenceFrames referenceFrames = new HumanoidReferenceFrames(fullRobotModel);
+      referenceFrames.updateFrames();
+
+      RobotSide robotSide = RobotSide.LEFT;
+      MovingReferenceFrame soleFrame = referenceFrames.getSoleFrame(robotSide);
+      FrameOrientation orientation = new FrameOrientation(soleFrame);
+      FramePoint3D location = new FramePoint3D(soleFrame);
+      location.setZ(0.1);
+      orientation.changeFrame(ReferenceFrame.getWorldFrame());
+      location.changeFrame(ReferenceFrame.getWorldFrame());
+      FootTrajectoryMessage message = new FootTrajectoryMessage(robotSide , 1.0, location.getPoint(), orientation.getQuaternion());
+
+      drcSimulationTestHelper.send(message);
       success = drcSimulationTestHelper.simulateAndBlockAndCatchExceptions(5.0);
       assertTrue(success);
    }
