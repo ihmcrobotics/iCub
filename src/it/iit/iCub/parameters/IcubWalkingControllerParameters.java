@@ -486,7 +486,6 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
       gains.setOrientationProportionalGains(kpXYOrientation, kpZOrientation);
       gains.setOrientationDampingRatio(zetaOrientation);
       gains.setOrientationMaxFeedbackAndFeedbackRate(maxOrientationAcceleration, maxOrientationJerk);
-      gains.createDerivativeGainUpdater(true);
 
       return gains;
    }
@@ -593,7 +592,6 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
       gains.setOrientationProportionalGains(kpXYOrientation, kpZOrientation);
       gains.setOrientationDampingRatio(zetaOrientation);
       gains.setOrientationMaxFeedbackAndFeedbackRate(maxAngularAcceleration, maxAngularJerk);
-      gains.createDerivativeGainUpdater(true);
 
       return gains;
    }
@@ -620,7 +618,6 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
       gains.setOrientationProportionalGains(kpXYOrientation, kpZOrientation);
       gains.setOrientationDampingRatio(zetaOrientation);
       gains.setOrientationMaxFeedbackAndFeedbackRate(maxAngularAcceleration, maxAngularJerk);
-      gains.createDerivativeGainUpdater(true);
 
       return gains;
    }
