@@ -13,7 +13,6 @@ import us.ihmc.commonWalkingControlModules.configurations.SteppingParameters;
 import us.ihmc.commonWalkingControlModules.configurations.SwingTrajectoryParameters;
 import us.ihmc.commonWalkingControlModules.configurations.ToeOffParameters;
 import us.ihmc.commonWalkingControlModules.configurations.WalkingControllerParameters;
-import us.ihmc.commonWalkingControlModules.controlModules.foot.YoFootSE3Gains;
 import us.ihmc.commonWalkingControlModules.controlModules.rigidBody.RigidBodyControlMode;
 import us.ihmc.commonWalkingControlModules.instantaneousCapturePoint.ICPControlGains;
 import us.ihmc.commonWalkingControlModules.instantaneousCapturePoint.icpOptimization.ICPOptimizationParameters;
@@ -22,8 +21,11 @@ import us.ihmc.euclid.geometry.Pose3D;
 import us.ihmc.robotics.controllers.YoPDGains;
 import us.ihmc.robotics.controllers.YoPIDGains;
 import us.ihmc.robotics.controllers.YoPIDSE3Gains;
-import us.ihmc.robotics.controllers.pidGains.SymmetricYoPIDSE3Gains;
+import us.ihmc.robotics.controllers.pidGains.GainCoupling;
 import us.ihmc.robotics.controllers.pidGains.YoPID3DGains;
+import us.ihmc.robotics.controllers.pidGains.implementations.DefaultPIDSE3Gains;
+import us.ihmc.robotics.controllers.pidGains.implementations.DefaultYoPIDSE3Gains;
+import us.ihmc.robotics.controllers.pidGains.implementations.SymmetricYoPIDSE3Gains;
 import us.ihmc.robotics.partNames.ArmJointName;
 import us.ihmc.robotics.partNames.NeckJointName;
 import us.ihmc.robotics.partNames.SpineJointName;
@@ -452,8 +454,6 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    @Override
    public YoPIDSE3Gains createSwingFootControlGains(YoVariableRegistry registry)
    {
-      YoFootSE3Gains gains = new YoFootSE3Gains("SwingFoot", registry);
-
       double kpXY = 100.0;
       double kpZ = runningOnRealRobot ? 200.0 : 200.0;
       double zetaXYZ = runningOnRealRobot ? 0.3 : 0.7;
@@ -465,14 +465,15 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
       double maxOrientationAcceleration = runningOnRealRobot ? 100.0 : Double.POSITIVE_INFINITY;
       double maxOrientationJerk = runningOnRealRobot ? 1500.0 : Double.POSITIVE_INFINITY;
 
-      gains.setPositionProportionalGains(kpXY, kpZ);
-      gains.setPositionDampingRatio(zetaXYZ);
+      DefaultPIDSE3Gains gains = new DefaultPIDSE3Gains(GainCoupling.XY, false);
+      gains.setPositionProportionalGains(kpXY, kpXY, kpZ);
+      gains.setPositionDampingRatios(zetaXYZ);
       gains.setPositionMaxFeedbackAndFeedbackRate(maxPositionAcceleration, maxPositionJerk);
-      gains.setOrientationProportionalGains(kpXYOrientation, kpZOrientation);
-      gains.setOrientationDampingRatio(zetaOrientation);
+      gains.setOrientationProportionalGains(kpXYOrientation, kpXYOrientation, kpZOrientation);
+      gains.setOrientationDampingRatios(zetaOrientation);
       gains.setOrientationMaxFeedbackAndFeedbackRate(maxOrientationAcceleration, maxOrientationJerk);
 
-      return gains;
+      return new DefaultYoPIDSE3Gains("SwingFoot", gains, registry);
    }
 
    @Override
@@ -558,8 +559,6 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    @Override
    public YoPIDSE3Gains createHoldPositionFootControlGains(YoVariableRegistry registry)
    {
-      YoFootSE3Gains gains = new YoFootSE3Gains("HoldFoot", registry);
-
       double kpXY = 100.0;
       double kpZ = 0.0;
       double zetaXYZ = runningOnRealRobot ? 0.2 : 1.0;
@@ -571,21 +570,20 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
       double maxAngularAcceleration = runningOnRealRobot ? 100.0 : Double.POSITIVE_INFINITY;
       double maxAngularJerk = runningOnRealRobot ? 1500.0 : Double.POSITIVE_INFINITY;
 
-      gains.setPositionProportionalGains(kpXY, kpZ);
-      gains.setPositionDampingRatio(zetaXYZ);
+      DefaultPIDSE3Gains gains = new DefaultPIDSE3Gains(GainCoupling.XY, false);
+      gains.setPositionProportionalGains(kpXY, kpXY, kpZ);
+      gains.setPositionDampingRatios(zetaXYZ);
       gains.setPositionMaxFeedbackAndFeedbackRate(maxLinearAcceleration, maxLinearJerk);
-      gains.setOrientationProportionalGains(kpXYOrientation, kpZOrientation);
-      gains.setOrientationDampingRatio(zetaOrientation);
+      gains.setOrientationProportionalGains(kpXYOrientation, kpXYOrientation, kpZOrientation);
+      gains.setOrientationDampingRatios(zetaOrientation);
       gains.setOrientationMaxFeedbackAndFeedbackRate(maxAngularAcceleration, maxAngularJerk);
 
-      return gains;
+      return new DefaultYoPIDSE3Gains("HoldFoot", gains, registry);
    }
 
    @Override
    public YoPIDSE3Gains createToeOffFootControlGains(YoVariableRegistry registry)
    {
-      YoFootSE3Gains gains = new YoFootSE3Gains("ToeOffFoot", registry);
-
       double kpXY = 100.0;
       double kpZ = 0.0;
       double zetaXYZ = runningOnRealRobot ? 0.4 : 0.4;
@@ -597,14 +595,15 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
       double maxAngularAcceleration = runningOnRealRobot ? 100.0 : Double.POSITIVE_INFINITY;
       double maxAngularJerk = runningOnRealRobot ? 1500.0 : Double.POSITIVE_INFINITY;
 
-      gains.setPositionProportionalGains(kpXY, kpZ);
-      gains.setPositionDampingRatio(zetaXYZ);
+      DefaultPIDSE3Gains gains = new DefaultPIDSE3Gains(GainCoupling.XY, false);
+      gains.setPositionProportionalGains(kpXY, kpXY, kpZ);
+      gains.setPositionDampingRatios(zetaXYZ);
       gains.setPositionMaxFeedbackAndFeedbackRate(maxLinearAcceleration, maxLinearJerk);
-      gains.setOrientationProportionalGains(kpXYOrientation, kpZOrientation);
-      gains.setOrientationDampingRatio(zetaOrientation);
+      gains.setOrientationProportionalGains(kpXYOrientation, kpXYOrientation, kpZOrientation);
+      gains.setOrientationDampingRatios(zetaOrientation);
       gains.setOrientationMaxFeedbackAndFeedbackRate(maxAngularAcceleration, maxAngularJerk);
 
-      return gains;
+      return new DefaultYoPIDSE3Gains("ToeOffFoot", gains, registry);
    }
 
    @Override
