@@ -374,16 +374,11 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
 
    /** {@inheritDoc} */
    @Override
-   public RigidBodyControlMode getDefaultControlModeForRigidBody(String bodyName)
+   public Map<String, RigidBodyControlMode> getDefaultControlModesForRigidBodies()
    {
-      if (bodyName.equals(jointMap.getChestName()))
-      {
-         return RigidBodyControlMode.TASKSPACE;
-      }
-      else
-      {
-         return RigidBodyControlMode.JOINTSPACE;
-      }
+      Map<String, RigidBodyControlMode> defaultControlModes = new HashMap<>();
+      defaultControlModes.put(jointMap.getChestName(), RigidBodyControlMode.TASKSPACE);
+      return defaultControlModes;
    }
 
    private TObjectDoubleHashMap<String> jointHomeConfiguration = null;
