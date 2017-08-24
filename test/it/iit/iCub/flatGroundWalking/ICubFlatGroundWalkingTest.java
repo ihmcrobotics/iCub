@@ -39,10 +39,18 @@ public class ICubFlatGroundWalkingTest
    private static final IcubRobotModel robotModel = new IcubRobotModel();
 
    private static final SimulationTestingParameters simulationTestingParameters = SimulationTestingParameters.createFromEnvironmentVariables();
-
    static
    {
+      /**
+       * Avoid using state estimation for now until we have figured out the IMU:
+       */
       simulationTestingParameters.setUsePefectSensors(true);
+
+      /**
+       * To avoid the simulation closing when the unit test is over for debugging uncomment:
+       * (But do not commit this or the unit tests will hang on the test server!)
+       */
+      // simulationTestingParameters.setKeepSCSUp(true);
    }
 
    private DRCSimulationTestHelper drcSimulationTestHelper;
@@ -138,7 +146,7 @@ public class ICubFlatGroundWalkingTest
    }
 
    @Before
-   public void showMemoryUsageBeforeTest() throws SimulationExceededMaximumTimeException
+   public void setupTest() throws SimulationExceededMaximumTimeException
    {
       MemoryTools.printCurrentMemoryUsageAndReturnUsedMemoryInMB(getClass().getSimpleName() + " before test.");
 
@@ -156,7 +164,7 @@ public class ICubFlatGroundWalkingTest
    }
 
    @After
-   public void destroySimulationAndRecycleMemory()
+   public void finishTest()
    {
       if (simulationTestingParameters.getKeepSCSUp())
       {
