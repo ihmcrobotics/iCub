@@ -59,7 +59,8 @@ test {
          exceptionFormat "full"
       }
 
-      ignoreFailures true
+      minHeapSize = "8g"
+      maxHeapSize = "12g"
       forkEvery = forkEveryProp
 
       println "Setting system properties."
