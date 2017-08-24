@@ -4,13 +4,6 @@ import us.ihmc.commonWalkingControlModules.configurations.SwingTrajectoryParamet
 
 public class IcubSwingTrajectoryParameters extends SwingTrajectoryParameters
 {
-   private final double min_mechanical_leg_length;// = IcubRobotModel.SCALE_FACTOR * 0.20; // TODO tune
-
-   public IcubSwingTrajectoryParameters(double modelScale)
-   {
-      min_mechanical_leg_length = modelScale * 0.20;
-   }
-
    @Override
    public boolean doToeTouchdownIfPossible()
    {
@@ -38,7 +31,7 @@ public class IcubSwingTrajectoryParameters extends SwingTrajectoryParameters
    @Override
    public double getMinMechanicalLegLength()
    {
-      return min_mechanical_leg_length;
+      return 0.2;
    }
 
    @Override

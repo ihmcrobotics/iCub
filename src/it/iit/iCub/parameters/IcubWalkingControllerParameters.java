@@ -67,7 +67,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
       maximumHeightAboveGround = jointMap.getModelScale() * (0.55);
 
       toeOffParameters = new IcubToeOffParameters(jointMap);
-      swingTrajectoryParameters = new IcubSwingTrajectoryParameters(jointMap.getModelScale());
+      swingTrajectoryParameters = new IcubSwingTrajectoryParameters();
       steppingParameters = new ICubSteppingParameters(jointMap);
    }
 

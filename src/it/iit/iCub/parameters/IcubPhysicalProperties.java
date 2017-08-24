@@ -9,7 +9,6 @@ public class IcubPhysicalProperties
 {
    public static final double footsizeReduction = 0.0;
 
-   private final double ankleHeight;
    private final double footLength;
    private final double footBack;
    private final double footForward;
@@ -21,11 +20,10 @@ public class IcubPhysicalProperties
 
    private final SideDependentList<RigidBodyTransform> soleToAnkleFrameTransforms = new SideDependentList<>();
    private final SideDependentList<RigidBodyTransform> handControlFrameToWristTransforms = new SideDependentList<RigidBodyTransform>(new RigidBodyTransform(),
-                                                                                                                                     new RigidBodyTransform());
+         new RigidBodyTransform());
 
    public IcubPhysicalProperties()
    {
-      ankleHeight = 0.042;
       footLength = 0.15;
       footBack = 0.045;
       footForward = footLength - footBack;

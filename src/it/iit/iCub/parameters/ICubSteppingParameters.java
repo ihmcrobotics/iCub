@@ -26,19 +26,19 @@ public class ICubSteppingParameters implements SteppingParameters
    @Override
    public double getInPlaceWidth()
    {
-      return 0.2; //
+      return 0.2;
    }
 
    @Override
    public double getDesiredStepForward()
    {
-      return 0.15; //0.35;
+      return 0.15;
    }
 
    @Override
    public double getMaxStepLength()
    {
-      return 0.2; //0.5; //0.35;
+      return 0.2;
    }
 
    @Override
@@ -56,7 +56,7 @@ public class ICubSteppingParameters implements SteppingParameters
    @Override
    public double getMaxStepWidth()
    {
-      return 0.3; //0.4;
+      return 0.3;
    }
 
    @Override

@@ -6,9 +6,9 @@ import com.jme3.math.Quaternion;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 
-import it.iit.iCub.parameters.ICubUIParameters;
 import it.iit.iCub.parameters.IcubCapturePointPlannerParameters;
 import it.iit.iCub.parameters.IcubContactPointParameters;
+import it.iit.iCub.parameters.IcubInitialSetup;
 import it.iit.iCub.parameters.IcubJointMap;
 import it.iit.iCub.parameters.IcubPhysicalProperties;
 import it.iit.iCub.parameters.IcubSensorInformation;
@@ -274,7 +274,7 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
    @Override
    public UIParameters getUIParameters()
    {
-      return new ICubUIParameters(physicalProperties);
+      return null;
    }
 
    @Override

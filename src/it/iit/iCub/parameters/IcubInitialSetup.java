@@ -1,4 +1,4 @@
-package it.iit.iCub;
+package it.iit.iCub.parameters;
 
 import java.util.List;
 
