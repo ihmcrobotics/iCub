@@ -22,7 +22,6 @@ import us.ihmc.avatar.ros.DRCROSPPSTimestampOffsetProvider;
 import us.ihmc.avatar.sensors.DRCSensorSuiteManager;
 import us.ihmc.commonWalkingControlModules.configurations.ICPWithTimeFreezingPlannerParameters;
 import us.ihmc.commonWalkingControlModules.configurations.WalkingControllerParameters;
-import us.ihmc.commons.Conversions;
 import us.ihmc.euclid.matrix.RotationMatrix;
 import us.ihmc.euclid.transform.RigidBodyTransform;
 import us.ihmc.humanoidRobotics.communication.streamingData.HumanoidGlobalDataProducer;
@@ -59,8 +58,7 @@ import us.ihmc.wholeBodyController.concurrent.ThreadDataSynchronizerInterface;
 
 public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
 {
-   private static final long ESTIMATOR_DT_IN_NS = 1000000;
-   private static final double ESTIMATOR_DT = Conversions.nanosecondsToSeconds(ESTIMATOR_DT_IN_NS);
+   private static final double ESTIMATOR_DT = 0.001;
    private static final double CONTROL_DT = 0.004;
    private static final double SIMULATE_DT = 0.0001;
 
@@ -70,7 +68,6 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
    private final DRCRobotSensorInformation sensorInformation;
    private final IcubJointMap jointMap;
    private final IcubContactPointParameters contactPointParameters;
-   private final String robotName = "ICUB";
    private final SideDependentList<Transform> offsetHandFromWrist = new SideDependentList<Transform>();
    private final ICPWithTimeFreezingPlannerParameters capturePointPlannerParameters;
 
@@ -190,7 +187,7 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
    @Override
    public String toString()
    {
-      return robotName;
+      return jointMap.getModelName();
    }
 
    @Override
@@ -301,7 +298,7 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
    @Override
    public String getSimpleRobotName()
    {
-      return "iCub";
+      return jointMap.getModelName();
    }
 
    @Override
@@ -344,28 +341,20 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
    @Override
    public void mutateSensorForModel(GeneralizedSDFRobotModel model, SDFSensor sensor)
    {
-      // TODO Auto-generated method stub
-
    }
 
    @Override
    public void mutateForceSensorForModel(GeneralizedSDFRobotModel model, SDFForceSensor forceSensor)
    {
-      // TODO Auto-generated method stub
-
    }
 
    @Override
    public void mutateContactSensorForModel(GeneralizedSDFRobotModel model, SDFContactSensor contactSensor)
    {
-      // TODO Auto-generated method stub
-
    }
 
    @Override
    public void mutateModelWithAdditions(GeneralizedSDFRobotModel model)
    {
-      // TODO Auto-generated method stub
-
    }
 }
