@@ -1,6 +1,6 @@
 # iCub
 
-[![Build Status](https://travis-ci.org/ihmcrobotics/iCub.svg?branch=master)](https://travis-ci.org/ihmcrobotics/iCub)
+[![Build Status](https://travis-ci.org/ihmcrobotics/iCub.svg?branch=develop)](https://travis-ci.org/ihmcrobotics/iCub)
 
 Repository containing work adapting the IHMC Walking Controller to the iCub robot. Currently simulations only.
 
