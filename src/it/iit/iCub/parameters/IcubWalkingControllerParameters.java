@@ -34,18 +34,9 @@ import us.ihmc.robotics.controllers.pidGains.implementations.DefaultPIDSE3Gains;
 import us.ihmc.robotics.partNames.ArmJointName;
 import us.ihmc.robotics.partNames.NeckJointName;
 import us.ihmc.robotics.robotSide.RobotSide;
-import us.ihmc.sensorProcessing.stateEstimation.FootSwitchType;
 
 public class IcubWalkingControllerParameters extends WalkingControllerParameters
 {
-   private final boolean runningOnRealRobot;
-
-   //TODO need to better tune this
-   // USE THESE FOR Real Robot and sims when controlling playback height instead of CoM.
-   private final double minimumHeightAboveGround; //= IcubRobotModel.SCALE_FACTOR * (0.4 - 0.02);// + 0.03;
-   private double nominalHeightAboveGround; //= IcubRobotModel.SCALE_FACTOR * (0.49);// + 0.03;
-   private final double maximumHeightAboveGround;// = IcubRobotModel.SCALE_FACTOR * (0.52);// + 0.03;
-
    private final IcubJointMap jointMap;
 
    private final ToeOffParameters toeOffParameters;
@@ -54,17 +45,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
 
    public IcubWalkingControllerParameters(IcubJointMap jointMap)
    {
-      this(jointMap, false);
-   }
-
-   public IcubWalkingControllerParameters(IcubJointMap jointMap, boolean runningOnRealRobot) // TODO: are wrong
-   {
-      this.runningOnRealRobot = runningOnRealRobot;
       this.jointMap = jointMap;
-
-      minimumHeightAboveGround = jointMap.getModelScale() * (0.5);
-      nominalHeightAboveGround = jointMap.getModelScale() * (0.525);
-      maximumHeightAboveGround = jointMap.getModelScale() * (0.55);
 
       toeOffParameters = new IcubToeOffParameters(jointMap);
       swingTrajectoryParameters = new IcubSwingTrajectoryParameters();
@@ -104,19 +85,19 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    @Override
    public double minimumHeightAboveAnkle()
    {
-      return minimumHeightAboveGround;
+      return 0.5;
    }
 
    @Override
    public double nominalHeightAboveAnkle()
    {
-      return nominalHeightAboveGround;
+      return 0.525;
    }
 
    @Override
    public double maximumHeightAboveAnkle()
    {
-      return maximumHeightAboveGround;
+      return 0.55;
    }
 
    @Override
@@ -125,15 +106,11 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
       return 0.0;
    }
 
-   public void setNominalHeightAboveAnkle(double nominalHeightAboveAnkle)
-   {
-      this.nominalHeightAboveGround = nominalHeightAboveAnkle;
-   }
-
    @Override
    public double getMaximumLegLengthForSingularityAvoidance()
    {
-      return jointMap.getPhysicalProperties().getShinLength() + jointMap.getPhysicalProperties().getThighLength();
+      IcubPhysicalProperties physicalProperties = jointMap.getPhysicalProperties();
+      return physicalProperties.getShinLength() + physicalProperties.getThighLength();
    }
 
    @Override
@@ -143,16 +120,10 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
 
       double kpParallel = 2.5;
       double kpOrthogonal = 1.5;
-      double ki = 0.0;
-      double kiBleedOff = 0.0;
 
       gains.setKpParallelToMotion(kpParallel);
       gains.setKpOrthogonalToMotion(kpOrthogonal);
-      gains.setKi(ki);
-      gains.setKiBleedOff(kiBleedOff);
 
-      //      boolean runningOnRealRobot = target == DRCRobotModel.RobotTarget.REAL_ROBOT;
-      //      if (runningOnRealRobot) gains.setFeedbackPartMaxRate(1.0);
       return gains;
    }
 
@@ -189,15 +160,11 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
 
       double kp = 250.0;
       double zeta = 0.6;
-      double ki = 0.0;
-      double maxIntegralError = 0.0;
-      double maxAccel = runningOnRealRobot ? 20.0 : Double.POSITIVE_INFINITY;
-      double maxJerk = runningOnRealRobot ? 100.0 : Double.POSITIVE_INFINITY;
+      double maxAccel = Double.POSITIVE_INFINITY;
+      double maxJerk = Double.POSITIVE_INFINITY;
 
       spineGains.setKp(kp);
       spineGains.setZeta(zeta);
-      spineGains.setKi(ki);
-      spineGains.setMaxIntegralError(maxIntegralError);
       spineGains.setMaximumFeedback(maxAccel);
       spineGains.setMaximumFeedbackRate(maxJerk);
 
@@ -209,16 +176,12 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
       PIDGains gains = new PIDGains("_NeckJointGains");
 
       double kp = 40.0;
-      double zeta = runningOnRealRobot ? 0.4 : 0.8;
-      double ki = 0.0;
-      double maxIntegralError = 0.0;
-      double maxAccel = runningOnRealRobot ? 6.0 : 36.0;
-      double maxJerk = runningOnRealRobot ? 60.0 : 540.0;
+      double zeta = 0.8;
+      double maxAccel = Double.POSITIVE_INFINITY;
+      double maxJerk = Double.POSITIVE_INFINITY;
 
       gains.setKp(kp);
       gains.setZeta(zeta);
-      gains.setKi(ki);
-      gains.setMaxIntegralError(maxIntegralError);
       gains.setMaximumFeedback(maxAccel);
       gains.setMaximumFeedbackRate(maxJerk);
 
@@ -229,17 +192,13 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    {
       PIDGains armGains = new PIDGains("_ArmJointGains");
 
-      double kp = runningOnRealRobot ? 60.0 : 80.0;
-      double zeta = runningOnRealRobot ? 0.4 : 0.6;
-      double ki = runningOnRealRobot ? 0.0 : 0.0;
-      double maxIntegralError = 0.0;
-      double maxAccel = runningOnRealRobot ? 20.0 : Double.POSITIVE_INFINITY;
-      double maxJerk = runningOnRealRobot ? 200.0 : Double.POSITIVE_INFINITY;
+      double kp = 80.0;
+      double zeta = 0.6;
+      double maxAccel = Double.POSITIVE_INFINITY;
+      double maxJerk = Double.POSITIVE_INFINITY;
 
       armGains.setKp(kp);
       armGains.setZeta(zeta);
-      armGains.setKi(ki);
-      armGains.setMaxIntegralError(maxIntegralError);
       armGains.setMaximumFeedback(maxAccel);
       armGains.setMaximumFeedbackRate(maxJerk);
 
@@ -281,9 +240,9 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    private PID3DGains createPelvisOrientationControlGains()
    {
       double kp = 80.0;
-      double zeta = runningOnRealRobot ? 0.25 : 0.8;
-      double maxAccel = runningOnRealRobot ? 12.0 : 36.0;
-      double maxJerk = runningOnRealRobot ? 180.0 : 540.0;
+      double zeta = 0.8;
+      double maxAccel = Double.POSITIVE_INFINITY;
+      double maxJerk = Double.POSITIVE_INFINITY;
 
       DefaultPID3DGains gains = new DefaultPID3DGains(GainCoupling.XYZ, false);
       gains.setProportionalGains(kp);
@@ -296,9 +255,9 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    private PID3DGains createHeadOrientationControlGains()
    {
       double kp = 40.0;
-      double zeta = runningOnRealRobot ? 0.4 : 0.8;
-      double maxAccel = runningOnRealRobot ? 6.0 : 36.0;
-      double maxJerk = runningOnRealRobot ? 60.0 : 540.0;
+      double zeta = 0.8;
+      double maxAccel = Double.POSITIVE_INFINITY;
+      double maxJerk = Double.POSITIVE_INFINITY;
 
       DefaultPID3DGains gains = new DefaultPID3DGains(GainCoupling.XYZ, false);
       gains.setProportionalGains(kp);
@@ -311,9 +270,9 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    private PID3DGains createChestOrientationControlGains()
    {
       double kp = 80.0;
-      double zeta = runningOnRealRobot ? 0.25 : 0.8;
-      double maxAccel = runningOnRealRobot ? 6.0 : 36.0;
-      double maxJerk = runningOnRealRobot ? 60.0 : 540.0;
+      double zeta = 0.8;
+      double maxAccel = Double.POSITIVE_INFINITY;
+      double maxJerk = Double.POSITIVE_INFINITY;
 
       DefaultPID3DGains gains = new DefaultPID3DGains(GainCoupling.XYZ, false);
       gains.setProportionalGains(kp);
@@ -326,9 +285,9 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    private PID3DGains createHandOrientationControlGains()
    {
       double kp = 100.0;
-      double zeta = runningOnRealRobot ? 0.6 : 1.0;
-      double maxAccel = runningOnRealRobot ? 10.0 : Double.POSITIVE_INFINITY;
-      double maxJerk = runningOnRealRobot ? 100.0 : Double.POSITIVE_INFINITY;
+      double zeta = 1.0;
+      double maxAccel = Double.POSITIVE_INFINITY;
+      double maxJerk = Double.POSITIVE_INFINITY;
 
       DefaultPID3DGains gains = new DefaultPID3DGains(GainCoupling.XYZ, false);
       gains.setProportionalGains(kp);
@@ -358,9 +317,9 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    private PID3DGains createHandPositionControlGains()
    {
       double kp = 100.0;
-      double zeta = runningOnRealRobot ? 0.6 : 1.0;
-      double maxAccel = runningOnRealRobot ? 10.0 : Double.POSITIVE_INFINITY;
-      double maxJerk = runningOnRealRobot ? 100.0 : Double.POSITIVE_INFINITY;
+      double zeta = 1.0;
+      double maxAccel = Double.POSITIVE_INFINITY;
+      double maxJerk = Double.POSITIVE_INFINITY;
 
       DefaultPID3DGains gains = new DefaultPID3DGains(GainCoupling.XYZ, false);
       gains.setProportionalGains(kp);
@@ -438,26 +397,25 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    @Override
    public double getDefaultTransferTime()
    {
-      return runningOnRealRobot ? 1.5 : 0.1;
+      return 0.1;
    }
 
    @Override
    public double getDefaultSwingTime()
    {
-      return runningOnRealRobot ? 1.5 : 0.6;
+      return 0.6;
    }
 
-   /** @inheritDoc */
    @Override
    public double getDefaultInitialTransferTime()
    {
-      return runningOnRealRobot ? 2.0 : 1.0;
+      return 1.0;
    }
 
    @Override
    public double getContactThresholdForce()
    {
-      return runningOnRealRobot ? 30.0 : 5.0;
+      return 5.0;
    }
 
    @Override
@@ -495,14 +453,14 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    {
       PDGains gains = new PDGains("_CoMHeight");
 
-      double kp = runningOnRealRobot ? 40.0 : 200.0;
-      double zeta = runningOnRealRobot ? 0.4 : 1.0;
-      double maxAcceleration = 0.5 * 9.81;
-      double maxJerk = maxAcceleration / 0.05;
+      double kp = 200.0;
+      double zeta = 1.0;
+      double maxAccel = Double.POSITIVE_INFINITY;
+      double maxJerk = Double.POSITIVE_INFINITY;
 
       gains.setKp(kp);
       gains.setZeta(zeta);
-      gains.setMaximumFeedback(maxAcceleration);
+      gains.setMaximumFeedback(maxAccel);
       gains.setMaximumFeedbackRate(maxJerk);
 
       return gains;
@@ -512,15 +470,15 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    public PIDSE3Gains getSwingFootControlGains()
    {
       double kpXY = 100.0;
-      double kpZ = runningOnRealRobot ? 200.0 : 200.0;
-      double zetaXYZ = runningOnRealRobot ? 0.3 : 0.7;
-      double kpXYOrientation = runningOnRealRobot ? 300.0 : 300.0;
-      double kpZOrientation = runningOnRealRobot ? 40.0 : 200.0;
-      double zetaOrientation = runningOnRealRobot ? 0.3 : 0.7;
-      double maxPositionAcceleration = runningOnRealRobot ? 10.0 : Double.POSITIVE_INFINITY;
-      double maxPositionJerk = runningOnRealRobot ? 150.0 : Double.POSITIVE_INFINITY;
-      double maxOrientationAcceleration = runningOnRealRobot ? 100.0 : Double.POSITIVE_INFINITY;
-      double maxOrientationJerk = runningOnRealRobot ? 1500.0 : Double.POSITIVE_INFINITY;
+      double kpZ = 200.0;
+      double zetaXYZ = 0.7;
+      double kpXYOrientation = 300.0;
+      double kpZOrientation = 200.0;
+      double zetaOrientation = 0.7;
+      double maxPositionAcceleration = Double.POSITIVE_INFINITY;
+      double maxPositionJerk = Double.POSITIVE_INFINITY;
+      double maxOrientationAcceleration = Double.POSITIVE_INFINITY;
+      double maxOrientationJerk = Double.POSITIVE_INFINITY;
 
       DefaultPIDSE3Gains gains = new DefaultPIDSE3Gains(GainCoupling.XY, false);
       gains.setPositionProportionalGains(kpXY, kpXY, kpZ);
@@ -538,14 +496,14 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    {
       double kpXY = 100.0;
       double kpZ = 0.0;
-      double zetaXYZ = runningOnRealRobot ? 0.2 : 1.0;
-      double kpXYOrientation = runningOnRealRobot ? 40.0 : 100.0;
-      double kpZOrientation = runningOnRealRobot ? 40.0 : 100.0;
-      double zetaOrientation = runningOnRealRobot ? 0.2 : 1.0;
-      double maxLinearAcceleration = runningOnRealRobot ? 10.0 : Double.POSITIVE_INFINITY;
-      double maxLinearJerk = runningOnRealRobot ? 150.0 : Double.POSITIVE_INFINITY;
-      double maxAngularAcceleration = runningOnRealRobot ? 100.0 : Double.POSITIVE_INFINITY;
-      double maxAngularJerk = runningOnRealRobot ? 1500.0 : Double.POSITIVE_INFINITY;
+      double zetaXYZ = 1.0;
+      double kpXYOrientation = 100.0;
+      double kpZOrientation = 100.0;
+      double zetaOrientation = 1.0;
+      double maxLinearAcceleration = Double.POSITIVE_INFINITY;
+      double maxLinearJerk = Double.POSITIVE_INFINITY;
+      double maxAngularAcceleration = Double.POSITIVE_INFINITY;
+      double maxAngularJerk = Double.POSITIVE_INFINITY;
 
       DefaultPIDSE3Gains gains = new DefaultPIDSE3Gains(GainCoupling.XY, false);
       gains.setPositionProportionalGains(kpXY, kpXY, kpZ);
@@ -563,14 +521,14 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    {
       double kpXY = 100.0;
       double kpZ = 0.0;
-      double zetaXYZ = runningOnRealRobot ? 0.4 : 0.4;
-      double kpXYOrientation = runningOnRealRobot ? 200.0 : 200.0;
-      double kpZOrientation = runningOnRealRobot ? 200.0 : 200.0;
-      double zetaOrientation = runningOnRealRobot ? 0.4 : 0.4;
-      double maxLinearAcceleration = runningOnRealRobot ? 10.0 : Double.POSITIVE_INFINITY;
-      double maxLinearJerk = runningOnRealRobot ? 150.0 : Double.POSITIVE_INFINITY;
-      double maxAngularAcceleration = runningOnRealRobot ? 100.0 : Double.POSITIVE_INFINITY;
-      double maxAngularJerk = runningOnRealRobot ? 1500.0 : Double.POSITIVE_INFINITY;
+      double zetaXYZ = 0.4;
+      double kpXYOrientation = 200.0;
+      double kpZOrientation = 200.0;
+      double zetaOrientation = 0.4;
+      double maxLinearAcceleration = Double.POSITIVE_INFINITY;
+      double maxLinearJerk = Double.POSITIVE_INFINITY;
+      double maxAngularAcceleration = Double.POSITIVE_INFINITY;
+      double maxAngularJerk = Double.POSITIVE_INFINITY;
 
       DefaultPIDSE3Gains gains = new DefaultPIDSE3Gains(GainCoupling.XY, false);
       gains.setPositionProportionalGains(kpXY, kpXY, kpZ);
@@ -581,19 +539,6 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
       gains.setOrientationMaxFeedbackAndFeedbackRate(maxAngularAcceleration, maxAngularJerk);
 
       return gains;
-   }
-
-   @Override
-   public FootSwitchType getFootSwitchType()
-   {
-      return FootSwitchType.WrenchBased;
-   }
-
-   @Override
-   public double getContactThresholdHeight()
-   {
-      // TODO Auto-generated method stub
-      return 0;
    }
 
    @Override
@@ -614,14 +559,12 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
       return false;
    }
 
-   /** {@inheritDoc} */
    @Override
    public double getHighCoPDampingDurationToPreventFootShakies()
    {
       return -1.0;
    }
 
-   /** {@inheritDoc} */
    @Override
    public double getCoPErrorThresholdForHighCoPDamping()
    {
