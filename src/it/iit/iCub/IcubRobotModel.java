@@ -15,7 +15,6 @@ import it.iit.iCub.parameters.IcubPhysicalProperties;
 import it.iit.iCub.parameters.IcubSensorInformation;
 import it.iit.iCub.parameters.IcubStateEstimatorParameters;
 import it.iit.iCub.parameters.IcubWalkingControllerParameters;
-import it.iit.iCub.sensors.IcubSensorSuiteManager;
 import us.ihmc.avatar.drcRobot.DRCRobotModel;
 import us.ihmc.avatar.handControl.packetsAndConsumers.HandModel;
 import us.ihmc.avatar.initialSetup.DRCRobotInitialSetup;
@@ -264,7 +263,7 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
    @Override
    public DRCSensorSuiteManager getSensorSuiteManager()
    {
-      return new IcubSensorSuiteManager(this, getPPSTimestampOffsetProvider(), sensorInformation, jointMap);
+	   return null;
    }
 
    @Override
