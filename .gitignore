@@ -4,6 +4,7 @@
 /bin
 /out
 /target
+/Configurations
 
 # Top level directories in sub-projects
 */classes
