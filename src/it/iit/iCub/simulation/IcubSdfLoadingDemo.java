@@ -48,7 +48,6 @@ public class IcubSdfLoadingDemo
       scs.startOnAThread();
    }
 
-
    private void addIntertialEllipsoidsToVisualizer(FloatingRootJointRobot sdfRobot)
    {
       ArrayList<Joint> joints = new ArrayList<>();
@@ -61,7 +60,7 @@ public class IcubSdfLoadingDemo
          AppearanceDefinition appearance = YoAppearance.Green();
          appearance.setTransparency(0.6);
 
-         if(link.getLinkGraphics() == null)
+         if (link.getLinkGraphics() == null)
          {
             Graphics3DObject linkGraphics = new Graphics3DObject();
             link.setLinkGraphics(linkGraphics);
@@ -69,7 +68,7 @@ public class IcubSdfLoadingDemo
 
          link.addEllipsoidFromMassProperties(appearance);
          link.addCoordinateSystemToCOM(0.1);
-//         l.addBoxFromMassProperties(appearance);
+         //         l.addBoxFromMassProperties(appearance);
       }
    }
 
@@ -97,7 +96,7 @@ public class IcubSdfLoadingDemo
          Graphics3DObject linkGraphics = new Graphics3DObject();
          linkGraphics.addCoordinateSystem(0.1);
          Link link = joint.getLink();
-         if(link.getLinkGraphics() != null)
+         if (link.getLinkGraphics() != null)
          {
             linkGraphics.combine(link.getLinkGraphics());
          }
@@ -108,7 +107,6 @@ public class IcubSdfLoadingDemo
          link.setLinkGraphics(linkGraphics);
       }
    }
-
 
    public static void main(String[] args)
    {

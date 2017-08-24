@@ -74,7 +74,7 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
    private final SideDependentList<Transform> offsetHandFromWrist = new SideDependentList<Transform>();
    private final ICPWithTimeFreezingPlannerParameters capturePointPlannerParameters;
 
-   private final String[] resourceDirectories = { "", "models/", "models/conf/", "models/meshes/", "models/meshes/visual/", "models/meshes/collision/" };
+   private final String[] resourceDirectories = {"", "models/", "models/conf/", "models/meshes/", "models/meshes/visual/", "models/meshes/collision/"};
 
    private final JaxbSDFLoader loader;
 
@@ -116,7 +116,7 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
       GeneralizedSDFRobotModel generalizedSDFRobotModel = getGeneralizedRobotModel();
       RobotDescriptionFromSDFLoader descriptionLoader = new RobotDescriptionFromSDFLoader();
       RobotDescription robotDescription = descriptionLoader.loadRobotDescriptionFromSDF(generalizedSDFRobotModel, jointMap, contactPointParameters,
-            useCollisionMeshes);
+                                                                                        useCollisionMeshes);
       return robotDescription;
    }
 
@@ -262,7 +262,7 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
    @Override
    public DRCSensorSuiteManager getSensorSuiteManager()
    {
-	   return null;
+      return null;
    }
 
    @Override
@@ -278,8 +278,10 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
    }
 
    @Override
-   public MultiThreadedRobotControlElement createSimulatedHandController(FloatingRootJointRobot simulatedRobot, ThreadDataSynchronizerInterface threadDataSynchronizer,
-         HumanoidGlobalDataProducer globalDataProducer, CloseableAndDisposableRegistry closeableAndDisposableRegistry)
+   public MultiThreadedRobotControlElement createSimulatedHandController(FloatingRootJointRobot simulatedRobot,
+                                                                         ThreadDataSynchronizerInterface threadDataSynchronizer,
+                                                                         HumanoidGlobalDataProducer globalDataProducer,
+                                                                         CloseableAndDisposableRegistry closeableAndDisposableRegistry)
    {
       return null;
    }
@@ -296,7 +298,8 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
       return LogSettings.SIMULATION;
    }
 
-   @Override public String getSimpleRobotName()
+   @Override
+   public String getSimpleRobotName()
    {
       return "iCub";
    }

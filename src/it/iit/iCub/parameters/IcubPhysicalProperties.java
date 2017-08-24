@@ -20,7 +20,8 @@ public class IcubPhysicalProperties
    private final double pelvisToFoot;
 
    private final SideDependentList<RigidBodyTransform> soleToAnkleFrameTransforms = new SideDependentList<>();
-   private final SideDependentList<RigidBodyTransform> handControlFrameToWristTransforms = new SideDependentList<RigidBodyTransform>(new RigidBodyTransform(), new RigidBodyTransform());
+   private final SideDependentList<RigidBodyTransform> handControlFrameToWristTransforms = new SideDependentList<RigidBodyTransform>(new RigidBodyTransform(),
+                                                                                                                                     new RigidBodyTransform());
 
    public IcubPhysicalProperties()
    {

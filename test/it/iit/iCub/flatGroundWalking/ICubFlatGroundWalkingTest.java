@@ -130,7 +130,7 @@ public class ICubFlatGroundWalkingTest
       location.setZ(0.1);
       orientation.changeFrame(ReferenceFrame.getWorldFrame());
       location.changeFrame(ReferenceFrame.getWorldFrame());
-      FootTrajectoryMessage message = new FootTrajectoryMessage(robotSide , 1.0, location.getPoint(), orientation.getQuaternion());
+      FootTrajectoryMessage message = new FootTrajectoryMessage(robotSide, 1.0, location.getPoint(), orientation.getQuaternion());
 
       drcSimulationTestHelper.send(message);
       success = drcSimulationTestHelper.simulateAndBlockAndCatchExceptions(5.0);

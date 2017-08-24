@@ -7,7 +7,8 @@ public class IcubContactPointParameters extends RobotContactPointParameters
 {
    public IcubContactPointParameters(IcubJointMap jointMap)
    {
-      super(jointMap, jointMap.getPhysicalProperties().getFootWidth(), jointMap.getPhysicalProperties().getFootLength(), jointMap.getPhysicalProperties().getSoleToAnkleFrameTransforms());
+      super(jointMap, jointMap.getPhysicalProperties().getFootWidth(), jointMap.getPhysicalProperties().getFootLength(),
+            jointMap.getPhysicalProperties().getSoleToAnkleFrameTransforms());
       createDefaultFootContactPoints();
    }
 

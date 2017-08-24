@@ -18,7 +18,6 @@ import us.ihmc.wholeBodyController.DRCRobotJointMap;
 
 public class IcubInitialSetup implements DRCRobotInitialSetup<HumanoidFloatingRootJointRobot>
 {
-   public static final double initialKneeAngle = -0.80;
    private double groundZ;
    private double initialYaw;
    private final RigidBodyTransform rootToWorld = new RigidBodyTransform();
@@ -36,14 +35,14 @@ public class IcubInitialSetup implements DRCRobotInitialSetup<HumanoidFloatingRo
    @Override
    public void initializeRobot(HumanoidFloatingRootJointRobot robot, DRCRobotJointMap jointMap)
    {
-      if(!robotInitialized)
+      if (!robotInitialized)
       {
          setActuatorPositions(robot, jointMap);
          positionRobotInWorld(robot);
          robotInitialized = true;
       }
    }
-   
+
    private void setActuatorPositions(FloatingRootJointRobot robot, DRCRobotJointMap jointMap)
    {
       for (RobotSide robotSide : RobotSide.values)
@@ -53,9 +52,10 @@ public class IcubInitialSetup implements DRCRobotInitialSetup<HumanoidFloatingRo
          String anklePitch = jointMap.getLegJointName(robotSide, LegJointName.ANKLE_PITCH);
          String hipRoll = jointMap.getLegJointName(robotSide, LegJointName.HIP_ROLL);
          String ankleRoll = jointMap.getLegJointName(robotSide, LegJointName.ANKLE_ROLL);
-         
+
+         // set the initial leg joint angles
          robot.getOneDegreeOfFreedomJoint(hipPitch).setQ(0.305);
-         robot.getOneDegreeOfFreedomJoint(knee).setQ(initialKneeAngle);
+         robot.getOneDegreeOfFreedomJoint(knee).setQ(-0.80);
          robot.getOneDegreeOfFreedomJoint(anklePitch).setQ(-0.495);
          robot.getOneDegreeOfFreedomJoint(hipRoll).setQ(0.0);
          robot.getOneDegreeOfFreedomJoint(ankleRoll).setQ(0.0);
@@ -63,18 +63,16 @@ public class IcubInitialSetup implements DRCRobotInitialSetup<HumanoidFloatingRo
          String shoulderRoll = jointMap.getArmJointName(robotSide, ArmJointName.SHOULDER_ROLL);
          String shoulderPitch = jointMap.getArmJointName(robotSide, ArmJointName.SHOULDER_PITCH);
          String elbowPitch = jointMap.getArmJointName(robotSide, ArmJointName.ELBOW_PITCH);
-         
-         if (shoulderRoll != null)
-            robot.getOneDegreeOfFreedomJoint(shoulderRoll).setQ(0.18);
-         if (shoulderPitch != null)
-            robot.getOneDegreeOfFreedomJoint(shoulderPitch).setQ(0.3);
-         if (elbowPitch != null)
-            robot.getOneDegreeOfFreedomJoint(elbowPitch).setQ(1.0);
+
+         // set the initial arm joint angles
+         robot.getOneDegreeOfFreedomJoint(shoulderRoll).setQ(0.18);
+         robot.getOneDegreeOfFreedomJoint(shoulderPitch).setQ(0.3);
+         robot.getOneDegreeOfFreedomJoint(elbowPitch).setQ(1.0);
       }
-      
+
       robot.update();
    }
-   
+
    private void positionRobotInWorld(HumanoidFloatingRootJointRobot robot)
    {
       robot.getRootJointToWorldTransform(rootToWorld);
@@ -82,30 +80,30 @@ public class IcubInitialSetup implements DRCRobotInitialSetup<HumanoidFloatingRo
       positionInWorld.setZ(groundZ + getPelvisToFoot(robot));
       positionInWorld.add(offset);
       robot.setPositionInWorld(positionInWorld);
-      
+
       FrameOrientation frameOrientation = new FrameOrientation(ReferenceFrame.getWorldFrame(), rotation);
       double[] yawPitchRoll = frameOrientation.getYawPitchRoll();
       yawPitchRoll[0] = initialYaw;
       frameOrientation.setYawPitchRoll(yawPitchRoll);
-      
+
       robot.setOrientation(frameOrientation.getQuaternionCopy());
       robot.update();
    }
-   
+
    private double getPelvisToFoot(HumanoidFloatingRootJointRobot robot)
    {
       List<GroundContactPoint> contactPoints = robot.getFootGroundContactPoints(RobotSide.LEFT);
       double height = Double.POSITIVE_INFINITY;
-      for(GroundContactPoint gc : contactPoints)
+      for (GroundContactPoint gc : contactPoints)
       {
-         if(gc.getPositionPoint().getZ() < height)
+         if (gc.getPositionPoint().getZ() < height)
          {
             height = gc.getPositionPoint().getZ();
          }
       }
       return offset.getZ() - height;
    }
-   
+
    public void getOffset(Vector3D offsetToPack)
    {
       offsetToPack.set(offset);

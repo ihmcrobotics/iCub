@@ -59,5 +59,4 @@ public class IcubToeOffParameters extends ToeOffParameters
       return true;
    }
 
-
 }
