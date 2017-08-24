@@ -3,6 +3,8 @@ jdk: oraclejdk8
 os: linux
 sudo: required
 dist: trusty
+notifications:
+  email: false
 # addons:
 #   apt:
 #     packages:
