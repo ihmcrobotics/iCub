@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 import it.iit.iCub.IcubRobotModel;
+import us.ihmc.commons.PrintTools;
 import us.ihmc.euclid.tuple3D.Point3D;
 import us.ihmc.euclid.tuple3D.Vector3D;
 import us.ihmc.graphicsDescription.Graphics3DObject;
@@ -27,7 +28,7 @@ public class IcubSdfLoadingDemo
       FloatingRootJointRobot sdfRobot = icubRobotModel.createHumanoidFloatingRootJointRobot(false);
 
       sdfRobot.setPositionInWorld(new Vector3D(0.0, 0.0, 1.0));
-      System.out.println(sdfRobot.computeCenterOfMass(new Point3D()));
+      PrintTools.info("Robot Mass: " + sdfRobot.computeCenterOfMass(new Point3D()));
 
       if (SHOW_ELLIPSOIDS)
       {
@@ -68,7 +69,6 @@ public class IcubSdfLoadingDemo
 
          link.addEllipsoidFromMassProperties(appearance);
          link.addCoordinateSystemToCOM(0.1);
-         //         l.addBoxFromMassProperties(appearance);
       }
    }
 
