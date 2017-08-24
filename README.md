@@ -11,9 +11,7 @@ the dependency tree.
 
 ## Getting Started
 
-We require a Java Development Kit 8 or higher, and a fairly up-to-date version of Gradle to use our software. We also highly suggest
-using a modern Java IDE. More information can be found at https://ihmcrobotics.github.io/documentation/ 
-(see Software Requirements on the sidebar) for installing Java, Gradle, and an IDE.
+We require a Java Development Kit 8 or higher, and a fairly up-to-date version of Gradle to use our software. We provide a "gradle wrapper" for this repository, which means that you can use the included `gradlew` or `gradlew.bat` scripts locally instead of a system installation of Gradle if you want. We also highly suggest using a modern Java IDE. More information can be found at https://ihmcrobotics.github.io/documentation/ (see Software Requirements on the sidebar) for installing Java, Gradle, and an IDE.
 
 Once you have installed the IDE of your choice, you may import the iCub repository as a Gradle project.
 
