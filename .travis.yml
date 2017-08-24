@@ -1,0 +1,22 @@
+language: java
+jdk: oraclejdk8
+os: linux
+sudo: required
+dist: trusty
+# addons:
+#   apt:
+#     packages:
+#       - oracle-java8-installer
+env:
+- IS_BAMBOO=true
+install:
+- ./gradlew assemble
+script:
+- ./gradlew --no-daemon --info test -PremoteDebug=false -PuseClover=false -PlogLevel=verbose -PscsDataBufferSize=8142 -PforkEveryProp=1 -PkeepScsUp=false -PshowScsWindows=false -PshowScsYoGraphics=false -PcreateVideos=false -PawtHeadless=true
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
