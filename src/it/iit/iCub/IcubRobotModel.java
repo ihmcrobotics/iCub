@@ -6,7 +6,6 @@ import com.jme3.math.Quaternion;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 
-import it.iit.iCub.configuration.IcubConfigurationRoot;
 import it.iit.iCub.parameters.ICubUIParameters;
 import it.iit.iCub.parameters.IcubCapturePointPlannerParameters;
 import it.iit.iCub.parameters.IcubContactPointParameters;
@@ -159,7 +158,7 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
 
    private String getSdfFile()
    {
-      return IcubConfigurationRoot.SDF_FILE;
+      return "models/iCubGenova04.sdf";
    }
 
    private String[] getResourceDirectories()
