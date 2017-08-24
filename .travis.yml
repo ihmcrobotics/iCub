@@ -14,7 +14,8 @@ env:
 install:
 - ./gradlew assemble
 script:
-- ./gradlew --no-daemon --info test -PremoteDebug=false -PuseClover=false -PlogLevel=verbose -PscsDataBufferSize=8142 -PforkEveryProp=1 -PkeepScsUp=false -PshowScsWindows=false -PshowScsYoGraphics=false -PcreateVideos=false -PawtHeadless=true
+# - ./gradlew --no-daemon --info generateTestSuites
+- ./gradlew --no-daemon --info test -PisTravisCI=true
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
