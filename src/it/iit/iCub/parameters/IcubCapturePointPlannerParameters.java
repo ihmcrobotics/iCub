@@ -16,7 +16,7 @@ public class IcubCapturePointPlannerParameters extends ContinuousCMPICPPlannerPa
    @Override
    public int getNumberOfCoPWayPointsPerFoot()
    {
-      return 2;
+      return 1;
    }
 
    /** {@inheritDoc} */
