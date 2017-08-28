@@ -17,30 +17,23 @@ import us.ihmc.sensorProcessing.parameters.DRCRobotSensorParameters;
 
 public class IcubSensorInformation implements DRCRobotSensorInformation
 {
-
    /**
     * Force Sensor Parameters
     */
    public static final String[] forceSensorNames = {"l_ankle_roll", "r_ankle_roll"};
    public static final SideDependentList<String> feetForceSensorNames = new SideDependentList<String>("l_ankle_roll", "r_ankle_roll");
-   public static final SideDependentList<String> handForceSensorNames = new SideDependentList<String>(); // maybe add the FTs embedded in the arms
-
-   private static final SideDependentList<String> urdfFeetForceSensorNames = new SideDependentList<>("l_foot_ft_sensor", "r_foot_ft_sensor");
+   public static final SideDependentList<String> handForceSensorNames = new SideDependentList<String>();
 
    public static final SideDependentList<RigidBodyTransform> transformFromMeasurementToAnkleZUpFrames = new SideDependentList<>();
    static
    {
-      RigidBodyTransform leftTransform = new RigidBodyTransform();
-      //      leftTransform.setEuler(0.0, 1.5708, 0.0); //from URDF,  but our 'UP axis' in 'l/r_ankle_roll' is 'X' and the 'Mes CoP' goes crazy (but robot can walk)
-      leftTransform.setTranslation(new Vector3D(-0.0035, 0.0, 0.0685));
-
-      transformFromMeasurementToAnkleZUpFrames.put(RobotSide.LEFT, leftTransform);
-      transformFromMeasurementToAnkleZUpFrames.put(RobotSide.RIGHT, new RigidBodyTransform(leftTransform));
+      for (RobotSide side : RobotSide.values)
+      {
+         RigidBodyTransform transform = new RigidBodyTransform();
+         transform.setTranslation(new Vector3D(-0.0035, 0.0, 0.0685));
+         transformFromMeasurementToAnkleZUpFrames.put(side, transform);
+      }
    }
-
-   /**
-    * PPS Parameters
-    */
 
    /**
     * Camera Parameters
@@ -63,10 +56,6 @@ public class IcubSensorInformation implements DRCRobotSensorInformation
    private static final String bodyIMUSensor = "head_imu_sensor";
    private static final String[] imuSensorsToUse = {bodyIMUSensor};
 
-   public IcubSensorInformation()
-   {
-   }
-
    @Override
    public String[] getIMUSensorsToUseInStateEstimator()
    {
@@ -83,11 +72,6 @@ public class IcubSensorInformation implements DRCRobotSensorInformation
    public SideDependentList<String> getFeetForceSensorNames()
    {
       return feetForceSensorNames;
-   }
-
-   public static String getUrdfFeetForceSensorName(RobotSide side)
-   {
-      return urdfFeetForceSensorNames.get(side);
    }
 
    @Override
@@ -188,7 +172,7 @@ public class IcubSensorInformation implements DRCRobotSensorInformation
    @Override
    public SideDependentList<String> getFeetContactSensorNames()
    {
-      return new SideDependentList<String>();
+      return feetForceSensorNames;
    }
 
    @Override

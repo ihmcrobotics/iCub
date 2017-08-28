@@ -86,7 +86,7 @@ public class ICubSteppingParameters implements SteppingParameters
    @Override
    public double getMinSwingHeightFromStanceFoot()
    {
-      return 0.03;
+      return 0.06;
    }
 
    @Override

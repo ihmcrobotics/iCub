@@ -11,21 +11,14 @@ import us.ihmc.yoVariables.variable.YoDouble;
 
 public class IcubStateEstimatorParameters extends StateEstimatorParameters
 {
+   private static final double jointVelocitySlopTimeForBacklashCompensation = 0.0;
+   private static final double defaultFilterBreakFrequency = Double.POSITIVE_INFINITY;
+
    private final double estimatorDT;
-
-   private final double jointVelocitySlopTimeForBacklashCompensation;
-
-   private final double defaultFilterBreakFrequency;
-
-   // private final SensorNoiseParameters sensorNoiseParameters = DRCSimulatedSensorNoiseParameters.createNoiseParametersForEstimatorJerryTuning();
-   // private SensorNoiseParameters sensorNoiseParameters = DRCSimulatedSensorNoiseParameters.createNoiseParametersForEstimatorJerryTuningSeptember2013();
-   private SensorNoiseParameters sensorNoiseParameters = null;
 
    public IcubStateEstimatorParameters(double estimatorDT)
    {
       this.estimatorDT = estimatorDT;
-      defaultFilterBreakFrequency = Double.POSITIVE_INFINITY;
-      jointVelocitySlopTimeForBacklashCompensation = 0.03;
    }
 
    @Override
@@ -55,7 +48,7 @@ public class IcubStateEstimatorParameters extends StateEstimatorParameters
    @Override
    public SensorNoiseParameters getSensorNoiseParameters()
    {
-      return sensorNoiseParameters;
+      return null;
    }
 
    @Override
@@ -64,6 +57,7 @@ public class IcubStateEstimatorParameters extends StateEstimatorParameters
       return estimatorDT;
    }
 
+   // TODO: unused - remove from super class.
    @Override
    public boolean isRunningOnRealRobot()
    {
@@ -139,7 +133,6 @@ public class IcubStateEstimatorParameters extends StateEstimatorParameters
    @Override
    public double getCenterOfMassVelocityFusingFrequency()
    {
-      // TODO
       return 0;
    }
 
@@ -182,7 +175,6 @@ public class IcubStateEstimatorParameters extends StateEstimatorParameters
    @Override
    public double getContactThresholdHeight()
    {
-      // TODO Auto-generated method stub
       return 0;
    }
 
@@ -201,7 +193,7 @@ public class IcubStateEstimatorParameters extends StateEstimatorParameters
    @Override
    public SideDependentList<String> getFootForceSensorNames()
    {
-      return null;
+      return IcubSensorInformation.feetForceSensorNames;
    }
 
    @Override
@@ -213,7 +205,6 @@ public class IcubStateEstimatorParameters extends StateEstimatorParameters
    @Override
    public boolean useGroundReactionForcesToComputeCenterOfMassVelocity()
    {
-      // TODO
       return false;
    }
 }

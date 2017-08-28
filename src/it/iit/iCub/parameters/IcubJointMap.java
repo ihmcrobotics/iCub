@@ -67,7 +67,7 @@ import us.ihmc.yoVariables.registry.YoVariableRegistry;
 public class IcubJointMap implements DRCRobotJointMap
 {
    // Enable joint limits
-   public static boolean ENABLE_JOINT_VELOCITY_TORQUE_LIMITS = false;
+   private static final boolean ENABLE_JOINT_VELOCITY_TORQUE_LIMITS = false;
 
    static
    {

@@ -37,7 +37,7 @@ public class IcubSwingTrajectoryParameters extends SwingTrajectoryParameters
    @Override
    public double getDesiredTouchdownHeightOffset()
    {
-      return 0;
+      return 0.0;
    }
 
    @Override
@@ -49,7 +49,7 @@ public class IcubSwingTrajectoryParameters extends SwingTrajectoryParameters
    @Override
    public double getDesiredTouchdownAcceleration()
    {
-      return 0;
+      return 0.0;
    }
 
 }
