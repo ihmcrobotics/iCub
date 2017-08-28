@@ -62,6 +62,9 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
    private static final double CONTROL_DT = 0.004;
    private static final double SIMULATE_DT = 0.0001;
 
+   private static final boolean removeLimits = true;
+   private static final boolean enableDamping = false;
+
    private final WalkingControllerParameters walkingControllerParameters;
    private final StateEstimatorParameters stateEstimatorParamaters;
    private final IcubPhysicalProperties physicalProperties;
@@ -221,6 +224,12 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
    }
 
    @Override
+   public HumanoidFloatingRootJointRobot createHumanoidFloatingRootJointRobot(boolean createCollisionMeshes)
+   {
+      return createHumanoidFloatingRootJointRobot(createCollisionMeshes, enableDamping);
+   }
+
+   @Override
    public HumanoidFloatingRootJointRobot createHumanoidFloatingRootJointRobot(boolean createCollisionMeshes, boolean enableJointDamping)
    {
       boolean enableTorqueVelocityLimits = false;
@@ -321,6 +330,12 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
       RotationMatrix rotationMatrix = new RotationMatrix();
       rotationMatrix.appendYawRotation(Math.PI);
       rotationMatrix.transform(jointHolder.getAxisInModelFrame());
+
+      // remove limits
+      if (removeLimits)
+      {
+         jointHolder.setLimits(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+      }
    }
 
    @Override
