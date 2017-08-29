@@ -313,10 +313,7 @@ public class IcubJointMap implements DRCRobotJointMap
    @Override
    public Set<String> getLastSimulatedJoints()
    {
-      HashSet<String> lastSimulatedJoints = new HashSet<>();
-      for (RobotSide robotSide : RobotSide.values)
-         lastSimulatedJoints.add(armJointStrings.get(robotSide).get(WRIST_YAW));
-      return lastSimulatedJoints;
+      return new HashSet<>();
    }
 
    @Override
