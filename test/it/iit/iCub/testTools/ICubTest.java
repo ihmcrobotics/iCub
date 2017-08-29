@@ -17,6 +17,7 @@ import us.ihmc.avatar.testTools.DRCSimulationTestHelper;
 import us.ihmc.commons.PrintTools;
 import us.ihmc.euclid.transform.RigidBodyTransform;
 import us.ihmc.euclid.tuple3D.Point3D;
+import us.ihmc.simulationConstructionSetTools.util.environments.CommonAvatarEnvironmentInterface;
 import us.ihmc.simulationConstructionSetTools.util.environments.FlatGroundEnvironment;
 import us.ihmc.simulationconstructionset.DataFileWriter;
 import us.ihmc.simulationconstructionset.OneDegreeOfFreedomJoint;
@@ -31,7 +32,7 @@ import us.ihmc.yoVariables.variable.YoVariable;
 
 public class ICubTest
 {
-   private static final boolean exportJointDataWhenDebugging = true;
+   private static final boolean exportJointDataWhenDebugging = false;
 
    protected static final DRCStartingLocation startingLocation = DRCObstacleCourseStartingLocation.DEFAULT;
    protected static final IcubRobotModel robotModel = new IcubRobotModel();
@@ -109,8 +110,7 @@ public class ICubTest
    {
       MemoryTools.printCurrentMemoryUsageAndReturnUsedMemoryInMB(getClass().getSimpleName() + " before test.");
 
-      FlatGroundEnvironment environment = new FlatGroundEnvironment();
-      drcSimulationTestHelper = new DRCSimulationTestHelper(environment, name.getMethodName(), startingLocation, simulationTestingParameters, robotModel);
+      drcSimulationTestHelper = new DRCSimulationTestHelper(getEnvironment(), name.getMethodName(), startingLocation, simulationTestingParameters, robotModel);
       OffsetAndYawRobotInitialSetup startingLocationOffset = startingLocation.getStartingLocationOffset();
       Point3D cameraFocus = new Point3D(startingLocationOffset.getAdditionalOffset());
       cameraFocus.addZ(0.4);
@@ -120,6 +120,11 @@ public class ICubTest
       transform.transform(cameraPosition);
       drcSimulationTestHelper.setupCameraForUnitTest(cameraFocus, cameraPosition);
       ThreadTools.sleep(1000);
+   }
+
+   protected CommonAvatarEnvironmentInterface getEnvironment()
+   {
+      return new FlatGroundEnvironment();
    }
 
    @After
