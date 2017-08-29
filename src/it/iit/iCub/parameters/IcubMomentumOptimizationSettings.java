@@ -15,11 +15,13 @@ import us.ihmc.robotics.robotSide.RobotSide;
 public class IcubMomentumOptimizationSettings extends MomentumOptimizationSettings
 {
    private final Vector3D linearMomentumWeight = new Vector3D(2.0, 2.0, 0.25);
-   private final Vector3D highLinearMomentumWeightForRecovery = new Vector3D(0.5, 0.5, 0.05);
+   private final Vector3D highLinearMomentumWeightForRecovery = linearMomentumWeight;
    private final Vector3D angularMomentumWeight = new Vector3D(0.0, 0.0, 0.0);
 
-   private final Vector3D defaultAngularFootWeight = new Vector3D(1.0, 1.0, 1.0);
-   private final Vector3D defaultLinearFootWeight = new Vector3D(10.0, 10.0, 10.0);
+   // swing and movie via waypoints
+   private final Vector3D defaultAngularFootWeight = new Vector3D(2.0, 2.0, 2.0);
+   private final Vector3D defaultLinearFootWeight = new Vector3D(200.0, 200.0, 200.0);
+   // support and on toes
    private final Vector3D highAngularFootWeight = new Vector3D(1.0, 1.0, 1.0);
    private final Vector3D highLinearFootWeight = new Vector3D(50.0, 50.0, 50.0);
 
@@ -31,14 +33,14 @@ public class IcubMomentumOptimizationSettings extends MomentumOptimizationSettin
    private final int nContactableBodies = 2;
 
    private final double jointAccelerationWeight = 0.005;
-   private final double jointJerkWeight = 0.1;
+   private final double jointJerkWeight = 0.0;
    private final double rhoWeight = 0.0005;
-   private final double rhoMin = 0.001;
-   private final double rhoRateDefaultWeight = 0.0005;
-   private final double rhoRateHighWeight = 0.0075;
-   private final Vector2D copWeight = new Vector2D(100.0, 100.0);
-   private final Vector2D copRateDefaultWeight = new Vector2D(20000.0, 20000.0);
-   private final Vector2D copRateHighWeight = new Vector2D(2500000.0, 10000000.0);
+   private final double rhoMin = 0.0;
+   private final double rhoRateDefaultWeight = 0.0;
+   private final double rhoRateHighWeight = 0.0;
+   private final Vector2D copWeight = new Vector2D(0.0, 0.0);
+   private final Vector2D copRateDefaultWeight = new Vector2D(0.0, 0.0);
+   private final Vector2D copRateHighWeight = new Vector2D(0.0, 0.0);
 
    private final double neckJointspaceWeight = 10.0;
    private final double armJointspaceWeight = 1.0;

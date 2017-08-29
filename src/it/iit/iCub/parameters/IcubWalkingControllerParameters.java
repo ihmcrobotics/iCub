@@ -85,7 +85,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    @Override
    public double minimumHeightAboveAnkle()
    {
-      return 0.5;
+      return 0.45;
    }
 
    @Override
@@ -97,7 +97,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    @Override
    public double maximumHeightAboveAnkle()
    {
-      return 0.55;
+      return 0.525;
    }
 
    @Override
@@ -158,8 +158,8 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    {
       PIDGains spineGains = new PIDGains("_SpineJointGains");
 
-      double kp = 250.0;
-      double zeta = 0.6;
+      double kp = 100.0;
+      double zeta = 1.0;
       double maxAccel = Double.POSITIVE_INFINITY;
       double maxJerk = Double.POSITIVE_INFINITY;
 
@@ -175,8 +175,8 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    {
       PIDGains gains = new PIDGains("_NeckJointGains");
 
-      double kp = 40.0;
-      double zeta = 0.8;
+      double kp = 100.0;
+      double zeta = 1.0;
       double maxAccel = Double.POSITIVE_INFINITY;
       double maxJerk = Double.POSITIVE_INFINITY;
 
@@ -192,8 +192,8 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    {
       PIDGains armGains = new PIDGains("_ArmJointGains");
 
-      double kp = 80.0;
-      double zeta = 0.6;
+      double kp = 100.0;
+      double zeta = 1.0;
       double maxAccel = Double.POSITIVE_INFINITY;
       double maxJerk = Double.POSITIVE_INFINITY;
 
@@ -239,8 +239,8 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
 
    private PID3DGains createPelvisOrientationControlGains()
    {
-      double kp = 80.0;
-      double zeta = 0.8;
+      double kp = 100.0;
+      double zeta = 1.0;
       double maxAccel = Double.POSITIVE_INFINITY;
       double maxJerk = Double.POSITIVE_INFINITY;
 
@@ -254,8 +254,8 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
 
    private PID3DGains createHeadOrientationControlGains()
    {
-      double kp = 40.0;
-      double zeta = 0.8;
+      double kp = 100.0;
+      double zeta = 1.0;
       double maxAccel = Double.POSITIVE_INFINITY;
       double maxJerk = Double.POSITIVE_INFINITY;
 
@@ -269,8 +269,8 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
 
    private PID3DGains createChestOrientationControlGains()
    {
-      double kp = 80.0;
-      double zeta = 0.8;
+      double kp = 100.0;
+      double zeta = 1.0;
       double maxAccel = Double.POSITIVE_INFINITY;
       double maxJerk = Double.POSITIVE_INFINITY;
 
@@ -391,7 +391,13 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    @Override
    public boolean doPrepareManipulationForLocomotion()
    {
-      return true;
+      return false;
+   }
+
+   @Override
+   public boolean doPreparePelvisForLocomotion()
+   {
+      return false;
    }
 
    @Override
@@ -453,7 +459,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    {
       PDGains gains = new PDGains("_CoMHeight");
 
-      double kp = 200.0;
+      double kp = 100.0;
       double zeta = 1.0;
       double maxAccel = Double.POSITIVE_INFINITY;
       double maxJerk = Double.POSITIVE_INFINITY;
@@ -470,11 +476,11 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    public PIDSE3Gains getSwingFootControlGains()
    {
       double kpXY = 100.0;
-      double kpZ = 200.0;
-      double zetaXYZ = 0.7;
-      double kpXYOrientation = 300.0;
+      double kpZ = 400.0;
+      double zetaXYZ = 1.0;
+      double kpXYOrientation = 100.0;
       double kpZOrientation = 200.0;
-      double zetaOrientation = 0.7;
+      double zetaOrientation = 1.0;
       double maxPositionAcceleration = Double.POSITIVE_INFINITY;
       double maxPositionJerk = Double.POSITIVE_INFINITY;
       double maxOrientationAcceleration = Double.POSITIVE_INFINITY;
@@ -521,10 +527,10 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    {
       double kpXY = 100.0;
       double kpZ = 0.0;
-      double zetaXYZ = 0.4;
-      double kpXYOrientation = 200.0;
-      double kpZOrientation = 200.0;
-      double zetaOrientation = 0.4;
+      double zetaXYZ = 1.0;
+      double kpXYOrientation = 100.0;
+      double kpZOrientation = 100.0;
+      double zetaOrientation = 1.0;
       double maxLinearAcceleration = Double.POSITIVE_INFINITY;
       double maxLinearJerk = Double.POSITIVE_INFINITY;
       double maxAngularAcceleration = Double.POSITIVE_INFINITY;
@@ -544,13 +550,13 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    @Override
    public double getMaxICPErrorBeforeSingleSupportX()
    {
-      return 0.035;
+      return 0.01;
    }
 
    @Override
    public double getMaxICPErrorBeforeSingleSupportY()
    {
-      return 0.035;
+      return 0.01;
    }
 
    @Override
