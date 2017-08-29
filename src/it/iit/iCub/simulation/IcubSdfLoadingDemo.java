@@ -6,11 +6,15 @@ import java.util.HashSet;
 
 import it.iit.iCub.IcubRobotModel;
 import us.ihmc.commons.PrintTools;
+import us.ihmc.euclid.transform.RigidBodyTransform;
 import us.ihmc.euclid.tuple3D.Point3D;
 import us.ihmc.euclid.tuple3D.Vector3D;
 import us.ihmc.graphicsDescription.Graphics3DObject;
 import us.ihmc.graphicsDescription.appearance.AppearanceDefinition;
 import us.ihmc.graphicsDescription.appearance.YoAppearance;
+import us.ihmc.robotModels.FullHumanoidRobotModel;
+import us.ihmc.robotics.robotSide.RobotSide;
+import us.ihmc.robotics.screwTheory.RigidBody;
 import us.ihmc.simulationconstructionset.FloatingRootJointRobot;
 import us.ihmc.simulationconstructionset.Joint;
 import us.ihmc.simulationconstructionset.Link;
@@ -21,6 +25,7 @@ public class IcubSdfLoadingDemo
 {
    private static final boolean SHOW_ELLIPSOIDS = false;
    private static final boolean SHOW_COORDINATES_AT_JOINT_ORIGIN = true;
+   private static final boolean CHECK_SYMMETRY = false;
 
    public IcubSdfLoadingDemo()
    {
@@ -47,6 +52,70 @@ public class IcubSdfLoadingDemo
       scs.addStaticLinkGraphics(worldFrameGraphics);
 
       scs.startOnAThread();
+
+      if (CHECK_SYMMETRY)
+      {
+         FullHumanoidRobotModel fullRobotModel = icubRobotModel.createFullRobotModel();
+
+         RigidBody leftFoot = fullRobotModel.getFoot(RobotSide.LEFT);
+         RigidBody rightFoot = fullRobotModel.getFoot(RobotSide.RIGHT);
+         RigidBody pelvis = fullRobotModel.getPelvis();
+         compareChain(pelvis, leftFoot, rightFoot);
+
+         RigidBody leftHand = fullRobotModel.getHand(RobotSide.LEFT);
+         RigidBody rightHand = fullRobotModel.getHand(RobotSide.RIGHT);
+         RigidBody chest = fullRobotModel.getChest();
+         compareChain(chest, leftHand, rightHand);
+      }
+   }
+
+   private static void compareChain(RigidBody commonBody, RigidBody endEffectorA, RigidBody endEffectorB)
+   {
+      RigidBody bodyA = endEffectorA;
+      RigidBody bodyB = endEffectorB;
+
+      while (!commonBody.getName().equals(bodyA.getName()))
+      {
+         compareBodies(bodyA, bodyB);
+         bodyA = bodyA.getParentJoint().getPredecessor();
+         bodyB = bodyB.getParentJoint().getPredecessor();
+      }
+   }
+
+   private static void compareBodies(RigidBody bodyA, RigidBody bodyB)
+   {
+      PrintTools.info("Comparing body " + bodyA.getName() + " and body " + bodyB.getName() + ".");
+
+      if (bodyA.getInertia().getMass() != bodyB.getInertia().getMass())
+      {
+         System.out.println("different mass:");
+         System.out.println(bodyA.getName() + ": " + bodyA.getInertia().getMass());
+         System.out.println(bodyB.getName() + ": " + bodyB.getInertia().getMass());
+      }
+
+      if (!bodyA.getInertia().getCenterOfMassOffset().epsilonEquals(bodyA.getInertia().getCenterOfMassOffset(), 1.0E-10))
+      {
+         System.out.println("different center of mass:");
+      }
+
+      if (!bodyA.getInertia().getMassMomentOfInertiaPartCopy().epsilonEquals(bodyA.getInertia().getMassMomentOfInertiaPartCopy(), 1.0E-10))
+      {
+         System.out.println("different moment of inertia:");
+      }
+
+      RigidBodyTransform bodyATransform = new RigidBodyTransform(bodyA.getParentJoint().getOffsetTransform3D());
+      RigidBodyTransform bodyBTransform = new RigidBodyTransform(bodyB.getParentJoint().getOffsetTransform3D());
+
+      Vector3D translationVectorA = new Vector3D(bodyATransform.getTranslationVector());
+      Vector3D translationVectorB = new Vector3D(bodyBTransform.getTranslationVector());
+      translationVectorB.setY(-translationVectorB.getY());
+
+      if (!translationVectorA.epsilonEquals(translationVectorB, 1.0E-3))
+      {
+         System.out.println("different translation offsets of the parent joints:");
+         System.out.println(bodyA.getParentJoint().getName() + ": " + translationVectorA);
+         System.out.println(bodyB.getParentJoint().getName() + ": " + translationVectorB + " (y flipped)");
+      }
    }
 
    private void addIntertialEllipsoidsToVisualizer(FloatingRootJointRobot sdfRobot)
