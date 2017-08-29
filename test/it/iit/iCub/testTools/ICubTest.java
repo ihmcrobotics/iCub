@@ -85,7 +85,7 @@ public class ICubTest
 
       String date = LocalDate.now().toString();
       String testName = name.getMethodName();
-      File file = new File("exports/" + robotModel.getSimpleRobotName() + "_" + testName + "_" + date + ".mat");
+      File file = new File("Exports/" + robotModel.getSimpleRobotName() + "_" + testName + "_" + date + ".mat");
 
       try
       {
