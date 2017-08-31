@@ -2,6 +2,9 @@ package it.iit.iCub;
 
 import java.io.InputStream;
 
+import org.ejml.data.DenseMatrix64F;
+import org.ejml.ops.CommonOps;
+
 import com.jme3.math.Quaternion;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
@@ -22,6 +25,7 @@ import us.ihmc.avatar.ros.DRCROSPPSTimestampOffsetProvider;
 import us.ihmc.avatar.sensors.DRCSensorSuiteManager;
 import us.ihmc.commonWalkingControlModules.configurations.ICPWithTimeFreezingPlannerParameters;
 import us.ihmc.commonWalkingControlModules.configurations.WalkingControllerParameters;
+import us.ihmc.euclid.matrix.Matrix3D;
 import us.ihmc.euclid.matrix.RotationMatrix;
 import us.ihmc.euclid.transform.RigidBodyTransform;
 import us.ihmc.humanoidRobotics.communication.streamingData.HumanoidGlobalDataProducer;
@@ -62,8 +66,9 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
    private static final double CONTROL_DT = 0.004;
    private static final double SIMULATE_DT = 0.0001;
 
-   private static final boolean removeLimits = true;
-   private static final boolean enableDamping = false;
+   private final boolean removeLimits;
+   private final boolean enableDamping = false;
+   private final boolean increaseInertias = true;
 
    private final WalkingControllerParameters walkingControllerParameters;
    private final StateEstimatorParameters stateEstimatorParamaters;
@@ -82,6 +87,13 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
 
    public IcubRobotModel()
    {
+      this(true);
+   }
+
+   public IcubRobotModel(boolean removeLimits)
+   {
+      this.removeLimits = removeLimits;
+
       physicalProperties = new IcubPhysicalProperties();
       jointMap = new IcubJointMap(physicalProperties);
       contactPointParameters = new IcubContactPointParameters(jointMap);
@@ -350,6 +362,21 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
       else
       {
          linkHolder.getTransformFromModelReferenceFrame().prependYawRotation(Math.PI);
+      }
+
+      // For simulation stability define a minimum determinant of the inertia matrix of a link.
+      if (increaseInertias)
+      {
+         double minDet = 1.0e-5;
+         Matrix3D inertia = linkHolder.getInertia();
+         DenseMatrix64F inertiaMatrix = new DenseMatrix64F(3, 3);
+         inertia.get(inertiaMatrix);
+         double det = CommonOps.det(inertiaMatrix);
+         if (det < minDet)
+         {
+            double scale = Math.pow(minDet / det, 1.0 / 3.0);
+            inertia.scale(scale);
+         }
       }
    }
 
