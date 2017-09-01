@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import it.iit.iCub.flatGroundWalking.ICubFlatGroundWalkingTest;
 import it.iit.iCub.testTools.ICubTest;
+import us.ihmc.commons.PrintTools;
 import us.ihmc.commons.RandomNumbers;
 import us.ihmc.euclid.referenceFrame.ReferenceFrame;
 import us.ihmc.euclid.tools.EuclidCoreRandomTools;
@@ -22,7 +23,10 @@ import us.ihmc.robotics.robotSide.RobotSide;
 import us.ihmc.robotics.screwTheory.OneDoFJoint;
 import us.ihmc.robotics.screwTheory.RigidBody;
 import us.ihmc.robotics.screwTheory.ScrewTools;
+import us.ihmc.simulationConstructionSetTools.robotController.SimpleRobotController;
+import us.ihmc.simulationconstructionset.SimulationConstructionSet;
 import us.ihmc.simulationconstructionset.util.simulationRunner.BlockingSimulationRunner.SimulationExceededMaximumTimeException;
+import us.ihmc.yoVariables.variable.YoDouble;
 
 public class ICubWholeBodyMotionTests extends ICubTest
 {
@@ -34,12 +38,15 @@ public class ICubWholeBodyMotionTests extends ICubTest
       boolean success = drcSimulationTestHelper.simulateAndBlockAndCatchExceptions(0.5);
       assertTrue(success);
 
+      SimulationConstructionSet scs = drcSimulationTestHelper.getSimulationConstructionSet();
+      TrackingObserver trackingObserver = new TrackingObserver(scs);
+      drcSimulationTestHelper.addRobotControllerOnControllerThread(trackingObserver);
+
       double trajectoryTime = 10.0;
       FullHumanoidRobotModel fullRobotModel = drcSimulationTestHelper.getControllerFullRobotModel();
 
       MessageOfMessages motion = new MessageOfMessages();
       motion.addPacket(ICubFlatGroundWalkingTest.createWalkingMessage(trajectoryTime, fullRobotModel));
-
       motion.addPacket(createRandomChestTrajectory(trajectoryTime));
       motion.addPacket(createRandomArmTrajectory(trajectoryTime, RobotSide.RIGHT, fullRobotModel));
       motion.addPacket(createRandomArmTrajectory(trajectoryTime, RobotSide.LEFT, fullRobotModel));
@@ -48,6 +55,8 @@ public class ICubWholeBodyMotionTests extends ICubTest
       drcSimulationTestHelper.send(motion);
       success = drcSimulationTestHelper.simulateAndBlockAndCatchExceptions(trajectoryTime + 0.5);
       assertTrue(success);
+
+      trackingObserver.print();
    }
 
    private ChestTrajectoryMessage createRandomChestTrajectory(double trajectoryTime)
@@ -133,5 +142,34 @@ public class ICubWholeBodyMotionTests extends ICubTest
       }
 
       return message;
+   }
+
+   private class TrackingObserver extends SimpleRobotController
+   {
+      private final YoDouble icpErrorX;
+      private final YoDouble icpErrorY;
+
+      private int calls = 0;
+      private double errorXAverage;
+      private double errorYAverage;
+
+      public TrackingObserver(SimulationConstructionSet scs)
+      {
+         icpErrorX = (YoDouble) scs.getVariable("icpErrorX");
+         icpErrorY = (YoDouble) scs.getVariable("icpErrorY");
+      }
+
+      @Override
+      public void doControl()
+      {
+         errorXAverage = (calls * errorXAverage + icpErrorX.getDoubleValue()) / (calls + 1.0);
+         errorYAverage = (calls * errorYAverage + icpErrorY.getDoubleValue()) / (calls + 1.0);
+         calls++;
+      }
+
+      public void print()
+      {
+         PrintTools.info("Average ICP tracking error:\nxErr = " + errorXAverage + "\nyErr = " + errorYAverage);
+      }
    }
 }
