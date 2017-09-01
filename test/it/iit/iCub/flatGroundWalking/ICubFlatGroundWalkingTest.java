@@ -102,10 +102,10 @@ public class ICubFlatGroundWalkingTest extends ICubTest
 
    public static FootstepDataListMessage createWalkingMessage(double time, FullHumanoidRobotModel fullRobotModel)
    {
-      FootstepDataListMessage message = new FootstepDataListMessage();
       double swingTime = robotModel.getWalkingControllerParameters().getDefaultSwingTime();
       double transferTime = robotModel.getWalkingControllerParameters().getDefaultTransferTime();
       double initialTransferTime = robotModel.getWalkingControllerParameters().getDefaultInitialTransferTime();
+      FootstepDataListMessage message = new FootstepDataListMessage(swingTime, transferTime);
 
       double stepLength = 0.2;
       double stepWidth = 0.15;
