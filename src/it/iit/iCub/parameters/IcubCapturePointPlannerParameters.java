@@ -20,7 +20,7 @@ public class IcubCapturePointPlannerParameters extends ContinuousCMPICPPlannerPa
       copOffsets.add(entryOffset);
       copOffsets.add(exitOffset);
 
-      Vector2D entryBounds = new Vector2D(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+      Vector2D entryBounds = new Vector2D(-0.03, Double.POSITIVE_INFINITY);
       Vector2D exitBounds = new Vector2D(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
       copForwardOffsetBounds = new ArrayList<>();
       copForwardOffsetBounds.add(entryBounds);
@@ -60,7 +60,7 @@ public class IcubCapturePointPlannerParameters extends ContinuousCMPICPPlannerPa
    @Override
    public double getSwingSplitFraction()
    {
-      return 0.5;
+      return 0.35;
    }
 
    @Override
