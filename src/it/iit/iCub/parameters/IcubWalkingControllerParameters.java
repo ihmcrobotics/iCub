@@ -55,7 +55,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    @Override
    public double getOmega0()
    {
-      return 4.7;
+      return 4.4;
    }
 
    @Override
@@ -85,19 +85,19 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    @Override
    public double minimumHeightAboveAnkle()
    {
-      return 0.45;
+      return 0.4;
    }
 
    @Override
    public double nominalHeightAboveAnkle()
    {
-      return 0.525;
+      return 0.5;
    }
 
    @Override
    public double maximumHeightAboveAnkle()
    {
-      return 0.525;
+      return 0.55;
    }
 
    @Override
@@ -476,7 +476,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    public PIDSE3Gains getSwingFootControlGains()
    {
       double kpXY = 100.0;
-      double kpZ = 400.0;
+      double kpZ = 200.0;
       double zetaXYZ = 1.0;
       double kpXYOrientation = 100.0;
       double kpZOrientation = 200.0;

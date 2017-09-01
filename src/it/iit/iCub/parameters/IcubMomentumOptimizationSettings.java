@@ -35,9 +35,9 @@ public class IcubMomentumOptimizationSettings extends MomentumOptimizationSettin
    private final double jointAccelerationWeight = 0.005;
    private final double jointJerkWeight = 0.0;
    private final double rhoWeight = 0.0005;
-   private final double rhoMin = 0.0;
-   private final double rhoRateDefaultWeight = 0.0;
-   private final double rhoRateHighWeight = 0.0;
+   private final double rhoMin = 0.5;
+   private final double rhoRateDefaultWeight = 0.0001;
+   private final double rhoRateHighWeight = rhoRateDefaultWeight;
    private final Vector2D copWeight = new Vector2D(0.0, 0.0);
    private final Vector2D copRateDefaultWeight = new Vector2D(0.0, 0.0);
    private final Vector2D copRateHighWeight = new Vector2D(0.0, 0.0);
