@@ -77,6 +77,24 @@ public class ICubFlatGroundWalkingTest extends ICubTest
 
    @ContinuousIntegrationTest(estimatedDuration = 20.0)
    @Test
+   public void testFastWalkingForward() throws SimulationExceededMaximumTimeException
+   {
+      boolean success = drcSimulationTestHelper.simulateAndBlockAndCatchExceptions(1.0);
+      assertTrue(success);
+
+      double walkingTime = 10.0;
+      double swingTime = 0.4;
+      double transferTime = 0.05;
+      FullHumanoidRobotModel fullRobotModel = drcSimulationTestHelper.getControllerFullRobotModel();
+      FootstepDataListMessage footsteps = createWalkingMessage(swingTime, transferTime, walkingTime, fullRobotModel);
+
+      drcSimulationTestHelper.send(footsteps);
+      success = drcSimulationTestHelper.simulateAndBlockAndCatchExceptions(walkingTime + 0.5);
+      assertTrue(success);
+   }
+
+   @ContinuousIntegrationTest(estimatedDuration = 20.0)
+   @Test
    public void testStandingOnOneFoot() throws SimulationExceededMaximumTimeException
    {
       boolean success = drcSimulationTestHelper.simulateAndBlockAndCatchExceptions(1.0);
@@ -104,6 +122,11 @@ public class ICubFlatGroundWalkingTest extends ICubTest
    {
       double swingTime = robotModel.getWalkingControllerParameters().getDefaultSwingTime();
       double transferTime = robotModel.getWalkingControllerParameters().getDefaultTransferTime();
+      return createWalkingMessage(swingTime, transferTime, time, fullRobotModel);
+   }
+
+   public static FootstepDataListMessage createWalkingMessage(double swingTime, double transferTime, double time, FullHumanoidRobotModel fullRobotModel)
+   {
       double initialTransferTime = robotModel.getWalkingControllerParameters().getDefaultInitialTransferTime();
       FootstepDataListMessage message = new FootstepDataListMessage(swingTime, transferTime);
 
