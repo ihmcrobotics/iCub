@@ -46,7 +46,7 @@ public class ICubWholeBodyMotionTests extends ICubTest
       FullHumanoidRobotModel fullRobotModel = drcSimulationTestHelper.getControllerFullRobotModel();
 
       MessageOfMessages motion = new MessageOfMessages();
-      motion.addPacket(ICubFlatGroundWalkingTest.createWalkingMessage(trajectoryTime, fullRobotModel));
+      motion.addPacket(ICubFlatGroundWalkingTest.createWalkingMessage(trajectoryTime, fullRobotModel, robotModel.getWalkingControllerParameters()));
       motion.addPacket(createRandomChestTrajectory(trajectoryTime));
       motion.addPacket(createRandomArmTrajectory(trajectoryTime, RobotSide.RIGHT, fullRobotModel));
       motion.addPacket(createRandomArmTrajectory(trajectoryTime, RobotSide.LEFT, fullRobotModel));

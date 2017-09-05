@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -30,12 +31,12 @@ import us.ihmc.tools.MemoryTools;
 import us.ihmc.tools.thread.ThreadTools;
 import us.ihmc.yoVariables.variable.YoVariable;
 
-public class ICubTest
+public abstract class ICubTest
 {
    private static final boolean exportJointDataWhenDebugging = false;
 
-   protected static final DRCStartingLocation startingLocation = DRCObstacleCourseStartingLocation.DEFAULT;
-   protected static final IcubRobotModel robotModel = new IcubRobotModel();
+   protected final DRCStartingLocation startingLocation = DRCObstacleCourseStartingLocation.DEFAULT;
+   protected final IcubRobotModel robotModel = new IcubRobotModel(removeJointLimits());
 
    protected static final SimulationTestingParameters simulationTestingParameters = SimulationTestingParameters.createFromEnvironmentVariables();
    static
@@ -53,6 +54,11 @@ public class ICubTest
    }
 
    protected DRCSimulationTestHelper drcSimulationTestHelper;
+
+   public boolean removeJointLimits()
+   {
+      return false;
+   }
 
    public void exportJointData()
    {

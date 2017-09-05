@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import it.iit.iCub.testTools.ICubTest;
+import us.ihmc.commonWalkingControlModules.configurations.WalkingControllerParameters;
 import us.ihmc.continuousIntegration.ContinuousIntegrationAnnotations.ContinuousIntegrationPlan;
 import us.ihmc.continuousIntegration.ContinuousIntegrationAnnotations.ContinuousIntegrationTest;
 import us.ihmc.continuousIntegration.IntegrationCategory;
@@ -68,7 +69,7 @@ public class ICubFlatGroundWalkingTest extends ICubTest
 
       double walkingTime = 10.0;
       FullHumanoidRobotModel fullRobotModel = drcSimulationTestHelper.getControllerFullRobotModel();
-      FootstepDataListMessage footsteps = createWalkingMessage(walkingTime, fullRobotModel);
+      FootstepDataListMessage footsteps = createWalkingMessage(walkingTime, fullRobotModel, robotModel.getWalkingControllerParameters());
 
       drcSimulationTestHelper.send(footsteps);
       success = drcSimulationTestHelper.simulateAndBlockAndCatchExceptions(walkingTime + 0.5);
@@ -86,7 +87,8 @@ public class ICubFlatGroundWalkingTest extends ICubTest
       double swingTime = 0.4;
       double transferTime = 0.05;
       FullHumanoidRobotModel fullRobotModel = drcSimulationTestHelper.getControllerFullRobotModel();
-      FootstepDataListMessage footsteps = createWalkingMessage(swingTime, transferTime, walkingTime, fullRobotModel);
+      FootstepDataListMessage footsteps = createWalkingMessage(swingTime, transferTime, walkingTime, fullRobotModel,
+                                                               robotModel.getWalkingControllerParameters());
 
       drcSimulationTestHelper.send(footsteps);
       success = drcSimulationTestHelper.simulateAndBlockAndCatchExceptions(walkingTime + 0.5);
@@ -118,16 +120,18 @@ public class ICubFlatGroundWalkingTest extends ICubTest
       assertTrue(success);
    }
 
-   public static FootstepDataListMessage createWalkingMessage(double time, FullHumanoidRobotModel fullRobotModel)
+   public static FootstepDataListMessage createWalkingMessage(double time, FullHumanoidRobotModel fullRobotModel,
+                                                              WalkingControllerParameters walkingControllerParameters)
    {
-      double swingTime = robotModel.getWalkingControllerParameters().getDefaultSwingTime();
-      double transferTime = robotModel.getWalkingControllerParameters().getDefaultTransferTime();
-      return createWalkingMessage(swingTime, transferTime, time, fullRobotModel);
+      double swingTime = walkingControllerParameters.getDefaultSwingTime();
+      double transferTime = walkingControllerParameters.getDefaultTransferTime();
+      return createWalkingMessage(swingTime, transferTime, time, fullRobotModel, walkingControllerParameters);
    }
 
-   public static FootstepDataListMessage createWalkingMessage(double swingTime, double transferTime, double time, FullHumanoidRobotModel fullRobotModel)
+   public static FootstepDataListMessage createWalkingMessage(double swingTime, double transferTime, double time, FullHumanoidRobotModel fullRobotModel,
+                                                              WalkingControllerParameters walkingControllerParameters)
    {
-      double initialTransferTime = robotModel.getWalkingControllerParameters().getDefaultInitialTransferTime();
+      double initialTransferTime = walkingControllerParameters.getDefaultInitialTransferTime();
       FootstepDataListMessage message = new FootstepDataListMessage(swingTime, transferTime);
 
       double stepLength = 0.2;

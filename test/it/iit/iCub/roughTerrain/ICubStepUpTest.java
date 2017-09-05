@@ -30,6 +30,12 @@ public class ICubStepUpTest extends ICubTest
    private static final double step2Height = 0.1;
    private static final double step3Height = 0.15;
 
+   @Override
+   public boolean removeJointLimits()
+   {
+      return true;
+   }
+
    @Test
    public void testWalkingOnBoxes() throws SimulationExceededMaximumTimeException
    {

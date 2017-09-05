@@ -87,7 +87,7 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
 
    public IcubRobotModel()
    {
-      this(true);
+      this(false);
    }
 
    public IcubRobotModel(boolean removeLimits)
