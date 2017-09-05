@@ -14,14 +14,14 @@ public class IcubCapturePointPlannerParameters extends ContinuousCMPICPPlannerPa
 
    public IcubCapturePointPlannerParameters()
    {
-      Vector2D entryOffset = new Vector2D();
-      Vector2D exitOffset = new Vector2D();
+      Vector2D entryOffset = new Vector2D(0.0, 0.01);
+      Vector2D exitOffset = new Vector2D(0.0, 0.01);
       copOffsets = new ArrayList<>();
       copOffsets.add(entryOffset);
       copOffsets.add(exitOffset);
 
       Vector2D entryBounds = new Vector2D(-0.03, Double.POSITIVE_INFINITY);
-      Vector2D exitBounds = new Vector2D(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+      Vector2D exitBounds = new Vector2D(Double.NEGATIVE_INFINITY, 0.06);
       copForwardOffsetBounds = new ArrayList<>();
       copForwardOffsetBounds.add(entryBounds);
       copForwardOffsetBounds.add(exitBounds);

@@ -19,7 +19,7 @@ public class IcubMomentumOptimizationSettings extends MomentumOptimizationSettin
    private final Vector3D angularMomentumWeight = new Vector3D(0.0, 0.0, 0.0);
 
    // swing and movie via waypoints
-   private final Vector3D defaultAngularFootWeight = new Vector3D(2.0, 2.0, 2.0);
+   private final Vector3D defaultAngularFootWeight = new Vector3D(2.0, 0.5, 2.0);
    private final Vector3D defaultLinearFootWeight = new Vector3D(200.0, 200.0, 200.0);
    // support and on toes
    private final Vector3D highAngularFootWeight = new Vector3D(1.0, 1.0, 1.0);
@@ -32,21 +32,19 @@ public class IcubMomentumOptimizationSettings extends MomentumOptimizationSettin
    private final int nContactPointsPerContactableBody = 4;
    private final int nContactableBodies = 2;
 
-   private final double jointAccelerationWeight = 0.005;
-   private final double jointJerkWeight = 0.0;
-   private final double rhoWeight = 0.0005;
-   private final double rhoMin = 0.5;
-   private final double rhoRateDefaultWeight = 0.0001;
+   private final double jointAccelerationWeight = 0.001;
+   private final double jointJerkWeight = 0.01;
+   private final double rhoWeight = 0.001;
+   private final double rhoMin = 1.0 / (nBasisVectorsPerContactPoint * nContactPointsPerContactableBody);
+   private final double rhoRateDefaultWeight = 0.01;
    private final double rhoRateHighWeight = rhoRateDefaultWeight;
-   private final Vector2D copWeight = new Vector2D(0.0, 0.0);
+   private final Vector2D copWeight = new Vector2D(1000.0, 1000.0);
    private final Vector2D copRateDefaultWeight = new Vector2D(0.0, 0.0);
    private final Vector2D copRateHighWeight = new Vector2D(0.0, 0.0);
 
    private final double neckJointspaceWeight = 10.0;
    private final double armJointspaceWeight = 1.0;
-
    private final double spineJointspaceWeight = 15.0;
-
    private final TObjectDoubleHashMap<String> jointspaceWeights = new TObjectDoubleHashMap<>();
 
    private final double neckUserModeWeight = 1.0;

@@ -478,7 +478,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
       double kpXY = 100.0;
       double kpZ = 200.0;
       double zetaXYZ = 1.0;
-      double kpXYOrientation = 100.0;
+      double kpXYOrientation = 200.0;
       double kpZOrientation = 200.0;
       double zetaOrientation = 1.0;
       double maxPositionAcceleration = Double.POSITIVE_INFINITY;

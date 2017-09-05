@@ -43,13 +43,19 @@ public class IcubSwingTrajectoryParameters extends SwingTrajectoryParameters
    @Override
    public double getDesiredTouchdownVelocity()
    {
-      return -0.3;
+      return -0.15;
    }
 
    @Override
    public double getDesiredTouchdownAcceleration()
    {
       return 0.0;
+   }
+
+   @Override
+   public double[] getSwingWaypointProportions()
+   {
+      return new double[] {0.15, 0.95};
    }
 
 }
