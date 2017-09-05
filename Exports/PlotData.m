@@ -2,7 +2,7 @@
 
 clear all;
 
-load 'iCub_testWalkingForward_2017-08-29.mat';
+load 'iCub_dynamicWalk_2017-09-01.mat';
 joint = 'r_knee';
 
 gridsize = 20;
