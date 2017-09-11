@@ -58,4 +58,10 @@ public class IcubSwingTrajectoryParameters extends SwingTrajectoryParameters
       return new double[] {0.15, 0.95};
    }
 
+   @Override
+   public double[] getObstacleClearanceProportions()
+   {
+      return new double[] {0.1, 0.9};
+   }
+
 }

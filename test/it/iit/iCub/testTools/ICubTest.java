@@ -1,5 +1,6 @@
 package it.iit.iCub.testTools;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -11,13 +12,19 @@ import org.junit.Rule;
 import org.junit.rules.TestName;
 
 import it.iit.iCub.IcubRobotModel;
+import it.iit.iCub.roughTerrain.ICubRampsTest;
+import it.iit.iCub.roughTerrain.ICubWobblyFeetTest;
 import us.ihmc.avatar.DRCObstacleCourseStartingLocation;
 import us.ihmc.avatar.DRCStartingLocation;
 import us.ihmc.avatar.initialSetup.OffsetAndYawRobotInitialSetup;
 import us.ihmc.avatar.testTools.DRCSimulationTestHelper;
 import us.ihmc.commons.PrintTools;
+import us.ihmc.euclid.geometry.BoundingBox3D;
 import us.ihmc.euclid.transform.RigidBodyTransform;
 import us.ihmc.euclid.tuple3D.Point3D;
+import us.ihmc.euclid.tuple3D.interfaces.Point3DReadOnly;
+import us.ihmc.graphicsDescription.Graphics3DObject;
+import us.ihmc.graphicsDescription.appearance.YoAppearanceRGBColor;
 import us.ihmc.simulationConstructionSetTools.util.environments.CommonAvatarEnvironmentInterface;
 import us.ihmc.simulationConstructionSetTools.util.environments.FlatGroundEnvironment;
 import us.ihmc.simulationconstructionset.DataFileWriter;
@@ -35,8 +42,7 @@ public abstract class ICubTest
 {
    private static final boolean exportJointDataWhenDebugging = false;
 
-   protected final DRCStartingLocation startingLocation = DRCObstacleCourseStartingLocation.DEFAULT;
-   protected final IcubRobotModel robotModel = new IcubRobotModel(removeJointLimits());
+   protected final IcubRobotModel robotModel = getRobotModel();
 
    protected static final SimulationTestingParameters simulationTestingParameters = SimulationTestingParameters.createFromEnvironmentVariables();
    static
@@ -55,9 +61,60 @@ public abstract class ICubTest
 
    protected DRCSimulationTestHelper drcSimulationTestHelper;
 
+   /**
+    * Overwrite if your test requires the joint limits on the robot to be removed. By default all
+    * tests will assume the joint limits are active.
+    */
    public boolean removeJointLimits()
    {
       return false;
+   }
+
+   /**
+    * Overwrite if the initial camera position in the unit test should be at a different spot. The
+    * initial camera focus will always be the robot.
+    */
+   public Point3D getCameraPosion()
+   {
+      return new Point3D(5.0, 3.0, 1.0);
+   }
+
+   /**
+    * Overwrite if your unit test requires a different terrain. By default all unit tests use a flat
+    * ground environment. To define a unit test specific terrain you can use the {@link TestingEnvironment}.
+    * For an example of how to use it look at {@link ICubRampsTest.RampEnvironment}.
+    */
+   public CommonAvatarEnvironmentInterface getEnvironment()
+   {
+      return new FlatGroundEnvironment();
+   }
+
+   /**
+    * Overwrite to add a check at the end of the unit test. If this method returns a bounding box the
+    * pelvis of the robot after the test must be inside this box otherwise the test will fail. This
+    * can help to make sure the robot actually walked to an expected location. See {@link ICubRampsTest}
+    * for an example.
+    */
+   public BoundingBox3D getFinalBoundingBox()
+   {
+      return null;
+   }
+
+   /**
+    * Overwrite this if you are using a custom robot model. This can be used to change robot parameters
+    * for a specific test. See {@link ICubWobblyFeetTest} for an example of how to use this.
+    */
+   public IcubRobotModel getRobotModel()
+   {
+      return new IcubRobotModel(removeJointLimits());
+   }
+
+   /**
+    * Overwrite this if you want the robot to start in a location different of the origin.
+    */
+   public DRCStartingLocation getStartingLocation()
+   {
+      return DRCObstacleCourseStartingLocation.DEFAULT;
    }
 
    public void exportJointData()
@@ -116,26 +173,44 @@ public abstract class ICubTest
    {
       MemoryTools.printCurrentMemoryUsageAndReturnUsedMemoryInMB(getClass().getSimpleName() + " before test.");
 
+      DRCStartingLocation startingLocation = getStartingLocation();
       drcSimulationTestHelper = new DRCSimulationTestHelper(getEnvironment(), name.getMethodName(), startingLocation, simulationTestingParameters, robotModel);
       OffsetAndYawRobotInitialSetup startingLocationOffset = startingLocation.getStartingLocationOffset();
       Point3D cameraFocus = new Point3D(startingLocationOffset.getAdditionalOffset());
       cameraFocus.addZ(0.4);
       RigidBodyTransform transform = new RigidBodyTransform();
       transform.setRotationYawAndZeroTranslation(startingLocationOffset.getYaw());
-      Point3D cameraPosition = new Point3D(5.0, 3.0, 1.0);
-      transform.transform(cameraPosition);
-      drcSimulationTestHelper.setupCameraForUnitTest(cameraFocus, cameraPosition);
-      ThreadTools.sleep(1000);
-   }
+      transform.transform(getCameraPosion());
 
-   protected CommonAvatarEnvironmentInterface getEnvironment()
-   {
-      return new FlatGroundEnvironment();
+      BoundingBox3D box = getFinalBoundingBox();
+      if (box != null)
+      {
+         Graphics3DObject boxGraphics = new Graphics3DObject();
+         Point3DReadOnly minPoint = box.getMinPoint();
+         Point3DReadOnly maxPoint = box.getMaxPoint();
+         Point3D center = new Point3D();
+         center.interpolate(minPoint, maxPoint, 0.5);
+         Point3D dimensions = new Point3D();
+         dimensions.sub(maxPoint, minPoint);
+         boxGraphics.translate(center);
+         YoAppearanceRGBColor cubeAppearance = new YoAppearanceRGBColor(Color.GREEN, 0.9);
+         boxGraphics.addCube(dimensions.getX(), dimensions.getY(), dimensions.getZ(), true, cubeAppearance);
+         drcSimulationTestHelper.getSimulationConstructionSet().addStaticLinkGraphics(boxGraphics );
+      }
+
+      drcSimulationTestHelper.setupCameraForUnitTest(cameraFocus, getCameraPosion());
+      ThreadTools.sleep(1000);
    }
 
    @After
    public void finishTest()
    {
+      BoundingBox3D boundingBox = getFinalBoundingBox();
+      if (boundingBox != null)
+      {
+         drcSimulationTestHelper.assertRobotsRootJointIsInBoundingBox(boundingBox);
+      }
+
       if (simulationTestingParameters.getKeepSCSUp())
       {
          if (exportJointDataWhenDebugging)

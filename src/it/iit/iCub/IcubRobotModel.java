@@ -56,6 +56,7 @@ import us.ihmc.simulationconstructionset.HumanoidFloatingRootJointRobot;
 import us.ihmc.tools.thread.CloseableAndDisposableRegistry;
 import us.ihmc.wholeBodyController.DRCHandType;
 import us.ihmc.wholeBodyController.DRCRobotJointMap;
+import us.ihmc.wholeBodyController.FootContactPoints;
 import us.ihmc.wholeBodyController.RobotContactPointParameters;
 import us.ihmc.wholeBodyController.UIParameters;
 import us.ihmc.wholeBodyController.concurrent.ThreadDataSynchronizerInterface;
@@ -75,7 +76,7 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
    private final IcubPhysicalProperties physicalProperties;
    private final DRCRobotSensorInformation sensorInformation;
    private final IcubJointMap jointMap;
-   private final IcubContactPointParameters contactPointParameters;
+   private final RobotContactPointParameters contactPointParameters;
    private final SideDependentList<Transform> offsetHandFromWrist = new SideDependentList<Transform>();
    private final ICPWithTimeFreezingPlannerParameters capturePointPlannerParameters;
 
@@ -87,16 +88,21 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
 
    public IcubRobotModel()
    {
-      this(false);
+      this(false, null);
    }
 
    public IcubRobotModel(boolean removeLimits)
+   {
+      this(removeLimits, null);
+   }
+
+   public IcubRobotModel(boolean removeLimits, FootContactPoints contactPoints)
    {
       this.removeLimits = removeLimits;
 
       physicalProperties = new IcubPhysicalProperties();
       jointMap = new IcubJointMap(physicalProperties);
-      contactPointParameters = new IcubContactPointParameters(jointMap);
+      contactPointParameters = new IcubContactPointParameters(jointMap, contactPoints);
       sensorInformation = new IcubSensorInformation();
 
       this.loader = DRCRobotSDFLoader.loadDRCRobot(getResourceDirectories(), getSdfFileAsStream(), this);

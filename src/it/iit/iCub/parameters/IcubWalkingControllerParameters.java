@@ -382,7 +382,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
       bodyHomeConfiguration = new HashMap<String, Pose3D>();
 
       Pose3D homeChestPoseInPelvisZUpFrame = new Pose3D();
-      homeChestPoseInPelvisZUpFrame.appendPitchRotation(Math.PI / 8.0);
+      homeChestPoseInPelvisZUpFrame.appendPitchRotation(Math.PI / 6.0);
       bodyHomeConfiguration.put(jointMap.getChestName(), homeChestPoseInPelvisZUpFrame);
 
       return bodyHomeConfiguration;

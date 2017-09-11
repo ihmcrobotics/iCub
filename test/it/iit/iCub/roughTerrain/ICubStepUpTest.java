@@ -2,11 +2,10 @@ package it.iit.iCub.roughTerrain;
 
 import static org.junit.Assert.assertTrue;
 
-import java.util.List;
-
 import org.junit.Test;
 
 import it.iit.iCub.testTools.ICubTest;
+import it.iit.iCub.testTools.TestingEnvironment;
 import us.ihmc.euclid.referenceFrame.FramePoint3D;
 import us.ihmc.euclid.referenceFrame.ReferenceFrame;
 import us.ihmc.humanoidRobotics.communication.packets.walking.FootstepDataListMessage;
@@ -17,11 +16,6 @@ import us.ihmc.robotics.geometry.FrameOrientation;
 import us.ihmc.robotics.robotSide.RobotSide;
 import us.ihmc.robotics.screwTheory.MovingReferenceFrame;
 import us.ihmc.simulationConstructionSetTools.util.environments.CommonAvatarEnvironmentInterface;
-import us.ihmc.simulationConstructionSetTools.util.environments.SelectableObjectListener;
-import us.ihmc.simulationconstructionset.ExternalForcePoint;
-import us.ihmc.simulationconstructionset.Robot;
-import us.ihmc.simulationconstructionset.util.ground.CombinedTerrainObject3D;
-import us.ihmc.simulationconstructionset.util.ground.TerrainObject3D;
 import us.ihmc.simulationconstructionset.util.simulationRunner.BlockingSimulationRunner.SimulationExceededMaximumTimeException;
 
 public class ICubStepUpTest extends ICubTest
@@ -93,47 +87,17 @@ public class ICubStepUpTest extends ICubTest
    @Override
    public CommonAvatarEnvironmentInterface getEnvironment()
    {
-      return new TestingEnvironment();
+      return new StepUpEnvironment();
    }
 
-   public class TestingEnvironment implements CommonAvatarEnvironmentInterface
+   public class StepUpEnvironment extends TestingEnvironment
    {
-      private final CombinedTerrainObject3D terrain;
-
-      public TestingEnvironment()
+      public StepUpEnvironment()
       {
-         terrain = new CombinedTerrainObject3D(getClass().getSimpleName());
          terrain.addBox(-1.0, -0.5, 10.0, 0.5, -0.01, 0.0);
          terrain.addBox(0.5, -0.5, 1.1, 0.5, 0.0, step1Height);
          terrain.addBox(2.5, -0.5, 3.1, 0.5, 0.0, step2Height);
          terrain.addBox(4.5, -0.5, 5.1, 0.5, 0.0, step3Height);
-      }
-
-      @Override
-      public TerrainObject3D getTerrainObject3D()
-      {
-         return terrain;
-      }
-
-      @Override
-      public List<? extends Robot> getEnvironmentRobots()
-      {
-         return null;
-      }
-
-      @Override
-      public void createAndSetContactControllerToARobot()
-      {
-      }
-
-      @Override
-      public void addContactPoints(List<? extends ExternalForcePoint> externalForcePoints)
-      {
-      }
-
-      @Override
-      public void addSelectableListenerToSelectables(SelectableObjectListener selectedListener)
-      {
       }
    }
 }
