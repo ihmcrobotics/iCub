@@ -206,7 +206,7 @@ public abstract class ICubTest
    public void finishTest()
    {
       BoundingBox3D boundingBox = getFinalBoundingBox();
-      if (boundingBox != null)
+      if (boundingBox != null && !simulationTestingParameters.getKeepSCSUp())
       {
          drcSimulationTestHelper.assertRobotsRootJointIsInBoundingBox(boundingBox);
       }
