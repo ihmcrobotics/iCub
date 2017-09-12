@@ -62,21 +62,21 @@
       </sensor>
     </link>
     <link name='l_hip_1'>
-      <pose frame=''>0.006452 -0.022386 -0.119913 1.5708 0 -1.5708</pose>
+      <pose frame=''>0.006452 -0.026 -0.119913 0 -0 3.14159</pose>
       <inertial>
-        <pose frame=''>0.041678 -6.3e-05 -0.000401 0 -0 0</pose>
-        <mass>0.915608</mass>
+        <pose frame=''>-0.000511 0.038092 -8.3e-05 1.5708 -0 1.5708</pose>
+        <mass>0.919725</mass>
         <inertia>
-          <ixx>0.000402555</ixx>
-          <ixy>1.07708e-06</ixy>
-          <ixz>-1.569e-06</ixz>
-          <iyy>0.000570806</iyy>
-          <iyz>-6.5378e-07</iyz>
-          <izz>0.00057937</izz>
+          <ixx>0.000404539</ixx>
+          <ixy>1.18502e-06</ixy>
+          <ixz>-9.64514e-07</ixz>
+          <iyy>0.000573315</iyy>
+          <iyz>-1.06028e-06</iyz>
+          <izz>0.000578982</izz>
         </inertia>
       </inertial>
       <collision name='l_hip_1_collision'>
-        <pose frame=''>-0.022386 0.151913 0.042852 0 -0 0</pose>
+        <pose frame=''>0.042852 -0.026 0.151913 1.5708 -0 1.5708</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -85,7 +85,7 @@
         </geometry>
       </collision>
       <visual name='l_hip_1_visual'>
-        <pose frame=''>-0.022386 0.151913 0.042852 0 -0 0</pose>
+        <pose frame=''>0.042852 -0.026 0.151913 1.5708 -0 1.5708</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -98,10 +98,10 @@
       <child>l_hip_1</child>
       <parent>base_link</parent>
       <axis>
-        <xyz>-0 1 0</xyz>
+        <xyz>0 1 0</xyz>
         <limit>
-          <lower>-0.523599</lower>
-          <upper>1.48353</upper>
+          <lower>-0.785398</lower>
+          <upper>2.33874</upper>
           <effort>50000</effort>
           <velocity>50000</velocity>
         </limit>
@@ -115,21 +115,21 @@
       </axis>
     </joint>
     <link name='l_hip_2'>
-      <pose frame=''>0.031992 -0.0701 -0.119913 1.5708 0 -1.5708</pose>
+      <pose frame=''>0.006452 -0.0701 -0.119913 0 -0 3.14159</pose>
       <inertial>
-        <pose frame=''>1.3e-05 -0.053033 0.024191 0 -0 0</pose>
-        <mass>0.547373</mass>
+        <pose frame=''>-0.001345 1.3e-05 -0.053038 1.5708 -0 1.5708</pose>
+        <mass>0.547318</mass>
         <inertia>
-          <ixx>0.000674703</ixx>
-          <ixy>6.60082e-07</ixy>
-          <ixz>-1.95755e-07</ixz>
-          <iyy>0.000345917</iyy>
-          <iyz>1.94658e-05</iyz>
-          <izz>0.000499395</izz>
+          <ixx>0.000674462</ixx>
+          <ixy>6.6003e-07</ixy>
+          <ixz>-1.95726e-07</ixz>
+          <iyy>0.000345831</iyy>
+          <iyz>1.93517e-05</iyz>
+          <izz>0.000499239</izz>
         </inertia>
       </inertial>
       <collision name='l_hip_2_collision'>
-        <pose frame=''>-0.0701 0.151913 0.068392 0 -0 0</pose>
+        <pose frame=''>0.042852 -0.0701 0.151913 1.5708 -0 1.5708</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -138,7 +138,7 @@
         </geometry>
       </collision>
       <collision name='l_hip_2_fixed_joint_lump__l_hip_3_collision_1'>
-        <pose frame=''>-0.043709 0.151913 -0.045418 -3.14158 -1.57079 3.14158</pose>
+        <pose frame=''>-0.070958 -0.043709 0.151913 1.5708 0 0</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -147,7 +147,7 @@
         </geometry>
       </collision>
       <visual name='l_hip_2_visual'>
-        <pose frame=''>-0.0701 0.151913 0.068392 0 -0 0</pose>
+        <pose frame=''>0.042852 -0.0701 0.151913 1.5708 -0 1.5708</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -156,7 +156,7 @@
         </geometry>
       </visual>
       <visual name='l_hip_2_fixed_joint_lump__l_hip_3_visual_1'>
-        <pose frame=''>-0.043709 0.151913 -0.045418 -3.14158 -1.57079 3.14158</pose>
+        <pose frame=''>-0.070958 -0.043709 0.151913 1.5708 0 0</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -169,10 +169,10 @@
       <child>l_hip_2</child>
       <parent>l_hip_1</parent>
       <axis>
-        <xyz>-1 -0 0</xyz>
+        <xyz>-1 0 0</xyz>
         <limit>
-          <lower>-0.261799</lower>
-          <upper>1.48353</upper>
+          <lower>-0.349066</lower>
+          <upper>2.0944</upper>
           <effort>50000</effort>
           <velocity>50000</velocity>
         </limit>
@@ -186,21 +186,21 @@
       </axis>
     </joint>
     <link name='l_upper_leg'>
-      <pose frame=''>0.007309 -0.0701 -0.208813 1.5708 0 -1.5708</pose>
+      <pose frame=''>0.007309 -0.0701 -0.208613 -0 0 3.14159</pose>
       <inertial>
-        <pose frame=''>0.00015 -0.078827 0.003349 0 -0 0</pose>
+        <pose frame=''>0.003387 0.000102 -0.078916 1.5708 -0 1.5708</pose>
         <mass>1.8084</mass>
         <inertia>
-          <ixx>0.00647124</ixx>
-          <ixy>-0.000117511</ixy>
-          <ixz>-3.57295e-06</ixz>
-          <iyy>0.00144844</iyy>
-          <iyz>-0.000137709</iyz>
-          <izz>0.00646464</izz>
+          <ixx>0.00648513</ixx>
+          <ixy>-0.000124211</ixy>
+          <ixz>-3.97399e-06</ixz>
+          <iyy>0.00146251</iyy>
+          <iyz>-0.000136818</iyz>
+          <izz>0.00647619</izz>
         </inertia>
       </inertial>
       <collision name='l_upper_leg_collision'>
-        <pose frame=''>-0.0701 0.241013 0.043709 0 -0 0</pose>
+        <pose frame=''>0.043709 -0.0701 0.240813 1.5708 -0 1.5708</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -217,7 +217,7 @@
         </surface>
       </collision>
       <visual name='l_upper_leg_visual'>
-        <pose frame=''>-0.0701 0.241013 0.043709 0 -0 0</pose>
+        <pose frame=''>0.043709 -0.0701 0.240813 1.5708 -0 1.5708</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -235,68 +235,68 @@
       <sensor name='l_upper_leg_ems_acc_eb6' type='imu'>
         <always_on>1</always_on>
         <update_rate>100</update_rate>
-        <pose frame=''>-0.040407 -0.083207 -0.012577 1.5708 0 -1.5708</pose>
+        <pose frame=''>-0.012577 -0.040407 -0.083407 1.5708 1.5708 0</pose>
         <plugin name='iCub_yarp_gazebo_plugin_ACC' filename='libgazebo_yarp_inertial.so'/>
       </sensor>
       <velocity_decay/>
       <sensor name='l_upper_leg_ems_acc_eb10' type='imu'>
         <always_on>1</always_on>
         <update_rate>100</update_rate>
-        <pose frame=''>0.040407 -0.040027 -0.012575 1.5708 -0 1.5708</pose>
+        <pose frame=''>-0.012575 0.040407 -0.040227 -1.5708 -1.5708 0</pose>
         <plugin name='iCub_yarp_gazebo_plugin_ACC' filename='libgazebo_yarp_inertial.so'/>
       </sensor>
       <velocity_decay/>
       <sensor name='l_upper_leg_ems_gyro_eb6' type='imu'>
         <always_on>1</always_on>
         <update_rate>100</update_rate>
-        <pose frame=''>-0.040407 -0.087779 -0.013081 1.5708 0 -1.5708</pose>
+        <pose frame=''>-0.013081 -0.040407 -0.087979 1.5708 1.5708 0</pose>
       </sensor>
       <velocity_decay/>
       <sensor name='l_upper_leg_ems_gyro_eb10' type='imu'>
         <always_on>1</always_on>
         <update_rate>100</update_rate>
-        <pose frame=''>0.040407 -0.035455 -0.013079 1.5708 -0 1.5708</pose>
+        <pose frame=''>-0.013079 0.040407 -0.035655 -1.5708 -1.5708 0</pose>
       </sensor>
       <velocity_decay/>
       <sensor name='l_upper_leg_mtb_acc_10b1' type='imu'>
         <always_on>1</always_on>
         <update_rate>100</update_rate>
-        <pose frame=''>0.031565 0.049332 0.042002 0.837758 -8.6e-05 1.57087</pose>
+        <pose frame=''>0.042002 0.031565 0.049132 -1.5708 -1.57068 -0.733039</pose>
         <plugin name='iCub_yarp_gazebo_plugin_ACC' filename='libgazebo_yarp_inertial.so'/>
       </sensor>
       <velocity_decay/>
       <sensor name='l_upper_leg_mtb_acc_10b2' type='imu'>
         <always_on>1</always_on>
         <update_rate>100</update_rate>
-        <pose frame=''>0.008384 0.039452 0.053355 0.261799 -3e-05 1.57091</pose>
+        <pose frame=''>0.053521 0.007766 0.039252 -1.5708 -1.57068 -1.309</pose>
         <plugin name='iCub_yarp_gazebo_plugin_ACC' filename='libgazebo_yarp_inertial.so'/>
       </sensor>
       <velocity_decay/>
       <sensor name='l_upper_leg_mtb_acc_10b3' type='imu'>
         <always_on>1</always_on>
         <update_rate>100</update_rate>
-        <pose frame=''>0.015071 0.004382 0.053785 0 -0 1.5708</pose>
+        <pose frame=''>0.053785 0.015071 0.004182 -3.14159 -1.5708 0</pose>
         <plugin name='iCub_yarp_gazebo_plugin_ACC' filename='libgazebo_yarp_inertial.so'/>
       </sensor>
       <velocity_decay/>
       <sensor name='l_upper_leg_mtb_acc_10b4' type='imu'>
         <always_on>1</always_on>
         <update_rate>100</update_rate>
-        <pose frame=''>-0.014429 0.004382 0.053785 0 -0 1.5708</pose>
+        <pose frame=''>0.053785 -0.014429 0.004182 -3.14159 -1.5708 0</pose>
         <plugin name='iCub_yarp_gazebo_plugin_ACC' filename='libgazebo_yarp_inertial.so'/>
       </sensor>
       <velocity_decay/>
       <sensor name='l_upper_leg_mtb_acc_10b5' type='imu'>
         <always_on>1</always_on>
         <update_rate>100</update_rate>
-        <pose frame=''>-0.0415 -0.004658 0.034129 -1.18682 -0 1.5708</pose>
+        <pose frame=''>0.034129 -0.0415 -0.004858 1.95477 -1.5708 0</pose>
         <plugin name='iCub_yarp_gazebo_plugin_ACC' filename='libgazebo_yarp_inertial.so'/>
       </sensor>
       <velocity_decay/>
       <sensor name='l_upper_leg_mtb_acc_10b6' type='imu'>
         <always_on>1</always_on>
         <update_rate>100</update_rate>
-        <pose frame=''>0.017809 -0.026212 -0.043785 -3.14159 0 -1.57091</pose>
+        <pose frame=''>-0.043785 0.017811 -0.026411 -1.5708 1.57077 1.5708</pose>
         <plugin name='iCub_yarp_gazebo_plugin_ACC' filename='libgazebo_yarp_inertial.so'/>
       </sensor>
       <gravity>1</gravity>
@@ -304,7 +304,7 @@
       <sensor name='l_upper_leg_mtb_acc_10b7' type='imu'>
         <always_on>1</always_on>
         <update_rate>100</update_rate>
-        <pose frame=''>-0.014192 -0.026211 -0.043785 -3.14159 0 -1.57095</pose>
+        <pose frame=''>-0.043785 -0.014192 -0.026411 1.5708 1.57065 -1.5708</pose>
         <plugin name='iCub_yarp_gazebo_plugin_ACC' filename='libgazebo_yarp_inertial.so'/>
       </sensor>
     </link>
@@ -312,10 +312,10 @@
       <child>l_upper_leg</child>
       <parent>l_hip_2</parent>
       <axis>
-        <xyz>0 -0 1</xyz>
+        <xyz>-0 -0 1</xyz>
         <limit>
-          <lower>-1.22173</lower>
-          <upper>1.22173</upper>
+          <lower>-1.39626</lower>
+          <upper>1.39626</upper>
           <effort>50000</effort>
           <velocity>50000</velocity>
         </limit>
@@ -329,21 +329,21 @@
       </axis>
     </joint>
     <link name='l_lower_leg'>
-      <pose frame=''>0.007309 -0.056515 -0.354438 1.5708 0 -1.5708</pose>
+      <pose frame=''>0.007309 -0.0701 -0.354438 -0 0 3.14159</pose>
       <inertial>
-        <pose frame=''>0.017167 -0.088615 0.000868 0 -0 0</pose>
+        <pose frame=''>0.001 0.003497 -0.088567 1.5708 -0 1.5708</pose>
         <mass>1.4724</mass>
         <inertia>
-          <ixx>0.00423935</ixx>
-          <ixy>-0.000240091</ixy>
-          <ixz>6.75755e-05</ixz>
-          <iyy>0.00151341</iyy>
-          <iyz>-0.000229787</iyz>
-          <izz>0.0045742</izz>
+          <ixx>0.00423699</ixx>
+          <ixy>-0.000239615</ixy>
+          <ixz>6.76166e-05</ixz>
+          <iyy>0.00152221</iyy>
+          <iyz>-0.000233143</iyz>
+          <izz>0.00457007</izz>
         </inertia>
       </inertial>
       <collision name='l_lower_leg_collision'>
-        <pose frame=''>-0.056515 0.386638 0.043709 0 -0 0</pose>
+        <pose frame=''>0.043709 -0.0701 0.386638 1.5708 -0 1.5708</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -360,7 +360,7 @@
         </surface>
       </collision>
       <visual name='l_lower_leg_visual'>
-        <pose frame=''>-0.056515 0.386638 0.043709 0 -0 0</pose>
+        <pose frame=''>0.043709 -0.0701 0.386638 1.5708 -0 1.5708</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -378,34 +378,34 @@
       <sensor name='l_lower_leg_ems_acc_eb7' type='imu'>
         <always_on>1</always_on>
         <update_rate>100</update_rate>
-        <pose frame=''>0.0249 -0.092765 0.043514 -0 -0.218167 1.5708</pose>
+        <pose frame=''>0.043514 0.011315 -0.092765 3.14159 -1.35263 -0</pose>
         <plugin name='iCub_yarp_gazebo_plugin_ACC' filename='libgazebo_yarp_inertial.so'/>
       </sensor>
       <velocity_decay/>
       <sensor name='l_lower_leg_ems_gyro_eb7' type='imu'>
         <always_on>1</always_on>
         <update_rate>100</update_rate>
-        <pose frame=''>0.025404 -0.088301 0.044503 -0 -0.218167 1.5708</pose>
+        <pose frame=''>0.044503 0.011819 -0.088301 3.14159 -1.35263 -0</pose>
       </sensor>
       <velocity_decay/>
       <sensor name='l_lower_leg_mtb_acc_10b8' type='imu'>
         <always_on>1</always_on>
         <update_rate>100</update_rate>
-        <pose frame=''>0.03077 -0.004318 0.053133 0.244346 -0 1.5708</pose>
+        <pose frame=''>0.053133 0.017184 -0.004318 -2.89725 -1.5708 0</pose>
         <plugin name='iCub_yarp_gazebo_plugin_ACC' filename='libgazebo_yarp_inertial.so'/>
       </sensor>
       <velocity_decay/>
       <sensor name='l_lower_leg_mtb_acc_10b9' type='imu'>
         <always_on>1</always_on>
         <update_rate>100</update_rate>
-        <pose frame=''>-0.000214 -0.004318 0.054452 -0.349066 4e-05 1.5709</pose>
+        <pose frame=''>0.054452 -0.013799 -0.004318 -1.5708 -1.57068 -1.91986</pose>
         <plugin name='iCub_yarp_gazebo_plugin_ACC' filename='libgazebo_yarp_inertial.so'/>
       </sensor>
       <velocity_decay/>
       <sensor name='l_lower_leg_mtb_acc_10b10' type='imu'>
         <always_on>1</always_on>
         <update_rate>100</update_rate>
-        <pose frame=''>0.05633 -0.043468 0.025915 1.309 -0.000112 1.57083</pose>
+        <pose frame=''>0.025915 0.042744 -0.043468 -1.57079 -1.57068 -0.261802</pose>
         <plugin name='iCub_yarp_gazebo_plugin_ACC' filename='libgazebo_yarp_inertial.so'/>
       </sensor>
       <gravity>1</gravity>
@@ -413,7 +413,7 @@
       <sensor name='l_lower_leg_mtb_acc_10b11' type='imu'>
         <always_on>1</always_on>
         <update_rate>100</update_rate>
-        <pose frame=''>-0.028133 -0.092958 0.018459 -1.309 -2.5e-05 1.57079</pose>
+        <pose frame=''>0.018459 -0.041719 -0.092958 1.57079 -1.57077 0.2618</pose>
         <plugin name='iCub_yarp_gazebo_plugin_ACC' filename='libgazebo_yarp_inertial.so'/>
       </sensor>
     </link>
@@ -421,10 +421,10 @@
       <child>l_lower_leg</child>
       <parent>l_upper_leg</parent>
       <axis>
-        <xyz>-0 1 0</xyz>
+        <xyz>0 1 0</xyz>
         <limit>
-          <lower>-1.74533</lower>
-          <upper>0</upper>
+          <lower>-2.16421</lower>
+          <upper>0.0698132</upper>
           <effort>50000</effort>
           <velocity>50000</velocity>
         </limit>
@@ -438,21 +438,21 @@
       </axis>
     </joint>
     <link name='l_ankle_1'>
-      <pose frame=''>0.007309 -0.097118 -0.554938 1.5708 0 -1.5708</pose>
+      <pose frame=''>0.007309 -0.0701 -0.554938 -0 0 3.14159</pose>
       <inertial>
-        <pose frame=''>-0.026112 6.3e-05 0.015261 0 -0 0</pose>
+        <pose frame=''>0.015153 0.000902 4.2e-05 1.5708 -0 1.5708</pose>
         <mass>0.6798</mass>
         <inertia>
-          <ixx>0.000405061</ixx>
-          <ixy>-1.12515e-06</ixy>
-          <ixz>3.06764e-05</ixz>
-          <iyy>0.000448346</iyy>
-          <iyz>2.88993e-06</iyz>
-          <izz>0.000309416</izz>
+          <ixx>0.000404474</ixx>
+          <ixy>-1.13226e-06</ixy>
+          <ixz>3.04665e-05</ixz>
+          <iyy>0.000447887</iyy>
+          <iyz>2.57266e-06</iyz>
+          <izz>0.000307603</izz>
         </inertia>
       </inertial>
       <collision name='l_ankle_1_collision'>
-        <pose frame=''>-0.097118 0.587138 0.043409 0 -0 0</pose>
+        <pose frame=''>0.043709 -0.0701 0.587138 1.5708 -0 1.5708</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -461,7 +461,7 @@
         </geometry>
       </collision>
       <visual name='l_ankle_1_visual'>
-        <pose frame=''>-0.097118 0.587138 0.043409 0 -0 0</pose>
+        <pose frame=''>0.043709 -0.0701 0.587138 1.5708 -0 1.5708</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -474,10 +474,10 @@
       <child>l_ankle_1</child>
       <parent>l_lower_leg</parent>
       <axis>
-        <xyz>0 -1 -0</xyz>
+        <xyz>-0 -1 -0</xyz>
         <limit>
-          <lower>-0.523599</lower>
-          <upper>0.523599</upper>
+          <lower>-0.610865</lower>
+          <upper>0.610865</upper>
           <effort>50000</effort>
           <velocity>50000</velocity>
         </limit>
@@ -491,21 +491,21 @@
       </axis>
     </joint>
     <link name='l_ankle_2'>
-      <pose frame=''>-0.040779 -0.0701 -0.554938 1.5708 0 -1.5708</pose>
+      <pose frame=''>0.007309 -0.0701 -0.554938 -0 0 3.14159</pose>
       <inertial>
-        <pose frame=''>0.003154 -0.050525 -0.030008 0 -0 0</pose>
-        <mass>0.649857</mass>
+        <pose frame=''>0.018077 0.00316 -0.050645 1.5708 -0 1.5708</pose>
+        <mass>0.650453</mass>
         <inertia>
-          <ixx>0.00175158</ixx>
-          <ixy>1.7275e-05</ixy>
-          <ixz>3.30063e-05</ixz>
-          <iyy>0.00180982</iyy>
-          <iyz>8.88895e-05</iyz>
-          <izz>0.000502082</izz>
+          <ixx>0.00175456</ixx>
+          <ixy>1.74676e-05</ixy>
+          <ixz>3.30386e-05</ixz>
+          <iyy>0.00181167</iyy>
+          <iyz>8.97756e-05</iyz>
+          <izz>0.000503582</izz>
         </inertia>
       </inertial>
       <collision name='l_ankle_2_collision'>
-        <pose frame=''>-0.0701 0.587138 -0.004679 0 -0 0</pose>
+        <pose frame=''>0.043709 -0.0701 0.587138 1.5708 -0 1.5708</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -514,7 +514,7 @@
         </geometry>
       </collision>
       <collision name='l_ankle_2_fixed_joint_lump__l_foot_collision_1'>
-        <pose frame=''>-0.0701 0.587138 -0.004379 0 0 -0</pose>
+        <pose frame=''>0.043709 -0.0701 0.586938 1.5708 -0 1.5708</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -545,7 +545,7 @@
         <max_contacts>4</max_contacts>
       </collision>
       <visual name='l_ankle_2_visual'>
-        <pose frame=''>-0.0701 0.587138 -0.004679 0 -0 0</pose>
+        <pose frame=''>0.043709 -0.0701 0.587138 1.5708 -0 1.5708</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -554,7 +554,7 @@
         </geometry>
       </visual>
       <visual name='l_ankle_2_fixed_joint_lump__l_foot_visual_1'>
-        <pose frame=''>-0.0701 0.587138 -0.004379 0 0 -0</pose>
+        <pose frame=''>0.043709 -0.0701 0.586938 1.5708 -0 1.5708</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -574,7 +574,7 @@
         <always_on>1</always_on>
         <update_rate>100</update_rate>
         <plugin name='iCub_yarp_gazebo_plugin_ACC' filename='libgazebo_yarp_inertial.so'/>
-        <pose frame=''>0 -0.0603 -0.051588 -1.57078 -1.57079 3.14158</pose>
+        <pose frame=''>-0.0035 0 -0.0605 -3.14159 -0 0</pose>
       </sensor>
       <gravity>1</gravity>
       <velocity_decay/>
@@ -582,17 +582,17 @@
         <always_on>1</always_on>
         <update_rate>100</update_rate>
         <plugin name='iCub_yarp_gazebo_plugin_ACC' filename='libgazebo_yarp_inertial.so'/>
-        <pose frame=''>0 -0.0603 -0.051588 -1.57078 -1.57079 3.14158</pose>
+        <pose frame=''>-0.0035 0 -0.0605 -3.14159 -0 0</pose>
       </sensor>
     </link>
     <joint name='l_ankle_roll' type='revolute'>
       <child>l_ankle_2</child>
       <parent>l_ankle_1</parent>
       <axis>
-        <xyz>-1 -0 0</xyz>
+        <xyz>-1 0 -0</xyz>
         <limit>
-          <lower>-0.349066</lower>
-          <upper>0.349066</upper>
+          <lower>-0.436332</lower>
+          <upper>0.436332</upper>
           <effort>50000</effort>
           <velocity>50000</velocity>
         </limit>
@@ -606,21 +606,21 @@
       </axis>
     </joint>
     <link name='r_hip_1'>
-      <pose frame=''>0.006452 0.023366 -0.119913 1.5708 0 -1.5708</pose>
+      <pose frame=''>0.006452 0.026 -0.119913 0 -0 3.14159</pose>
       <inertial>
-        <pose frame=''>-0.040711 -5.9e-05 -0.000523 0 -0 0</pose>
-        <mass>0.920101</mass>
+        <pose frame=''>-0.000515 -0.038075 -7.1e-05 1.5708 -0 1.5708</pose>
+        <mass>0.919978</mass>
         <inertia>
-          <ixx>0.000411114</ixx>
-          <ixy>-3.6672e-06</ixy>
-          <ixz>3.58037e-07</ixz>
-          <iyy>0.000576521</iyy>
-          <iyz>-2.19976e-06</iyz>
-          <izz>0.000587325</izz>
+          <ixx>0.000404268</ixx>
+          <ixy>-1.26852e-06</ixy>
+          <ixz>1.11055e-06</ixz>
+          <iyy>0.000574741</iyy>
+          <iyz>-7.69474e-07</iyz>
+          <izz>0.000580025</izz>
         </inertia>
       </inertial>
       <collision name='r_hip_1_collision'>
-        <pose frame=''>0.023366 0.151913 0.042852 0 -0 0</pose>
+        <pose frame=''>0.042852 0.026 0.151913 1.5708 -0 1.5708</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -629,7 +629,7 @@
         </geometry>
       </collision>
       <visual name='r_hip_1_visual'>
-        <pose frame=''>0.023366 0.151913 0.042852 0 -0 0</pose>
+        <pose frame=''>0.042852 0.026 0.151913 1.5708 -0 1.5708</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -642,10 +642,10 @@
       <child>r_hip_1</child>
       <parent>base_link</parent>
       <axis>
-        <xyz>-0 1 0</xyz>
+        <xyz>0 1 0</xyz>
         <limit>
-          <lower>-0.523599</lower>
-          <upper>1.48353</upper>
+          <lower>-0.785398</lower>
+          <upper>2.33874</upper>
           <effort>50000</effort>
           <velocity>50000</velocity>
         </limit>
@@ -659,21 +659,21 @@
       </axis>
     </joint>
     <link name='r_hip_2'>
-      <pose frame=''>0.032796 0.0701 -0.119913 1.5708 0 -1.5708</pose>
+      <pose frame=''>0.006452 0.0701 -0.119913 0 -0 3.14159</pose>
       <inertial>
-        <pose frame=''>6.8e-05 -0.053205 0.025006 0 -0 0</pose>
-        <mass>0.545612</mass>
+        <pose frame=''>-0.001284 6.8e-05 -0.05326 1.5708 -0 1.5708</pose>
+        <mass>0.544573</mass>
         <inertia>
-          <ixx>0.000667914</ixx>
-          <ixy>1.04681e-06</ixy>
-          <ixz>1.68214e-07</ixz>
-          <iyy>0.000343994</iyy>
-          <iyz>1.4664e-05</iyz>
-          <izz>0.000494191</izz>
+          <ixx>0.000666162</ixx>
+          <ixy>1.04481e-06</ixy>
+          <ixz>1.70248e-07</ixz>
+          <iyy>0.000343117</iyy>
+          <iyz>1.37957e-05</iyz>
+          <izz>0.000493314</izz>
         </inertia>
       </inertial>
       <collision name='r_hip_2_collision'>
-        <pose frame=''>0.0701 0.151913 0.069196 0 -0 0</pose>
+        <pose frame=''>0.042852 0.0701 0.151913 1.5708 -0 1.5708</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -682,7 +682,7 @@
         </geometry>
       </collision>
       <collision name='r_hip_2_fixed_joint_lump__r_hip_3_collision_1'>
-        <pose frame=''>0.0701 0.151913 0.069196 0 0 -0</pose>
+        <pose frame=''>0.042852 0.0701 0.151913 1.5708 -0 1.5708</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -691,7 +691,7 @@
         </geometry>
       </collision>
       <visual name='r_hip_2_visual'>
-        <pose frame=''>0.0701 0.151913 0.069196 0 -0 0</pose>
+        <pose frame=''>0.042852 0.0701 0.151913 1.5708 -0 1.5708</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -700,7 +700,7 @@
         </geometry>
       </visual>
       <visual name='r_hip_2_fixed_joint_lump__r_hip_3_visual_1'>
-        <pose frame=''>0.0701 0.151913 0.069196 0 0 -0</pose>
+        <pose frame=''>0.042852 0.0701 0.151913 1.5708 -0 1.5708</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -713,10 +713,10 @@
       <child>r_hip_2</child>
       <parent>r_hip_1</parent>
       <axis>
-        <xyz>1 0 -0</xyz>
+        <xyz>1 -0 -0</xyz>
         <limit>
-          <lower>-0.261799</lower>
-          <upper>1.48353</upper>
+          <lower>-0.349066</lower>
+          <upper>2.0944</upper>
           <effort>50000</effort>
           <velocity>50000</velocity>
         </limit>
@@ -730,21 +730,21 @@
       </axis>
     </joint>
     <link name='r_upper_leg'>
-      <pose frame=''>0.007309 0.0701 -0.208813 1.5708 0 -1.5708</pose>
+      <pose frame=''>0.007309 0.0701 -0.208613 0 -0 3.14159</pose>
       <inertial>
-        <pose frame=''>-7.7e-05 -0.078866 0.003361 0 -0 0</pose>
+        <pose frame=''>0.0034 -2.9e-05 -0.078954 1.5708 -0 1.5708</pose>
         <mass>1.8035</mass>
         <inertia>
-          <ixx>0.00646378</ixx>
-          <ixy>0.000122686</ixy>
-          <ixz>4.94532e-06</ixz>
-          <iyy>0.0014454</iyy>
-          <iyz>-0.000137533</iyz>
-          <izz>0.00645583</izz>
+          <ixx>0.00647751</ixx>
+          <ixy>0.000129579</ixy>
+          <ixz>5.48205e-06</ixz>
+          <iyy>0.00145938</iyy>
+          <iyz>-0.000136613</iyz>
+          <izz>0.00646721</izz>
         </inertia>
       </inertial>
       <collision name='r_upper_leg_collision'>
-        <pose frame=''>0.0701 0.241013 0.043709 0 -0 0</pose>
+        <pose frame=''>0.043709 0.0701 0.240813 1.5708 -0 1.5708</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -761,7 +761,7 @@
         </surface>
       </collision>
       <visual name='r_upper_leg_visual'>
-        <pose frame=''>0.0701 0.241013 0.043709 0 -0 0</pose>
+        <pose frame=''>0.043709 0.0701 0.240813 1.5708 -0 1.5708</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -779,68 +779,68 @@
       <sensor name='r_upper_leg_ems_acc_eb8' type='imu'>
         <always_on>1</always_on>
         <update_rate>100</update_rate>
-        <pose frame=''>0.040407 -0.040027 -0.012575 1.5708 0 -1.5708</pose>
+        <pose frame=''>-0.012575 0.040407 -0.040227 1.5708 1.5708 0</pose>
         <plugin name='iCub_yarp_gazebo_plugin_ACC' filename='libgazebo_yarp_inertial.so'/>
       </sensor>
       <velocity_decay/>
       <sensor name='r_upper_leg_ems_acc_eb11' type='imu'>
         <always_on>1</always_on>
         <update_rate>100</update_rate>
-        <pose frame=''>-0.040407 -0.083207 -0.012577 1.5708 0 -1.5708</pose>
+        <pose frame=''>-0.012577 -0.040407 -0.083407 1.5708 1.5708 0</pose>
         <plugin name='iCub_yarp_gazebo_plugin_ACC' filename='libgazebo_yarp_inertial.so'/>
       </sensor>
       <velocity_decay/>
       <sensor name='r_upper_leg_ems_gyro_eb8' type='imu'>
         <always_on>1</always_on>
         <update_rate>100</update_rate>
-        <pose frame=''>0.040407 -0.035455 -0.013079 1.5708 0 -1.5708</pose>
+        <pose frame=''>-0.013079 0.040407 -0.035655 1.5708 1.5708 0</pose>
       </sensor>
       <velocity_decay/>
       <sensor name='r_upper_leg_ems_gyro_eb11' type='imu'>
         <always_on>1</always_on>
         <update_rate>100</update_rate>
-        <pose frame=''>-0.040407 -0.087779 -0.013081 1.5708 0 -1.5708</pose>
+        <pose frame=''>-0.013081 -0.040407 -0.087979 1.5708 1.5708 0</pose>
       </sensor>
       <velocity_decay/>
       <sensor name='r_upper_leg_mtb_acc_11b1' type='imu'>
         <always_on>1</always_on>
         <update_rate>100</update_rate>
-        <pose frame=''>-0.030195 0.04914 0.043589 -0.837758 -0.000343 1.57087</pose>
+        <pose frame=''>0.043589 -0.030195 0.04894 2.52671 -1.57045 -0.222874</pose>
         <plugin name='iCub_yarp_gazebo_plugin_ACC' filename='libgazebo_yarp_inertial.so'/>
       </sensor>
       <velocity_decay/>
       <sensor name='r_upper_leg_mtb_acc_11b2' type='imu'>
         <always_on>1</always_on>
         <update_rate>100</update_rate>
-        <pose frame=''>-0.006407 0.039256 0.053947 -0.261799 -0.000399 1.57091</pose>
+        <pose frame=''>0.053947 -0.006407 0.039056 -3.1294 -1.57038 -0.27399</pose>
         <plugin name='iCub_yarp_gazebo_plugin_ACC' filename='libgazebo_yarp_inertial.so'/>
       </sensor>
       <velocity_decay/>
       <sensor name='r_upper_leg_mtb_acc_11b3' type='imu'>
         <always_on>1</always_on>
         <update_rate>100</update_rate>
-        <pose frame=''>-0.013021 0.004186 0.053831 -0 -0.000429 1.57091</pose>
+        <pose frame=''>0.053831 -0.013021 0.003986 -2.87731 -1.57035 -0.264282</pose>
         <plugin name='iCub_yarp_gazebo_plugin_ACC' filename='libgazebo_yarp_inertial.so'/>
       </sensor>
       <velocity_decay/>
       <sensor name='r_upper_leg_mtb_acc_11b4' type='imu'>
         <always_on>1</always_on>
         <update_rate>100</update_rate>
-        <pose frame=''>0.042268 -0.004845 0.032272 1.18682 -0.000537 1.57084</pose>
+        <pose frame=''>0.032272 0.042268 -0.005045 -1.87391 -1.57026 -0.080859</pose>
         <plugin name='iCub_yarp_gazebo_plugin_ACC' filename='libgazebo_yarp_inertial.so'/>
       </sensor>
       <velocity_decay/>
       <sensor name='r_upper_leg_mtb_acc_11b5' type='imu'>
         <always_on>1</always_on>
         <update_rate>100</update_rate>
-        <pose frame=''>0.016479 0.004186 0.053831 -0 -0.000429 1.57091</pose>
+        <pose frame=''>0.053831 0.016479 0.003986 -2.87731 -1.57035 -0.264282</pose>
         <plugin name='iCub_yarp_gazebo_plugin_ACC' filename='libgazebo_yarp_inertial.so'/>
       </sensor>
       <velocity_decay/>
       <sensor name='r_upper_leg_mtb_acc_11b6' type='imu'>
         <always_on>1</always_on>
         <update_rate>100</update_rate>
-        <pose frame=''>-0.015759 -0.026365 -0.043752 -3.14159 0.000429 -1.5708</pose>
+        <pose frame=''>-0.043752 -0.015759 -0.026565 0 1.57037 3.14159</pose>
         <plugin name='iCub_yarp_gazebo_plugin_ACC' filename='libgazebo_yarp_inertial.so'/>
       </sensor>
       <gravity>1</gravity>
@@ -848,7 +848,7 @@
       <sensor name='r_upper_leg_mtb_acc_11b7' type='imu'>
         <always_on>1</always_on>
         <update_rate>100</update_rate>
-        <pose frame=''>0.016239 -0.026366 -0.043752 3.14159 0.000429 -1.57091</pose>
+        <pose frame=''>-0.043752 0.016239 -0.026566 0.264253 1.57035 -2.87734</pose>
         <plugin name='iCub_yarp_gazebo_plugin_ACC' filename='libgazebo_yarp_inertial.so'/>
       </sensor>
     </link>
@@ -856,10 +856,10 @@
       <child>r_upper_leg</child>
       <parent>r_hip_2</parent>
       <axis>
-        <xyz>-0 0 -1</xyz>
+        <xyz>0 0 -1</xyz>
         <limit>
-          <lower>-1.22173</lower>
-          <upper>1.22173</upper>
+          <lower>-1.39626</lower>
+          <upper>1.39626</upper>
           <effort>50000</effort>
           <velocity>50000</velocity>
         </limit>
@@ -873,21 +873,21 @@
       </axis>
     </joint>
     <link name='r_lower_leg'>
-      <pose frame=''>0.007309 0.079768 -0.354438 1.5708 0 -1.5708</pose>
+      <pose frame=''>0.007309 0.0701 -0.354438 0 -0 3.14159</pose>
       <inertial>
-        <pose frame=''>0.006066 -0.088843 0.001105 0 -0 0</pose>
+        <pose frame=''>0.001236 -0.003513 -0.088794 1.5708 -0 1.5708</pose>
         <mass>1.472</mass>
         <inertia>
-          <ixx>0.00424221</ixx>
-          <ixy>0.000229532</ixy>
-          <ixz>-5.53606e-05</ixz>
-          <iyy>0.00151221</iyy>
-          <iyz>-0.000260874</iyz>
-          <izz>0.00457765</izz>
+          <ixx>0.00423993</ixx>
+          <ixy>0.000228815</ixy>
+          <ixz>-5.55646e-05</ixz>
+          <iyy>0.00152095</iyy>
+          <iyz>-0.000264133</iyz>
+          <izz>0.00457359</izz>
         </inertia>
       </inertial>
       <collision name='r_lower_leg_collision'>
-        <pose frame=''>0.079768 0.386638 0.043709 0 -0 0</pose>
+        <pose frame=''>0.043709 0.0701 0.386638 1.5708 -0 1.5708</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -904,7 +904,7 @@
         </surface>
       </collision>
       <visual name='r_lower_leg_visual'>
-        <pose frame=''>0.079768 0.386638 0.043709 0 -0 0</pose>
+        <pose frame=''>0.043709 0.0701 0.386638 1.5708 -0 1.5708</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -922,34 +922,34 @@
       <sensor name='r_lower_leg_ems_acc_eb9' type='imu'>
         <always_on>1</always_on>
         <update_rate>100</update_rate>
-        <pose frame=''>0.023507 -0.092765 0.043514 -0 -0.218167 1.5708</pose>
+        <pose frame=''>0.043514 0.01384 -0.092765 3.14159 -1.35263 -0</pose>
         <plugin name='iCub_yarp_gazebo_plugin_ACC' filename='libgazebo_yarp_inertial.so'/>
       </sensor>
       <velocity_decay/>
       <sensor name='r_lower_leg_ems_gyro_eb9' type='imu'>
         <always_on>1</always_on>
         <update_rate>100</update_rate>
-        <pose frame=''>0.024011 -0.088301 0.044503 -0 -0.218167 1.5708</pose>
+        <pose frame=''>0.044503 0.014344 -0.088301 3.14159 -1.35263 -0</pose>
       </sensor>
       <velocity_decay/>
       <sensor name='r_lower_leg_mtb_acc_11b8' type='imu'>
         <always_on>1</always_on>
         <update_rate>100</update_rate>
-        <pose frame=''>-0.005528 -0.004318 0.053629 -0.244346 2.8e-05 1.57091</pose>
+        <pose frame=''>0.053629 -0.015196 -0.004318 -1.5708 -1.57068 -1.81514</pose>
         <plugin name='iCub_yarp_gazebo_plugin_ACC' filename='libgazebo_yarp_inertial.so'/>
       </sensor>
       <velocity_decay/>
       <sensor name='r_lower_leg_mtb_acc_11b9' type='imu'>
         <always_on>1</always_on>
         <update_rate>100</update_rate>
-        <pose frame=''>0.02539 -0.004318 0.053752 0.349066 -4e-05 1.5709</pose>
+        <pose frame=''>0.053752 0.015723 -0.004318 -1.5708 -1.57068 -1.22173</pose>
         <plugin name='iCub_yarp_gazebo_plugin_ACC' filename='libgazebo_yarp_inertial.so'/>
       </sensor>
       <velocity_decay/>
       <sensor name='r_lower_leg_mtb_acc_11b10' type='imu'>
         <always_on>1</always_on>
         <update_rate>100</update_rate>
-        <pose frame=''>-0.032547 -0.043468 0.027895 -1.309 0 1.5708</pose>
+        <pose frame=''>0.027895 -0.042214 -0.043468 1.8326 -1.5708 0</pose>
         <plugin name='iCub_yarp_gazebo_plugin_ACC' filename='libgazebo_yarp_inertial.so'/>
       </sensor>
       <gravity>1</gravity>
@@ -957,7 +957,7 @@
       <sensor name='r_lower_leg_mtb_acc_11b11' type='imu'>
         <always_on>1</always_on>
         <update_rate>100</update_rate>
-        <pose frame=''>0.051917 -0.092958 0.01648 1.309 -0.000112 1.57083</pose>
+        <pose frame=''>0.01648 0.042249 -0.092958 -1.57079 -1.57068 -0.261802</pose>
         <plugin name='iCub_yarp_gazebo_plugin_ACC' filename='libgazebo_yarp_inertial.so'/>
       </sensor>
     </link>
@@ -965,10 +965,10 @@
       <child>r_lower_leg</child>
       <parent>r_upper_leg</parent>
       <axis>
-        <xyz>-0 1 0</xyz>
+        <xyz>0 1 0</xyz>
         <limit>
-          <lower>-1.74533</lower>
-          <upper>0</upper>
+          <lower>-2.16421</lower>
+          <upper>0.0698132</upper>
           <effort>50000</effort>
           <velocity>50000</velocity>
         </limit>
@@ -982,21 +982,21 @@
       </axis>
     </joint>
     <link name='r_ankle_1'>
-      <pose frame=''>0.007309 0.0986 -0.554938 1.5708 0 -1.5708</pose>
+      <pose frame=''>0.007309 0.0701 -0.554938 0 -0 3.14159</pose>
       <inertial>
-        <pose frame=''>0.027628 6.3e-05 0.015251 0 -0 0</pose>
+        <pose frame=''>0.015144 -0.000869 4.2e-05 1.5708 -0 1.5708</pose>
         <mass>0.6803</mass>
         <inertia>
-          <ixx>0.000405201</ixx>
-          <ixy>7.40602e-07</ixy>
-          <ixz>-3.03315e-05</ixz>
-          <iyy>0.000449108</iyy>
-          <iyz>2.88976e-06</iyz>
-          <izz>0.000310063</izz>
+          <ixx>0.000404619</ixx>
+          <ixy>7.49819e-07</ixy>
+          <ixz>-3.01349e-05</ixz>
+          <iyy>0.000448634</iyy>
+          <iyz>2.57267e-06</iyz>
+          <izz>0.000308236</izz>
         </inertia>
       </inertial>
       <collision name='r_ankle_1_collision'>
-        <pose frame=''>0.0986 0.587138 0.043709 0 -0 0</pose>
+        <pose frame=''>0.043709 0.0701 0.587138 1.5708 -0 1.5708</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -1005,7 +1005,7 @@
         </geometry>
       </collision>
       <visual name='r_ankle_1_visual'>
-        <pose frame=''>0.0986 0.587138 0.043709 0 -0 0</pose>
+        <pose frame=''>0.043709 0.0701 0.587138 1.5708 -0 1.5708</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -1018,10 +1018,10 @@
       <child>r_ankle_1</child>
       <parent>r_lower_leg</parent>
       <axis>
-        <xyz>0 -1 -0</xyz>
+        <xyz>-0 -1 -0</xyz>
         <limit>
-          <lower>-0.523599</lower>
-          <upper>0.523599</upper>
+          <lower>-0.610865</lower>
+          <upper>0.610865</upper>
           <effort>50000</effort>
           <velocity>50000</velocity>
         </limit>
@@ -1035,21 +1035,21 @@
       </axis>
     </joint>
     <link name='r_ankle_2'>
-      <pose frame=''>0.025809 0.0701 -0.554938 1.5708 0 -1.5708</pose>
+      <pose frame=''>0.007309 0.0701 -0.554938 0 -0 3.14159</pose>
       <inertial>
-        <pose frame=''>-0.00316 -0.050533 0.036539 0 -0 0</pose>
-        <mass>0.649755</mass>
+        <pose frame=''>0.018036 -0.003166 -0.050654 1.5708 -0 1.5708</pose>
+        <mass>0.650351</mass>
         <inertia>
-          <ixx>0.00174809</ixx>
-          <ixy>-1.73727e-05</ixy>
-          <ixz>-3.30389e-05</ixz>
-          <iyy>0.00180643</iyy>
-          <iyz>8.85797e-05</iyz>
-          <izz>0.000501903</izz>
+          <ixx>0.00175108</ixx>
+          <ixy>-1.75654e-05</ixy>
+          <ixz>-3.30714e-05</ixz>
+          <iyy>0.00180828</iyy>
+          <iyz>8.94679e-05</iyz>
+          <izz>0.000503409</izz>
         </inertia>
       </inertial>
       <collision name='r_ankle_2_collision'>
-        <pose frame=''>0.0701 0.587138 0.062209 0 -0 0</pose>
+        <pose frame=''>0.043709 0.0701 0.587138 1.5708 -0 1.5708</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -1058,7 +1058,7 @@
         </geometry>
       </collision>
       <collision name='r_ankle_2_fixed_joint_lump__r_foot_collision_1'>
-        <pose frame=''>0.0701 0.587138 0.062209 0 0 -0</pose>
+        <pose frame=''>0.043709 0.0701 0.586938 1.5708 -0 1.5708</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -1089,7 +1089,7 @@
         <max_contacts>4</max_contacts>
       </collision>
       <visual name='r_ankle_2_visual'>
-        <pose frame=''>0.0701 0.587138 0.062209 0 -0 0</pose>
+        <pose frame=''>0.043709 0.0701 0.587138 1.5708 -0 1.5708</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -1098,7 +1098,7 @@
         </geometry>
       </visual>
       <visual name='r_ankle_2_fixed_joint_lump__r_foot_visual_1'>
-        <pose frame=''>0.0701 0.587138 0.062209 0 0 -0</pose>
+        <pose frame=''>0.043709 0.0701 0.586938 1.5708 -0 1.5708</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -1118,7 +1118,7 @@
         <always_on>1</always_on>
         <update_rate>100</update_rate>
         <plugin name='iCub_yarp_gazebo_plugin_ACC' filename='libgazebo_yarp_inertial.so'/>
-        <pose frame=''>0 -0.0603 0.015 -1.57078 -1.57079 3.14158</pose>
+        <pose frame=''>-0.0035 0 -0.0605 -3.14159 -0 0</pose>
       </sensor>
       <gravity>1</gravity>
       <velocity_decay/>
@@ -1126,17 +1126,17 @@
         <always_on>1</always_on>
         <update_rate>100</update_rate>
         <plugin name='iCub_yarp_gazebo_plugin_ACC' filename='libgazebo_yarp_inertial.so'/>
-        <pose frame=''>0 -0.0603 0.015 -1.57078 -1.57079 3.14158</pose>
+        <pose frame=''>-0.0035 0 -0.0605 -3.14159 -0 0</pose>
       </sensor>
     </link>
     <joint name='r_ankle_roll' type='revolute'>
       <child>r_ankle_2</child>
       <parent>r_ankle_1</parent>
       <axis>
-        <xyz>1 0 -0</xyz>
+        <xyz>1 -0 -0</xyz>
         <limit>
-          <lower>-0.349066</lower>
-          <upper>0.349066</upper>
+          <lower>-0.436332</lower>
+          <upper>0.436332</upper>
           <effort>50000</effort>
           <velocity>50000</velocity>
         </limit>

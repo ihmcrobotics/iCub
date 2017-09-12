@@ -36,7 +36,7 @@ public class IcubPhysicalProperties
       for (RobotSide side : RobotSide.values)
       {
          RigidBodyTransform soleToAnkleFrame = new RigidBodyTransform();
-         soleToAnkleFrame.setTranslation(new Vector3D(side.negateIfLeftSide(0.0333) + 0.02, side.negateIfLeftSide(-0.005), -0.07));
+         soleToAnkleFrame.setTranslation(new Vector3D(0.03, side.negateIfLeftSide(-0.005), -0.07));
          soleToAnkleFrameTransforms.put(side, soleToAnkleFrame);
       }
    }

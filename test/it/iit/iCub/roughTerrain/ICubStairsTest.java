@@ -20,8 +20,6 @@ import us.ihmc.simulationconstructionset.util.simulationRunner.BlockingSimulatio
 
 public class ICubStairsTest extends ICubTest
 {
-   // For some reason the behavior for left and right steps are very different. This makes
-   // it hard to fix the test. Revisit once the model is symmetric!
    @Test
    public void testStairsWalking() throws SimulationExceededMaximumTimeException
    {
