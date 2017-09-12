@@ -1,13 +1,12 @@
 package it.iit.iCub.roughTerrain;
 
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
 
 import it.iit.iCub.testTools.ICubTest;
 import it.iit.iCub.testTools.TestingEnvironment;
 import us.ihmc.avatar.DRCStartingLocation;
 import us.ihmc.avatar.initialSetup.OffsetAndYawRobotInitialSetup;
+import us.ihmc.commonWalkingControlModules.configurations.WalkingControllerParameters;
 import us.ihmc.euclid.geometry.BoundingBox3D;
 import us.ihmc.euclid.referenceFrame.FramePoint3D;
 import us.ihmc.euclid.referenceFrame.ReferenceFrame;
@@ -29,10 +28,9 @@ public class ICubRampsTest extends ICubTest
    @Test
    public void testWalkingUpRamp() throws SimulationExceededMaximumTimeException
    {
-      boolean success = drcSimulationTestHelper.simulateAndBlockAndCatchExceptions(0.5);
-      assertTrue(success);
+      simulate(0.5);
 
-      FullHumanoidRobotModel fullRobotModel = drcSimulationTestHelper.getControllerFullRobotModel();
+      FullHumanoidRobotModel fullRobotModel = getTestHelper().getControllerFullRobotModel();
       double stepLength = 0.1;
       double stepWidth = 0.15;
       double distance = 2.5;
@@ -61,24 +59,23 @@ public class ICubRampsTest extends ICubTest
          message.add(footstep);
       }
 
-      drcSimulationTestHelper.send(message);
+      sendPacket(message);
 
-      double swingTime = robotModel.getWalkingControllerParameters().getDefaultSwingTime();
-      double transferTime = robotModel.getWalkingControllerParameters().getDefaultTransferTime();
-      double initialTransferTime = robotModel.getWalkingControllerParameters().getDefaultInitialTransferTime();
+      WalkingControllerParameters walkingControllerParameters = getRobotModel().getWalkingControllerParameters();
+      double swingTime = walkingControllerParameters.getDefaultSwingTime();
+      double transferTime = walkingControllerParameters.getDefaultTransferTime();
+      double initialTransferTime = walkingControllerParameters.getDefaultInitialTransferTime();
       double walkingTime = initialTransferTime + stepIdx * (swingTime + transferTime);
 
-      success = drcSimulationTestHelper.simulateAndBlockAndCatchExceptions(walkingTime + 0.5);
-      assertTrue(success);
+      simulate(walkingTime + 0.5);
    }
 
    @Test
    public void testWalkingDownRamp() throws SimulationExceededMaximumTimeException
    {
-      boolean success = drcSimulationTestHelper.simulateAndBlockAndCatchExceptions(0.5);
-      assertTrue(success);
+      simulate(0.5);
 
-      FullHumanoidRobotModel fullRobotModel = drcSimulationTestHelper.getControllerFullRobotModel();
+      FullHumanoidRobotModel fullRobotModel = getTestHelper().getControllerFullRobotModel();
       double stepLength = 0.1;
       double stepWidth = 0.15;
       double goal = 0.0;
@@ -108,15 +105,15 @@ public class ICubRampsTest extends ICubTest
          message.add(footstep);
       }
 
-      drcSimulationTestHelper.send(message);
+      sendPacket(message);
 
-      double swingTime = robotModel.getWalkingControllerParameters().getDefaultSwingTime();
-      double transferTime = robotModel.getWalkingControllerParameters().getDefaultTransferTime();
-      double initialTransferTime = robotModel.getWalkingControllerParameters().getDefaultInitialTransferTime();
+      WalkingControllerParameters walkingControllerParameters = getRobotModel().getWalkingControllerParameters();
+      double swingTime = walkingControllerParameters.getDefaultSwingTime();
+      double transferTime = walkingControllerParameters.getDefaultTransferTime();
+      double initialTransferTime = walkingControllerParameters.getDefaultInitialTransferTime();
       double walkingTime = initialTransferTime + stepIdx * (swingTime + transferTime);
 
-      success = drcSimulationTestHelper.simulateAndBlockAndCatchExceptions(walkingTime + 0.5);
-      assertTrue(success);
+      simulate(walkingTime + 0.5);
    }
 
    @Override

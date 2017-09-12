@@ -1,12 +1,15 @@
 package it.iit.iCub.testTools;
 
 import java.awt.Color;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.rules.TestName;
@@ -19,6 +22,7 @@ import us.ihmc.avatar.DRCStartingLocation;
 import us.ihmc.avatar.initialSetup.OffsetAndYawRobotInitialSetup;
 import us.ihmc.avatar.testTools.DRCSimulationTestHelper;
 import us.ihmc.commons.PrintTools;
+import us.ihmc.communication.packets.Packet;
 import us.ihmc.euclid.geometry.BoundingBox3D;
 import us.ihmc.euclid.transform.RigidBodyTransform;
 import us.ihmc.euclid.tuple3D.Point3D;
@@ -43,11 +47,12 @@ import us.ihmc.yoVariables.variable.YoVariable;
 
 public abstract class ICubTest
 {
+   private IcubRobotModel robotModel;
+   private DRCSimulationTestHelper drcSimulationTestHelper;
+   private PushRobotController pushRobotController;
+
    private static final boolean exportJointDataWhenDebugging = false;
-
-   protected final IcubRobotModel robotModel = getRobotModel();
-
-   protected static final SimulationTestingParameters simulationTestingParameters = SimulationTestingParameters.createFromEnvironmentVariables();
+   private static final SimulationTestingParameters simulationTestingParameters = SimulationTestingParameters.createFromEnvironmentVariables();
    static
    {
       /**
@@ -59,10 +64,8 @@ public abstract class ICubTest
        * To avoid the simulation closing when the unit test is over for debugging uncomment:
        * (But do not commit this or the unit tests will hang on the test server!)
        */
-//      simulationTestingParameters.setKeepSCSUp(true);
+      //      simulationTestingParameters.setKeepSCSUp(true);
    }
-
-   protected DRCSimulationTestHelper drcSimulationTestHelper;
 
    /**
     * Overwrite if your test requires the joint limits on the robot to be removed. By default all
@@ -106,8 +109,11 @@ public abstract class ICubTest
    /**
     * Overwrite this if you are using a custom robot model. This can be used to change robot parameters
     * for a specific test. See {@link ICubWobblyFeetTest} for an example of how to use this.
+    * </p>
+    * This method is called when setting up the test. Do not call this from your test. To access the
+    * robot model use {@link #getRobotModel()}.
     */
-   public IcubRobotModel getRobotModel()
+   public IcubRobotModel createRobotModel()
    {
       return new IcubRobotModel(removeJointLimits());
    }
@@ -130,7 +136,6 @@ public abstract class ICubTest
       return false;
    }
 
-   private PushRobotController pushRobotController;
    /**
     * To call this method from your test you must overwrite the method {@link #createPushController()}
     * to return {@code true}. In that case a push controller will be created that can be used to push
@@ -147,6 +152,54 @@ public abstract class ICubTest
          throw new RuntimeException("Push controller was not created yet.");
       }
       return pushRobotController;
+   }
+
+   /**
+    * Get the test helper to gain access to SCS and YoVariables.
+    */
+   public DRCSimulationTestHelper getTestHelper()
+   {
+      if (drcSimulationTestHelper == null)
+      {
+         throw new RuntimeException("Test Helper was not created yet.");
+      }
+      return drcSimulationTestHelper;
+   }
+
+   /**
+    * Get the robot model to access robot parameters.
+    */
+   public IcubRobotModel getRobotModel()
+   {
+      if (robotModel == null)
+      {
+         throw new RuntimeException("Robot model was not created yet.");
+      }
+      return robotModel;
+   }
+
+   /**
+    * Send a packet to the controller for execution.
+    */
+   public void sendPacket(Packet<?> packet)
+   {
+      getTestHelper().send(packet);
+   }
+
+   /**
+    * Simulate for the given time and assert that the simulation was successful.
+    */
+   public void simulate(double time)
+   {
+      try
+      {
+         Assert.assertTrue(getTestHelper().simulateAndBlockAndCatchExceptions(time));
+      }
+      catch (SimulationExceededMaximumTimeException e)
+      {
+         e.printStackTrace();
+         Assert.fail("Simulation failed.");
+      }
    }
 
    public void exportJointData()
@@ -206,7 +259,15 @@ public abstract class ICubTest
       MemoryTools.printCurrentMemoryUsageAndReturnUsedMemoryInMB(getClass().getSimpleName() + " before test.");
 
       DRCStartingLocation startingLocation = getStartingLocation();
+
+      // Suppress errors on creation of the robot model and the test helper.
+      PrintStream originalErrorStream = System.err;
+      PrintStream supressStream = new PrintStream(new ByteArrayOutputStream());
+      System.setErr(supressStream);
+      robotModel = createRobotModel();
       drcSimulationTestHelper = new DRCSimulationTestHelper(getEnvironment(), name.getMethodName(), startingLocation, simulationTestingParameters, robotModel);
+      System.setErr(originalErrorStream);
+
       OffsetAndYawRobotInitialSetup startingLocationOffset = startingLocation.getStartingLocationOffset();
       Point3D cameraFocus = new Point3D(startingLocationOffset.getAdditionalOffset());
       cameraFocus.addZ(0.4);
@@ -227,7 +288,7 @@ public abstract class ICubTest
          boxGraphics.translate(center);
          YoAppearanceRGBColor cubeAppearance = new YoAppearanceRGBColor(Color.GREEN, 0.9);
          boxGraphics.addCube(dimensions.getX(), dimensions.getY(), dimensions.getZ(), true, cubeAppearance);
-         drcSimulationTestHelper.getSimulationConstructionSet().addStaticLinkGraphics(boxGraphics );
+         drcSimulationTestHelper.getSimulationConstructionSet().addStaticLinkGraphics(boxGraphics);
       }
 
       if (createPushController())
@@ -265,15 +326,12 @@ public abstract class ICubTest
       if (drcSimulationTestHelper != null)
       {
          drcSimulationTestHelper.destroySimulation();
-         drcSimulationTestHelper = null;
       }
 
-      if (pushRobotController != null)
-      {
-         pushRobotController = null;
-      }
+      drcSimulationTestHelper = null;
+      pushRobotController = null;
+      robotModel = null;
 
-      System.gc();
       MemoryTools.printCurrentMemoryUsageAndReturnUsedMemoryInMB(getClass().getSimpleName() + " after test.");
    }
 }

@@ -1,7 +1,5 @@
 package it.iit.iCub.flatGroundWalking;
 
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
 
 import it.iit.iCub.IcubRobotModel;
@@ -41,7 +39,7 @@ public class ICubPushRecoveryTest extends ICubTest
     * {@inheritDoc}
     */
    @Override
-   public IcubRobotModel getRobotModel()
+   public IcubRobotModel createRobotModel()
    {
       return new IcubRobotModel(removeJointLimits())
       {
@@ -70,14 +68,13 @@ public class ICubPushRecoveryTest extends ICubTest
    public void testPushForward() throws SimulationExceededMaximumTimeException
    {
       PushRobotController pushController = getPushRobotController();
-      SwingStartCondition condition = new SwingStartCondition(drcSimulationTestHelper.getSimulationConstructionSet());
+      SwingStartCondition condition = new SwingStartCondition(getTestHelper().getSimulationConstructionSet());
 
-      boolean success = drcSimulationTestHelper.simulateAndBlockAndCatchExceptions(0.5);
-      assertTrue(success);
+      simulate(0.5);
 
       FootstepDataListMessage footsteps = createStepsInPlace();
 
-      WalkingControllerParameters walkingControllerParameters = robotModel.getWalkingControllerParameters();
+      WalkingControllerParameters walkingControllerParameters = getRobotModel().getWalkingControllerParameters();
       double swingTime = walkingControllerParameters.getDefaultSwingTime();
       double transferTime = walkingControllerParameters.getDefaultTransferTime();
       double initialTransferTime = walkingControllerParameters.getDefaultInitialTransferTime();
@@ -87,23 +84,21 @@ public class ICubPushRecoveryTest extends ICubTest
       condition.set(RobotSide.LEFT);
       pushController.applyForceDelayed(condition, swingTime / 4.0, new Vector3D(1.0, 0.0, 0.0), magnitude, 0.2);
 
-      drcSimulationTestHelper.send(footsteps);
-      success = drcSimulationTestHelper.simulateAndBlockAndCatchExceptions(walkingTime + 0.5);
-      assertTrue(success);
+      sendPacket(footsteps);
+      simulate(walkingTime + 0.5);
    }
 
    @Test
    public void testPushSideway() throws SimulationExceededMaximumTimeException
    {
       PushRobotController pushController = getPushRobotController();
-      SwingStartCondition condition = new SwingStartCondition(drcSimulationTestHelper.getSimulationConstructionSet());
+      SwingStartCondition condition = new SwingStartCondition(getTestHelper().getSimulationConstructionSet());
 
-      boolean success = drcSimulationTestHelper.simulateAndBlockAndCatchExceptions(0.5);
-      assertTrue(success);
+      simulate(0.5);
 
       FootstepDataListMessage footsteps = createStepsInPlace();
 
-      WalkingControllerParameters walkingControllerParameters = robotModel.getWalkingControllerParameters();
+      WalkingControllerParameters walkingControllerParameters = getRobotModel().getWalkingControllerParameters();
       double swingTime = walkingControllerParameters.getDefaultSwingTime();
       double transferTime = walkingControllerParameters.getDefaultTransferTime();
       double initialTransferTime = walkingControllerParameters.getDefaultInitialTransferTime();
@@ -113,23 +108,21 @@ public class ICubPushRecoveryTest extends ICubTest
       condition.set(RobotSide.LEFT);
       pushController.applyForceDelayed(condition, swingTime / 4.0, new Vector3D(0.0, 1.0, 0.0), magnitude, 0.2);
 
-      drcSimulationTestHelper.send(footsteps);
-      success = drcSimulationTestHelper.simulateAndBlockAndCatchExceptions(walkingTime + 0.5);
-      assertTrue(success);
+      sendPacket(footsteps);
+      simulate(walkingTime + 0.5);
    }
 
    @Test
    public void testPushBackward() throws SimulationExceededMaximumTimeException
    {
       PushRobotController pushController = getPushRobotController();
-      SwingStartCondition condition = new SwingStartCondition(drcSimulationTestHelper.getSimulationConstructionSet());
+      SwingStartCondition condition = new SwingStartCondition(getTestHelper().getSimulationConstructionSet());
 
-      boolean success = drcSimulationTestHelper.simulateAndBlockAndCatchExceptions(0.5);
-      assertTrue(success);
+      simulate(0.5);
 
       FootstepDataListMessage footsteps = createStepsInPlace();
 
-      WalkingControllerParameters walkingControllerParameters = robotModel.getWalkingControllerParameters();
+      WalkingControllerParameters walkingControllerParameters = getRobotModel().getWalkingControllerParameters();
       double swingTime = walkingControllerParameters.getDefaultSwingTime();
       double transferTime = walkingControllerParameters.getDefaultTransferTime();
       double initialTransferTime = walkingControllerParameters.getDefaultInitialTransferTime();
@@ -139,14 +132,13 @@ public class ICubPushRecoveryTest extends ICubTest
       condition.set(RobotSide.LEFT);
       pushController.applyForceDelayed(condition, swingTime / 4.0, new Vector3D(-1.0, 0.0, 0.0), magnitude, 0.2);
 
-      drcSimulationTestHelper.send(footsteps);
-      success = drcSimulationTestHelper.simulateAndBlockAndCatchExceptions(walkingTime + 0.5);
-      assertTrue(success);
+      sendPacket(footsteps);
+      simulate(walkingTime + 0.5);
    }
 
    private FootstepDataListMessage createStepsInPlace()
    {
-      FullHumanoidRobotModel fullRobotModel = drcSimulationTestHelper.getControllerFullRobotModel();
+      FullHumanoidRobotModel fullRobotModel = getTestHelper().getControllerFullRobotModel();
       HumanoidReferenceFrames referenceFrames = new HumanoidReferenceFrames(fullRobotModel);
       referenceFrames.updateFrames();
 

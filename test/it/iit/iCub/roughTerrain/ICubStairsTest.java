@@ -1,7 +1,5 @@
 package it.iit.iCub.roughTerrain;
 
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
 
 import it.iit.iCub.testTools.ICubTest;
@@ -27,10 +25,9 @@ public class ICubStairsTest extends ICubTest
    @Test
    public void testStairsWalking() throws SimulationExceededMaximumTimeException
    {
-      boolean success = drcSimulationTestHelper.simulateAndBlockAndCatchExceptions(0.5);
-      assertTrue(success);
+      simulate(0.5);
 
-      FullHumanoidRobotModel fullRobotModel = drcSimulationTestHelper.getControllerFullRobotModel();
+      FullHumanoidRobotModel fullRobotModel = getTestHelper().getControllerFullRobotModel();
       double stepLength = 0.2;
       double stepWidth = 0.15;
       double distance = StairsEnvironment.end + 0.5;
@@ -61,13 +58,12 @@ public class ICubStairsTest extends ICubTest
          message.add(footstep);
       }
 
-      drcSimulationTestHelper.send(message);
+      sendPacket(message);
 
-      double initialTransferTime = robotModel.getWalkingControllerParameters().getDefaultInitialTransferTime();
+      double initialTransferTime = getRobotModel().getWalkingControllerParameters().getDefaultInitialTransferTime();
       double walkingTime = initialTransferTime + stepIdx * (swingTime + transferTime);
 
-      success = drcSimulationTestHelper.simulateAndBlockAndCatchExceptions(walkingTime + 0.5);
-      assertTrue(success);
+      simulate(walkingTime + 0.5);
    }
 
    @Override

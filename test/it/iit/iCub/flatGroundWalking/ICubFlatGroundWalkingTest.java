@@ -1,7 +1,5 @@
 package it.iit.iCub.flatGroundWalking;
 
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
 
 import it.iit.iCub.testTools.ICubTest;
@@ -24,22 +22,19 @@ import us.ihmc.simulationconstructionset.util.simulationRunner.BlockingSimulatio
 @ContinuousIntegrationPlan(categories = {IntegrationCategory.FAST})
 public class ICubFlatGroundWalkingTest extends ICubTest
 {
-   @ContinuousIntegrationTest(estimatedDuration = 20.0)
    @Test
-   public void testStanding() throws SimulationExceededMaximumTimeException
+   public void testStanding()
    {
-      boolean success = drcSimulationTestHelper.simulateAndBlockAndCatchExceptions(5.0);
-      assertTrue(success);
+      simulate(3.0);
    }
 
    @ContinuousIntegrationTest(estimatedDuration = 20.0)
    @Test
    public void testSteppingInPlace() throws SimulationExceededMaximumTimeException
    {
-      boolean success = drcSimulationTestHelper.simulateAndBlockAndCatchExceptions(0.5);
-      assertTrue(success);
+      simulate(0.5);
 
-      FullHumanoidRobotModel fullRobotModel = drcSimulationTestHelper.getControllerFullRobotModel();
+      FullHumanoidRobotModel fullRobotModel = getTestHelper().getControllerFullRobotModel();
       HumanoidReferenceFrames referenceFrames = new HumanoidReferenceFrames(fullRobotModel);
       referenceFrames.updateFrames();
 
@@ -55,54 +50,50 @@ public class ICubFlatGroundWalkingTest extends ICubTest
          footsteps.add(footstep);
       }
 
-      drcSimulationTestHelper.send(footsteps);
-      success = drcSimulationTestHelper.simulateAndBlockAndCatchExceptions(5.0);
-      assertTrue(success);
+      sendPacket(footsteps);
+      simulate(5.0);
    }
 
    @ContinuousIntegrationTest(estimatedDuration = 20.0)
    @Test
    public void testWalkingForward() throws SimulationExceededMaximumTimeException
    {
-      boolean success = drcSimulationTestHelper.simulateAndBlockAndCatchExceptions(1.0);
-      assertTrue(success);
+      simulate(0.5);
 
       double walkingTime = 10.0;
-      FullHumanoidRobotModel fullRobotModel = drcSimulationTestHelper.getControllerFullRobotModel();
-      FootstepDataListMessage footsteps = createWalkingMessage(walkingTime, fullRobotModel, robotModel.getWalkingControllerParameters());
+      FullHumanoidRobotModel fullRobotModel = getTestHelper().getControllerFullRobotModel();
+      WalkingControllerParameters walkingControllerParameters = getRobotModel().getWalkingControllerParameters();
+      FootstepDataListMessage footsteps = createWalkingMessage(walkingTime, fullRobotModel, walkingControllerParameters);
 
-      drcSimulationTestHelper.send(footsteps);
-      success = drcSimulationTestHelper.simulateAndBlockAndCatchExceptions(walkingTime + 0.5);
-      assertTrue(success);
+      sendPacket(footsteps);
+      simulate(walkingTime + 0.5);
    }
 
    @ContinuousIntegrationTest(estimatedDuration = 20.0)
    @Test
    public void testFastWalkingForward() throws SimulationExceededMaximumTimeException
    {
-      boolean success = drcSimulationTestHelper.simulateAndBlockAndCatchExceptions(1.0);
-      assertTrue(success);
+      simulate(0.5);
 
       double walkingTime = 10.0;
       double swingTime = 0.4;
       double transferTime = 0.05;
-      FullHumanoidRobotModel fullRobotModel = drcSimulationTestHelper.getControllerFullRobotModel();
+      FullHumanoidRobotModel fullRobotModel = getTestHelper().getControllerFullRobotModel();
+      WalkingControllerParameters walkingControllerParameters = getRobotModel().getWalkingControllerParameters();
       FootstepDataListMessage footsteps = createWalkingMessage(swingTime, transferTime, walkingTime, fullRobotModel,
-                                                               robotModel.getWalkingControllerParameters());
+                                                               walkingControllerParameters);
 
-      drcSimulationTestHelper.send(footsteps);
-      success = drcSimulationTestHelper.simulateAndBlockAndCatchExceptions(walkingTime + 0.5);
-      assertTrue(success);
+      sendPacket(footsteps);
+      simulate(walkingTime + 0.5);
    }
 
    @ContinuousIntegrationTest(estimatedDuration = 20.0)
    @Test
    public void testStandingOnOneFoot() throws SimulationExceededMaximumTimeException
    {
-      boolean success = drcSimulationTestHelper.simulateAndBlockAndCatchExceptions(1.0);
-      assertTrue(success);
+      simulate(0.5);
 
-      FullHumanoidRobotModel fullRobotModel = drcSimulationTestHelper.getControllerFullRobotModel();
+      FullHumanoidRobotModel fullRobotModel = getTestHelper().getControllerFullRobotModel();
       HumanoidReferenceFrames referenceFrames = new HumanoidReferenceFrames(fullRobotModel);
       referenceFrames.updateFrames();
 
@@ -115,9 +106,8 @@ public class ICubFlatGroundWalkingTest extends ICubTest
       location.changeFrame(ReferenceFrame.getWorldFrame());
       FootTrajectoryMessage message = new FootTrajectoryMessage(robotSide, 1.0, location.getPoint(), orientation.getQuaternion());
 
-      drcSimulationTestHelper.send(message);
-      success = drcSimulationTestHelper.simulateAndBlockAndCatchExceptions(5.0);
-      assertTrue(success);
+      sendPacket(message);
+      simulate(3.0);
    }
 
    public static FootstepDataListMessage createWalkingMessage(double time, FullHumanoidRobotModel fullRobotModel,

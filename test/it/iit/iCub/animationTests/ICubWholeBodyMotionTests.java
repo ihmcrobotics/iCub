@@ -1,13 +1,13 @@
 package it.iit.iCub.animationTests;
 
-import static org.junit.Assert.assertTrue;
-
 import java.util.Random;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import it.iit.iCub.flatGroundWalking.ICubFlatGroundWalkingTest;
 import it.iit.iCub.testTools.ICubTest;
+import us.ihmc.commonWalkingControlModules.configurations.WalkingControllerParameters;
 import us.ihmc.commons.PrintTools;
 import us.ihmc.commons.RandomNumbers;
 import us.ihmc.euclid.referenceFrame.ReferenceFrame;
@@ -30,31 +30,32 @@ import us.ihmc.yoVariables.variable.YoDouble;
 
 public class ICubWholeBodyMotionTests extends ICubTest
 {
-   private final Random random = new Random(42L);
+   private static final Random random = new Random(42L);
 
+   // Ignore this test for now since it is mostly used for tuning and debugging.
+   @Ignore
    @Test
    public void testWholeBodyMotions() throws SimulationExceededMaximumTimeException
    {
-      boolean success = drcSimulationTestHelper.simulateAndBlockAndCatchExceptions(0.5);
-      assertTrue(success);
+      simulate(0.5);
 
-      SimulationConstructionSet scs = drcSimulationTestHelper.getSimulationConstructionSet();
+      SimulationConstructionSet scs = getTestHelper().getSimulationConstructionSet();
       TrackingObserver trackingObserver = new TrackingObserver(scs);
-      drcSimulationTestHelper.addRobotControllerOnControllerThread(trackingObserver);
+      getTestHelper().addRobotControllerOnControllerThread(trackingObserver);
 
       double trajectoryTime = 10.0;
-      FullHumanoidRobotModel fullRobotModel = drcSimulationTestHelper.getControllerFullRobotModel();
+      FullHumanoidRobotModel fullRobotModel = getTestHelper().getControllerFullRobotModel();
 
       MessageOfMessages motion = new MessageOfMessages();
-      motion.addPacket(ICubFlatGroundWalkingTest.createWalkingMessage(trajectoryTime, fullRobotModel, robotModel.getWalkingControllerParameters()));
+      WalkingControllerParameters walkingControllerParameters = getRobotModel().getWalkingControllerParameters();
+      motion.addPacket(ICubFlatGroundWalkingTest.createWalkingMessage(trajectoryTime, fullRobotModel, walkingControllerParameters));
       motion.addPacket(createRandomChestTrajectory(trajectoryTime));
       motion.addPacket(createRandomArmTrajectory(trajectoryTime, RobotSide.RIGHT, fullRobotModel));
       motion.addPacket(createRandomArmTrajectory(trajectoryTime, RobotSide.LEFT, fullRobotModel));
       motion.addPacket(createRandomPelvisOrientation(trajectoryTime));
 
-      drcSimulationTestHelper.send(motion);
-      success = drcSimulationTestHelper.simulateAndBlockAndCatchExceptions(trajectoryTime + 0.5);
-      assertTrue(success);
+      sendPacket(motion);
+      simulate(trajectoryTime + 0.5);
 
       trackingObserver.print();
    }
