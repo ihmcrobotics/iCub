@@ -262,13 +262,18 @@ public abstract class ICubTest
          ThreadTools.sleepForever();
       }
 
-      // Do this here in case a test fails. That way the memory will be recycled.
       if (drcSimulationTestHelper != null)
       {
          drcSimulationTestHelper.destroySimulation();
          drcSimulationTestHelper = null;
       }
 
+      if (pushRobotController != null)
+      {
+         pushRobotController = null;
+      }
+
+      System.gc();
       MemoryTools.printCurrentMemoryUsageAndReturnUsedMemoryInMB(getClass().getSimpleName() + " after test.");
    }
 }
