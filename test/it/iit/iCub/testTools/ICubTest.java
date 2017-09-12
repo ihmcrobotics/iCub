@@ -22,11 +22,14 @@ import us.ihmc.commons.PrintTools;
 import us.ihmc.euclid.geometry.BoundingBox3D;
 import us.ihmc.euclid.transform.RigidBodyTransform;
 import us.ihmc.euclid.tuple3D.Point3D;
+import us.ihmc.euclid.tuple3D.Vector3D;
 import us.ihmc.euclid.tuple3D.interfaces.Point3DReadOnly;
 import us.ihmc.graphicsDescription.Graphics3DObject;
 import us.ihmc.graphicsDescription.appearance.YoAppearanceRGBColor;
+import us.ihmc.robotModels.FullHumanoidRobotModel;
 import us.ihmc.simulationConstructionSetTools.util.environments.CommonAvatarEnvironmentInterface;
 import us.ihmc.simulationConstructionSetTools.util.environments.FlatGroundEnvironment;
+import us.ihmc.simulationToolkit.controllers.PushRobotController;
 import us.ihmc.simulationconstructionset.DataFileWriter;
 import us.ihmc.simulationconstructionset.OneDegreeOfFreedomJoint;
 import us.ihmc.simulationconstructionset.PinJoint;
@@ -117,6 +120,35 @@ public abstract class ICubTest
       return DRCObstacleCourseStartingLocation.DEFAULT;
    }
 
+   /**
+    * Overwrite this if you would like to add a push controller to the test that will allow you to apply
+    * forces to the chest of the robot during the test. To get the controller from your test call
+    * {@link #getPushRobotController()}.
+    */
+   public boolean createPushController()
+   {
+      return false;
+   }
+
+   private PushRobotController pushRobotController;
+   /**
+    * To call this method from your test you must overwrite the method {@link #createPushController()}
+    * to return {@code true}. In that case a push controller will be created that can be used to push
+    * the robot during a test.
+    */
+   public PushRobotController getPushRobotController()
+   {
+      if (!createPushController())
+      {
+         throw new RuntimeException("Can not get push robot controller.");
+      }
+      if (pushRobotController == null)
+      {
+         throw new RuntimeException("Push controller was not created yet.");
+      }
+      return pushRobotController;
+   }
+
    public void exportJointData()
    {
       SimulationConstructionSet scs = drcSimulationTestHelper.getSimulationConstructionSet();
@@ -196,6 +228,16 @@ public abstract class ICubTest
          YoAppearanceRGBColor cubeAppearance = new YoAppearanceRGBColor(Color.GREEN, 0.9);
          boxGraphics.addCube(dimensions.getX(), dimensions.getY(), dimensions.getZ(), true, cubeAppearance);
          drcSimulationTestHelper.getSimulationConstructionSet().addStaticLinkGraphics(boxGraphics );
+      }
+
+      if (createPushController())
+      {
+         Vector3D pushLocation = new Vector3D(0.0, 0.0, 0.0);
+         FullHumanoidRobotModel fullRobotModel = drcSimulationTestHelper.getControllerFullRobotModel();
+         String chestParentJointName = fullRobotModel.getChest().getParentJoint().getName();
+         pushRobotController = new PushRobotController(drcSimulationTestHelper.getRobot(), chestParentJointName, pushLocation);
+         SimulationConstructionSet scs = drcSimulationTestHelper.getSimulationConstructionSet();
+         scs.addYoGraphic(pushRobotController.getForceVisualizer());
       }
 
       drcSimulationTestHelper.setupCameraForUnitTest(cameraFocus, getCameraPosion());

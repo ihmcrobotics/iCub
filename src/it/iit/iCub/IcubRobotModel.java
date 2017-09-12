@@ -55,7 +55,6 @@ import us.ihmc.simulationconstructionset.FloatingRootJointRobot;
 import us.ihmc.simulationconstructionset.HumanoidFloatingRootJointRobot;
 import us.ihmc.tools.thread.CloseableAndDisposableRegistry;
 import us.ihmc.wholeBodyController.DRCHandType;
-import us.ihmc.wholeBodyController.DRCRobotJointMap;
 import us.ihmc.wholeBodyController.FootContactPoints;
 import us.ihmc.wholeBodyController.RobotContactPointParameters;
 import us.ihmc.wholeBodyController.UIParameters;
@@ -157,7 +156,7 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
    }
 
    @Override
-   public DRCRobotJointMap getJointMap()
+   public IcubJointMap getJointMap()
    {
       return jointMap;
    }
