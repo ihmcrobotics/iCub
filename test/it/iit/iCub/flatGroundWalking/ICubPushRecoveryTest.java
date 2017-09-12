@@ -80,7 +80,7 @@ public class ICubPushRecoveryTest extends ICubTest
       double initialTransferTime = walkingControllerParameters.getDefaultInitialTransferTime();
       double walkingTime = initialTransferTime + (swingTime + transferTime) * footsteps.getDataList().size();
 
-      double magnitude = 60.0;
+      double magnitude = 70.0;
       condition.set(RobotSide.LEFT);
       pushController.applyForceDelayed(condition, swingTime / 4.0, new Vector3D(1.0, 0.0, 0.0), magnitude, 0.2);
 
@@ -104,7 +104,7 @@ public class ICubPushRecoveryTest extends ICubTest
       double initialTransferTime = walkingControllerParameters.getDefaultInitialTransferTime();
       double walkingTime = initialTransferTime + (swingTime + transferTime) * footsteps.getDataList().size();
 
-      double magnitude = 30.0;
+      double magnitude = 40.0;
       condition.set(RobotSide.LEFT);
       pushController.applyForceDelayed(condition, swingTime / 4.0, new Vector3D(0.0, 1.0, 0.0), magnitude, 0.2);
 
