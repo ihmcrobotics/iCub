@@ -1,6 +1,5 @@
 package it.iit.iCub.roughTerrain;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import it.iit.iCub.IcubRobotModel;
@@ -30,7 +29,6 @@ public class ICubWobblyFeetTest extends ICubTest
     */
    private static final double zWobble = 0.005;
 
-   @Ignore
    @Test
    public void testTurningWithWobblyFeet() throws SimulationExceededMaximumTimeException
    {

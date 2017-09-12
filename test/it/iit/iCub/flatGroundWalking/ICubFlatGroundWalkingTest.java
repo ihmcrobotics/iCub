@@ -1,6 +1,5 @@
 package it.iit.iCub.flatGroundWalking;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import it.iit.iCub.testTools.ICubTest;
@@ -22,14 +21,12 @@ import us.ihmc.simulationconstructionset.util.simulationRunner.BlockingSimulatio
 @ContinuousIntegrationPlan(categories = {IntegrationCategory.FAST})
 public class ICubFlatGroundWalkingTest extends ICubTest
 {
-   @Ignore
    @Test
    public void testStanding()
    {
       simulate(3.0);
    }
 
-   @Ignore
    @Test
    public void testSteppingInPlace() throws SimulationExceededMaximumTimeException
    {
@@ -69,7 +66,6 @@ public class ICubFlatGroundWalkingTest extends ICubTest
       simulate(walkingTime + 0.5);
    }
 
-   @Ignore
    @Test
    public void testFastWalkingForward() throws SimulationExceededMaximumTimeException
    {
