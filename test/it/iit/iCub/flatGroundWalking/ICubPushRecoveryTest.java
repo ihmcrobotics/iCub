@@ -1,5 +1,6 @@
 package it.iit.iCub.flatGroundWalking;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import it.iit.iCub.IcubRobotModel;
@@ -112,6 +113,7 @@ public class ICubPushRecoveryTest extends ICubTest
       simulate(walkingTime + 0.5);
    }
 
+   @Ignore
    @Test
    public void testPushBackward() throws SimulationExceededMaximumTimeException
    {

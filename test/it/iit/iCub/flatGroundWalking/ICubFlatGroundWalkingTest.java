@@ -1,11 +1,11 @@
 package it.iit.iCub.flatGroundWalking;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import it.iit.iCub.testTools.ICubTest;
 import us.ihmc.commonWalkingControlModules.configurations.WalkingControllerParameters;
 import us.ihmc.continuousIntegration.ContinuousIntegrationAnnotations.ContinuousIntegrationPlan;
-import us.ihmc.continuousIntegration.ContinuousIntegrationAnnotations.ContinuousIntegrationTest;
 import us.ihmc.continuousIntegration.IntegrationCategory;
 import us.ihmc.euclid.referenceFrame.FramePoint3D;
 import us.ihmc.euclid.referenceFrame.ReferenceFrame;
@@ -22,13 +22,14 @@ import us.ihmc.simulationconstructionset.util.simulationRunner.BlockingSimulatio
 @ContinuousIntegrationPlan(categories = {IntegrationCategory.FAST})
 public class ICubFlatGroundWalkingTest extends ICubTest
 {
+   @Ignore
    @Test
    public void testStanding()
    {
       simulate(3.0);
    }
 
-   @ContinuousIntegrationTest(estimatedDuration = 20.0)
+   @Ignore
    @Test
    public void testSteppingInPlace() throws SimulationExceededMaximumTimeException
    {
@@ -54,7 +55,6 @@ public class ICubFlatGroundWalkingTest extends ICubTest
       simulate(5.0);
    }
 
-   @ContinuousIntegrationTest(estimatedDuration = 20.0)
    @Test
    public void testWalkingForward() throws SimulationExceededMaximumTimeException
    {
@@ -69,7 +69,7 @@ public class ICubFlatGroundWalkingTest extends ICubTest
       simulate(walkingTime + 0.5);
    }
 
-   @ContinuousIntegrationTest(estimatedDuration = 20.0)
+   @Ignore
    @Test
    public void testFastWalkingForward() throws SimulationExceededMaximumTimeException
    {
@@ -87,7 +87,6 @@ public class ICubFlatGroundWalkingTest extends ICubTest
       simulate(walkingTime + 0.5);
    }
 
-   @ContinuousIntegrationTest(estimatedDuration = 20.0)
    @Test
    public void testStandingOnOneFoot() throws SimulationExceededMaximumTimeException
    {
