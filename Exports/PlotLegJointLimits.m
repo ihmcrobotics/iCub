@@ -27,40 +27,14 @@ load(Simulation)
 data = root.iCub;
 
 %% Import nominal curves
-filename = 'nominalLegJointCurves.txt';
-delimiter = ' ';
-formatSpec = '%f%f%[^\n\r]';
-
-fileID = fopen(filename,'r');
-dataArray = textscan(fileID, formatSpec, 'Delimiter', delimiter, 'MultipleDelimsAsOne', true,  'ReturnOnError', false);
-fclose(fileID);
-
-nominalLegJointCurves_velocity = dataArray{:, 1}';
-nominalLegJointCurves_torque = dataArray{:, 2}';
+load nominalLegJointCurves.txt;
+nominalLegJointCurves_velocity = nominalLegJointCurves(:, 1)';
+nominalLegJointCurves_torque = nominalLegJointCurves(:, 2)';
 
 %% Import peak curves
-filename = 'peakLegJointCurves.txt';
-
-fileID = fopen(filename,'r');
-dataArray = textscan(fileID, formatSpec, 'Delimiter', delimiter, 'MultipleDelimsAsOne', true,  'ReturnOnError', false);
-fclose(fileID);
-
-peakLegJointCurves_velocity = dataArray{:, 1}';
-peakLegJointCurves_torque = dataArray{:, 2}';
-
-%% plot curves
-
-joints = {'r_hip_pitch', 'r_hip_roll', 'r_hip_yaw', 'r_knee', 'r_ankle_pitch', 'r_ankle_roll'};
-
-figureTitle = strcat('Speed/Torque - ', ' Simulation: ', strrep(Simulation,'_','\_'));
-figure('name', figureTitle);
-for i=1:6
-    ax = subplot(2,3,i);
-    joint = joints{i};
-    plotCurves(ax, joint, data, peakLegJointCurves_velocity, peakLegJointCurves_torque, ...
-               nominalLegJointCurves_velocity, nominalLegJointCurves_torque, HIP_PITCH_ADDITIONAL_JOINT_RATIO, HIP_PITCH_TENDON_TORQUE_LIMIT)
-end
-text(-13.5,95, figureTitle, 'FontSize',14)
+load peakLegJointCurves.txt;
+peakLegJointCurves_velocity = peakLegJointCurves(:, 1)';
+peakLegJointCurves_torque = peakLegJointCurves(:, 2)';
 
 function plotCurves(ax, joint, data, peakLegJointCurves_velocity, peakLegJointCurves_torque, ...
                     nominalLegJointCurves_velocity, nominalLegJointCurves_torque, HIP_PITCH_ADDITIONAL_JOINT_RATIO, HIP_PITCH_TENDON_TORQUE_LIMIT)
@@ -77,7 +51,7 @@ function plotCurves(ax, joint, data, peakLegJointCurves_velocity, peakLegJointCu
     tau = abs(tau);
     qd  = abs(qd);
     
-    if contains(joint, 'hip_pitch')
+    if length(strfind(joint, 'hip_pitch') > 0)
         peakLegJointCurves_velocity = peakLegJointCurves_velocity / HIP_PITCH_ADDITIONAL_JOINT_RATIO;
         nominalLegJointCurves_velocity = nominalLegJointCurves_velocity / HIP_PITCH_ADDITIONAL_JOINT_RATIO;
         peakLegJointCurves_torque = peakLegJointCurves_torque * HIP_PITCH_ADDITIONAL_JOINT_RATIO;
@@ -102,12 +76,39 @@ function plotCurves(ax, joint, data, peakLegJointCurves_velocity, peakLegJointCu
     intensity = intensity ./ max(max(intensity));
 
     
-    contourf(ax, xx, yy, intensity, gridlines, 'LineWidth', 1);
+    contourf(ax, xx, yy, intensity, gridlines, 'LineWidth', 0);
     xlabel('speed [rad/s]')
     ylabel('torque [Nm]')
+    
+    maxQd = max(qd);
+    maxPeakVel = max(peakLegJointCurves_velocity);
+    xlim([0, max([maxQd, maxPeakVel]) + 0.5]);
+    
+    maxTau = max(tau);
+    maxPeakTau = max(peakLegJointCurves_torque);
+    ylim([0, max([maxTau, maxPeakTau]) + 0.5]);
+    
     title(strcat(strrep(joint,'_','\_'), ': Speed/Torque'))
     hold on
     plot(ax, nominalLegJointCurves_velocity, nominalLegJointCurves_torque, 'r', 'LineWidth', 3)
     plot(ax, peakLegJointCurves_velocity, peakLegJointCurves_torque, 'r-.', 'LineWidth', 3)
     legend('simulation data','continuous range', 'peak')
+    
+
+endfunction
+
+%% plot curves
+
+joints = {'r_hip_pitch', 'r_hip_roll', 'r_hip_yaw', 'r_knee', 'r_ankle_pitch', 'r_ankle_roll'};
+
+figureTitle = strcat('Speed/Torque - ', ' Simulation: ', strrep(Simulation,'_','\_'));
+figure('name', figureTitle);
+for i=1:6
+    ax = subplot(2,3,i);
+    joint = joints{i};
+    plotCurves(ax, joint, data, peakLegJointCurves_velocity, peakLegJointCurves_torque, ...
+               nominalLegJointCurves_velocity, nominalLegJointCurves_torque, HIP_PITCH_ADDITIONAL_JOINT_RATIO, HIP_PITCH_TENDON_TORQUE_LIMIT)
 end
+text(-13.5,95, figureTitle, 'FontSize',14)
+
+
