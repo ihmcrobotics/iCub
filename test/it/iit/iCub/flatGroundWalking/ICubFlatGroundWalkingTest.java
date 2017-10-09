@@ -77,7 +77,7 @@ public class ICubFlatGroundWalkingTest extends ICubTest
       simulate(0.5);
 
       double walkingTime = 10.0;
-      double swingTime = 0.4;
+      double swingTime = 0.45;
       double transferTime = 0.05;
       FullHumanoidRobotModel fullRobotModel = getTestHelper().getControllerFullRobotModel();
       WalkingControllerParameters walkingControllerParameters = getRobotModel().getWalkingControllerParameters();
