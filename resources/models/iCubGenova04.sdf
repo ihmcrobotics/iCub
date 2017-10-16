@@ -102,8 +102,8 @@
         <limit>
           <lower>-0.785398</lower>
           <upper>2.33874</upper>
-          <effort>50000</effort>
-          <velocity>50000</velocity>
+          <effort>55.5</effort>
+          <velocity>5.1</velocity>
         </limit>
         <dynamics>
           <damping>0.223</damping>
@@ -173,8 +173,8 @@
         <limit>
           <lower>-0.349066</lower>
           <upper>2.0944</upper>
-          <effort>50000</effort>
-          <velocity>50000</velocity>
+          <effort>37</effort>
+          <velocity>7.64</velocity>
         </limit>
         <dynamics>
           <damping>0.223</damping>
@@ -316,8 +316,8 @@
         <limit>
           <lower>-1.39626</lower>
           <upper>1.39626</upper>
-          <effort>50000</effort>
-          <velocity>50000</velocity>
+          <effort>37</effort>
+          <velocity>7.64</velocity>
         </limit>
         <dynamics>
           <damping>0.223</damping>
@@ -425,8 +425,8 @@
         <limit>
           <lower>-2.16421</lower>
           <upper>0.0698132</upper>
-          <effort>50000</effort>
-          <velocity>50000</velocity>
+          <effort>37</effort>
+          <velocity>7.64</velocity>
         </limit>
         <dynamics>
           <damping>0.223</damping>
@@ -478,8 +478,8 @@
         <limit>
           <lower>-0.610865</lower>
           <upper>0.610865</upper>
-          <effort>50000</effort>
-          <velocity>50000</velocity>
+          <effort>37</effort>
+          <velocity>7.64</velocity>
         </limit>
         <dynamics>
           <damping>0.223</damping>
@@ -593,8 +593,8 @@
         <limit>
           <lower>-0.436332</lower>
           <upper>0.436332</upper>
-          <effort>50000</effort>
-          <velocity>50000</velocity>
+          <effort>37</effort>
+          <velocity>7.64</velocity>
         </limit>
         <dynamics>
           <damping>0.223</damping>
@@ -646,8 +646,8 @@
         <limit>
           <lower>-0.785398</lower>
           <upper>2.33874</upper>
-          <effort>50000</effort>
-          <velocity>50000</velocity>
+          <effort>55.5</effort>
+          <velocity>5.1</velocity>
         </limit>
         <dynamics>
           <damping>0.223</damping>
@@ -717,8 +717,8 @@
         <limit>
           <lower>-0.349066</lower>
           <upper>2.0944</upper>
-          <effort>50000</effort>
-          <velocity>50000</velocity>
+          <effort>37</effort>
+          <velocity>7.64</velocity>
         </limit>
         <dynamics>
           <damping>0.223</damping>
@@ -860,8 +860,8 @@
         <limit>
           <lower>-1.39626</lower>
           <upper>1.39626</upper>
-          <effort>50000</effort>
-          <velocity>50000</velocity>
+          <effort>37</effort>
+          <velocity>7.64</velocity>
         </limit>
         <dynamics>
           <damping>0.223</damping>
@@ -969,8 +969,8 @@
         <limit>
           <lower>-2.16421</lower>
           <upper>0.0698132</upper>
-          <effort>50000</effort>
-          <velocity>50000</velocity>
+          <effort>37</effort>
+          <velocity>7.64</velocity>
         </limit>
         <dynamics>
           <damping>0.223</damping>
@@ -1022,8 +1022,8 @@
         <limit>
           <lower>-0.610865</lower>
           <upper>0.610865</upper>
-          <effort>50000</effort>
-          <velocity>50000</velocity>
+          <effort>37</effort>
+          <velocity>7.64</velocity>
         </limit>
         <dynamics>
           <damping>0.223</damping>
@@ -1137,8 +1137,8 @@
         <limit>
           <lower>-0.436332</lower>
           <upper>0.436332</upper>
-          <effort>50000</effort>
-          <velocity>50000</velocity>
+          <effort>37</effort>
+          <velocity>7.64</velocity>
         </limit>
         <dynamics>
           <damping>0.223</damping>
