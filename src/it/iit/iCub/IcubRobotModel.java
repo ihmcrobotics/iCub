@@ -361,7 +361,6 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
       // Avoid rotating the pelvis - rotate the link properties instead.
       if (jointMap.getPelvisName().equals(linkHolder.getName()))
       {
-         linkHolder.getVisuals().clear();
          linkHolder.getInertialFrameWithRespectToLinkFrame().prependYawRotation(Math.PI);
       }
       else
