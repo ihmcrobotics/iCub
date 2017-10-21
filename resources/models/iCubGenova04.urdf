@@ -1774,7 +1774,7 @@
   </joint>
   <link name="base_link"/>
   <joint name="base_fixed_joint" type="fixed">
-  <origin xyz="0 0 0" rpy="0 -0 3.14"/>
+  <origin xyz="0 0 0" rpy="0 -0 3.14159265358979323846"/>
   <axis xyz="0 0 0"/>
   <parent link="base_link"/>
   <child link="root_link"/>
