@@ -26,7 +26,6 @@ import us.ihmc.avatar.sensors.DRCSensorSuiteManager;
 import us.ihmc.commonWalkingControlModules.configurations.ICPWithTimeFreezingPlannerParameters;
 import us.ihmc.commonWalkingControlModules.configurations.WalkingControllerParameters;
 import us.ihmc.euclid.matrix.Matrix3D;
-import us.ihmc.euclid.matrix.RotationMatrix;
 import us.ihmc.euclid.transform.RigidBodyTransform;
 import us.ihmc.humanoidRobotics.communication.streamingData.HumanoidGlobalDataProducer;
 import us.ihmc.ihmcPerception.depthData.CollisionBoxProvider;
@@ -343,11 +342,6 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
    @Override
    public void mutateJointForModel(GeneralizedSDFRobotModel model, SDFJointHolder jointHolder)
    {
-      // rotate the joint axes so the signs match the unrotated robot model
-      RotationMatrix rotationMatrix = new RotationMatrix();
-      rotationMatrix.appendYawRotation(Math.PI);
-      rotationMatrix.transform(jointHolder.getAxisInModelFrame());
-
       // remove limits
       if (removeLimits)
       {
@@ -358,17 +352,6 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
    @Override
    public void mutateLinkForModel(GeneralizedSDFRobotModel model, SDFLinkHolder linkHolder)
    {
-      // Avoid rotating the pelvis - rotate the link properties instead.
-      if (jointMap.getPelvisName().equals(linkHolder.getName()))
-      {
-         linkHolder.getVisuals().clear();
-         linkHolder.getInertialFrameWithRespectToLinkFrame().prependYawRotation(Math.PI);
-      }
-      else
-      {
-         linkHolder.getTransformFromModelReferenceFrame().prependYawRotation(Math.PI);
-      }
-
       // For simulation stability define a minimum determinant of the inertia matrix of a link.
       if (increaseInertias)
       {

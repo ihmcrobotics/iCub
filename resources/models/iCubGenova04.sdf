@@ -3,19 +3,19 @@
     <link name='base_link'>
       <pose frame=''>0 0 0 0 -0 0</pose>
       <inertial>
-        <pose frame=''>0.024882 0.000104 -0.044081 0 -0 0</pose>
+        <pose frame=''>-0.024882 -0.000104 -0.044081 0 -0 0</pose>
         <mass>5.09143</mass>
         <inertia>
           <ixx>0.0249124</ixx>
           <ixy>-1.55458e-05</ixy>
-          <ixz>0.00170968</ixz>
+          <ixz>-0.00170968</ixz>
           <iyy>0.0139679</iyy>
-          <iyz>5.93488e-06</iyz>
+          <iyz>-5.93488e-06</iyz>
           <izz>0.0202112</izz>
         </inertia>
       </inertial>
       <collision name='base_link_fixed_joint_lump__root_link_collision'>
-        <pose frame=''>-0.0364 0 0.032 1.5708 0 -1.5708</pose>
+        <pose frame=''>0.0364 -0 0.032 1.5708 -0 1.5708</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -32,7 +32,7 @@
         </surface>
       </collision>
       <visual name='base_link_fixed_joint_lump__root_link_visual'>
-        <pose frame=''>-0.0364 0 0.032 1.5708 0 -1.5708</pose>
+        <pose frame=''>0.0364 -0 0.032 1.5708 -0 1.5708</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -51,18 +51,18 @@
         <always_on>1</always_on>
         <update_rate>100</update_rate>
         <plugin name='iCub_yarp_gazebo_plugin_ACC' filename='libgazebo_yarp_inertial.so'/>
-        <pose frame=''>0 0 0 0 -0 0</pose>
+        <pose frame=''>0 0 0 0 -0 3.14159</pose>
       </sensor>
       <gravity>1</gravity>
       <velocity_decay/>
       <sensor name='root_link_ems_gyro_eb5' type='imu'>
         <always_on>1</always_on>
         <update_rate>100</update_rate>
-        <pose frame=''>0 0 0 0 -0 0</pose>
+        <pose frame=''>0 0 0 0 -0 3.14159</pose>
       </sensor>
     </link>
     <link name='l_hip_1'>
-      <pose frame=''>0.006452 -0.026 -0.119913 0 -0 3.14159</pose>
+      <pose frame=''>-0.006452 0.026 -0.119913 0 0 -0</pose>
       <inertial>
         <pose frame=''>-0.000511 0.038092 -8.3e-05 1.5708 -0 1.5708</pose>
         <mass>0.919725</mass>
@@ -98,7 +98,7 @@
       <child>l_hip_1</child>
       <parent>base_link</parent>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>-0 -1 0</xyz>
         <limit>
           <lower>-0.785398</lower>
           <upper>2.33874</upper>
@@ -115,7 +115,7 @@
       </axis>
     </joint>
     <link name='l_hip_2'>
-      <pose frame=''>0.006452 -0.0701 -0.119913 0 -0 3.14159</pose>
+      <pose frame=''>-0.006452 0.0701 -0.119913 0 0 -0</pose>
       <inertial>
         <pose frame=''>-0.001345 1.3e-05 -0.053038 1.5708 -0 1.5708</pose>
         <mass>0.547318</mass>
@@ -169,7 +169,7 @@
       <child>l_hip_2</child>
       <parent>l_hip_1</parent>
       <axis>
-        <xyz>-1 0 0</xyz>
+        <xyz>1 -0 0</xyz>
         <limit>
           <lower>-0.349066</lower>
           <upper>2.0944</upper>
@@ -186,7 +186,7 @@
       </axis>
     </joint>
     <link name='l_upper_leg'>
-      <pose frame=''>0.007309 -0.0701 -0.208613 -0 0 3.14159</pose>
+      <pose frame=''>-0.007309 0.0701 -0.208613 -0 0 -0</pose>
       <inertial>
         <pose frame=''>0.003387 0.000102 -0.078916 1.5708 -0 1.5708</pose>
         <mass>1.8084</mass>
@@ -312,7 +312,7 @@
       <child>l_upper_leg</child>
       <parent>l_hip_2</parent>
       <axis>
-        <xyz>-0 -0 1</xyz>
+        <xyz>0 0 1</xyz>
         <limit>
           <lower>-1.39626</lower>
           <upper>1.39626</upper>
@@ -329,7 +329,7 @@
       </axis>
     </joint>
     <link name='l_lower_leg'>
-      <pose frame=''>0.007309 -0.0701 -0.354438 -0 0 3.14159</pose>
+      <pose frame=''>-0.007309 0.0701 -0.354438 -0 0 -0</pose>
       <inertial>
         <pose frame=''>0.001 0.003497 -0.088567 1.5708 -0 1.5708</pose>
         <mass>1.4724</mass>
@@ -421,7 +421,7 @@
       <child>l_lower_leg</child>
       <parent>l_upper_leg</parent>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>-0 -1 0</xyz>
         <limit>
           <lower>-2.16421</lower>
           <upper>0.0698132</upper>
@@ -438,7 +438,7 @@
       </axis>
     </joint>
     <link name='l_ankle_1'>
-      <pose frame=''>0.007309 -0.0701 -0.554938 -0 0 3.14159</pose>
+      <pose frame=''>-0.007309 0.0701 -0.554938 -0 0 -0</pose>
       <inertial>
         <pose frame=''>0.015153 0.000902 4.2e-05 1.5708 -0 1.5708</pose>
         <mass>0.6798</mass>
@@ -474,7 +474,7 @@
       <child>l_ankle_1</child>
       <parent>l_lower_leg</parent>
       <axis>
-        <xyz>-0 -1 -0</xyz>
+        <xyz>0 1 -0</xyz>
         <limit>
           <lower>-0.610865</lower>
           <upper>0.610865</upper>
@@ -491,7 +491,7 @@
       </axis>
     </joint>
     <link name='l_ankle_2'>
-      <pose frame=''>0.007309 -0.0701 -0.554938 -0 0 3.14159</pose>
+      <pose frame=''>-0.007309 0.0701 -0.554938 -0 0 -0</pose>
       <inertial>
         <pose frame=''>0.018077 0.00316 -0.050645 1.5708 -0 1.5708</pose>
         <mass>0.650453</mass>
@@ -589,7 +589,7 @@
       <child>l_ankle_2</child>
       <parent>l_ankle_1</parent>
       <axis>
-        <xyz>-1 0 -0</xyz>
+        <xyz>1 -0 -0</xyz>
         <limit>
           <lower>-0.436332</lower>
           <upper>0.436332</upper>
@@ -606,7 +606,7 @@
       </axis>
     </joint>
     <link name='r_hip_1'>
-      <pose frame=''>0.006452 0.026 -0.119913 0 -0 3.14159</pose>
+      <pose frame=''>-0.006452 -0.026 -0.119913 0 0 -0</pose>
       <inertial>
         <pose frame=''>-0.000515 -0.038075 -7.1e-05 1.5708 -0 1.5708</pose>
         <mass>0.919978</mass>
@@ -642,7 +642,7 @@
       <child>r_hip_1</child>
       <parent>base_link</parent>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>-0 -1 0</xyz>
         <limit>
           <lower>-0.785398</lower>
           <upper>2.33874</upper>
@@ -659,7 +659,7 @@
       </axis>
     </joint>
     <link name='r_hip_2'>
-      <pose frame=''>0.006452 0.0701 -0.119913 0 -0 3.14159</pose>
+      <pose frame=''>-0.006452 -0.0701 -0.119913 0 0 -0</pose>
       <inertial>
         <pose frame=''>-0.001284 6.8e-05 -0.05326 1.5708 -0 1.5708</pose>
         <mass>0.544573</mass>
@@ -713,7 +713,7 @@
       <child>r_hip_2</child>
       <parent>r_hip_1</parent>
       <axis>
-        <xyz>1 -0 -0</xyz>
+        <xyz>-1 0 -0</xyz>
         <limit>
           <lower>-0.349066</lower>
           <upper>2.0944</upper>
@@ -730,7 +730,7 @@
       </axis>
     </joint>
     <link name='r_upper_leg'>
-      <pose frame=''>0.007309 0.0701 -0.208613 0 -0 3.14159</pose>
+      <pose frame=''>-0.007309 -0.0701 -0.208613 0 0 -0</pose>
       <inertial>
         <pose frame=''>0.0034 -2.9e-05 -0.078954 1.5708 -0 1.5708</pose>
         <mass>1.8035</mass>
@@ -856,7 +856,7 @@
       <child>r_upper_leg</child>
       <parent>r_hip_2</parent>
       <axis>
-        <xyz>0 0 -1</xyz>
+        <xyz>-0 -0 -1</xyz>
         <limit>
           <lower>-1.39626</lower>
           <upper>1.39626</upper>
@@ -873,7 +873,7 @@
       </axis>
     </joint>
     <link name='r_lower_leg'>
-      <pose frame=''>0.007309 0.0701 -0.354438 0 -0 3.14159</pose>
+      <pose frame=''>-0.007309 -0.0701 -0.354438 0 0 -0</pose>
       <inertial>
         <pose frame=''>0.001236 -0.003513 -0.088794 1.5708 -0 1.5708</pose>
         <mass>1.472</mass>
@@ -965,7 +965,7 @@
       <child>r_lower_leg</child>
       <parent>r_upper_leg</parent>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>-0 -1 0</xyz>
         <limit>
           <lower>-2.16421</lower>
           <upper>0.0698132</upper>
@@ -982,7 +982,7 @@
       </axis>
     </joint>
     <link name='r_ankle_1'>
-      <pose frame=''>0.007309 0.0701 -0.554938 0 -0 3.14159</pose>
+      <pose frame=''>-0.007309 -0.0701 -0.554938 0 0 -0</pose>
       <inertial>
         <pose frame=''>0.015144 -0.000869 4.2e-05 1.5708 -0 1.5708</pose>
         <mass>0.6803</mass>
@@ -1018,7 +1018,7 @@
       <child>r_ankle_1</child>
       <parent>r_lower_leg</parent>
       <axis>
-        <xyz>-0 -1 -0</xyz>
+        <xyz>0 1 0</xyz>
         <limit>
           <lower>-0.610865</lower>
           <upper>0.610865</upper>
@@ -1035,7 +1035,7 @@
       </axis>
     </joint>
     <link name='r_ankle_2'>
-      <pose frame=''>0.007309 0.0701 -0.554938 0 -0 3.14159</pose>
+      <pose frame=''>-0.007309 -0.0701 -0.554938 0 0 -0</pose>
       <inertial>
         <pose frame=''>0.018036 -0.003166 -0.050654 1.5708 -0 1.5708</pose>
         <mass>0.650351</mass>
@@ -1133,7 +1133,7 @@
       <child>r_ankle_2</child>
       <parent>r_ankle_1</parent>
       <axis>
-        <xyz>1 -0 -0</xyz>
+        <xyz>-1 0 -0</xyz>
         <limit>
           <lower>-0.436332</lower>
           <upper>0.436332</upper>
@@ -1150,7 +1150,7 @@
       </axis>
     </joint>
     <link name='torso_1'>
-      <pose frame=''>0 0.027046 0 1.5708 0 -1.5708</pose>
+      <pose frame=''>-0 -0.027046 0 1.5708 -0 1.5708</pose>
       <inertial>
         <pose frame=''>0.027092 0.029148 -0.00044 0 -0 0</pose>
         <mass>0.67144</mass>
@@ -1186,7 +1186,7 @@
       <child>torso_1</child>
       <parent>base_link</parent>
       <axis>
-        <xyz>0 -1 -0</xyz>
+        <xyz>-0 1 0</xyz>
         <limit>
           <lower>-0.349066</lower>
           <upper>1.22173</upper>
@@ -1203,7 +1203,7 @@
       </axis>
     </joint>
     <link name='torso_2'>
-      <pose frame=''>0.057345 0 0.032 1.5708 0 -1.5708</pose>
+      <pose frame=''>-0.057345 -0 0.032 1.5708 -0 1.5708</pose>
       <inertial>
         <pose frame=''>-0.000114 0.036153 0.057096 0 -0 0</pose>
         <mass>0.425685</mass>
@@ -1239,7 +1239,7 @@
       <child>torso_2</child>
       <parent>torso_1</parent>
       <axis>
-        <xyz>1 0 -0</xyz>
+        <xyz>-1 -0 -0</xyz>
         <limit>
           <lower>-0.523599</lower>
           <upper>0.523599</upper>
@@ -1256,7 +1256,7 @@
       </axis>
     </joint>
     <link name='chest'>
-      <pose frame=''>-0.005498 0 0.082 1.5708 0 -1.5708</pose>
+      <pose frame=''>0.005498 -0 0.082 1.5708 -0 1.5708</pose>
       <inertial>
         <pose frame=''>0.000189 0.073091 -0.047238 0 -0 0</pose>
         <mass>7.638</mass>
@@ -1387,7 +1387,7 @@
       <child>chest</child>
       <parent>torso_2</parent>
       <axis>
-        <xyz>-0 0 -1</xyz>
+        <xyz>0 0 -1</xyz>
         <limit>
           <lower>-0.872665</lower>
           <upper>0.872665</upper>
@@ -1404,7 +1404,7 @@
       </axis>
     </joint>
     <link name='l_shoulder_1'>
-      <pose frame=''>-0.013467 -0.120016 0.1748 1.5708 0 -1.5708</pose>
+      <pose frame=''>0.013467 0.120016 0.1748 1.5708 -0 1.5708</pose>
       <inertial>
         <pose frame=''>-0.008985 -3.3e-05 -0.0089 0 -0 0</pose>
         <mass>0.114882</mass>
@@ -1440,7 +1440,7 @@
       <child>l_shoulder_1</child>
       <parent>chest</parent>
       <axis>
-        <xyz>-0.258819 -0.965926 0</xyz>
+        <xyz>0.258819 0.965926 0</xyz>
         <limit>
           <lower>-1.66679</lower>
           <upper>0.174533</upper>
@@ -1457,7 +1457,7 @@
       </axis>
     </joint>
     <link name='l_shoulder_2'>
-      <pose frame=''>-0.021987 -0.106345 0.1748 -3.14159 1.309 -0.261799</pose>
+      <pose frame=''>0.021987 0.106345 0.1748 -3.14159 1.309 2.87979</pose>
       <inertial>
         <pose frame=''>0.021475 0.000269 -0.019411 0 -0 0</pose>
         <mass>0.238162</mass>
@@ -1493,7 +1493,7 @@
       <child>l_shoulder_2</child>
       <parent>l_shoulder_1</parent>
       <axis>
-        <xyz>-0.965926 0.258819 0</xyz>
+        <xyz>0.965926 -0.258819 0</xyz>
         <limit>
           <lower>0</lower>
           <upper>2.80649</upper>
@@ -1510,7 +1510,7 @@
       </axis>
     </joint>
     <link name='l_shoulder_3'>
-      <pose frame=''>-0.01062 -0.109391 0.151746 -3.14159 1.309 0</pose>
+      <pose frame=''>0.01062 0.109391 0.151746 -3.14159 1.309 -3.14159</pose>
       <inertial>
         <pose frame=''>0.063319 0.000122 0.025614 0 -0 0</pose>
         <mass>1.10593</mass>
@@ -1607,7 +1607,7 @@
       <child>l_shoulder_3</child>
       <parent>l_shoulder_2</parent>
       <axis>
-        <xyz>-0 0 -1</xyz>
+        <xyz>0 -0 -1</xyz>
         <limit>
           <lower>-0.645772</lower>
           <upper>1.39626</upper>
@@ -1624,7 +1624,7 @@
       </axis>
     </joint>
     <link name='l_elbow_1'>
-      <pose frame=''>-0.02562 -0.075391 0.01574 -3.14159 1.309 0</pose>
+      <pose frame=''>0.02562 0.075391 0.01574 -3.14159 1.309 -3.14159</pose>
       <inertial>
         <pose frame=''>0.006739 0.030302 -0.004658 0 -0 0</pose>
         <mass>0.267903</mass>
@@ -1660,7 +1660,7 @@
       <child>l_elbow_1</child>
       <parent>l_shoulder_3</parent>
       <axis>
-        <xyz>-0 1 0</xyz>
+        <xyz>0 -1 0</xyz>
         <limit>
           <lower>0.261799</lower>
           <upper>1.85005</upper>
@@ -1677,7 +1677,7 @@
       </axis>
     </joint>
     <link name='l_forearm'>
-      <pose frame=''>-0.01062 -0.109391 -0.02006 -3.14159 1.309 0</pose>
+      <pose frame=''>0.01062 0.109391 -0.02006 -3.14159 1.309 -3.14159</pose>
       <inertial>
         <pose frame=''>0.040451 -0.000686 0.005324 0 -0 0</pose>
         <mass>0.636185</mass>
@@ -1749,7 +1749,7 @@
       <child>l_forearm</child>
       <parent>l_elbow_1</parent>
       <axis>
-        <xyz>-0 0 -1</xyz>
+        <xyz>0 -0 -1</xyz>
         <limit>
           <lower>-1.0472</lower>
           <upper>1.0472</upper>
@@ -1766,7 +1766,7 @@
       </axis>
     </joint>
     <link name='l_wrist_1'>
-      <pose frame=''>-0.00847 -0.109398 -0.12656 -3.14159 1.309 0</pose>
+      <pose frame=''>0.00847 0.109398 -0.12656 -3.14159 1.309 -3.14159</pose>
       <inertial>
         <pose frame=''>-0.000981 -0.001178 0.004083 0 -0 0</pose>
         <mass>0.0362152</mass>
@@ -1802,7 +1802,7 @@
       <child>l_wrist_1</child>
       <parent>l_forearm</parent>
       <axis>
-        <xyz>1 0 -0</xyz>
+        <xyz>-1 -0 -0</xyz>
         <limit>
           <lower>-1.39626</lower>
           <upper>0.436332</upper>
@@ -1819,7 +1819,7 @@
       </axis>
     </joint>
     <link name='l_hand'>
-      <pose frame=''>-0.01092 -0.089898 -0.12656 -3.14159 1.309 0</pose>
+      <pose frame=''>0.01092 0.089898 -0.12656 -3.14159 1.309 -3.14159</pose>
       <inertial>
         <pose frame=''>0.064768 0.00563 0.02266 0 -0 0</pose>
         <mass>0.247806</mass>
@@ -1855,7 +1855,7 @@
       <child>l_hand</child>
       <parent>l_wrist_1</parent>
       <axis>
-        <xyz>0 -1 -0</xyz>
+        <xyz>-0 1 -0</xyz>
         <limit>
           <lower>-0.349066</lower>
           <upper>0.436332</upper>
@@ -1872,7 +1872,7 @@
       </axis>
     </joint>
     <link name='neck_1'>
-      <pose frame=''>-0.010809 0.0143 0.254797 1.5708 0 -1.5708</pose>
+      <pose frame=''>0.010809 -0.0143 0.254797 1.5708 -0 1.5708</pose>
       <inertial>
         <pose frame=''>0.014371 0.006567 -0.006384 0 -0 0</pose>
         <mass>0.125793</mass>
@@ -1908,7 +1908,7 @@
       <child>neck_1</child>
       <parent>chest</parent>
       <axis>
-        <xyz>-0 1 0</xyz>
+        <xyz>0 -1 -0</xyz>
         <limit>
           <lower>-0.698132</lower>
           <upper>0.383972</upper>
@@ -1925,7 +1925,7 @@
       </axis>
     </joint>
     <link name='neck_2'>
-      <pose frame=''>-0.031609 0 0.264297 1.5708 0 -1.5708</pose>
+      <pose frame=''>0.031609 -0 0.264297 1.5708 -0 1.5708</pose>
       <inertial>
         <pose frame=''>-8.9e-05 0.035225 -0.019545 0 -0 0</pose>
         <mass>0.177087</mass>
@@ -1961,7 +1961,7 @@
       <child>neck_2</child>
       <parent>neck_1</parent>
       <axis>
-        <xyz>-1 -0 0</xyz>
+        <xyz>1 0 0</xyz>
         <limit>
           <lower>-0.349066</lower>
           <upper>0.349066</upper>
@@ -1978,7 +1978,7 @@
       </axis>
     </joint>
     <link name='head'>
-      <pose frame=''>-0.010809 0 0.241953 1.5708 0 -1.5708</pose>
+      <pose frame=''>0.010809 -0 0.241953 1.5708 -0 1.5708</pose>
       <inertial>
         <pose frame=''>-0.000574 0.113511 -0.007539 0 -0 0</pose>
         <mass>1.50691</mass>
@@ -2038,7 +2038,7 @@
       <child>head</child>
       <parent>neck_2</parent>
       <axis>
-        <xyz>0 -0 1</xyz>
+        <xyz>-0 -0 1</xyz>
         <limit>
           <lower>-0.872665</lower>
           <upper>0.872665</upper>
@@ -2055,7 +2055,7 @@
       </axis>
     </joint>
     <link name='r_shoulder_1'>
-      <pose frame=''>-0.013467 0.120016 0.1748 -1.5708 -0 2.0944</pose>
+      <pose frame=''>0.013467 -0.120016 0.1748 -1.5708 -0 -1.0472</pose>
       <inertial>
         <pose frame=''>-0.012266 3.2e-05 -0.003211 0 -0 0</pose>
         <mass>0.114862</mass>
@@ -2091,7 +2091,7 @@
       <child>r_shoulder_1</child>
       <parent>chest</parent>
       <axis>
-        <xyz>0.258819 -0.965926 -0</xyz>
+        <xyz>-0.258819 0.965926 -0</xyz>
         <limit>
           <lower>-1.66679</lower>
           <upper>0.174533</upper>
@@ -2108,7 +2108,7 @@
       </axis>
     </joint>
     <link name='r_shoulder_2'>
-      <pose frame=''>-0.021983 0.106346 0.1748 -3.14159 -1.309 -2.87979</pose>
+      <pose frame=''>0.021983 -0.106346 0.1748 -3.14159 -1.309 0.261799</pose>
       <inertial>
         <pose frame=''>-0.021414 0.000272 -0.01944 0 -0 0</pose>
         <mass>0.238162</mass>
@@ -2144,7 +2144,7 @@
       <child>r_shoulder_2</child>
       <parent>r_shoulder_1</parent>
       <axis>
-        <xyz>0.965926 0.258819 -0</xyz>
+        <xyz>-0.965926 -0.258819 -0</xyz>
         <limit>
           <lower>0</lower>
           <upper>2.80649</upper>
@@ -2161,7 +2161,7 @@
       </axis>
     </joint>
     <link name='r_shoulder_3'>
-      <pose frame=''>-0.01062 0.109391 0.151712 -3.14159 -1.309 -3.14159</pose>
+      <pose frame=''>0.01062 -0.109391 0.151712 -3.14159 -1.309 0</pose>
       <inertial>
         <pose frame=''>-0.063216 8.3e-05 0.025614 0 -0 0</pose>
         <mass>1.10423</mass>
@@ -2258,7 +2258,7 @@
       <child>r_shoulder_3</child>
       <parent>r_shoulder_2</parent>
       <axis>
-        <xyz>0 0 1</xyz>
+        <xyz>-0 -0 1</xyz>
         <limit>
           <lower>-0.645772</lower>
           <upper>1.39626</upper>
@@ -2275,7 +2275,7 @@
       </axis>
     </joint>
     <link name='r_elbow_1'>
-      <pose frame=''>-0.02562 0.086891 0.01574 -3.14159 -1.309 -3.14159</pose>
+      <pose frame=''>0.02562 -0.086891 0.01574 -3.14159 -1.309 0</pose>
       <inertial>
         <pose frame=''>-0.006739 0.018802 -0.004658 0 -0 0</pose>
         <mass>0.267903</mass>
@@ -2311,7 +2311,7 @@
       <child>r_elbow_1</child>
       <parent>r_shoulder_3</parent>
       <axis>
-        <xyz>-0 1 -0</xyz>
+        <xyz>0 -1 -0</xyz>
         <limit>
           <lower>0.261799</lower>
           <upper>1.85005</upper>
@@ -2328,7 +2328,7 @@
       </axis>
     </joint>
     <link name='r_forearm'>
-      <pose frame=''>-0.01062 0.109391 -0.02006 -3.14159 -1.309 -3.14159</pose>
+      <pose frame=''>0.01062 -0.109391 -0.02006 -3.14159 -1.309 0</pose>
       <inertial>
         <pose frame=''>-0.040439 -0.000328 0.005327 0 -0 0</pose>
         <mass>0.6347</mass>
@@ -2400,7 +2400,7 @@
       <child>r_forearm</child>
       <parent>r_elbow_1</parent>
       <axis>
-        <xyz>0 0 1</xyz>
+        <xyz>-0 -0 1</xyz>
         <limit>
           <lower>-1.0472</lower>
           <upper>1.0472</upper>
@@ -2417,7 +2417,7 @@
       </axis>
     </joint>
     <link name='r_wrist_1'>
-      <pose frame=''>-0.00817 0.109398 -0.12656 -3.14159 -1.309 -3.14159</pose>
+      <pose frame=''>0.00817 -0.109398 -0.12656 -3.14159 -1.309 0</pose>
       <inertial>
         <pose frame=''>0.000986 -0.001176 0.004101 0 -0 0</pose>
         <mass>0.0362615</mass>
@@ -2453,7 +2453,7 @@
       <child>r_wrist_1</child>
       <parent>r_forearm</parent>
       <axis>
-        <xyz>-1 -0 0</xyz>
+        <xyz>1 0 0</xyz>
         <limit>
           <lower>-1.39626</lower>
           <upper>0.436332</upper>
@@ -2470,7 +2470,7 @@
       </axis>
     </joint>
     <link name='r_hand'>
-      <pose frame=''>-0.01062 0.089898 -0.12656 -3.14159 -1.309 -3.14159</pose>
+      <pose frame=''>0.01062 -0.089898 -0.12656 -3.14159 -1.309 0</pose>
       <inertial>
         <pose frame=''>-0.064668 0.0056 0.022681 0 -0 0</pose>
         <mass>0.248289</mass>
@@ -2506,7 +2506,7 @@
       <child>r_hand</child>
       <parent>r_wrist_1</parent>
       <axis>
-        <xyz>-0 1 -0</xyz>
+        <xyz>0 -1 -0</xyz>
         <limit>
           <lower>-0.349066</lower>
           <upper>0.436332</upper>
