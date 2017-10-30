@@ -28,6 +28,7 @@ import us.ihmc.commonWalkingControlModules.configurations.WalkingControllerParam
 import us.ihmc.euclid.matrix.Matrix3D;
 import us.ihmc.euclid.transform.RigidBodyTransform;
 import us.ihmc.humanoidRobotics.communication.streamingData.HumanoidGlobalDataProducer;
+import us.ihmc.humanoidRobotics.footstep.footstepGenerator.QuadTreeFootstepPlanningParameters;
 import us.ihmc.ihmcPerception.depthData.CollisionBoxProvider;
 import us.ihmc.modelFileLoaders.SdfLoader.DRCRobotSDFLoader;
 import us.ihmc.modelFileLoaders.SdfLoader.GeneralizedSDFRobotModel;
@@ -234,6 +235,12 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
    }
 
    @Override
+   public InputStream getWholeBodyControllerParametersFile()
+   {
+      return null;
+   }
+
+   @Override
    public FullHumanoidRobotModel createFullRobotModel()
    {
       return new FullHumanoidRobotModelFromDescription(robotDescription, jointMap, sensorInformation.getSensorFramesToTrack());
@@ -268,6 +275,12 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
    public double getControllerDT()
    {
       return CONTROL_DT;
+   }
+
+   @Override
+   public QuadTreeFootstepPlanningParameters getQuadTreeFootstepPlanningParameters()
+   {
+      return null;
    }
 
    private GeneralizedSDFRobotModel getGeneralizedRobotModel()

@@ -265,7 +265,7 @@ public abstract class ICubTest
       PrintStream supressStream = new PrintStream(new ByteArrayOutputStream());
       System.setErr(supressStream);
       robotModel = createRobotModel();
-      drcSimulationTestHelper = new DRCSimulationTestHelper(getEnvironment(), name.getMethodName(), startingLocation, simulationTestingParameters, robotModel);
+      drcSimulationTestHelper = new DRCSimulationTestHelper(/* getEnvironment(), name.getMethodName(), startingLocation, */simulationTestingParameters, robotModel);
       System.setErr(originalErrorStream);
 
       OffsetAndYawRobotInitialSetup startingLocationOffset = startingLocation.getStartingLocationOffset();
@@ -301,6 +301,7 @@ public abstract class ICubTest
          scs.addYoGraphic(pushRobotController.getForceVisualizer());
       }
 
+      drcSimulationTestHelper.createSimulation(name.getMethodName());
       drcSimulationTestHelper.setupCameraForUnitTest(cameraFocus, getCameraPosion());
       ThreadTools.sleep(1000);
    }
