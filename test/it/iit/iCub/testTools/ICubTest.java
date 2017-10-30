@@ -268,6 +268,8 @@ public abstract class ICubTest
       drcSimulationTestHelper = new DRCSimulationTestHelper(/* getEnvironment(), name.getMethodName(), startingLocation, */simulationTestingParameters, robotModel);
       System.setErr(originalErrorStream);
 
+      drcSimulationTestHelper.createSimulation(name.getMethodName());
+
       OffsetAndYawRobotInitialSetup startingLocationOffset = startingLocation.getStartingLocationOffset();
       Point3D cameraFocus = new Point3D(startingLocationOffset.getAdditionalOffset());
       cameraFocus.addZ(0.4);
@@ -301,7 +303,6 @@ public abstract class ICubTest
          scs.addYoGraphic(pushRobotController.getForceVisualizer());
       }
 
-      drcSimulationTestHelper.createSimulation(name.getMethodName());
       drcSimulationTestHelper.setupCameraForUnitTest(cameraFocus, getCameraPosion());
       ThreadTools.sleep(1000);
    }
