@@ -265,7 +265,9 @@ public abstract class ICubTest
       PrintStream supressStream = new PrintStream(new ByteArrayOutputStream());
       System.setErr(supressStream);
       robotModel = createRobotModel();
-      drcSimulationTestHelper = new DRCSimulationTestHelper(/* getEnvironment(), name.getMethodName(), startingLocation, */simulationTestingParameters, robotModel);
+      drcSimulationTestHelper = new DRCSimulationTestHelper(simulationTestingParameters, robotModel);
+      drcSimulationTestHelper.setStartingLocation(startingLocation);
+      drcSimulationTestHelper.setTestEnvironment(getEnvironment());
       System.setErr(originalErrorStream);
 
       drcSimulationTestHelper.createSimulation(name.getMethodName());
