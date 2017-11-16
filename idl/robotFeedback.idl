@@ -1,0 +1,51 @@
+module it
+{
+    module iit
+    {
+        module yarp
+        {
+            struct JointState
+            {
+                double tau;
+                double q;
+                double qd;
+                // maybe more depending on what a joint provides. Output encoder, temperature etc etc
+            };
+
+            struct IMUState
+            {
+                double xdd;
+                double ydd;
+                double zdd;
+                double wx;
+                double wy;
+                double wz;
+                double qs;
+                double qx;
+                double qy;
+                double qz;
+            };
+
+            struct ForceSensor
+            {
+                double Fx;
+                double Fy;
+                double Fz;
+                double tauX;
+                double tauY;
+                double tauZ;
+            };
+
+            struct RobotFeedback
+            {
+                long long timestampInNanoseconds;
+
+                // Optional fields like battery, voltage level etc etc etc
+
+                sequence<JointState> jointStates;       // List of states. Joint order agreed beforehand and hard coded in first version
+                sequence<IMUState> imuStates;           // List of states. IMU order agreed beforehand and hard coded in first version
+                sequence<ForceSensor> forceSensors;     // List of states. Force sensor order agreed beforehand and hard coded in first version
+            };
+        };
+    };
+};

@@ -1,0 +1,33 @@
+module it
+{
+    module iit
+    {
+        module yarp
+        {
+            enum ORSControlMode
+            {
+                NOT_ENABLED,
+                POSITION_CONTROL,
+                TORQUE_CONTROL
+            };
+
+
+            struct JointDesired
+            {
+                ORSControlMode controlMode;
+                double tau; //Desired torque
+                double kp; // Desired joint stiffness, can be zero to do only torque control
+                double kd; // Desired joint damping, can be zero to do only torque control
+                double qDesired; // Desired position
+                double qdDesired; // Desired velocity
+            };
+
+
+            struct RobotDesireds
+            {
+                sequence<JointDesired> jointDesireds; // List of desired joint commands. Joint order same as in the state and hard coded in first version
+                // optional field to enable/disable subsystem, reset the IMU etc etc etc
+            };
+        };
+    };
+};
