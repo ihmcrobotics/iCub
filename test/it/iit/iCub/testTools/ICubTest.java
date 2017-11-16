@@ -22,6 +22,7 @@ import us.ihmc.avatar.DRCStartingLocation;
 import us.ihmc.avatar.initialSetup.OffsetAndYawRobotInitialSetup;
 import us.ihmc.avatar.testTools.DRCSimulationTestHelper;
 import us.ihmc.commons.PrintTools;
+import us.ihmc.commons.thread.ThreadTools;
 import us.ihmc.communication.packets.Packet;
 import us.ihmc.euclid.geometry.BoundingBox3D;
 import us.ihmc.euclid.transform.RigidBodyTransform;
@@ -42,7 +43,6 @@ import us.ihmc.simulationconstructionset.SimulationConstructionSet;
 import us.ihmc.simulationconstructionset.util.simulationRunner.BlockingSimulationRunner.SimulationExceededMaximumTimeException;
 import us.ihmc.simulationconstructionset.util.simulationTesting.SimulationTestingParameters;
 import us.ihmc.tools.MemoryTools;
-import us.ihmc.tools.thread.ThreadTools;
 import us.ihmc.yoVariables.variable.YoVariable;
 
 public abstract class ICubTest

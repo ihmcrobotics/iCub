@@ -3,10 +3,19 @@ buildscript {
     maven {
       url "https://plugins.gradle.org/m2/"
     }
+
+    maven {
+        url  "https://dl.bintray.com/ihmcrobotics/maven-release"
+    }
+
+    maven {
+        url  "https://dl.bintray.com/ihmcrobotics/maven-vendor"
+    }
   }
   dependencies {
     classpath "gradle.plugin.us.ihmc.gradle:ihmc-build:0.0.19"
     classpath "us.ihmc:ihmc-ci-plugin:0.17.0"
+    classpath "us.ihmc:ihmc-pub-sub-generator:0.3.7"
   }
 }
 
@@ -94,10 +103,10 @@ dependencies {
     compile group: 'us.ihmc', name: 'ihmc-yovariables', version: '0.1.0'
     compile "org.apache.commons:commons-lang3:3.7"
     compile "us.ihmc.thirdparty.jme:jme3-core:3.1.0-internal4"
-    
+
     testCompile group: 'us.ihmc', name: 'ihmc-continuous-integration-framework', version: '0.9.4'
 
-    compile group: 'us.ihmc', name: 'ihmc-commons', version: '0.11.0-alpha'
+    compile group: 'us.ihmc', name: 'ihmc-commons', version: '0.12.1'
 
     compile group: 'us.ihmc', name: 'ihmc-communication', version: snapshotVersion
     compile group: 'us.ihmc', name: 'ihmc-humanoid-robotics', version: snapshotVersion
@@ -111,10 +120,11 @@ dependencies {
     compile group: 'us.ihmc', name: 'simulation-construction-set', version: snapshotVersion
     compile group: 'us.ihmc', name: 'ihmc-perception', version: snapshotVersion
     compile group: 'us.ihmc', name: 'ihmc-java-toolkit', version: snapshotVersion
-    compile group: 'us.ihmc', name: 'ihmc-java-extensions', version: snapshotVersion
     compile group: 'us.ihmc', name: 'ihmc-robotics-toolkit', version: snapshotVersion
     compile group: 'us.ihmc', name: 'ihmc-robot-description', version: snapshotVersion
     compile group: 'us.ihmc', name: 'ihmc-robot-models', version: snapshotVersion
+    compile group: 'us.ihmc', name: 'IHMCPubSub', version: '0.3.4.2'
+
 
     testCompile group: 'us.ihmc', name: 'ihmc-avatar-interfaces-test', version: snapshotVersion
 }
@@ -132,4 +142,20 @@ jar {
                 "Bundle-License": "IHMC Proprietary",
                 "Bundle-Vendor": "IHMC")
     }
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs += "generated-src"
+        }
+    }
+}
+
+task generateIDL(type: us.ihmc.idl.generator.IDLGeneratorTask) {
+    idlFiles = fileTree(dir: 'idl')
+    includeDirs = files("idl")
+    file("generated-src").mkdir()
+    targetDirectory = file("generated-src")
+    packagePrefix = "it.iit.iCub.messages"
 }
