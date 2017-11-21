@@ -37,6 +37,7 @@
 
 # File types to ignore
 **/*.jar
+!gradle/wrapper/gradle-wrapper.jar
 **/cookies.txt
 
 **/*.iml
