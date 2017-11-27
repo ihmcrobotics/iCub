@@ -1,7 +1,11 @@
 package it.iit.iCub.hardwareDrivers.yarp;
 
+import it.iit.iCub.IcubRobotModel;
+import it.iit.iCub.messages.it.iit.yarp.JointState;
 import it.iit.iCub.messages.it.iit.yarp.RobotFeedback;
+import it.iit.iCub.parameters.IcubOrderedJointMap;
 import us.ihmc.commons.Conversions;
+import us.ihmc.idl.IDLSequence;
 import us.ihmc.util.PeriodicNonRealtimeThreadScheduler;
 
 import java.io.IOException;
@@ -18,6 +22,8 @@ public class IcubUDPRobotFeedbackExample implements Runnable
                                                                                                   IcubUDPRobotFeedbackReceiver.YARP_ROBOT_FEEDBACK_PORT,
                                                                                                   iCubRobotFeedback);
 
+   private final IcubRobotModel robotModel = new IcubRobotModel(false);
+
    private void start() throws IOException, InterruptedException
    {
       feedbackReceiver.connect();
@@ -31,19 +37,27 @@ public class IcubUDPRobotFeedbackExample implements Runnable
    @Override
    public void run()
    {
-      //      while(true)
-      //      {
-      try
-      {
-         long receive = feedbackReceiver.receive();
+      long receive = feedbackReceiver.receive();
 
-         System.out.println(iCubRobotFeedback);
-      }
-      catch (IOException e)
+      if(receive != -1)
       {
-         e.printStackTrace();
+         IDLSequence.Object<JointState> jointStates = iCubRobotFeedback.getJointStates();
+
+         System.out.println("received " + jointStates.size() + " joint states");
+
+         for (int i = 0; i < jointStates.size(); i++)
+         {
+            String jointName = IcubOrderedJointMap.jointNames[i];
+
+//            System.out.println(jointName + "_q: " + jointStates.get(i).getQ());
+         }
       }
-      //      }
+      else
+      {
+         System.out.println("Failed to receive robot feedback.");
+      }
+
+//      System.out.println(iCubRobotFeedback);
    }
 
    public static void main(String[] args)

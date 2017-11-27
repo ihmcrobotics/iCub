@@ -33,7 +33,7 @@ public class IcubUDPRobotFeedbackReceiver
       this.iCubRobotFeedbackToUpdate = iCubRobotFeedbackToUpdate;
    }
 
-   public synchronized long receive() throws IOException
+   public synchronized long receive()
    {
       ByteBuffer payloadData = payload.getData();
 
@@ -48,13 +48,23 @@ public class IcubUDPRobotFeedbackReceiver
       }
       catch (IOException e)
       {
-         throw new RuntimeException(e);
+         e.printStackTrace();
+         return -1;
       }
 
       payloadData.flip();
 
       long currentTime = System.nanoTime();
-      robotFeedbackPubSubType.deserialize(payload, iCubRobotFeedbackToUpdate);
+      try
+      {
+         robotFeedbackPubSubType.deserialize(payload, iCubRobotFeedbackToUpdate);
+      }
+      catch (IOException e)
+      {
+         e.printStackTrace();
+         return -1;
+      }
+
       return currentTime;
    }
 
