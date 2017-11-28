@@ -17,7 +17,9 @@ import java.nio.channels.DatagramChannel;
  */
 public class IcubUDPRobotFeedbackReceiver
 {
+   public static final String DEFAULT_YARP_FEEDBACK_IP = "192.168.96.1";
    public static final int YARP_ROBOT_FEEDBACK_PORT = 9970;
+
    private final RobotFeedbackPubSubType robotFeedbackPubSubType = new RobotFeedbackPubSubType();
    private final SerializedPayload payload = new SerializedPayload(robotFeedbackPubSubType.getTypeSize());
    private final String yarpHostOrIP;
@@ -43,7 +45,6 @@ public class IcubUDPRobotFeedbackReceiver
 
       try
       {
-         System.out.println("Waiting to receive...");
          receiveChannel.receive(payloadData);
       }
       catch (IOException e)

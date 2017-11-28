@@ -1,15 +1,32 @@
 package it.iit.iCub.hardwareDrivers.yarp;
 
+import gnu.trove.map.TIntObjectMap;
 import it.iit.iCub.IcubRobotModel;
-import it.iit.iCub.messages.it.iit.yarp.JointState;
+import it.iit.iCub.hardwareDrivers.IcubIndexToJointMapTools;
+import it.iit.iCub.hardwareDrivers.sensorReader.IcubSensorReader;
+import it.iit.iCub.hardwareDrivers.sensorReader.IcubSensorReaderFactory;
+import it.iit.iCub.messages.it.iit.yarp.ORSControlMode;
+import it.iit.iCub.messages.it.iit.yarp.RobotDesireds;
 import it.iit.iCub.messages.it.iit.yarp.RobotFeedback;
 import it.iit.iCub.parameters.IcubOrderedJointMap;
-import us.ihmc.commons.Conversions;
-import us.ihmc.idl.IDLSequence;
-import us.ihmc.util.PeriodicNonRealtimeThreadScheduler;
+import us.ihmc.commons.PrintTools;
+import us.ihmc.robotModels.FullHumanoidRobotModel;
+import us.ihmc.robotics.screwTheory.FloatingInverseDynamicsJoint;
+import us.ihmc.robotics.screwTheory.OneDoFJoint;
+import us.ihmc.robotics.sensors.ContactSensorHolder;
+import us.ihmc.robotics.sensors.ForceSensorDefinition;
+import us.ihmc.robotics.sensors.IMUDefinition;
+import us.ihmc.sensorProcessing.sensors.RawJointSensorDataHolderMap;
+import us.ihmc.simulationconstructionset.HumanoidFloatingRootJointRobot;
+import us.ihmc.simulationconstructionset.OneDegreeOfFreedomJoint;
+import us.ihmc.simulationconstructionset.SimulationConstructionSet;
+import us.ihmc.yoVariables.registry.YoVariableRegistry;
+import us.ihmc.yoVariables.variable.YoDouble;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  * @author Doug Stephen <a href="mailto:dstephen@ihmc.us">(dstephen@ihmc.us)</a>
@@ -17,60 +34,109 @@ import java.util.concurrent.TimeUnit;
 public class IcubUDPRobotFeedbackExample implements Runnable
 {
    private final RobotFeedback iCubRobotFeedback = new RobotFeedback();
-   private final PeriodicNonRealtimeThreadScheduler scheduler = new PeriodicNonRealtimeThreadScheduler(getClass().getSimpleName());
-   private final IcubUDPRobotFeedbackReceiver feedbackReceiver = new IcubUDPRobotFeedbackReceiver("192.168.96.1",
-                                                                                                  IcubUDPRobotFeedbackReceiver.YARP_ROBOT_FEEDBACK_PORT,
-                                                                                                  iCubRobotFeedback);
+   //   private final PeriodicNonRealtimeThreadScheduler scheduler = new PeriodicNonRealtimeThreadScheduler(getClass().getSimpleName());
 
    private final IcubRobotModel robotModel = new IcubRobotModel(false);
 
-   private void start() throws IOException, InterruptedException
-   {
-      feedbackReceiver.connect();
-      scheduler.schedule(this, Conversions.secondsToNanoseconds(0.005), TimeUnit.NANOSECONDS);
+   private final IcubSensorReader sensorReader;
 
-      //      Thread thread = new Thread(this);
-      //      thread.start();
-      //      thread.join();
+   private final YoVariableRegistry registry = new YoVariableRegistry(getClass().getSimpleName());
+   private final SimulationConstructionSet simulationConstructionSet;
+   private final HumanoidFloatingRootJointRobot humanoidFloatingRootJointRobot;
+   private final FullHumanoidRobotModel fullRobotModel;
+
+   private final RobotDesireds desireds = new RobotDesireds();
+   private final HashMap<OneDoFJoint, YoDouble> desiredsMap = new HashMap<>();
+   private final TIntObjectMap<OneDoFJoint> mapping;
+
+   public IcubUDPRobotFeedbackExample()
+   {
+      IcubSensorReaderFactory sensorReaderFactory = new IcubSensorReaderFactory(robotModel);
+
+      humanoidFloatingRootJointRobot = robotModel.createHumanoidFloatingRootJointRobot(false);
+      humanoidFloatingRootJointRobot.setDynamic(false);
+      fullRobotModel = robotModel.createFullRobotModel();
+      FloatingInverseDynamicsJoint rootJoint = fullRobotModel.getRootJoint();
+      IMUDefinition[] imuDefinitions = fullRobotModel.getIMUDefinitions();
+      ForceSensorDefinition[] forceSensorDefinitions = fullRobotModel.getForceSensorDefinitions();
+      ContactSensorHolder contactSensorHolder = new ContactSensorHolder(Arrays.asList(fullRobotModel.getContactSensorDefinitions()));
+      RawJointSensorDataHolderMap rawJointSensorDataHolderMap = new RawJointSensorDataHolderMap(fullRobotModel);
+      sensorReaderFactory.build(rootJoint, imuDefinitions, forceSensorDefinitions, contactSensorHolder, rawJointSensorDataHolderMap, null, registry);
+
+      sensorReader = (IcubSensorReader) sensorReaderFactory.getSensorReader();
+
+      simulationConstructionSet = new SimulationConstructionSet(humanoidFloatingRootJointRobot);
+      simulationConstructionSet.setGroundVisible(false);
+      simulationConstructionSet.addYoVariableRegistry(registry);
+
+      ArrayList<OneDoFJoint> oneDoFJointsToPack = new ArrayList<>();
+      fullRobotModel.getOneDoFJoints(oneDoFJointsToPack);
+
+      mapping = IcubIndexToJointMapTools.createMapping(oneDoFJointsToPack);
+
+      for (OneDoFJoint oneDoFJoint : fullRobotModel.getOneDoFJoints())
+      {
+         YoDouble jointDesired = new YoDouble(oneDoFJoint.getName() + "desired", registry);
+
+         desiredsMap.put(oneDoFJoint, jointDesired);
+      }
+      //      sensorReader = new IcubSensorReader(iCubRobotFeedback, robotModel, registry);
+   }
+
+   private void start()
+   {
+      try
+      {
+         sensorReader.connect();
+         simulationConstructionSet.startOnAThread();
+      }
+      catch (IOException e)
+      {
+         PrintTools.error("Couldn't connect sensor reader!");
+         e.printStackTrace();
+         System.exit(-1);
+      }
+
+      //      scheduler.schedule(this, Conversions.secondsToNanoseconds(0.005), TimeUnit.NANOSECONDS);
+      Thread thread = new Thread(this, getClass().getSimpleName());
+      thread.start();
    }
 
    @Override
    public void run()
    {
-      long receive = feedbackReceiver.receive();
-
-      if(receive != -1)
+      while (true)
       {
-         IDLSequence.Object<JointState> jointStates = iCubRobotFeedback.getJointStates();
+         sensorReader.read();
 
-         System.out.println("received " + jointStates.size() + " joint states");
-
-         for (int i = 0; i < jointStates.size(); i++)
+         for (OneDoFJoint oneDoFJoint : fullRobotModel.getOneDoFJoints())
          {
-            String jointName = IcubOrderedJointMap.jointNames[i];
+            OneDegreeOfFreedomJoint joint = (OneDegreeOfFreedomJoint) humanoidFloatingRootJointRobot.getJoint(oneDoFJoint.getName());
 
-//            System.out.println(jointName + "_q: " + jointStates.get(i).getQ());
+            joint.setQ(oneDoFJoint.getQ());
+            joint.setQd(oneDoFJoint.getQd());
          }
-      }
-      else
-      {
-         System.out.println("Failed to receive robot feedback.");
-      }
 
-//      System.out.println(iCubRobotFeedback);
+         humanoidFloatingRootJointRobot.update();
+
+         desireds.getJointDesireds().clear();
+
+         for (int i = 0; i < IcubOrderedJointMap.jointNames.length; i++)
+         {
+            OneDoFJoint oneDoFJoint = mapping.get(i);
+            YoDouble yoDouble = desiredsMap.get(oneDoFJoint);
+
+            desireds.getJointDesireds().get(i).setControlMode(ORSControlMode.POSITION_CONTROL);
+            desireds.getJointDesireds().get(i).setQDesired(yoDouble.getDoubleValue());
+         }
+
+      }
    }
 
    public static void main(String[] args)
    {
       IcubUDPRobotFeedbackExample icubUDPRobotFeedbackExample = new IcubUDPRobotFeedbackExample();
 
-      try
-      {
-         icubUDPRobotFeedbackExample.start();
-      }
-      catch (IOException | InterruptedException e)
-      {
-         e.printStackTrace();
-      }
+      icubUDPRobotFeedbackExample.start();
    }
 }
