@@ -4,7 +4,6 @@ import gnu.trove.map.TIntObjectMap;
 import it.iit.iCub.hardwareDrivers.yarp.IcubUDPRobotFeedbackReceiver;
 import it.iit.iCub.messages.it.iit.yarp.JointState;
 import it.iit.iCub.messages.it.iit.yarp.RobotFeedback;
-import us.ihmc.commons.Conversions;
 import us.ihmc.commons.PrintTools;
 import us.ihmc.robotics.screwTheory.OneDoFJoint;
 import us.ihmc.sensorProcessing.communication.packets.dataobjects.AuxiliaryRobotData;
@@ -12,7 +11,6 @@ import us.ihmc.sensorProcessing.parameters.DRCRobotSensorInformation;
 import us.ihmc.sensorProcessing.sensorProcessors.SensorOutputMapReadOnly;
 import us.ihmc.sensorProcessing.sensorProcessors.SensorProcessing;
 import us.ihmc.sensorProcessing.sensorProcessors.SensorRawOutputMapReadOnly;
-import us.ihmc.sensorProcessing.sensors.RawJointSensorDataHolder;
 import us.ihmc.sensorProcessing.sensors.RawJointSensorDataHolderMap;
 import us.ihmc.sensorProcessing.simulatedSensors.SensorReader;
 import us.ihmc.sensorProcessing.simulatedSensors.StateEstimatorSensorDefinitions;
@@ -42,8 +40,8 @@ public class IcubSensorReader implements SensorReader
    {
       this.robotFeedback = robotFeedback;
 
-      this.feedbackReceiver = new IcubUDPRobotFeedbackReceiver(IcubUDPRobotFeedbackReceiver.DEFAULT_YARP_FEEDBACK_IP,
-                                                               IcubUDPRobotFeedbackReceiver.YARP_ROBOT_FEEDBACK_PORT, robotFeedback);
+      this.feedbackReceiver = new IcubUDPRobotFeedbackReceiver(IcubUDPRobotFeedbackReceiver.DEFAULT_YARP_ROBOT_FEEDBACK_IP,
+                                                               IcubUDPRobotFeedbackReceiver.DEFAULT_YARP_ROBOT_FEEDBACK_PORT, robotFeedback);
       this.mapping = mapping;
 
       this.rawJointSensorDataHolderMap = rawJointSensorDataHolderMap;

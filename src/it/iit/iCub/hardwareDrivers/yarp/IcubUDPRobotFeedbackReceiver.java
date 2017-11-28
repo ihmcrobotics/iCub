@@ -17,8 +17,8 @@ import java.nio.channels.DatagramChannel;
  */
 public class IcubUDPRobotFeedbackReceiver
 {
-   public static final String DEFAULT_YARP_FEEDBACK_IP = "192.168.96.1";
-   public static final int YARP_ROBOT_FEEDBACK_PORT = 9970;
+   public static final String DEFAULT_YARP_ROBOT_FEEDBACK_IP = "192.168.96.1";
+   public static final int DEFAULT_YARP_ROBOT_FEEDBACK_PORT = 9970;
 
    private final RobotFeedbackPubSubType robotFeedbackPubSubType = new RobotFeedbackPubSubType();
    private final SerializedPayload payload = new SerializedPayload(robotFeedbackPubSubType.getTypeSize());
@@ -88,6 +88,7 @@ public class IcubUDPRobotFeedbackReceiver
          receiveChannel.disconnect();
          receiveChannel.close();
          receiveChannel = null;
+         e.printStackTrace();
       }
    }
 

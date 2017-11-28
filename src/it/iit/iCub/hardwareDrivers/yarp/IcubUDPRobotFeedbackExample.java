@@ -39,6 +39,7 @@ public class IcubUDPRobotFeedbackExample implements Runnable
    private final IcubRobotModel robotModel = new IcubRobotModel(false);
 
    private final IcubSensorReader sensorReader;
+   private final IcubUDPRobotDesiredsSender sender;
 
    private final YoVariableRegistry registry = new YoVariableRegistry(getClass().getSimpleName());
    private final SimulationConstructionSet simulationConstructionSet;
@@ -48,6 +49,8 @@ public class IcubUDPRobotFeedbackExample implements Runnable
    private final RobotDesireds desireds = new RobotDesireds();
    private final HashMap<OneDoFJoint, YoDouble> desiredsMap = new HashMap<>();
    private final TIntObjectMap<OneDoFJoint> mapping;
+
+   boolean firstTick = true;
 
    public IcubUDPRobotFeedbackExample()
    {
@@ -80,7 +83,14 @@ public class IcubUDPRobotFeedbackExample implements Runnable
 
          desiredsMap.put(oneDoFJoint, jointDesired);
       }
-      //      sensorReader = new IcubSensorReader(iCubRobotFeedback, robotModel, registry);
+
+      for (int i = 0; i <= IcubOrderedJointMap.r_ankle_roll; i++)
+      {
+         desireds.getJointDesireds().add();
+      }
+
+      sender = new IcubUDPRobotDesiredsSender(IcubUDPRobotDesiredsSender.DEFAULT_YARP_ROBOT_DESIRED_IP,
+                                              IcubUDPRobotDesiredsSender.DEFAULT_YARP_ROBOT_DESIRED_PORT, desireds);
    }
 
    private void start()
@@ -88,6 +98,7 @@ public class IcubUDPRobotFeedbackExample implements Runnable
       try
       {
          sensorReader.connect();
+         sender.connect();
          simulationConstructionSet.startOnAThread();
       }
       catch (IOException e)
@@ -115,13 +126,18 @@ public class IcubUDPRobotFeedbackExample implements Runnable
 
             joint.setQ(oneDoFJoint.getQ());
             joint.setQd(oneDoFJoint.getQd());
+
+            if(firstTick)
+            {
+               desiredsMap.get(oneDoFJoint).set(oneDoFJoint.getQ());
+            }
          }
+
+         firstTick = false;
 
          humanoidFloatingRootJointRobot.update();
 
-         desireds.getJointDesireds().clear();
-
-         for (int i = 0; i < IcubOrderedJointMap.jointNames.length; i++)
+         for (int i = 0; i <= IcubOrderedJointMap.r_ankle_roll; i++)
          {
             OneDoFJoint oneDoFJoint = mapping.get(i);
             YoDouble yoDouble = desiredsMap.get(oneDoFJoint);
@@ -130,6 +146,7 @@ public class IcubUDPRobotFeedbackExample implements Runnable
             desireds.getJointDesireds().get(i).setQDesired(yoDouble.getDoubleValue());
          }
 
+         sender.send();
       }
    }
 
