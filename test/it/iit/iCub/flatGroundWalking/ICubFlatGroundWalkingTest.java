@@ -8,6 +8,7 @@ import us.ihmc.communication.packets.Packet;
 import us.ihmc.continuousIntegration.ContinuousIntegrationAnnotations.ContinuousIntegrationPlan;
 import us.ihmc.continuousIntegration.IntegrationCategory;
 import us.ihmc.euclid.referenceFrame.FramePoint3D;
+import us.ihmc.euclid.referenceFrame.FrameQuaternion;
 import us.ihmc.euclid.referenceFrame.ReferenceFrame;
 import us.ihmc.euclid.tuple4D.Quaternion;
 import us.ihmc.humanoidRobotics.communication.packets.walking.ChestTrajectoryMessage;
@@ -17,7 +18,6 @@ import us.ihmc.humanoidRobotics.communication.packets.walking.FootstepDataMessag
 import us.ihmc.humanoidRobotics.communication.packets.wholebody.MessageOfMessages;
 import us.ihmc.humanoidRobotics.frames.HumanoidReferenceFrames;
 import us.ihmc.robotModels.FullHumanoidRobotModel;
-import us.ihmc.robotics.geometry.FrameOrientation;
 import us.ihmc.robotics.robotSide.RobotSide;
 import us.ihmc.robotics.screwTheory.MovingReferenceFrame;
 import us.ihmc.sensorProcessing.frames.CommonReferenceFrameIds;
@@ -45,7 +45,7 @@ public class ICubFlatGroundWalkingTest extends ICubTest
       for (RobotSide robotSide : RobotSide.values)
       {
          MovingReferenceFrame soleFrame = referenceFrames.getSoleFrame(robotSide);
-         FrameOrientation orientation = new FrameOrientation(soleFrame);
+         FrameQuaternion orientation = new FrameQuaternion(soleFrame);
          FramePoint3D location = new FramePoint3D(soleFrame);
          orientation.changeFrame(ReferenceFrame.getWorldFrame());
          location.changeFrame(ReferenceFrame.getWorldFrame());
@@ -98,7 +98,7 @@ public class ICubFlatGroundWalkingTest extends ICubTest
 
       RobotSide robotSide = RobotSide.LEFT;
       MovingReferenceFrame soleFrame = referenceFrames.getSoleFrame(robotSide);
-      FrameOrientation orientation = new FrameOrientation(soleFrame);
+      FrameQuaternion orientation = new FrameQuaternion(soleFrame);
       FramePoint3D location = new FramePoint3D(soleFrame);
       location.setZ(0.1);
       orientation.changeFrame(ReferenceFrame.getWorldFrame());
@@ -139,7 +139,7 @@ public class ICubFlatGroundWalkingTest extends ICubTest
          RobotSide side = RobotSide.values[i % 2];
          MovingReferenceFrame stanceSoleFrame = fullRobotModel.getSoleFrame(side.getOppositeSide());
          FramePoint3D position = new FramePoint3D(stanceSoleFrame);
-         FrameOrientation orientation = new FrameOrientation(stanceSoleFrame);
+         FrameQuaternion orientation = new FrameQuaternion(stanceSoleFrame);
 
          position.setX(stepLength * (i + 1));
          position.setY(side.negateIfRightSide(stepWidth));

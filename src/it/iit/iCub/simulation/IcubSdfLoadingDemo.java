@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 import it.iit.iCub.IcubRobotModel;
+import us.ihmc.commons.MathTools;
 import us.ihmc.commons.PrintTools;
 import us.ihmc.euclid.transform.RigidBodyTransform;
 import us.ihmc.euclid.tuple3D.Point3D;
@@ -13,7 +14,6 @@ import us.ihmc.graphicsDescription.Graphics3DObject;
 import us.ihmc.graphicsDescription.appearance.AppearanceDefinition;
 import us.ihmc.graphicsDescription.appearance.YoAppearance;
 import us.ihmc.robotModels.FullHumanoidRobotModel;
-import us.ihmc.robotics.MathTools;
 import us.ihmc.robotics.robotSide.RobotSide;
 import us.ihmc.robotics.screwTheory.RigidBody;
 import us.ihmc.simulationconstructionset.FloatingRootJointRobot;

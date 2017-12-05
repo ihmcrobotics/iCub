@@ -11,6 +11,7 @@ import com.jme3.math.Vector3f;
 
 import it.iit.iCub.parameters.IcubCapturePointPlannerParameters;
 import it.iit.iCub.parameters.IcubContactPointParameters;
+import it.iit.iCub.parameters.IcubHighLevelControllerParameters;
 import it.iit.iCub.parameters.IcubInitialSetup;
 import it.iit.iCub.parameters.IcubJointMap;
 import it.iit.iCub.parameters.IcubPhysicalProperties;
@@ -23,6 +24,7 @@ import us.ihmc.avatar.initialSetup.DRCRobotInitialSetup;
 import us.ihmc.avatar.networkProcessor.time.DRCROSAlwaysZeroOffsetPPSTimestampOffsetProvider;
 import us.ihmc.avatar.ros.DRCROSPPSTimestampOffsetProvider;
 import us.ihmc.avatar.sensors.DRCSensorSuiteManager;
+import us.ihmc.commonWalkingControlModules.configurations.HighLevelControllerParameters;
 import us.ihmc.commonWalkingControlModules.configurations.ICPWithTimeFreezingPlannerParameters;
 import us.ihmc.commonWalkingControlModules.configurations.WalkingControllerParameters;
 import us.ihmc.euclid.matrix.Matrix3D;
@@ -386,5 +388,17 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
    @Override
    public void mutateModelWithAdditions(GeneralizedSDFRobotModel model)
    {
+   }
+
+   @Override
+   public InputStream getWholeBodyControllerParametersFile()
+   {
+      return null;
+   }
+
+   @Override
+   public HighLevelControllerParameters getHighLevelControllerParameters()
+   {
+      return new IcubHighLevelControllerParameters();
    }
 }

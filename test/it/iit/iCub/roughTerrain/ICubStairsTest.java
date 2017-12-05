@@ -6,13 +6,13 @@ import it.iit.iCub.testTools.ICubTest;
 import it.iit.iCub.testTools.TestingEnvironment;
 import us.ihmc.euclid.geometry.BoundingBox3D;
 import us.ihmc.euclid.referenceFrame.FramePoint3D;
+import us.ihmc.euclid.referenceFrame.FrameQuaternion;
 import us.ihmc.euclid.referenceFrame.ReferenceFrame;
 import us.ihmc.euclid.tuple3D.Point3D;
 import us.ihmc.euclid.tuple3D.interfaces.Point3DReadOnly;
 import us.ihmc.humanoidRobotics.communication.packets.walking.FootstepDataListMessage;
 import us.ihmc.humanoidRobotics.communication.packets.walking.FootstepDataMessage;
 import us.ihmc.robotModels.FullHumanoidRobotModel;
-import us.ihmc.robotics.geometry.FrameOrientation;
 import us.ihmc.robotics.robotSide.RobotSide;
 import us.ihmc.robotics.screwTheory.MovingReferenceFrame;
 import us.ihmc.simulationConstructionSetTools.util.environments.CommonAvatarEnvironmentInterface;
@@ -51,7 +51,7 @@ public class ICubStairsTest extends ICubTest
          double height = StairsEnvironment.getHeight(lastX);
          position.setZ(height);
 
-         FrameOrientation orientation = new FrameOrientation(ReferenceFrame.getWorldFrame());
+         FrameQuaternion orientation = new FrameQuaternion(ReferenceFrame.getWorldFrame());
          FootstepDataMessage footstep = new FootstepDataMessage(side, position.getPoint(), orientation.getQuaternion());
          message.add(footstep);
       }
