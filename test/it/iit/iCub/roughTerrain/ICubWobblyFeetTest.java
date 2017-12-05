@@ -7,12 +7,12 @@ import it.iit.iCub.testTools.ICubTest;
 import us.ihmc.commonWalkingControlModules.configurations.WalkingControllerParameters;
 import us.ihmc.euclid.axisAngle.AxisAngle;
 import us.ihmc.euclid.referenceFrame.FramePoint3D;
+import us.ihmc.euclid.referenceFrame.FrameQuaternion;
 import us.ihmc.euclid.referenceFrame.ReferenceFrame;
 import us.ihmc.humanoidRobotics.communication.packets.walking.FootstepDataListMessage;
 import us.ihmc.humanoidRobotics.communication.packets.walking.FootstepDataMessage;
 import us.ihmc.humanoidRobotics.frames.HumanoidReferenceFrames;
 import us.ihmc.robotModels.FullHumanoidRobotModel;
-import us.ihmc.robotics.geometry.FrameOrientation;
 import us.ihmc.robotics.referenceFrames.PoseReferenceFrame;
 import us.ihmc.robotics.robotSide.RobotSide;
 import us.ihmc.robotics.screwTheory.MovingReferenceFrame;
@@ -51,7 +51,7 @@ public class ICubWobblyFeetTest extends ICubTest
          rotatedFrame.setOrientationAndUpdate(new AxisAngle(yawPerStep * i, 0.0, 0.0));
 
          FramePoint3D position = new FramePoint3D(rotatedFrame);
-         FrameOrientation orientation = new FrameOrientation(rotatedFrame);
+         FrameQuaternion orientation = new FrameQuaternion(rotatedFrame);
          position.setY(side.negateIfRightSide(stepWidth / 2.0));
 
          position.changeFrame(ReferenceFrame.getWorldFrame());
@@ -94,7 +94,7 @@ public class ICubWobblyFeetTest extends ICubTest
       {
          side = side.getOppositeSide();
          FramePoint3D position = new FramePoint3D(midFootFrame);
-         FrameOrientation orientation = new FrameOrientation(midFootFrame);
+         FrameQuaternion orientation = new FrameQuaternion(midFootFrame);
 
          position.setX(stepLength * (++stepIdx));
          position.setY(side.negateIfRightSide(stepWidth / 2.0));

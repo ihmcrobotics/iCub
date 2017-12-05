@@ -10,13 +10,13 @@ import us.ihmc.commonWalkingControlModules.configurations.WalkingControllerParam
 import us.ihmc.commonWalkingControlModules.controlModules.foot.FootControlModule.ConstraintType;
 import us.ihmc.commonWalkingControlModules.instantaneousCapturePoint.icpOptimization.ICPOptimizationParameters;
 import us.ihmc.euclid.referenceFrame.FramePoint3D;
+import us.ihmc.euclid.referenceFrame.FrameQuaternion;
 import us.ihmc.euclid.referenceFrame.ReferenceFrame;
 import us.ihmc.euclid.tuple3D.Vector3D;
 import us.ihmc.humanoidRobotics.communication.packets.walking.FootstepDataListMessage;
 import us.ihmc.humanoidRobotics.communication.packets.walking.FootstepDataMessage;
 import us.ihmc.humanoidRobotics.frames.HumanoidReferenceFrames;
 import us.ihmc.robotModels.FullHumanoidRobotModel;
-import us.ihmc.robotics.geometry.FrameOrientation;
 import us.ihmc.robotics.robotSide.RobotSide;
 import us.ihmc.robotics.robotSide.SideDependentList;
 import us.ihmc.robotics.screwTheory.MovingReferenceFrame;
@@ -147,7 +147,7 @@ public class ICubPushRecoveryTest extends ICubTest
       for (RobotSide robotSide : RobotSide.values)
       {
          MovingReferenceFrame soleFrame = referenceFrames.getSoleFrame(robotSide);
-         FrameOrientation orientation = new FrameOrientation(soleFrame);
+         FrameQuaternion orientation = new FrameQuaternion(soleFrame);
          FramePoint3D location = new FramePoint3D(soleFrame);
          orientation.changeFrame(ReferenceFrame.getWorldFrame());
          location.changeFrame(ReferenceFrame.getWorldFrame());
