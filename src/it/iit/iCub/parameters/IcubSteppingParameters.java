@@ -2,11 +2,11 @@ package it.iit.iCub.parameters;
 
 import us.ihmc.commonWalkingControlModules.configurations.SteppingParameters;
 
-public class ICubSteppingParameters implements SteppingParameters
+public class IcubSteppingParameters implements SteppingParameters
 {
    private final IcubJointMap jointMap;
 
-   public ICubSteppingParameters(IcubJointMap jointMap)
+   public IcubSteppingParameters(IcubJointMap jointMap)
    {
       this.jointMap = jointMap;
    }

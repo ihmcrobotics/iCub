@@ -41,7 +41,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
 
    private final ToeOffParameters toeOffParameters;
    private final SwingTrajectoryParameters swingTrajectoryParameters;
-   private final ICubSteppingParameters steppingParameters;
+   private final IcubSteppingParameters steppingParameters;
 
    public IcubWalkingControllerParameters(IcubJointMap jointMap)
    {
@@ -49,7 +49,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
 
       toeOffParameters = new IcubToeOffParameters(jointMap);
       swingTrajectoryParameters = new IcubSwingTrajectoryParameters();
-      steppingParameters = new ICubSteppingParameters(jointMap);
+      steppingParameters = new IcubSteppingParameters(jointMap);
    }
 
    @Override
