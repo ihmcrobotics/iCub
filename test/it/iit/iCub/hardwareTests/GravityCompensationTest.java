@@ -38,7 +38,7 @@ public class GravityCompensationTest
 
       SimulationConstructionSet scs = new SimulationConstructionSet(robot);
       scs.startOnAThread();
-      ThreadTools.sleep(100000);
+      ThreadTools.sleep(5000);
    }
 
    private class GravityCompensator extends SimpleRobotController
