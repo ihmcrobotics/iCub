@@ -7,29 +7,38 @@ import us.ihmc.sensorProcessing.outputData.JointDesiredControlMode;
 
 public class IcubHighLevelControllerParameters implements HighLevelControllerParameters
 {
+   private final IcubJointMap jointMap;
+   private boolean runningOnRealRobot;
+
+   public IcubHighLevelControllerParameters(boolean runningOnRealRobot, IcubJointMap jointMap)
+   {
+      this.runningOnRealRobot = runningOnRealRobot;
+      this.jointMap = jointMap;
+   }
+
    @Override
    public WholeBodySetpointParameters getStandPrepParameters()
    {
       return null;
    }
 
-   @Override
-   public JointDesiredControlMode getJointDesiredControlMode(String joint, HighLevelControllerName state)
-   {
-      return JointDesiredControlMode.EFFORT;
-   }
-
-   @Override
-   public double getDesiredJointStiffness(String joint, HighLevelControllerName state)
-   {
-      return 0.0;
-   }
-
-   @Override
-   public double getDesiredJointDamping(String joint, HighLevelControllerName state)
-   {
-      return 0.0;
-   }
+//   @Override
+//   public JointDesiredControlMode getJointDesiredControlMode(String joint, HighLevelControllerName state)
+//   {
+//      return JointDesiredControlMode.EFFORT;
+//   }
+//
+//   @Override
+//   public double getDesiredJointStiffness(String joint, HighLevelControllerName state)
+//   {
+//      return 0.0;
+//   }
+//
+//   @Override
+//   public double getDesiredJointDamping(String joint, HighLevelControllerName state)
+//   {
+//      return 0.0;
+//   }
 
    @Override
    public HighLevelControllerName getDefaultInitialControllerState()

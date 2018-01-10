@@ -6,6 +6,7 @@ import java.util.List;
 import org.junit.Test;
 
 import it.iit.iCub.IcubRobotModel;
+import us.ihmc.avatar.drcRobot.RobotTarget;
 import us.ihmc.avatar.initialSetup.DRCRobotInitialSetup;
 import us.ihmc.commons.thread.ThreadTools;
 import us.ihmc.euclid.tuple3D.Point3D;
@@ -25,7 +26,7 @@ public class GravityCompensationTest
    @Test(timeout = 300000)
    public void testGravityCompensation()
    {
-      IcubRobotModel robotModel = new IcubRobotModel(true);
+      IcubRobotModel robotModel = new IcubRobotModel(RobotTarget.SCS,true);
 
       FullHumanoidRobotModel fullRobotModel = robotModel.createFullRobotModel();
       double totalMass = fullRobotModel.getTotalMass();

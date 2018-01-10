@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 import it.iit.iCub.IcubRobotModel;
+import us.ihmc.avatar.drcRobot.RobotTarget;
 import us.ihmc.commons.MathTools;
 import us.ihmc.commons.PrintTools;
 import us.ihmc.euclid.transform.RigidBodyTransform;
@@ -30,7 +31,7 @@ public class IcubSdfLoadingDemo
 
    public IcubSdfLoadingDemo()
    {
-      IcubRobotModel icubRobotModel = new IcubRobotModel();
+      IcubRobotModel icubRobotModel = new IcubRobotModel(RobotTarget.SCS);
       FloatingRootJointRobot sdfRobot = icubRobotModel.createHumanoidFloatingRootJointRobot(false);
 
       sdfRobot.setPositionInWorld(new Vector3D(0.0, 0.0, 1.0));

@@ -3,6 +3,7 @@ package it.iit.iCub.simulation;
 import it.iit.iCub.IcubRobotModel;
 import us.ihmc.avatar.DRCFlatGroundWalkingTrack;
 import us.ihmc.avatar.drcRobot.DRCRobotModel;
+import us.ihmc.avatar.drcRobot.RobotTarget;
 import us.ihmc.avatar.initialSetup.DRCGuiInitialSetup;
 import us.ihmc.avatar.initialSetup.DRCRobotInitialSetup;
 import us.ihmc.avatar.initialSetup.DRCSCSInitialSetup;
@@ -16,7 +17,7 @@ public class IcubFlatGroundWalkingTrack
 {
    public static void main(String[] args)
    {
-      DRCRobotModel robotModel = new IcubRobotModel();
+      DRCRobotModel robotModel = new IcubRobotModel(RobotTarget.SCS);
       DRCGuiInitialSetup guiInitialSetup = new DRCGuiInitialSetup(true, false);
 
       final double groundHeight = 0.0;

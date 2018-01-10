@@ -20,32 +20,45 @@ import us.ihmc.commonWalkingControlModules.configurations.SwingTrajectoryParamet
 import us.ihmc.commonWalkingControlModules.configurations.ToeOffParameters;
 import us.ihmc.commonWalkingControlModules.configurations.WalkingControllerParameters;
 import us.ihmc.commonWalkingControlModules.controlModules.rigidBody.RigidBodyControlMode;
-import us.ihmc.commonWalkingControlModules.instantaneousCapturePoint.ICPControlGains;
-import us.ihmc.commonWalkingControlModules.instantaneousCapturePoint.icpOptimization.ICPOptimizationParameters;
+import us.ihmc.commonWalkingControlModules.capturePoint.ICPControlGains;
+import us.ihmc.commonWalkingControlModules.capturePoint.optimization.ICPOptimizationParameters;
 import us.ihmc.commonWalkingControlModules.momentumBasedController.optimization.MomentumOptimizationSettings;
 import us.ihmc.euclid.geometry.Pose3D;
-import us.ihmc.robotics.controllers.PDGains;
-import us.ihmc.robotics.controllers.PIDGains;
+import us.ihmc.robotics.controllers.pidGains.implementations.PDGains;
+import us.ihmc.robotics.controllers.pidGains.implementations.PIDGains;
 import us.ihmc.robotics.controllers.pidGains.GainCoupling;
 import us.ihmc.robotics.controllers.pidGains.PID3DGains;
 import us.ihmc.robotics.controllers.pidGains.PIDSE3Gains;
+import us.ihmc.robotics.controllers.pidGains.PID3DGainsReadOnly;
+import us.ihmc.robotics.controllers.pidGains.PIDGainsReadOnly;
 import us.ihmc.robotics.controllers.pidGains.implementations.DefaultPID3DGains;
 import us.ihmc.robotics.controllers.pidGains.implementations.DefaultPIDSE3Gains;
 import us.ihmc.robotics.partNames.ArmJointName;
 import us.ihmc.robotics.partNames.NeckJointName;
 import us.ihmc.robotics.robotSide.RobotSide;
+import us.ihmc.commonWalkingControlModules.configurations.GroupParameter;
+import us.ihmc.avatar.drcRobot.RobotTarget;
 
 public class IcubWalkingControllerParameters extends WalkingControllerParameters
 {
    private final IcubJointMap jointMap;
+   private final RobotTarget target;
+   private final double massScale;
+   private final boolean runningOnRealRobot;
+   private final IcubMomentumOptimizationSettings momentumOptimizationSettings;
 
    private final ToeOffParameters toeOffParameters;
    private final SwingTrajectoryParameters swingTrajectoryParameters;
    private final IcubSteppingParameters steppingParameters;
 
-   public IcubWalkingControllerParameters(IcubJointMap jointMap)
+   public IcubWalkingControllerParameters(RobotTarget target, IcubJointMap jointMap, IcubContactPointParameters contactPointParameters)
    {
       this.jointMap = jointMap;
+      this.target = target;
+      this.massScale = Math.pow(jointMap.getModelScale(), jointMap.getMassScalePower());
+      runningOnRealRobot = target == RobotTarget.REAL_ROBOT;
+
+      momentumOptimizationSettings = new IcubMomentumOptimizationSettings(jointMap, contactPointParameters.getNumberOfContactableBodies());
 
       toeOffParameters = new IcubToeOffParameters(jointMap);
       swingTrajectoryParameters = new IcubSwingTrajectoryParameters();
@@ -129,7 +142,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
 
    /** {@inheritDoc} */
    @Override
-   public List<ImmutablePair<PIDGains, List<String>>> getJointSpaceControlGains()
+   public List<GroupParameter<PIDGainsReadOnly>> getJointSpaceControlGains()
    {
       List<String> spineNames = new ArrayList<>();
       List<String> neckNames = new ArrayList<>();
@@ -146,17 +159,17 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
       PIDGains neckGains = createNeckControlGains();
       PIDGains armGains = createArmControlGains();
 
-      List<ImmutablePair<PIDGains, List<String>>> jointspaceGains = new ArrayList<>();
-      jointspaceGains.add(new ImmutablePair<PIDGains, List<String>>(spineGains, spineNames));
-      jointspaceGains.add(new ImmutablePair<PIDGains, List<String>>(neckGains, neckNames));
-      jointspaceGains.add(new ImmutablePair<PIDGains, List<String>>(armGains, armNames));
+      List<GroupParameter<PIDGainsReadOnly>> jointspaceGains = new ArrayList<>();
+      jointspaceGains.add(new GroupParameter<>("_SpineJointGains", spineGains, spineNames));
+      jointspaceGains.add(new GroupParameter<>("_NeckJointGains", neckGains, neckNames));
+      jointspaceGains.add(new GroupParameter<>("_ArmJointGains", armGains, armNames));
 
       return jointspaceGains;
    }
 
    private PIDGains createSpineControlGains()
    {
-      PIDGains spineGains = new PIDGains("_SpineJointGains");
+      PIDGains spineGains = new PIDGains();
 
       double kp = 100.0;
       double zeta = 1.0;
@@ -173,7 +186,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
 
    private PIDGains createNeckControlGains()
    {
-      PIDGains gains = new PIDGains("_NeckJointGains");
+      PIDGains gains = new PIDGains();
 
       double kp = 100.0;
       double zeta = 1.0;
@@ -190,7 +203,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
 
    private PIDGains createArmControlGains()
    {
-      PIDGains armGains = new PIDGains("_ArmJointGains");
+      PIDGains armGains = new PIDGains();
 
       double kp = 100.0;
       double zeta = 1.0;
@@ -207,19 +220,19 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
 
    /** {@inheritDoc} */
    @Override
-   public List<ImmutableTriple<String, PID3DGains, List<String>>> getTaskspaceOrientationControlGains()
+   public List<GroupParameter<PID3DGainsReadOnly>> getTaskspaceOrientationControlGains()
    {
-      List<ImmutableTriple<String, PID3DGains, List<String>>> taskspaceAngularGains = new ArrayList<>();
+      List<GroupParameter<PID3DGainsReadOnly>> taskspaceAngularGains = new ArrayList<>();
 
       PID3DGains chestAngularGains = createChestOrientationControlGains();
       List<String> chestGainBodies = new ArrayList<>();
       chestGainBodies.add(jointMap.getChestName());
-      taskspaceAngularGains.add(new ImmutableTriple<>("Chest", chestAngularGains, chestGainBodies));
+      taskspaceAngularGains.add(new GroupParameter<>("Chest", chestAngularGains, chestGainBodies));
 
       PID3DGains headAngularGains = createHeadOrientationControlGains();
       List<String> headGainBodies = new ArrayList<>();
       headGainBodies.add(jointMap.getHeadName());
-      taskspaceAngularGains.add(new ImmutableTriple<>("Head", headAngularGains, headGainBodies));
+      taskspaceAngularGains.add(new GroupParameter<>("Head", headAngularGains, headGainBodies));
 
       PID3DGains handAngularGains = createHandOrientationControlGains();
       List<String> handGainBodies = new ArrayList<>();
@@ -227,12 +240,12 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
       {
          handGainBodies.add(jointMap.getHandName(robotSide));
       }
-      taskspaceAngularGains.add(new ImmutableTriple<>("Hand", handAngularGains, handGainBodies));
+      taskspaceAngularGains.add(new GroupParameter<>("Hand", handAngularGains, handGainBodies));
 
       PID3DGains pelvisAngularGains = createPelvisOrientationControlGains();
       List<String> pelvisGainBodies = new ArrayList<>();
       pelvisGainBodies.add(jointMap.getPelvisName());
-      taskspaceAngularGains.add(new ImmutableTriple<>("Pelvis", pelvisAngularGains, pelvisGainBodies));
+      taskspaceAngularGains.add(new GroupParameter<>("Pelvis", pelvisAngularGains, pelvisGainBodies));
 
       return taskspaceAngularGains;
    }
@@ -299,9 +312,9 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
 
    /** {@inheritDoc} */
    @Override
-   public List<ImmutableTriple<String, PID3DGains, List<String>>> getTaskspacePositionControlGains()
+   public List<GroupParameter<PID3DGainsReadOnly>> getTaskspacePositionControlGains()
    {
-      List<ImmutableTriple<String, PID3DGains, List<String>>> taskspaceLinearGains = new ArrayList<>();
+      List<GroupParameter<PID3DGainsReadOnly>> taskspaceLinearGains = new ArrayList<>();
 
       PID3DGains handLinearGains = createHandPositionControlGains();
       List<String> handGainBodies = new ArrayList<>();
@@ -309,7 +322,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
       {
          handGainBodies.add(jointMap.getHandName(robotSide));
       }
-      taskspaceLinearGains.add(new ImmutableTriple<>("Hand", handLinearGains, handGainBodies));
+      taskspaceLinearGains.add(new GroupParameter<>("Hand", handLinearGains, handGainBodies));
 
       return taskspaceLinearGains;
    }
@@ -445,7 +458,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    @Override
    public MomentumOptimizationSettings getMomentumOptimizationSettings()
    {
-      return new IcubMomentumOptimizationSettings(jointMap);
+      return momentumOptimizationSettings;
    }
 
    @Override
@@ -457,16 +470,16 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    @Override
    public PDGains getCoMHeightControlGains()
    {
-      PDGains gains = new PDGains("_CoMHeight");
+      PDGains gains = new PDGains();
 
       double kp = 100.0;
       double zeta = 1.0;
-      double maxAccel = Double.POSITIVE_INFINITY;
+      double maxAcceleration = Double.POSITIVE_INFINITY;
       double maxJerk = Double.POSITIVE_INFINITY;
 
       gains.setKp(kp);
       gains.setZeta(zeta);
-      gains.setMaximumFeedback(maxAccel);
+      gains.setMaximumFeedback(maxAcceleration);
       gains.setMaximumFeedbackRate(maxJerk);
 
       return gains;
@@ -580,7 +593,14 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    @Override
    public boolean useOptimizationBasedICPController()
    {
-      return false;
+      if(runningOnRealRobot)
+      {
+         return false;
+      }
+      else
+      {
+         return true;
+      }
    }
 
    @Override
@@ -598,7 +618,7 @@ public class IcubWalkingControllerParameters extends WalkingControllerParameters
    @Override
    public ICPOptimizationParameters getICPOptimizationParameters()
    {
-      return null;
+      return new IcubICPOptimizationParameters(runningOnRealRobot);
    }
 
    @Override

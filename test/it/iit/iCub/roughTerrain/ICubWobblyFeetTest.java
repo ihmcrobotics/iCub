@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import it.iit.iCub.IcubRobotModel;
 import it.iit.iCub.testTools.ICubTest;
+import us.ihmc.avatar.drcRobot.RobotTarget;
 import us.ihmc.commonWalkingControlModules.configurations.WalkingControllerParameters;
 import us.ihmc.euclid.axisAngle.AxisAngle;
 import us.ihmc.euclid.referenceFrame.FramePoint3D;
@@ -123,6 +124,6 @@ public class ICubWobblyFeetTest extends ICubTest
    public IcubRobotModel createRobotModel()
    {
       FootContactPoints wobblyContacts = new WobblySimulationContactPoints(zWobble);
-      return new IcubRobotModel(removeJointLimits(), wobblyContacts);
+      return new IcubRobotModel(RobotTarget.SCS,removeJointLimits(), wobblyContacts);
    }
 }

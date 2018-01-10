@@ -6,6 +6,8 @@ import us.ihmc.wholeBodyController.RobotContactPointParameters;
 
 public class IcubContactPointParameters extends RobotContactPointParameters
 {
+   private final int numberOfContactableBodies  = 2;
+
    public IcubContactPointParameters(IcubJointMap jointMap, FootContactPoints contactPoints)
    {
       super(jointMap, jointMap.getPhysicalProperties().getFootWidth(), jointMap.getPhysicalProperties().getFootLength(),
@@ -28,5 +30,10 @@ public class IcubContactPointParameters extends RobotContactPointParameters
       linearGroundContactModel.setZDamping(1000.0);
       linearGroundContactModel.setXYStiffness(20000.0);
       linearGroundContactModel.setXYDamping(500.0);
+   }
+
+   public int getNumberOfContactableBodies()
+   {
+      return numberOfContactableBodies;
    }
 }

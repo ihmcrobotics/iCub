@@ -1,14 +1,48 @@
 package it.iit.iCub.parameters;
 
-import us.ihmc.commonWalkingControlModules.instantaneousCapturePoint.icpOptimization.ICPOptimizationParameters;
+import us.ihmc.commonWalkingControlModules.capturePoint.optimization.ICPOptimizationParameters;
 
 public class IcubICPOptimizationParameters extends ICPOptimizationParameters
 {
+    private final boolean runningOnRealRobot;
+    private final boolean useAngularMomentum = false;
+    private final boolean useStepAdjustment = false;
+
+    public IcubICPOptimizationParameters(boolean runningOnRealRobot)
+    {
+        this.runningOnRealRobot = runningOnRealRobot;
+    }
+
+//   @Override
+//   public boolean useSimpleOptimization()
+//   {
+//      return true;
+//   }
+
    @Override
-   public boolean useSimpleOptimization()
+   public double getDynamicsObjectiveDoubleSupportWeightModifier()
    {
-      return true;
+      if (useAngularMomentum)
+         return runningOnRealRobot ? 50.0 : 100.0;
+      else if (useStepAdjustment)
+         return runningOnRealRobot ? 1.0 : 4.0;
+      else
+         return 1.0;
    }
+
+    @Override
+    public double getDynamicsObjectiveWeight()
+    {
+        if (runningOnRealRobot)
+            return 10000.0;
+        else if (useAngularMomentum)
+            return 100000.0;
+        else if (useStepAdjustment)
+            return 1000.0;
+        else
+            return 10000.0;
+        //return runningOnRealRobot ? 10000.0 : (useAngularMomentum ? 100000.0 : 1000.0);
+    }
 
    @Override
    public int numberOfFootstepsToConsider()
@@ -64,17 +98,17 @@ public class IcubICPOptimizationParameters extends ICPOptimizationParameters
       return 1.5;
    }
 
-   @Override
-   public double getDynamicRelaxationWeight()
-   {
-      return 1000.0;
-   }
-
-   @Override
-   public double getDynamicRelaxationDoubleSupportWeightModifier()
-   {
-      return 1.0;
-   }
+//   @Override
+//   public double getDynamicRelaxationWeight()
+//   {
+//      return 1000.0;
+//   }
+//
+//   @Override
+//   public double getDynamicRelaxationDoubleSupportWeightModifier()
+//   {
+//      return 1.0;
+//   }
 
    @Override
    public double getAngularMomentumMinimizationWeight()
@@ -94,11 +128,11 @@ public class IcubICPOptimizationParameters extends ICPOptimizationParameters
       return true;
    }
 
-   @Override
-   public boolean scaleUpcomingStepWeights()
-   {
-      return true;
-   }
+//   @Override
+//   public boolean scaleUpcomingStepWeights()
+//   {
+//      return true;
+//   }
 
    @Override
    public boolean useFeedbackRegularization()
@@ -118,11 +152,11 @@ public class IcubICPOptimizationParameters extends ICPOptimizationParameters
       return false;
    }
 
-   @Override
-   public boolean useTimingOptimization()
-   {
-      return false;
-   }
+//   @Override
+//   public boolean useTimingOptimization()
+//   {
+//      return false;
+//   }
 
    @Override
    public boolean useFootstepRegularization()

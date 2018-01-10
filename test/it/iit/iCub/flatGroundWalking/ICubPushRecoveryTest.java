@@ -6,9 +6,10 @@ import it.iit.iCub.IcubRobotModel;
 import it.iit.iCub.parameters.IcubICPOptimizationParameters;
 import it.iit.iCub.parameters.IcubWalkingControllerParameters;
 import it.iit.iCub.testTools.ICubTest;
+import us.ihmc.avatar.drcRobot.RobotTarget;
 import us.ihmc.commonWalkingControlModules.configurations.WalkingControllerParameters;
 import us.ihmc.commonWalkingControlModules.controlModules.foot.FootControlModule.ConstraintType;
-import us.ihmc.commonWalkingControlModules.instantaneousCapturePoint.icpOptimization.ICPOptimizationParameters;
+import us.ihmc.commonWalkingControlModules.capturePoint.optimization.ICPOptimizationParameters;
 import us.ihmc.euclid.referenceFrame.FramePoint3D;
 import us.ihmc.euclid.referenceFrame.FrameQuaternion;
 import us.ihmc.euclid.referenceFrame.ReferenceFrame;
@@ -41,27 +42,7 @@ public class ICubPushRecoveryTest extends ICubTest
    @Override
    public IcubRobotModel createRobotModel()
    {
-      return new IcubRobotModel(removeJointLimits())
-      {
-         @Override
-         public WalkingControllerParameters getWalkingControllerParameters()
-         {
-            return new IcubWalkingControllerParameters(getJointMap())
-            {
-               @Override
-               public boolean useOptimizationBasedICPController()
-               {
-                  return true;
-               }
-
-               @Override
-               public ICPOptimizationParameters getICPOptimizationParameters()
-               {
-                  return new IcubICPOptimizationParameters();
-               }
-            };
-         }
-      };
+      return new IcubRobotModel(RobotTarget.SCS,removeJointLimits());
    }
 
    @Test
