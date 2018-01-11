@@ -9,6 +9,7 @@ import it.iit.iCub.messages.it.iit.yarp.ORSControlMode;
 import it.iit.iCub.messages.it.iit.yarp.RobotDesireds;
 import it.iit.iCub.messages.it.iit.yarp.RobotFeedback;
 import it.iit.iCub.parameters.IcubOrderedJointMap;
+import us.ihmc.avatar.drcRobot.RobotTarget;
 import us.ihmc.commons.PrintTools;
 import us.ihmc.robotModels.FullHumanoidRobotModel;
 import us.ihmc.robotics.screwTheory.FloatingInverseDynamicsJoint;
@@ -36,7 +37,7 @@ public class IcubUDPRobotFeedbackExample implements Runnable
    private final RobotFeedback iCubRobotFeedback = new RobotFeedback();
    //   private final PeriodicNonRealtimeThreadScheduler scheduler = new PeriodicNonRealtimeThreadScheduler(getClass().getSimpleName());
 
-   private final IcubRobotModel robotModel = new IcubRobotModel(false);
+   private final IcubRobotModel robotModel = new IcubRobotModel(RobotTarget.SCS,false);
 
    private final IcubSensorReader sensorReader;
    private final IcubUDPRobotDesiredsSender sender;

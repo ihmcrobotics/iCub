@@ -19,6 +19,7 @@ import it.iit.iCub.roughTerrain.ICubRampsTest;
 import it.iit.iCub.roughTerrain.ICubWobblyFeetTest;
 import us.ihmc.avatar.DRCObstacleCourseStartingLocation;
 import us.ihmc.avatar.DRCStartingLocation;
+import us.ihmc.avatar.drcRobot.RobotTarget;
 import us.ihmc.avatar.initialSetup.OffsetAndYawRobotInitialSetup;
 import us.ihmc.avatar.testTools.DRCSimulationTestHelper;
 import us.ihmc.commons.PrintTools;
@@ -115,7 +116,7 @@ public abstract class ICubTest
     */
    public IcubRobotModel createRobotModel()
    {
-      return new IcubRobotModel(removeJointLimits());
+      return new IcubRobotModel(RobotTarget.SCS,removeJointLimits());
    }
 
    /**
@@ -164,6 +165,14 @@ public abstract class ICubTest
          throw new RuntimeException("Test Helper was not created yet.");
       }
       return drcSimulationTestHelper;
+   }
+
+   /**
+    * Get the current robot target
+    */
+   public RobotTarget getRobotTarget()
+   {
+      return RobotTarget.SCS;
    }
 
    /**

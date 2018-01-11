@@ -14,6 +14,7 @@ import it.iit.iCub.messages.it.iit.yarp.JointDesired;
 import it.iit.iCub.messages.it.iit.yarp.ORSControlMode;
 import it.iit.iCub.messages.it.iit.yarp.RobotDesireds;
 import it.iit.iCub.parameters.IcubOrderedJointMap;
+import us.ihmc.avatar.drcRobot.RobotTarget;
 import us.ihmc.commons.PrintTools;
 import us.ihmc.robotModels.FullHumanoidRobotModel;
 import us.ihmc.robotics.screwTheory.FloatingInverseDynamicsJoint;
@@ -31,7 +32,7 @@ import us.ihmc.yoVariables.variable.YoDouble;
 
 public class GravityCompensationDemo implements Runnable
 {
-   private static final IcubRobotModel robotModel = new IcubRobotModel(true);
+   private static final IcubRobotModel robotModel = new IcubRobotModel(RobotTarget.SCS,true);
 
    private final IcubSensorReader sensorReader;
    private final IcubUDPRobotDesiredsSender sender;

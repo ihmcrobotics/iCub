@@ -61,6 +61,7 @@ import us.ihmc.wholeBodyController.FootContactPoints;
 import us.ihmc.wholeBodyController.RobotContactPointParameters;
 import us.ihmc.wholeBodyController.UIParameters;
 import us.ihmc.wholeBodyController.concurrent.ThreadDataSynchronizerInterface;
+import us.ihmc.avatar.drcRobot.RobotTarget;
 
 public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
 {
@@ -77,9 +78,11 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
    private final IcubPhysicalProperties physicalProperties;
    private final DRCRobotSensorInformation sensorInformation;
    private final IcubJointMap jointMap;
-   private final RobotContactPointParameters contactPointParameters;
+   private final RobotTarget target;
+   private final IcubContactPointParameters contactPointParameters;
    private final SideDependentList<Transform> offsetHandFromWrist = new SideDependentList<Transform>();
    private final ICPWithTimeFreezingPlannerParameters capturePointPlannerParameters;
+   private final IcubHighLevelControllerParameters highLevelControllerParameters;
 
    private final String[] resourceDirectories = {"", "models/", "models/conf/", "models/meshes/", "models/meshes/visual/", "models/meshes/collision/"};
 
@@ -87,19 +90,20 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
 
    private final RobotDescription robotDescription;
 
-   public IcubRobotModel()
+   public IcubRobotModel(RobotTarget target)
    {
-      this(false, null);
+      this(target, false, null);
    }
 
-   public IcubRobotModel(boolean removeLimits)
+   public IcubRobotModel(RobotTarget target, boolean removeLimits)
    {
-      this(removeLimits, null);
+      this(target, removeLimits, null);
    }
 
-   public IcubRobotModel(boolean removeLimits, FootContactPoints contactPoints)
+   public IcubRobotModel(RobotTarget target, boolean removeLimits, FootContactPoints contactPoints)
    {
       this.removeLimits = removeLimits;
+      this.target = target;
 
       physicalProperties = new IcubPhysicalProperties();
       jointMap = new IcubJointMap(physicalProperties);
@@ -123,9 +127,12 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
          loader.addForceSensor(jointMap, forceSensorNames, forceSensorNames, transform);
       }
 
-      walkingControllerParameters = new IcubWalkingControllerParameters(jointMap);
+      boolean runningOnRealRobot = target == RobotTarget.REAL_ROBOT;
+
+      walkingControllerParameters = new IcubWalkingControllerParameters(target,jointMap,contactPointParameters);
       stateEstimatorParamaters = new IcubStateEstimatorParameters(getEstimatorDT());
-      capturePointPlannerParameters = new IcubCapturePointPlannerParameters();
+      capturePointPlannerParameters = new IcubCapturePointPlannerParameters(runningOnRealRobot);
+      highLevelControllerParameters = new IcubHighLevelControllerParameters(runningOnRealRobot, jointMap);
       robotDescription = createRobotDescription();
    }
 
@@ -406,6 +413,6 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
    @Override
    public HighLevelControllerParameters getHighLevelControllerParameters()
    {
-      return new IcubHighLevelControllerParameters();
+      return highLevelControllerParameters;
    }
 }
