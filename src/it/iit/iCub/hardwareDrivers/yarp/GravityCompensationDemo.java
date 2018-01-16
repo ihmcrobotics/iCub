@@ -46,6 +46,7 @@ public class GravityCompensationDemo implements Runnable
    private final InverseDynamicsCalculator inverseDynamicsCalculator;
 
    private final YoDouble kp = new YoDouble("kp", registry);
+   private final YoDouble kd = new YoDouble("kd", registry);
    private final HashMap<OneDoFJoint, YoDouble> initialsMap = new HashMap<>();
    private final HashMap<OneDoFJoint, YoDouble> gravityTorques = new HashMap<>();
    private final HashMap<OneDoFJoint, YoDouble> feedbackTorques = new HashMap<>();
@@ -85,6 +86,7 @@ public class GravityCompensationDemo implements Runnable
          feedbackTorques.put(oneDoFJoint, feedbackTorque);
       }
       kp.set(1.0);
+      kd.set(0.2);
 
       for (int i = 0; i <= IcubOrderedJointMap.r_ankle_roll; i++)
       {
@@ -145,15 +147,18 @@ public class GravityCompensationDemo implements Runnable
 
             double initialQ = initialsMap.get(oneDoFJoint).getDoubleValue();
             double currentQ = oneDoFJoint.getQ();
+            double currentQd = oneDoFJoint.getQd();
             double tauGravity = oneDoFJoint.getTau();
 
             jointDesired.setControlMode(ORSControlMode.TORQUE_CONTROL);
             jointDesired.setTau(tauGravity);
             jointDesired.setQDesired(initialQ);
+            jointDesired.setQdDesired(0.0);
             jointDesired.setKp(kp.getDoubleValue());
+            jointDesired.setKd(kd.getDoubleValue());
 
             gravityTorques.get(oneDoFJoint).set(tauGravity);
-            feedbackTorques.get(oneDoFJoint).set(kp.getDoubleValue() * (initialQ - currentQ));
+            feedbackTorques.get(oneDoFJoint).set(kp.getDoubleValue() * (initialQ - currentQ) - kd.getDoubleValue() * currentQd);
          }
 
          sender.send();
