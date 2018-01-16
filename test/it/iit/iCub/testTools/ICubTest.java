@@ -52,7 +52,7 @@ public abstract class ICubTest
    private PushRobotController pushRobotController;
 
    private static final boolean exportJointDataWhenDebugging = false;
-   private static final SimulationTestingParameters simulationTestingParameters = SimulationTestingParameters.createFromEnvironmentVariables();
+   private static final SimulationTestingParameters simulationTestingParameters = SimulationTestingParameters.createFromSystemProperties();
    static
    {
       /**
@@ -265,9 +265,8 @@ public abstract class ICubTest
       PrintStream supressStream = new PrintStream(new ByteArrayOutputStream());
       System.setErr(supressStream);
       robotModel = createRobotModel();
-      drcSimulationTestHelper = new DRCSimulationTestHelper(simulationTestingParameters, robotModel);
+      drcSimulationTestHelper = new DRCSimulationTestHelper(simulationTestingParameters, robotModel, getEnvironment());
       drcSimulationTestHelper.setStartingLocation(startingLocation);
-      drcSimulationTestHelper.setTestEnvironment(getEnvironment());
       System.setErr(originalErrorStream);
 
       drcSimulationTestHelper.createSimulation(name.getMethodName());

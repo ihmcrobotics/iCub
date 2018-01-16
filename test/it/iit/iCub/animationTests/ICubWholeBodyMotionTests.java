@@ -71,8 +71,8 @@ public class ICubWholeBodyMotionTests extends ICubTest
       for (int i = 0; i < points; i++)
       {
          double time = trajectoryTime * (i + 1) / points;
-         Quaternion orientation = EuclidCoreRandomTools.generateRandomQuaternion(random, minMaxAngle);
-         Vector3D angularVelocity = EuclidCoreRandomTools.generateRandomVector3D(random, minMaxAngularVelocity, minMaxAngularVelocity);
+         Quaternion orientation = EuclidCoreRandomTools.nextQuaternion(random, minMaxAngle);
+         Vector3D angularVelocity = EuclidCoreRandomTools.nextVector3D(random, minMaxAngularVelocity, minMaxAngularVelocity);
 
          if (i == points - 1)
          {
@@ -131,8 +131,8 @@ public class ICubWholeBodyMotionTests extends ICubTest
       for (int i = 0; i < points; i++)
       {
          double time = trajectoryTime * (i + 1) / points;
-         Quaternion orientation = EuclidCoreRandomTools.generateRandomQuaternion(random, minMaxAngle);
-         Vector3D angularVelocity = EuclidCoreRandomTools.generateRandomVector3D(random, minMaxAngularVelocity, minMaxAngularVelocity);
+         Quaternion orientation = EuclidCoreRandomTools.nextQuaternion(random, minMaxAngle);
+         Vector3D angularVelocity = EuclidCoreRandomTools.nextVector3D(random, minMaxAngularVelocity, minMaxAngularVelocity);
 
          if (i == points - 1)
          {
