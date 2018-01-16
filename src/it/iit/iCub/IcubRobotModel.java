@@ -406,6 +406,6 @@ public class IcubRobotModel implements DRCRobotModel, SDFDescriptionMutator
    @Override
    public HighLevelControllerParameters getHighLevelControllerParameters()
    {
-      return new IcubHighLevelControllerParameters();
+      return new IcubHighLevelControllerParameters(jointMap);
    }
 }

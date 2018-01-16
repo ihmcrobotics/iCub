@@ -1,12 +1,26 @@
 package it.iit.iCub.parameters;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import us.ihmc.commonWalkingControlModules.configurations.GroupParameter;
 import us.ihmc.commonWalkingControlModules.configurations.HighLevelControllerParameters;
 import us.ihmc.commonWalkingControlModules.highLevelHumanoidControl.highLevelStates.WholeBodySetpointParameters;
 import us.ihmc.humanoidRobotics.communication.packets.dataobjects.HighLevelControllerName;
+import us.ihmc.sensorProcessing.outputData.JointDesiredBehavior;
+import us.ihmc.sensorProcessing.outputData.JointDesiredBehaviorReadOnly;
 import us.ihmc.sensorProcessing.outputData.JointDesiredControlMode;
 
 public class IcubHighLevelControllerParameters implements HighLevelControllerParameters
 {
+   private final IcubJointMap jointMap;
+
+   public IcubHighLevelControllerParameters(IcubJointMap jointMap)
+   {
+      this.jointMap = jointMap;
+   }
+
    @Override
    public WholeBodySetpointParameters getStandPrepParameters()
    {
@@ -14,21 +28,14 @@ public class IcubHighLevelControllerParameters implements HighLevelControllerPar
    }
 
    @Override
-   public JointDesiredControlMode getJointDesiredControlMode(String joint, HighLevelControllerName state)
+   public List<GroupParameter<JointDesiredBehaviorReadOnly>> getDesiredJointBehaviors(HighLevelControllerName state)
    {
-      return JointDesiredControlMode.EFFORT;
-   }
+      JointDesiredBehavior allJointBehaviors = new JointDesiredBehavior(JointDesiredControlMode.EFFORT, 0.0, 0.0);
 
-   @Override
-   public double getDesiredJointStiffness(String joint, HighLevelControllerName state)
-   {
-      return 0.0;
-   }
-
-   @Override
-   public double getDesiredJointDamping(String joint, HighLevelControllerName state)
-   {
-      return 0.0;
+      List<String> allJoints = Arrays.asList(jointMap.getOrderedJointNames());
+      List<GroupParameter<JointDesiredBehaviorReadOnly>> behaviors = new ArrayList<>();
+      behaviors.add(new GroupParameter<>("", allJointBehaviors, allJoints));
+      return behaviors;
    }
 
    @Override

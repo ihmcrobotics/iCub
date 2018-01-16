@@ -1,15 +1,9 @@
 package it.iit.iCub.parameters;
 
-import us.ihmc.commonWalkingControlModules.instantaneousCapturePoint.icpOptimization.ICPOptimizationParameters;
+import us.ihmc.commonWalkingControlModules.capturePoint.optimization.ICPOptimizationParameters;
 
 public class IcubICPOptimizationParameters extends ICPOptimizationParameters
 {
-   @Override
-   public boolean useSimpleOptimization()
-   {
-      return true;
-   }
-
    @Override
    public int numberOfFootstepsToConsider()
    {
@@ -65,13 +59,13 @@ public class IcubICPOptimizationParameters extends ICPOptimizationParameters
    }
 
    @Override
-   public double getDynamicRelaxationWeight()
+   public double getDynamicsObjectiveWeight()
    {
       return 1000.0;
    }
 
    @Override
-   public double getDynamicRelaxationDoubleSupportWeightModifier()
+   public double getDynamicsObjectiveDoubleSupportWeightModifier()
    {
       return 1.0;
    }
@@ -95,12 +89,6 @@ public class IcubICPOptimizationParameters extends ICPOptimizationParameters
    }
 
    @Override
-   public boolean scaleUpcomingStepWeights()
-   {
-      return true;
-   }
-
-   @Override
    public boolean useFeedbackRegularization()
    {
       return true;
@@ -114,12 +102,6 @@ public class IcubICPOptimizationParameters extends ICPOptimizationParameters
 
    @Override
    public boolean useAngularMomentum()
-   {
-      return false;
-   }
-
-   @Override
-   public boolean useTimingOptimization()
    {
       return false;
    }
