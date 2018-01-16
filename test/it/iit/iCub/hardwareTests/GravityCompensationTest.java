@@ -3,6 +3,7 @@ package it.iit.iCub.hardwareTests;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import it.iit.iCub.IcubRobotModel;
@@ -23,6 +24,7 @@ import us.ihmc.yoVariables.registry.YoVariableRegistry;
 public class GravityCompensationTest
 {
    @Test(timeout = 300000)
+   @Ignore
    public void testGravityCompensation()
    {
       IcubRobotModel robotModel = new IcubRobotModel(true);
