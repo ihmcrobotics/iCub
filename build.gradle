@@ -68,8 +68,8 @@ test {
          exceptionFormat "full"
       }
 
-      minHeapSize = "8g"
-      maxHeapSize = "12g"
+      minHeapSize = "4g"
+      maxHeapSize = "6g"
 
       ignoreFailures false
       forkEvery = forkEveryProp
