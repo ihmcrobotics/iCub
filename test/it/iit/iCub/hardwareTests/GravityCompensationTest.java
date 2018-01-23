@@ -19,10 +19,13 @@ import us.ihmc.simulationToolkit.outputWriters.PerfectSimulatedOutputWriter;
 import us.ihmc.simulationconstructionset.ExternalForcePoint;
 import us.ihmc.simulationconstructionset.HumanoidFloatingRootJointRobot;
 import us.ihmc.simulationconstructionset.SimulationConstructionSet;
+import us.ihmc.simulationconstructionset.util.simulationTesting.SimulationTestingParameters;
 import us.ihmc.yoVariables.registry.YoVariableRegistry;
 
 public class GravityCompensationTest
 {
+   private static final SimulationTestingParameters simulationTestingParameters = SimulationTestingParameters.createFromSystemProperties();
+
    @Test(timeout = 300000)
    @Ignore
    public void testGravityCompensation()
@@ -38,7 +41,7 @@ public class GravityCompensationTest
 
       robot.setController(new GravityCompensator(fullRobotModel, robot));
 
-      SimulationConstructionSet scs = new SimulationConstructionSet(robot);
+      SimulationConstructionSet scs = new SimulationConstructionSet(robot, simulationTestingParameters);
       scs.startOnAThread();
       ThreadTools.sleep(5000);
    }
