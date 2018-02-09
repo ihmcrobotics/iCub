@@ -14,7 +14,7 @@ buildscript {
   }
   dependencies {
     classpath "gradle.plugin.us.ihmc.gradle:ihmc-build:0.0.19"
-    classpath "us.ihmc:ihmc-ci-plugin:0.17.3"
+    classpath "us.ihmc:ihmc-ci-plugin:0.17.6"
     classpath "us.ihmc:ihmc-pub-sub-generator:0.3.7"
   }
 }
