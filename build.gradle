@@ -11,11 +11,12 @@ buildscript {
     maven {
         url  "https://dl.bintray.com/ihmcrobotics/maven-vendor"
     }
+    mavenLocal()
   }
   dependencies {
     classpath "gradle.plugin.us.ihmc.gradle:ihmc-build:0.0.19"
     classpath "us.ihmc:ihmc-ci-plugin:0.17.7"
-    classpath "us.ihmc:ihmc-pub-sub-generator:0.3.7"
+    classpath "us.ihmc:ihmc-pub-sub-generator:0.6.5-alpha"
   }
 }
 
