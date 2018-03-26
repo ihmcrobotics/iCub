@@ -1,251 +1,287 @@
 package it.iit.iCub.messages.it.iit.yarp;
-/**
-* 
-* Definition of the class "IMUState" defined in robotFeedback.idl. 
-*
-* This file was automatically generated from robotFeedback.idl by us.ihmc.idl.generator.IDLGenerator. 
-* Do not update this file directly, edit robotFeedback.idl instead.
-*
-*/
-public class IMUState
+
+import us.ihmc.communication.packets.Packet;
+import us.ihmc.euclid.interfaces.EpsilonComparable;
+import us.ihmc.euclid.interfaces.Settable;
+
+public class IMUState extends Packet<IMUState> implements Settable<IMUState>, EpsilonComparable<IMUState>
 {
-    public IMUState()
-    {
-        
-        
-    }
+   public double xdd_;
+   public double ydd_;
+   public double zdd_;
+   public double wx_;
+   public double wy_;
+   public double wz_;
+   public double qs_;
+   public double qx_;
+   public double qy_;
+   public double qz_;
 
-    public void set(IMUState other)
-    {
-        	xdd_ = other.xdd_;
-        	ydd_ = other.ydd_;
-        	zdd_ = other.zdd_;
-        	wx_ = other.wx_;
-        	wy_ = other.wy_;
-        	wz_ = other.wz_;
-        	qs_ = other.qs_;
-        	qx_ = other.qx_;
-        	qy_ = other.qy_;
-        	qz_ = other.qz_;
+   public IMUState()
+   {
 
-    }
+   }
 
-    public void setXdd(double xdd)
-    {
-        xdd_ = xdd;
-    }
+   public IMUState(IMUState other)
+   {
+      set(other);
+   }
 
-    public double getXdd()
-    {
-        return xdd_;
-    }
+   public void set(IMUState other)
+   {
+      xdd_ = other.xdd_;
 
-        
-    public void setYdd(double ydd)
-    {
-        ydd_ = ydd;
-    }
+      ydd_ = other.ydd_;
 
-    public double getYdd()
-    {
-        return ydd_;
-    }
+      zdd_ = other.zdd_;
 
-        
-    public void setZdd(double zdd)
-    {
-        zdd_ = zdd;
-    }
+      wx_ = other.wx_;
 
-    public double getZdd()
-    {
-        return zdd_;
-    }
+      wy_ = other.wy_;
 
-        
-    public void setWx(double wx)
-    {
-        wx_ = wx;
-    }
+      wz_ = other.wz_;
 
-    public double getWx()
-    {
-        return wx_;
-    }
+      qs_ = other.qs_;
 
-        
-    public void setWy(double wy)
-    {
-        wy_ = wy;
-    }
+      qx_ = other.qx_;
 
-    public double getWy()
-    {
-        return wy_;
-    }
+      qy_ = other.qy_;
 
-        
-    public void setWz(double wz)
-    {
-        wz_ = wz;
-    }
+      qz_ = other.qz_;
+   }
 
-    public double getWz()
-    {
-        return wz_;
-    }
+   public double getXdd()
+   {
+      return xdd_;
+   }
 
-        
-    public void setQs(double qs)
-    {
-        qs_ = qs;
-    }
+   public void setXdd(double xdd)
+   {
+      xdd_ = xdd;
+   }
 
-    public double getQs()
-    {
-        return qs_;
-    }
+   public double getYdd()
+   {
+      return ydd_;
+   }
 
-        
-    public void setQx(double qx)
-    {
-        qx_ = qx;
-    }
+   public void setYdd(double ydd)
+   {
+      ydd_ = ydd;
+   }
 
-    public double getQx()
-    {
-        return qx_;
-    }
+   public double getZdd()
+   {
+      return zdd_;
+   }
 
-        
-    public void setQy(double qy)
-    {
-        qy_ = qy;
-    }
+   public void setZdd(double zdd)
+   {
+      zdd_ = zdd;
+   }
 
-    public double getQy()
-    {
-        return qy_;
-    }
+   public double getWx()
+   {
+      return wx_;
+   }
 
-        
-    public void setQz(double qz)
-    {
-        qz_ = qz;
-    }
+   public void setWx(double wx)
+   {
+      wx_ = wx;
+   }
 
-    public double getQz()
-    {
-        return qz_;
-    }
+   public double getWy()
+   {
+      return wy_;
+   }
 
-        
+   public void setWy(double wy)
+   {
+      wy_ = wy;
+   }
 
+   public double getWz()
+   {
+      return wz_;
+   }
 
+   public void setWz(double wz)
+   {
+      wz_ = wz;
+   }
 
+   public double getQs()
+   {
+      return qs_;
+   }
 
-    @Override
-    public boolean equals(java.lang.Object other)
-    {
-        if(other == null) return false;
-        if(other == this) return true;
-        if(!(other instanceof IMUState)) return false;
-        IMUState otherMyClass = (IMUState)other;
-        boolean returnedValue = true;
+   public void setQs(double qs)
+   {
+      qs_ = qs;
+   }
 
-        returnedValue &= this.xdd_ == otherMyClass.xdd_;
+   public double getQx()
+   {
+      return qx_;
+   }
 
-                
-        returnedValue &= this.ydd_ == otherMyClass.ydd_;
+   public void setQx(double qx)
+   {
+      qx_ = qx;
+   }
 
-                
-        returnedValue &= this.zdd_ == otherMyClass.zdd_;
+   public double getQy()
+   {
+      return qy_;
+   }
 
-                
-        returnedValue &= this.wx_ == otherMyClass.wx_;
+   public void setQy(double qy)
+   {
+      qy_ = qy;
+   }
 
-                
-        returnedValue &= this.wy_ == otherMyClass.wy_;
+   public double getQz()
+   {
+      return qz_;
+   }
 
-                
-        returnedValue &= this.wz_ == otherMyClass.wz_;
+   public void setQz(double qz)
+   {
+      qz_ = qz;
+   }
 
-                
-        returnedValue &= this.qs_ == otherMyClass.qs_;
+   @Override
+   public boolean epsilonEquals(IMUState other, double epsilon)
+   {
+      if (other == null)
+         return false;
+      if (other == this)
+         return true;
 
-                
-        returnedValue &= this.qx_ == otherMyClass.qx_;
+      if (!us.ihmc.idl.IDLTools.epsilonEqualsPrimitive(this.xdd_, other.xdd_, epsilon))
+         return false;
 
-                
-        returnedValue &= this.qy_ == otherMyClass.qy_;
+      if (!us.ihmc.idl.IDLTools.epsilonEqualsPrimitive(this.ydd_, other.ydd_, epsilon))
+         return false;
 
-                
-        returnedValue &= this.qz_ == otherMyClass.qz_;
+      if (!us.ihmc.idl.IDLTools.epsilonEqualsPrimitive(this.zdd_, other.zdd_, epsilon))
+         return false;
 
-                
+      if (!us.ihmc.idl.IDLTools.epsilonEqualsPrimitive(this.wx_, other.wx_, epsilon))
+         return false;
 
-        return returnedValue;
-    }
-    
-     @Override
-    public java.lang.String toString()
-    {
-		StringBuilder builder = new StringBuilder();
-		
-      	builder.append("IMUState {");
-        builder.append("xdd=");
-        builder.append(this.xdd_);
+      if (!us.ihmc.idl.IDLTools.epsilonEqualsPrimitive(this.wy_, other.wy_, epsilon))
+         return false;
 
-                builder.append(", ");
-        builder.append("ydd=");
-        builder.append(this.ydd_);
+      if (!us.ihmc.idl.IDLTools.epsilonEqualsPrimitive(this.wz_, other.wz_, epsilon))
+         return false;
 
-                builder.append(", ");
-        builder.append("zdd=");
-        builder.append(this.zdd_);
+      if (!us.ihmc.idl.IDLTools.epsilonEqualsPrimitive(this.qs_, other.qs_, epsilon))
+         return false;
 
-                builder.append(", ");
-        builder.append("wx=");
-        builder.append(this.wx_);
+      if (!us.ihmc.idl.IDLTools.epsilonEqualsPrimitive(this.qx_, other.qx_, epsilon))
+         return false;
 
-                builder.append(", ");
-        builder.append("wy=");
-        builder.append(this.wy_);
+      if (!us.ihmc.idl.IDLTools.epsilonEqualsPrimitive(this.qy_, other.qy_, epsilon))
+         return false;
 
-                builder.append(", ");
-        builder.append("wz=");
-        builder.append(this.wz_);
+      if (!us.ihmc.idl.IDLTools.epsilonEqualsPrimitive(this.qz_, other.qz_, epsilon))
+         return false;
 
-                builder.append(", ");
-        builder.append("qs=");
-        builder.append(this.qs_);
+      return true;
+   }
 
-                builder.append(", ");
-        builder.append("qx=");
-        builder.append(this.qx_);
+   @Override
+   public boolean equals(Object other)
+   {
+      if (other == null)
+         return false;
+      if (other == this)
+         return true;
+      if (!(other instanceof IMUState))
+         return false;
 
-                builder.append(", ");
-        builder.append("qy=");
-        builder.append(this.qy_);
+      IMUState otherMyClass = (IMUState) other;
 
-                builder.append(", ");
-        builder.append("qz=");
-        builder.append(this.qz_);
+      if (this.xdd_ != otherMyClass.xdd_)
+         return false;
 
-                
-        builder.append("}");
-		return builder.toString();
-    }
+      if (this.ydd_ != otherMyClass.ydd_)
+         return false;
 
-    private double xdd_; 
-    private double ydd_; 
-    private double zdd_; 
-    private double wx_; 
-    private double wy_; 
-    private double wz_; 
-    private double qs_; 
-    private double qx_; 
-    private double qy_; 
-    private double qz_; 
+      if (this.zdd_ != otherMyClass.zdd_)
+         return false;
 
+      if (this.wx_ != otherMyClass.wx_)
+         return false;
+
+      if (this.wy_ != otherMyClass.wy_)
+         return false;
+
+      if (this.wz_ != otherMyClass.wz_)
+         return false;
+
+      if (this.qs_ != otherMyClass.qs_)
+         return false;
+
+      if (this.qx_ != otherMyClass.qx_)
+         return false;
+
+      if (this.qy_ != otherMyClass.qy_)
+         return false;
+
+      if (this.qz_ != otherMyClass.qz_)
+         return false;
+
+      return true;
+   }
+
+   @Override
+   public java.lang.String toString()
+   {
+      StringBuilder builder = new StringBuilder();
+
+      builder.append("IMUState {");
+      builder.append("xdd=");
+      builder.append(this.xdd_);
+
+      builder.append(", ");
+      builder.append("ydd=");
+      builder.append(this.ydd_);
+
+      builder.append(", ");
+      builder.append("zdd=");
+      builder.append(this.zdd_);
+
+      builder.append(", ");
+      builder.append("wx=");
+      builder.append(this.wx_);
+
+      builder.append(", ");
+      builder.append("wy=");
+      builder.append(this.wy_);
+
+      builder.append(", ");
+      builder.append("wz=");
+      builder.append(this.wz_);
+
+      builder.append(", ");
+      builder.append("qs=");
+      builder.append(this.qs_);
+
+      builder.append(", ");
+      builder.append("qx=");
+      builder.append(this.qx_);
+
+      builder.append(", ");
+      builder.append("qy=");
+      builder.append(this.qy_);
+
+      builder.append(", ");
+      builder.append("qz=");
+      builder.append(this.qz_);
+
+      builder.append("}");
+      return builder.toString();
+   }
 }
