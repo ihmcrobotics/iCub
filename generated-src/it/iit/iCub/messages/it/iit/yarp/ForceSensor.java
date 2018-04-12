@@ -1,195 +1,171 @@
 package it.iit.iCub.messages.it.iit.yarp;
-
-import us.ihmc.communication.packets.Packet;
-import us.ihmc.euclid.interfaces.EpsilonComparable;
-import us.ihmc.euclid.interfaces.Settable;
-
-public class ForceSensor extends Packet<ForceSensor> implements Settable<ForceSensor>, EpsilonComparable<ForceSensor>
+/**
+* 
+* Definition of the class "ForceSensor" defined in robotFeedback.idl. 
+*
+* This file was automatically generated from robotFeedback.idl by us.ihmc.idl.generator.IDLGenerator. 
+* Do not update this file directly, edit robotFeedback.idl instead.
+*
+*/
+public class ForceSensor
 {
-   public double Fx_;
-   public double Fy_;
-   public double Fz_;
-   public double tauX_;
-   public double tauY_;
-   public double tauZ_;
+    public ForceSensor()
+    {
+        
+        
+    }
 
-   public ForceSensor()
-   {
+    public void set(ForceSensor other)
+    {
+        	Fx_ = other.Fx_;
+        	Fy_ = other.Fy_;
+        	Fz_ = other.Fz_;
+        	tauX_ = other.tauX_;
+        	tauY_ = other.tauY_;
+        	tauZ_ = other.tauZ_;
 
-   }
+    }
 
-   public ForceSensor(ForceSensor other)
-   {
-      set(other);
-   }
+    public void setFx(double Fx)
+    {
+        Fx_ = Fx;
+    }
 
-   public void set(ForceSensor other)
-   {
-      Fx_ = other.Fx_;
+    public double getFx()
+    {
+        return Fx_;
+    }
 
-      Fy_ = other.Fy_;
+        
+    public void setFy(double Fy)
+    {
+        Fy_ = Fy;
+    }
 
-      Fz_ = other.Fz_;
+    public double getFy()
+    {
+        return Fy_;
+    }
 
-      tauX_ = other.tauX_;
+        
+    public void setFz(double Fz)
+    {
+        Fz_ = Fz;
+    }
 
-      tauY_ = other.tauY_;
+    public double getFz()
+    {
+        return Fz_;
+    }
 
-      tauZ_ = other.tauZ_;
-   }
+        
+    public void setTauX(double tauX)
+    {
+        tauX_ = tauX;
+    }
 
-   public double getFx()
-   {
-      return Fx_;
-   }
+    public double getTauX()
+    {
+        return tauX_;
+    }
 
-   public void setFx(double Fx)
-   {
-      Fx_ = Fx;
-   }
+        
+    public void setTauY(double tauY)
+    {
+        tauY_ = tauY;
+    }
 
-   public double getFy()
-   {
-      return Fy_;
-   }
+    public double getTauY()
+    {
+        return tauY_;
+    }
 
-   public void setFy(double Fy)
-   {
-      Fy_ = Fy;
-   }
+        
+    public void setTauZ(double tauZ)
+    {
+        tauZ_ = tauZ;
+    }
 
-   public double getFz()
-   {
-      return Fz_;
-   }
+    public double getTauZ()
+    {
+        return tauZ_;
+    }
 
-   public void setFz(double Fz)
-   {
-      Fz_ = Fz;
-   }
+        
 
-   public double getTauX()
-   {
-      return tauX_;
-   }
 
-   public void setTauX(double tauX)
-   {
-      tauX_ = tauX;
-   }
 
-   public double getTauY()
-   {
-      return tauY_;
-   }
 
-   public void setTauY(double tauY)
-   {
-      tauY_ = tauY;
-   }
+    @Override
+    public boolean equals(java.lang.Object other)
+    {
+        if(other == null) return false;
+        if(other == this) return true;
+        if(!(other instanceof ForceSensor)) return false;
+        ForceSensor otherMyClass = (ForceSensor)other;
+        boolean returnedValue = true;
 
-   public double getTauZ()
-   {
-      return tauZ_;
-   }
+        returnedValue &= this.Fx_ == otherMyClass.Fx_;
 
-   public void setTauZ(double tauZ)
-   {
-      tauZ_ = tauZ;
-   }
+                
+        returnedValue &= this.Fy_ == otherMyClass.Fy_;
 
-   @Override
-   public boolean epsilonEquals(ForceSensor other, double epsilon)
-   {
-      if (other == null)
-         return false;
-      if (other == this)
-         return true;
+                
+        returnedValue &= this.Fz_ == otherMyClass.Fz_;
 
-      if (!us.ihmc.idl.IDLTools.epsilonEqualsPrimitive(this.Fx_, other.Fx_, epsilon))
-         return false;
+                
+        returnedValue &= this.tauX_ == otherMyClass.tauX_;
 
-      if (!us.ihmc.idl.IDLTools.epsilonEqualsPrimitive(this.Fy_, other.Fy_, epsilon))
-         return false;
+                
+        returnedValue &= this.tauY_ == otherMyClass.tauY_;
 
-      if (!us.ihmc.idl.IDLTools.epsilonEqualsPrimitive(this.Fz_, other.Fz_, epsilon))
-         return false;
+                
+        returnedValue &= this.tauZ_ == otherMyClass.tauZ_;
 
-      if (!us.ihmc.idl.IDLTools.epsilonEqualsPrimitive(this.tauX_, other.tauX_, epsilon))
-         return false;
+                
 
-      if (!us.ihmc.idl.IDLTools.epsilonEqualsPrimitive(this.tauY_, other.tauY_, epsilon))
-         return false;
+        return returnedValue;
+    }
+    
+     @Override
+    public java.lang.String toString()
+    {
+		StringBuilder builder = new StringBuilder();
+		
+      	builder.append("ForceSensor {");
+        builder.append("Fx=");
+        builder.append(this.Fx_);
 
-      if (!us.ihmc.idl.IDLTools.epsilonEqualsPrimitive(this.tauZ_, other.tauZ_, epsilon))
-         return false;
+                builder.append(", ");
+        builder.append("Fy=");
+        builder.append(this.Fy_);
 
-      return true;
-   }
+                builder.append(", ");
+        builder.append("Fz=");
+        builder.append(this.Fz_);
 
-   @Override
-   public boolean equals(Object other)
-   {
-      if (other == null)
-         return false;
-      if (other == this)
-         return true;
-      if (!(other instanceof ForceSensor))
-         return false;
+                builder.append(", ");
+        builder.append("tauX=");
+        builder.append(this.tauX_);
 
-      ForceSensor otherMyClass = (ForceSensor) other;
+                builder.append(", ");
+        builder.append("tauY=");
+        builder.append(this.tauY_);
 
-      if (this.Fx_ != otherMyClass.Fx_)
-         return false;
+                builder.append(", ");
+        builder.append("tauZ=");
+        builder.append(this.tauZ_);
 
-      if (this.Fy_ != otherMyClass.Fy_)
-         return false;
+                
+        builder.append("}");
+		return builder.toString();
+    }
 
-      if (this.Fz_ != otherMyClass.Fz_)
-         return false;
+    private double Fx_; 
+    private double Fy_; 
+    private double Fz_; 
+    private double tauX_; 
+    private double tauY_; 
+    private double tauZ_; 
 
-      if (this.tauX_ != otherMyClass.tauX_)
-         return false;
-
-      if (this.tauY_ != otherMyClass.tauY_)
-         return false;
-
-      if (this.tauZ_ != otherMyClass.tauZ_)
-         return false;
-
-      return true;
-   }
-
-   @Override
-   public java.lang.String toString()
-   {
-      StringBuilder builder = new StringBuilder();
-
-      builder.append("ForceSensor {");
-      builder.append("Fx=");
-      builder.append(this.Fx_);
-
-      builder.append(", ");
-      builder.append("Fy=");
-      builder.append(this.Fy_);
-
-      builder.append(", ");
-      builder.append("Fz=");
-      builder.append(this.Fz_);
-
-      builder.append(", ");
-      builder.append("tauX=");
-      builder.append(this.tauX_);
-
-      builder.append(", ");
-      builder.append("tauY=");
-      builder.append(this.tauY_);
-
-      builder.append(", ");
-      builder.append("tauZ=");
-      builder.append(this.tauZ_);
-
-      builder.append("}");
-      return builder.toString();
-   }
 }
