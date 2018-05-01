@@ -33,10 +33,18 @@ repositories {
 
     maven {
         url "https://artifactory.ihmc.us/artifactory/snapshots/"
+       credentials {
+          username = artifactoryUsername
+          password = artifactoryPassword
+       }
     }
 
     maven {
         url "http://artifactory.ihmc.us/artifactory/proprietary-vendor/"
+       credentials {
+          username = artifactoryUsername
+          password = artifactoryPassword
+       }
     }
 
 }
