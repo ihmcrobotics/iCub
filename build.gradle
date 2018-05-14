@@ -14,7 +14,7 @@ buildscript {
   }
   dependencies {
     classpath "gradle.plugin.us.ihmc.gradle:ihmc-build:0.0.19"
-    classpath "us.ihmc:ihmc-ci-plugin:0.17.7"
+    classpath "us.ihmc:ihmc-ci-plugin:0.17.14"
     classpath "us.ihmc:ihmc-pub-sub-generator:0.3.7"
   }
 }
@@ -112,7 +112,7 @@ dependencies {
     compile "org.apache.commons:commons-lang3:3.7"
     testCompile group: 'us.ihmc', name: 'ihmc-continuous-integration-framework', version: '0.9.4'
 
-    compile group: 'us.ihmc', name: 'ihmc-commons', version: '0.12.1'
+    compile group: 'us.ihmc', name: 'ihmc-commons', version: '0.19.1'
 
     compile group: 'us.ihmc', name: 'ihmc-communication', version: snapshotVersion
     compile group: 'us.ihmc', name: 'ihmc-humanoid-robotics', version: snapshotVersion
